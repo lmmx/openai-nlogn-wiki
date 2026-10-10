@@ -1,0 +1,499 @@
+{
+  "target": "main-theorem",
+  "concepts": [
+    {
+      "id": "big-o-notation",
+      "name": "Big-O notation",
+      "aliases": [],
+      "gloss": "Asymptotic upper-bound notation for growth rates of running time.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "polynomials",
+      "name": "Polynomials",
+      "aliases": [],
+      "gloss": "Formal sums of powers of an indeterminate with coefficients in a ring or field.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "complex-numbers",
+      "name": "Complex numbers",
+      "aliases": [],
+      "gloss": "Numbers a + bi with real a, b and i squared equal to -1.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "turing-machine-model",
+      "name": "Multitape Turing machine",
+      "aliases": [
+        "fixed-tape machine"
+      ],
+      "gloss": "A Turing machine with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, where each step moves each head by at most one cell.",
+      "requires": [],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "A machine has one fixed finite alphabet and one fixed finite number of one-dimensional tapes."
+        }
+      ]
+    },
+    {
+      "id": "exact-integer-multiplication",
+      "name": "Exact integer multiplication",
+      "aliases": [
+        "n-bit product"
+      ],
+      "gloss": "Computing the exact binary representation of the product of two n-bit integers, with no rounding.",
+      "requires": [],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "We consider exact multiplication"
+        }
+      ]
+    },
+    {
+      "id": "n-log-n-conjecture",
+      "name": "Schönhage–Strassen n log n conjecture",
+      "aliases": [
+        "n log n optimality conjecture"
+      ],
+      "gloss": "The conjecture that n log n is the optimal order of growth for multiplying n-bit integers on a multitape Turing machine.",
+      "requires": [
+        "exact-integer-multiplication",
+        "big-o-notation"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "proposed n log n as the optimal order of growth"
+        }
+      ]
+    },
+    {
+      "id": "discrete-fourier-transform",
+      "name": "Discrete Fourier transform",
+      "aliases": [
+        "Fourier transform",
+        "DFT"
+      ],
+      "gloss": "A linear map that evaluates a sequence at powers of a root of unity, computing convolutions pointwise after transformation.",
+      "requires": [
+        "complex-numbers"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Fourier transforms needed for this convolution"
+        }
+      ]
+    },
+    {
+      "id": "cyclic-convolution",
+      "name": "Cyclic convolution",
+      "aliases": [
+        "convolution modulo x^S - 1"
+      ],
+      "gloss": "Multiplication of two coefficient sequences as polynomials modulo x^S - 1, so that exponents wrap around modulo S.",
+      "requires": [
+        "polynomials"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "convolution modulo xS − 1 has no nonzero wraparound"
+        }
+      ]
+    },
+    {
+      "id": "radix-digit-convolution",
+      "name": "Radix-digit convolution",
+      "aliases": [
+        "digit convolution"
+      ],
+      "gloss": "Reduction of integer multiplication to a convolution of coefficient lists obtained by splitting each input into radix digits and propagating carries.",
+      "requires": [
+        "exact-integer-multiplication",
+        "cyclic-convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Splitting the inputs into radix digits reduces multiplication to convolution of short integer coefficients."
+        }
+      ]
+    },
+    {
+      "id": "chinese-remainder-map",
+      "name": "Chinese-remainder address map",
+      "aliases": [
+        "CRT map",
+        "Agarwal–Cooley decomposition"
+      ],
+      "gloss": "A relabelling of a cyclic convolution of length S as a multidimensional cyclic convolution over pairwise coprime lengths, via the Chinese remainder theorem.",
+      "requires": [
+        "cyclic-convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Agarwal and Cooley used the Chinese remainder theorem to convert one cyclic convolution into multidimensional cyclic convolution"
+        }
+      ]
+    },
+    {
+      "id": "gaussian-resampling",
+      "name": "Gaussian resampling",
+      "aliases": [
+        "Harvey–van der Hoeven resampling"
+      ],
+      "gloss": "A reduction that replaces a Fourier transform of arbitrary length by a multidimensional transform whose axis lengths are powers of two, using Gaussian-weighted resampling.",
+      "requires": [
+        "discrete-fourier-transform",
+        "cyclic-convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "it replaces the Fourier transforms needed for this convolution by multidimensional transforms whose"
+        }
+      ]
+    },
+    {
+      "id": "polynomial-ring-mod-yr-plus-1",
+      "name": "Polynomial ring modulo y^r + 1",
+      "aliases": [
+        "negacyclic ring"
+      ],
+      "gloss": "The ring of polynomials in y with coefficients in C, reduced modulo y^r + 1 for a power of two r, in which y^r = -1.",
+      "requires": [
+        "polynomials"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "a polynomial modulo y r + 1, with r a power of two"
+        }
+      ]
+    },
+    {
+      "id": "synthetic-transform",
+      "name": "Synthetic polynomial transform",
+      "aliases": [
+        "Nussbaumer transform"
+      ],
+      "gloss": "A transform over a polynomial ring modulo y^r + 1 whose roots of unity are powers of y, so that multiplying by a root is a signed cyclic shift of coefficients.",
+      "requires": [
+        "polynomial-ring-mod-yr-plus-1"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "These are the synthetic polynomial transforms of Nussbaumer and Quandalle and"
+        }
+      ]
+    },
+    {
+      "id": "bluestein-chirp-identity",
+      "name": "Bluestein chirp identity",
+      "aliases": [
+        "chirp transform"
+      ],
+      "gloss": "An identity that rewrites a discrete Fourier transform, including its target permutation, as a normalized cyclic convolution with a quadratic-phase chirp.",
+      "requires": [
+        "gaussian-resampling",
+        "cyclic-convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "converts the middle transform, including its target permutation,"
+        }
+      ]
+    },
+    {
+      "id": "phase-twist",
+      "name": "Coefficient phase twist",
+      "aliases": [
+        "twisted negacyclic convolution"
+      ],
+      "gloss": "A multiplication of coefficients by powers of a root zeta = e^(pi i / r) that converts cyclic wraparound in the last coordinate into negacyclic wraparound modulo y^r + 1, and back.",
+      "requires": [
+        "polynomial-ring-mod-yr-plus-1",
+        "bluestein-chirp-identity"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "A phase twist changes the last cyclic coordinate into a polynomial"
+        }
+      ]
+    },
+    {
+      "id": "address-interchange",
+      "name": "Address-field interchange",
+      "aliases": [
+        "tape address swap"
+      ],
+      "gloss": "A tape procedure that swaps two disjoint contiguous address fields of u bits in O(V u^tau) time for a fixed tau < 1, with intermediate XOR combinations but an exact final permutation.",
+      "requires": [
+        "turing-machine-model"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "interchanges two disjoint contiguous address fields of u bits in an array"
+        }
+      ]
+    },
+    {
+      "id": "simultaneous-butterfly-layer",
+      "name": "Simultaneous butterfly layer",
+      "aliases": [
+        "H0 layer"
+      ],
+      "gloss": "A tape procedure that applies the two-point map H0(u, v) = ((u + v)/2, (u − v)/2) to selected coordinate bits of all records at once, in O(V d^lambda') time.",
+      "requires": [
+        "turing-machine-model",
+        "complex-numbers"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The second procedure applies"
+        }
+      ]
+    },
+    {
+      "id": "linear-network-frames",
+      "name": "Linear networks with frames",
+      "aliases": [
+        "frames",
+        "role exchange network"
+      ],
+      "gloss": "A fixed linear network that exchanges banks of values with prescribed signs and restores auxiliary values, where each node carries an invertible frame operator so that intermediate frames cancel along a route.",
+      "requires": [
+        "turing-machine-model"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "choose an invertible linear operator Dv on the space of arrays"
+        }
+      ]
+    },
+    {
+      "id": "subspace-intersection-network",
+      "name": "Subset-intersection subspace construction",
+      "aliases": [
+        "nested subspaces"
+      ],
+      "gloss": "A construction that attaches nested subspaces of a fixed space to the gates of a linear network, using three-element subsets and intersection-size parity, so that the subspace dimensions drop along each edge.",
+      "requires": [
+        "linear-network-frames"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "attaches subspaces of a fixed m-dimensional space to its"
+        }
+      ]
+    },
+    {
+      "id": "rank-saving-recursion",
+      "name": "Recursive rank saving",
+      "aliases": [
+        "power saving"
+      ],
+      "gloss": "The recursion in which a call at parameter m uses s smaller calls with s < W m, so the cost per unit of volume is multiplied by a factor below m at each level and gives a power saving.",
+      "requires": [
+        "address-interchange",
+        "simultaneous-butterfly-layer",
+        "subspace-intersection-network"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "that the total number s of smaller calls satisfies s < W m"
+        }
+      ]
+    },
+    {
+      "id": "established-multiplier",
+      "name": "Established O(n log n) multiplier",
+      "aliases": [
+        "base multiplier"
+      ],
+      "gloss": "The known deterministic O(n log n) multitape multiplication, used as an ordinary subroutine on short records.",
+      "requires": [
+        "exact-integer-multiplication"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Calls to the established O(n log n) multiplier are ordinary subroutine calls"
+        }
+      ]
+    },
+    {
+      "id": "signed-packing",
+      "name": "Signed coefficient packing",
+      "aliases": [
+        "Kronecker substitution"
+      ],
+      "gloss": "Encoding polynomial coefficients as signed integers at a fixed bit spacing so that one integer multiplication computes a polynomial product in the ring modulo y^r + 1.",
+      "requires": [
+        "polynomial-ring-mod-yr-plus-1",
+        "established-multiplier"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Signed coefficient packing is a form of Kronecker substitution"
+        }
+      ]
+    },
+    {
+      "id": "precision-and-rounding",
+      "name": "Precision and exact recovery",
+      "aliases": [
+        "coefficient rounding"
+      ],
+      "gloss": "The bookkeeping showing that fixed-precision approximations of the transforms recover each integer coefficient exactly after rounding, so that carry propagation yields the exact product.",
+      "requires": [
+        "radix-digit-convolution",
+        "synthetic-transform"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "proves that the recovered coefficient error is strictly below 1/2"
+        }
+      ]
+    },
+    {
+      "id": "parameter-choice",
+      "name": "Parameter choice",
+      "aliases": [
+        "size parameters"
+      ],
+      "gloss": "The fixed rational exponents and the sizes b, p, d, T and r chosen so that the cost terms all fit the target bound.",
+      "requires": [
+        "precision-and-rounding",
+        "chinese-remainder-map"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Take the power of two T in [4n/b, 8n/b)"
+        }
+      ]
+    },
+    {
+      "id": "multiplication-algorithm",
+      "name": "Multiplication algorithm",
+      "aliases": [
+        "exact product algorithm"
+      ],
+      "gloss": "The six-step algorithm that forms three source transforms, multiplies them pointwise, scales and rounds the result, and propagates carries to output the exact 2n-bit product.",
+      "requires": [
+        "radix-digit-convolution",
+        "chinese-remainder-map",
+        "gaussian-resampling",
+        "bluestein-chirp-identity",
+        "phase-twist",
+        "synthetic-transform",
+        "signed-packing",
+        "precision-and-rounding",
+        "address-interchange",
+        "simultaneous-butterfly-layer",
+        "parameter-choice"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The source-transform procedures now supply the three transforms needed for the radix-digit convolution."
+        }
+      ]
+    },
+    {
+      "id": "cost-accounting",
+      "name": "Cost accounting",
+      "aliases": [
+        "Table 1 cost bound"
+      ],
+      "gloss": "The normalized cost table showing each operation costs O(T p) times a power of p, and that every exponent falls below one by a margin of at least 2^(-181) = 2 kappa.",
+      "requires": [
+        "multiplication-algorithm",
+        "rank-saving-recursion",
+        "parameter-choice"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The seven dominant powers in Table 1 have the following margins below one"
+        }
+      ]
+    },
+    {
+      "id": "main-theorem",
+      "name": "Deterministic O(n (lg n)^(1-kappa)) multiplication",
+      "aliases": [
+        "m",
+        "a",
+        "i",
+        "n",
+        " ",
+        "r",
+        "e",
+        "s",
+        "u",
+        "l",
+        "t"
+      ],
+      "gloss": "There is one deterministic fixed-tape Turing machine computing the exact product of n-bit integers in O(n (lg n)^(1-kappa)) worst-case time, with kappa = 2^(-182), which refutes the n log n optimality conjecture in this model.",
+      "requires": [
+        "cost-accounting",
+        "multiplication-algorithm",
+        "rank-saving-recursion",
+        "n-log-n-conjecture"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "There is one deterministic Turing machine A, with a fixed finite alphabet"
+        }
+      ]
+    }
+  ]
+}

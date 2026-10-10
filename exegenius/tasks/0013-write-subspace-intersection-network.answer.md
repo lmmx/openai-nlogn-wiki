@@ -1,0 +1,9 @@
+The subset-intersection construction gives each gate and terminal of a [linear network](linear-network-frames.md) a subspace of a fixed $m$-dimensional space. The subspaces at adjacent vertices are nested, and the change in dimension along an edge counts how many smaller operations that edge needs.
+
+The labels are built from subsets of size three. Let $A$ and $B$ be such subsets. Their intersection $|A \cap B|$ is $0$, $1$, $2$, or $3$. Indicator vectors of the subsets are used to define the coefficients of the network. Gather and scatter operations create coefficients that depend only on the intersection size, and auxiliary wires cancel the coefficients that should not appear. Orthogonality of the indicator vectors is what allows the subspaces to be assigned consistently.
+
+The construction has an earlier source. Alon presented the Frankl–Wilson construction, which represents complementary intersection graphs over different fields. At the prime $p = 2$, the subsets have size three, and the two polynomial evaluations are the intersection count modulo two and the intersection count minus one. The paper uses these two formulas, but changes the size of the ground set and expresses the second through a rational bilinear form.
+
+The decisive property is a counting inequality. If the network has $W$ roles, the total number $s$ of smaller calls satisfies $s < W m$. A recursive call at parameter $f$ on a stream of volume $V/W$ therefore leads to $s$ calls, and the strict inequality gives the power saving described in the [rank saving](rank-saving-recursion.md) page.
+
+The paper proves the subspace properties directly in its Section 3. The earlier results it cites supply ingredients, but not the subspace labels used in its network.
