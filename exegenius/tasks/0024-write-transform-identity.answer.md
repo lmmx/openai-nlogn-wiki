@@ -1,0 +1,10 @@
+Transform identity with retained permutations is the form of the Gaussian resampling identity in which the source and target coordinate permutations stay in the formula, so that they cancel across a convolution instead of being executed as sorts.
+
+The one-dimensional identity is derived from [Gaussian resampling](gaussian-resampling.md) and holds for [coprime](coprime-integers.md) $s<t$ with $\theta=t/s-1$ large enough: $P_sF_s=2^{2\alpha^2}B_0P_tF_tA$, with contractions $A$ and $B_0$.
+
+Here $d$ is the number of coordinates, not the digit count, and $s_i$ is the number of entries along coordinate $i$. Here $R$ permutes the source coordinates, and $Q$ permutes the target coordinates. The identity is lifted to $d$ coordinates by a [tensor product](tensor-product.md) of the $d$ one-dimensional identities. Since $(X_1\otimes\cdots\otimes X_d)(Y_1\otimes\cdots\otimes Y_d)=(X_1Y_1)\otimes\cdots\otimes(X_dY_d)$, multiplying the identities gives $RF_s$ on the left and $B_0QF_tA$ on the right, where $R=\bigotimes_i P_{s_i}$ and $Q=\bigotimes_i P_{t_i}$. Each coordinate contributes a factor $2^{2\alpha^2}$, so the factors multiply to $2^{2d\alpha^2}$:
+$$RF_s=2^{2d\alpha^2}B_0QF_tA.$$
+
+Let $R^+$ be the inverse of $R$, so $RF_s^+=F_s^+R^+$ with $F_s^+$ the opposite transform. Here $u$ is the first input array, with one entry for each point of the source grid of shape $s_1\times\cdots\times s_d$, and $v$ is the second. A permutation commutes with the pointwise product $\cdot$, so $(RF_su)\cdot(RF_sv)=R\big((F_su)\cdot(F_sv)\big)$. Applying $RF_s^+=F_s^+R^+$ and $R^+R$ = identity removes $R$, leaving $F_s^+\big((F_su)\cdot(F_sv)\big)$. By the convolution theorem, the transform of $u*v$ is a pointwise product of transforms, so this equals $u*v$ up to scale:
+$$(RF_s^+)((RF_su)\cdot(RF_sv))=\frac{u*v}{(\prod_i s_i)^2}.$$
+The source permutation $R$ is never executed. Sorting is avoided because the usual implementation sorts twice on each coordinate, while this formula is computed directly. <cite data-source="paper">We retain both permutations in the transform formula</cite>.
