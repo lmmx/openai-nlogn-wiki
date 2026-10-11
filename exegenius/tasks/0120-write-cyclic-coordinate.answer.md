@@ -1,0 +1,9 @@
+A cyclic coordinate is one axis of a multidimensional [cyclic convolution](cyclic-convolution.md), with its own cyclic length. Later steps use these axes in two ways. The digit coefficients are placed on several prime cyclic axes by a [Chinese-remainder map](chinese-remainder-map.md) <cite data-source="paper">that preserves convolution</cite>, and a [phase twist](phase-twist.md) acts on the last cyclic coordinate.
+
+Let $d$ be the number of cyclic coordinates of an array, a positive integer. The index $\ell$ names a coordinate, running from $1$ to $d$. For $\ell = 1, \dots, d$, let $L_\ell$ be the cyclic length of coordinate $\ell$, the number of positions along that axis before indices wrap around. Index arithmetic in coordinate $\ell$ is taken modulo $L_\ell$, and the lengths $L_1, \dots, L_d$ need not be equal.
+
+Take $d = 2$, $L_1 = 3$ and $L_2 = 4$. The positions $(2,3)$ and $(1,1)$ add to $(0,0)$: in coordinate 1, $2 + 1 = 3 \equiv 0 \pmod 3$, and in coordinate 2, $3 + 1 = 4 \equiv 0 \pmod 4$. A wrap in one coordinate does not change the other. So in a cyclic convolution, the product of the entries at those two positions lands at output position $(0,0)$.
+
+The last cyclic coordinate is the one with index $\ell = d$. In the construction, one axis is given length $r$ and taken as the last one, so $L_d = r$: <cite data-source="paper">at least one axis has length r; choose it as the last axis.</cite>
+
+The phase twist converts this coordinate into a polynomial coordinate: <cite data-source="paper">A phase twist changes the last cyclic coordinate into a polynomial</cite> modulo $y^r + 1$, and <cite data-source="paper">its negative wrap gives precisely the original cyclic wrap after the twist is removed.</cite> The wrap-around of the last coordinate therefore reappears as a sign change in the polynomial ring.

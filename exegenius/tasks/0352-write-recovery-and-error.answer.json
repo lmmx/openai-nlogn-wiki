@@ -1,0 +1,117 @@
+{
+  "symbols": [
+    {
+      "symbol": "h_p",
+      "name": "precision unit",
+      "meaning": "$2^{-p}$, the size of one unit in the last place of a stored value.",
+      "relation": "direct",
+      "quote": "Write $h_p = 2^{-p}$ for the size of one unit in the last place; an error of $a$ units is an absolute error below $a\\,h_p$."
+    },
+    {
+      "symbol": "L",
+      "name": "log box size",
+      "meaning": "$\\log_2 T$, the base-two logarithm of the padded box size $T$, which counts the transform stages.",
+      "relation": "direct",
+      "quote": "Write $L=\\log_2 T$, so $L\\le b$; the letter $L$ changes meaning here."
+    },
+    {
+      "symbol": "\\gamma",
+      "name": "construction constant",
+      "meaning": "The integer $2d\\alpha^2$ fixed by the source's construction, which grows more slowly than $b$.",
+      "relation": "direct",
+      "quote": "Here $\\gamma = 2d\\alpha^2$ is the construction constant of the source; the letter $\\gamma$ changes meaning here."
+    },
+    {
+      "symbol": "E_{\\rm ring}",
+      "name": "ring-stage error",
+      "meaning": "The error of the polynomial-ring convolution stage, in units of $h_p$, bounded by $5TL$.",
+      "relation": "direct",
+      "quote": "The normalized form scales this by $T/r$, where $r$ is the record length, so the stage error is $E_{\\rm ring}=\\frac{T}{r}(3L+2)$ units; since $r\\ge1$ and $L\\ge1$, $E_{\\rm ring}<5TL$."
+    },
+    {
+      "symbol": "E_s",
+      "name": "source-transform error",
+      "meaning": "The error of the source transform stage, in units of $h_p$.",
+      "relation": "direct",
+      "quote": "Call the source-transform error $E_s$, in units of $h_p$."
+    },
+    {
+      "symbol": "E_w",
+      "name": "scaled-result error",
+      "meaning": "The error, in units of $h_p$, of the first scaled result $\\tilde w$.",
+      "relation": "direct",
+      "quote": "call its error $E_w$, in units of $h_p$."
+    },
+    {
+      "symbol": "\\tilde{w}",
+      "name": "computed scaled result",
+      "meaning": "The computed approximation of the scaled convolution $w$, the convolution of the digit arrays divided by $S$.",
+      "relation": "direct",
+      "quote": "The first multiplication by $S$, the product of the [Prime source lengths](prime-source-lengths.md), gives the scaled result $\\tilde w$, which approximates $w$, the convolution of the digit arrays divided by $S$; call its error $E_w$, in units of $h_p$."
+    },
+    {
+      "symbol": "\\mathcal{C}",
+      "name": "bilinear contraction",
+      "meaning": "A bilinear map whose output norm is at most the product of its input norms.",
+      "relation": "direct",
+      "quote": "For a bilinear map $\\mathcal{C}$ that is a contraction, $\\|\\mathcal{C}(f,g)\\|\\le\\|f\\|\\,\\|g\\|$, and bilinearity gives $\\mathcal{C}(f',g')-\\mathcal{C}(f,g)=\\mathcal{C}(f'-f,g')+\\mathcal{C}(f,g'-g)$."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "polynomial-ring-convolution",
+      "predicate": "bounds the error of",
+      "quote": "This step bounds the error of the [Convolution over the polynomial ring](polynomial-ring-convolution.md), which is computed from two forward synthetic transforms, a pointwise product and an opposite transform."
+    },
+    {
+      "prerequisite": "guard-width-bound",
+      "predicate": "takes its guard widths from",
+      "quote": "This analysis takes its guard widths from the [Guard-width bound](guard-width-bound.md), so every intermediate value is exact."
+    },
+    {
+      "prerequisite": "phase-twist",
+      "predicate": "bounds the error of",
+      "quote": "The [Phase twist](phase-twist.md) at each end of the ring map adds error too: this analysis bounds the error of the phase twist at each end by $4h_p$."
+    },
+    {
+      "prerequisite": "array-norm",
+      "predicate": "bounds every operand in",
+      "quote": "This analysis bounds every operand in the [Array norm](array-norm.md) by one, so each lies in the disk."
+    },
+    {
+      "prerequisite": "bilinear-map",
+      "predicate": "bounds the error of",
+      "quote": "Products of approximate operands are [Bilinear map](bilinear-map.md)s, and this analysis bounds the error of each product by $\\|f'-f\\|\\,\\|g'\\|+\\|f\\|\\,\\|g'-g\\|$: each operand error is weighted by the norm of the other operand."
+    },
+    {
+      "prerequisite": "opposite-transform",
+      "predicate": "includes the error of",
+      "quote": "The stage bound includes the error of the [Opposite transform](opposite-transform.md) and of both forward transforms."
+    },
+    {
+      "prerequisite": "padded-transform-box",
+      "predicate": "counts the entries of",
+      "quote": "Here $T$ counts the entries of the [Padded transform box](padded-transform-box.md)."
+    },
+    {
+      "prerequisite": "prime-source-lengths",
+      "predicate": "reverses the division by",
+      "quote": "the factor $S$, the product of the [Prime source lengths](prime-source-lengths.md), reverses the division by $S$ left in $\\tilde w$."
+    },
+    {
+      "prerequisite": "little-o-notation",
+      "predicate": "uses the growth rule of",
+      "quote": "The bound uses the growth rule of [Little-o notation](little-o-notation.md) for $\\gamma$: $\\gamma=o(b)$."
+    },
+    {
+      "prerequisite": "normalization-scales",
+      "predicate": "undoes the normalizations of",
+      "quote": "The final scaling undoes the normalizations of the [Normalization scales](normalization-scales.md): $2^{2b+4}$ reverses the two digit scales, and the factor $S$, the product of the [Prime source lengths](prime-source-lengths.md), reverses the division by $S$ left in $\\tilde w$."
+    },
+    {
+      "prerequisite": "grid-numerator",
+      "predicate": "is exact on",
+      "quote": "Each scaling is exact on the integer [Grid numerator](grid-numerator.md) of each value, so it adds no error."
+    }
+  ]
+}

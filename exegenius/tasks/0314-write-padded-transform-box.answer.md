@@ -1,0 +1,11 @@
+The padded transform box is the array of a [Multidimensional transform](multidimensional-transform.md) over its $D$ padded axes: the full array of entries that results once every axis has been padded to its chosen length. The argument needs this array because the radix-digit coefficients are placed on distinct prime cyclic axes inside it, by a [Chinese-remainder map](chinese-remainder-map.md) that preserves convolution.
+
+For each axis $s$, running from $1$ to $D$, $W_s$ is the number of data entries along that axis, its valid length, and $t_s \ge W_s$ is its padded length. Padding an axis means appending zero entries until it has length $t_s$.
+
+Let $E = t_1 t_2 \cdots t_D$ be the number of entries of the box, valid or zero. An address $\mathbf{e} = (e_1,\dots,e_D)$ with $0 \le e_s < t_s$ for every $s$ names one entry of the box. The valid region is the set of addresses with $e_s < W_s$ for every $s$. Entries at all other addresses are zero.
+
+Some steps move data between valid and invalid addresses. Expanding axis $s$ transforms each line whose other coordinates are valid, reading its first $W_s$ values and writing $t_s$ values, and writes $t_s$ zeros on every other line. Compressing axis $s$ transforms each line whose other coordinates are valid, writes its $W_s$ outputs followed by $t_s - W_s$ zeros, and writes a zero line for each other line. Each such step writes every address of the box, valid or not. <cite data-source="paper">The box therefore keeps its full size</cite>: the padded lengths $t_s$ do not change, so the entry count $E$ does not change during such a step.
+
+Take $D = 2$, $t_1 = 8$, $W_1 = 5$, $t_2 = 4$ and $W_2 = 3$. The box has $E = 32$ entries. The valid region is the $15$ addresses with $e_1 < 5$ and $e_2 < 3$, and the remaining $17$ entries are zero. Compressing axis 1 writes $5$ outputs and then $3$ zeros on each line whose other coordinate is valid, so each such line still has $8$ entries.
+
+The padded transform box is rearranged by [coordinate permutations](transform-identity.md) of the [Transform identity with retained permutations](transform-identity.md), which move entries within this one fixed array instead of sorting the data into a new array. <cite data-source="paper">These are exact permutations of the padded box, so they change neither norms nor errors.</cite>

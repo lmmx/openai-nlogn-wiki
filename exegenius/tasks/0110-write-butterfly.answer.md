@@ -1,0 +1,7 @@
+Here $\xi$ and $\eta$ are the two input values; the sources write them as $u$ and $v$, but this page renames them because $u$ already denotes a field width. A butterfly is the two-point map $H_0(\xi,\eta)=\left(\frac{\xi+\eta}{2},\frac{\xi-\eta}{2}\right)$, which replaces a pair of values by their half-sum and half-difference. The butterfly is an elementary step of the [discrete Fourier transform](discrete-fourier-transform.md): a transform on $q$ entries is assembled from such two-point steps, each acting on a pair of entries whose positions differ in one index bit, that is, in one binary digit of the position.
+
+For example, $H_0(3,1)=(2,1)$. Applying $H_0$ to $(2,1)$ gives $(3/2,1/2)$, which is $(3,1)/2$. Two applications of the butterfly therefore halve the input, which the sources record as <cite data-source="paper">H02 = I/2</cite>.
+
+The butterfly is useful because the transform calculation is built from cheap operations. In the sources' representation, <cite data-source="paper">two-point butterfly operations</cite> sit alongside address rearrangements and signed shifts. When the entries are polynomial records rather than numbers, the butterfly acts on each complex coefficient of the record separately, so $H_0$ <cite data-source="paper">acts coefficientwise</cite>.
+
+The [simultaneous butterfly layer](simultaneous-butterfly-layer.md) extends this single two-point step to several selected address bits at once: <cite data-source="paper">We now apply the complex network to a common butterfly layer on several axes</cite>.

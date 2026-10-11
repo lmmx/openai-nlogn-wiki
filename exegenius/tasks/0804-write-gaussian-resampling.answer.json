@@ -1,0 +1,120 @@
+{
+  "symbols": [
+    {
+      "symbol": "W",
+      "name": "target length",
+      "meaning": "The number of entries of a length-W output vector, a power of two greater than q.",
+      "relation": "count",
+      "quote": "Here $W$ denotes the target length, a count of entries that is a power of two greater than $q$; this letter changes meaning here."
+    },
+    {
+      "symbol": "\\sigma",
+      "name": "Gaussian width",
+      "meaning": "The width of the Gaussian weights, an integer at least 2 with sigma squared less than p.",
+      "relation": "direct",
+      "quote": "Let $\\sigma$ be the Gaussian width, an integer with $2\\le\\sigma$ and $\\sigma^2<p$, where $p>100$ is the precision; this letter changes meaning here."
+    },
+    {
+      "symbol": "k",
+      "name": "output index",
+      "meaning": "The index of an entry of a length-W output vector, running from 0 to W minus 1.",
+      "relation": "direct",
+      "quote": "For a length-$q$ vector $u$ with entries $u_j$ ($0\\le j<q$, indices read modulo $q$) and an output index $k$ with $0\\le k<W$ (this letter changes meaning here), let $\\Psi$ and $\\Xi$ be the maps defined by the weighted sums below, where $\\Psi$ gathers the inputs $j$ near $qk/W$ and $\\Xi$ spreads entry $j$ over the outputs $k$ near $Wj/q$:"
+    },
+    {
+      "symbol": "\\Psi",
+      "name": "first Gaussian map",
+      "meaning": "The first Gaussian-weighted sum, mapping a length-q vector to a length-W vector.",
+      "relation": "direct",
+      "quote": "For a length-$q$ vector $u$ with entries $u_j$ ($0\\le j<q$, indices read modulo $q$) and an output index $k$ with $0\\le k<W$ (this letter changes meaning here), let $\\Psi$ and $\\Xi$ be the maps defined by the weighted sums below, where $\\Psi$ gathers the inputs $j$ near $qk/W$ and $\\Xi$ spreads entry $j$ over the outputs $k$ near $Wj/q$:"
+    },
+    {
+      "symbol": "\\Xi",
+      "name": "second Gaussian map",
+      "meaning": "The second Gaussian-weighted sum, mapping a length-q vector to a length-W vector.",
+      "relation": "direct",
+      "quote": "For a length-$q$ vector $u$ with entries $u_j$ ($0\\le j<q$, indices read modulo $q$) and an output index $k$ with $0\\le k<W$ (this letter changes meaning here), let $\\Psi$ and $\\Xi$ be the maps defined by the weighted sums below, where $\\Psi$ gathers the inputs $j$ near $qk/W$ and $\\Xi$ spreads entry $j$ over the outputs $k$ near $Wj/q$:"
+    },
+    {
+      "symbol": "\\mathcal{J}",
+      "name": "selection map",
+      "meaning": "The selection map taking, for each j below q, the entry of a length-W vector at the integer nearest Wj/q.",
+      "relation": "direct",
+      "quote": "Let $\\mathcal J$ take, for $0\\le j<q$, entry $\\lfloor Wj/q+\\tfrac12\\rfloor$ of a length-$W$ vector, the integer nearest $Wj/q$ with ties upward."
+    },
+    {
+      "symbol": "\\Upsilon",
+      "name": "diagonal correction",
+      "meaning": "The diagonal map multiplying entry j of a length-q vector by the factor that cancels the weight of Xi at the selected output.",
+      "relation": "direct",
+      "quote": "Let $\\Upsilon$ multiply entry $j$ by $\\exp\\big(\\pi\\sigma^2(Wj/q-\\lfloor Wj/q+\\tfrac12\\rfloor)^2\\big)$, which cancels the weight of $\\Xi$ at the selected output."
+    },
+    {
+      "symbol": "\\mathcal{N}",
+      "name": "middle map",
+      "meaning": "The length-q map J Xi Upsilon, which is close to the identity.",
+      "relation": "direct",
+      "quote": "Set $\\mathcal N=\\mathcal J\\,\\Xi\\,\\Upsilon$, a map from length $q$ to length $q$."
+    },
+    {
+      "symbol": "\\Pi_q",
+      "name": "source permutation",
+      "meaning": "The coordinate permutation of length-q vectors that moves entry Wj mod q to position j.",
+      "relation": "direct",
+      "quote": "Let $\\Pi_q$ and $\\Pi_W$ be the coordinate permutations $(\\Pi_q u)_j=u_{Wj \\bmod q}$ and $(\\Pi_W u)_k=u_{-qk \\bmod W}$."
+    },
+    {
+      "symbol": "\\Pi_W",
+      "name": "target permutation",
+      "meaning": "The coordinate permutation of length-W vectors that moves entry minus qk mod W to position k.",
+      "relation": "direct",
+      "quote": "Let $\\Pi_q$ and $\\Pi_W$ be the coordinate permutations $(\\Pi_q u)_j=u_{Wj \\bmod q}$ and $(\\Pi_W u)_k=u_{-qk \\bmod W}$."
+    },
+    {
+      "symbol": "\\mathcal{E}",
+      "name": "input contraction",
+      "meaning": "The map Psi divided by 2, a contraction from length q to length W.",
+      "relation": "direct",
+      "quote": "Writing $\\mathcal E=\\Psi/2$ and $\\mathcal U=2^{1-2\\sigma^2}\\,\\Upsilon\\mathcal N^{-1}\\mathcal J$, the identity reads"
+    },
+    {
+      "symbol": "\\mathcal{U}",
+      "name": "output contraction",
+      "meaning": "The map 2 to the power 1 minus 2 sigma squared, times Upsilon, times N inverse, times J; a contraction from length W to length q.",
+      "relation": "direct",
+      "quote": "Writing $\\mathcal E=\\Psi/2$ and $\\mathcal U=2^{1-2\\sigma^2}\\,\\Upsilon\\mathcal N^{-1}\\mathcal J$, the identity reads"
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "discrete-fourier-transform",
+      "predicate": "replaces",
+      "quote": "Gaussian resampling replaces a [Discrete Fourier transform](discrete-fourier-transform.md) of arbitrary length $q$ by a transform of power-of-two length, so that the later steps can use butterfly layers and polynomial transforms."
+    },
+    {
+      "prerequisite": "radix-digit-convolution",
+      "predicate": "reshapes the transforms of",
+      "quote": "It reshapes the transforms of the [radix-digit convolution](radix-digit-convolution.md) that the integer product needs."
+    },
+    {
+      "prerequisite": "multidimensional-transform",
+      "predicate": "replaces the Fourier transforms by",
+      "quote": "Gaussian resampling replaces the Fourier transforms by [multidimensional transforms](multidimensional-transform.md) whose axis lengths are powers of two."
+    },
+    {
+      "prerequisite": "synthetic-transforms",
+      "predicate": "converts the lengths for",
+      "quote": "Gaussian resampling converts the lengths for the [synthetic polynomial transforms](synthetic-transforms.md) into powers of two."
+    },
+    {
+      "prerequisite": "coprime",
+      "predicate": "requires its lengths to be",
+      "quote": "Gaussian resampling requires its lengths to be [coprime](coprime.md), $\\gcd(q,W)=1$."
+    },
+    {
+      "prerequisite": "array-norm",
+      "predicate": "measures contraction with",
+      "quote": "Gaussian resampling measures contraction with the [array norm](array-norm.md)."
+    }
+  ]
+}

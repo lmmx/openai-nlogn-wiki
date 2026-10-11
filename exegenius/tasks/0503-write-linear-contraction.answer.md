@@ -1,0 +1,11 @@
+A linear contraction is a linear map defined on the vector spaces of [Linear algebra basics](linear-algebra-basics.md) that never increases the largest coordinate modulus of a vector. It keeps errors from growing through a computation, as exact recovery needs ([Exact coefficient recovery](recovery-and-error.md)).
+
+Let $L\colon \mathbb{C}^m \to \mathbb{C}^{m'}$ be a linear map, where $m$ is the number of coordinates of its input vectors and $m'$ is the number of coordinates of its output vectors. For $x \in \mathbb{C}^m$, the norm $\|x\|$ is the largest modulus $|x_j|$ of its coordinates $x_j$, where $|z|$ is the modulus of a complex number $z$. <cite data-source="paper">The vector norm is the maximum modulus</cite>
+
+$L$ is a linear contraction when $\|Lx\| \le \|x\|$ for every $x \in \mathbb{C}^m$. Its operator norm $\|L\|$ is defined through the [supremum](supremum.md) of $\|Lx\|$ over all $x$ with $\|x\| \le 1$, so $L$ is a contraction exactly when $\|L\| \le 1$.
+
+A computation holds $x+\eta$ in place of the exact input $x$, where $\eta$ is the error it carries. A step computes $L(x+\eta)+\rho$, where $\rho$ is the rounding error introduced at that step. The exact step gives $Lx$, so the output error is $L\eta+\rho$, and $\|L\eta+\rho\| \le \|\eta\|+\|\rho\|$. <cite data-source="paper">A linear contraction propagates an input error without increasing it.</cite> Errors add across steps. <cite data-source="paper">Composing such algorithms adds their errors: at each step, insert the exact map at the computed</cite> Recovery needs the total below $1/2$, because <cite data-source="paper">the recovered coefficient error is strictly below 1/2</cite> and rounding then returns the exact integer coefficients ([Exact coefficient recovery](recovery-and-error.md)).
+
+The normalized transform $F_q$ sends $u$ to the vector with entries $(F_q u)_\ell = \frac{1}{q}\sum_s \omega^{s\ell} u_s$, Each $|\omega^{s\ell}| = 1$, so $|(F_q u)_\ell| \le \frac{1}{q}\sum_s |u_s| \le \|u\|$. <cite data-source="paper">normalized Fourier transform above is a contraction, since each output averages inputs multiplied</cite>
+
+For example, take $q = 2$, so $\omega = -1$, and $u = (1, i)$. The outputs $\frac{1+i}{2}$ and $\frac{1-i}{2}$ have modulus $\frac{\sqrt{2}}{2} \approx 0.71 \le 1 = \|u\|$. The unnormalized sums $(1+i,\ 1-i)$ have norm $\sqrt{2} > 1$.

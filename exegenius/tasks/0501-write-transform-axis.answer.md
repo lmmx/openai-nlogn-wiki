@@ -1,0 +1,11 @@
+A transform axis is one coordinate direction of a multidimensional array, with its own length. [Gaussian resampling](gaussian-resampling.md) builds on it: it replaces the Fourier transforms of the convolution by multidimensional transforms whose axis lengths are powers of two. <cite data-source="paper">axis lengths are powers of two. After a further conversion to convolution, one coordinate is stored</cite>.
+
+Let $D$ be the number of axes. The letter $i$ names an axis, $1 \le i \le D$. The letter $x$ changes meaning here: $x_i$ is the coordinate of an address along axis $i$, not the first input. Where $t_i$, the length of axis $i$, is the number of values that coordinate takes, $0 \le x_i < t_i$. Along axis $i$ the array is transformed by a [Discrete Fourier transform](discrete-fourier-transform.md) of length $t_i$.
+
+For example, take $D=2$, where $t_1 = 2$ is the length of axis 1 and $t_2 = 4$ the length of axis 2. The addresses are $(x_1, x_2)$, with $x_1 \in \{0,1\}$ the coordinate along axis 1 and $x_2 \in \{0,1,2,3\}$ the coordinate along axis 2. The array is <cite data-source="paper">stored in lexicographic order, with the first coordinate most significant</cite>, so the addresses run $(0,0), (0,1), \dots, (1,3)$.
+
+The power-of-two lengths come from storage. One coordinate is stored as a polynomial in $y$ with $s$ coefficients, where $s$, a power of two, is that number. Modulo $y^s+1$ means $y^s$ is replaced by $-1$, so the stored form is $a_0+a_1y+\dots+a_{s-1}y^{s-1}$, where $a_k$ is the coefficient of $y^k$. These $s$ coefficients form an axis of length $s$.
+
+Since $y^s=-1$, multiplying by $y$ moves each coefficient one place up and negates the one that passes the top: for $s=4$, $y(a_0+a_1y+a_2y^2+a_3y^3)=-a_3+a_0y+a_1y^2+a_2y^3$. Multiplying by $y^k$ does the same with $k$ places, so it is a signed shift of the coefficient list: <cite data-source="paper">multiplication by such a root is a signed shift of the</cite> coefficient list.
+
+On the remaining axes the transform weights its entries by powers of $y$, each a [Root of unity](root-of-unity.md). Since $(y^s)^2=1$, every power of $y$ has order dividing $2s$. For a power of two $t$ dividing $2s$, $(y^{2s/t})^t=1$, so the powers of $y^{2s/t}$ are the $t$ weights of a length-$t$ transform. So these lengths match the roots.

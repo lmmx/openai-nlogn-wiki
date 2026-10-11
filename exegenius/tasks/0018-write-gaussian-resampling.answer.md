@@ -1,0 +1,15 @@
+Gaussian resampling replaces the transforms of the [Discrete Fourier transform](discrete-fourier-transform.md) of arbitrary length by transforms whose axis lengths are powers of two, using Gaussian weights to move between the two sets of frequencies. In the integer product it is the step that changes the Fourier transforms of the convolution into multidimensional transforms with power-of-two axes, following the reduction of Harvey and van der Hoeven.
+
+<cite data-source="paper">Splitting the inputs into radix digits reduces multiplication to convolution of short integer coefficients</cite>. Gaussian resampling replaces the transforms needed to compute the [Radix-digit convolution](radix-digit-convolution.md) by power-of-two transforms. The <cite data-source="paper">transform lengths needed for the integer product are pairwise coprime</cite>, whereas the synthetic transforms <cite data-source="paper">use powers of two</cite>, so the lengths must be changed before the transform layers can be applied.
+
+For a positive integer $q$, write $F_q$ for the normalized discrete Fourier transform of length $q$. Let $s$ be the number of entries in the source vector, which is the length of the transform being replaced, and let $t$ be a power of two greater than $s$, the number of entries in the resampled vector. Write $\theta = t/s - 1$ for the relative gap between the two lengths. The integer $\alpha$ is a width parameter that sets how wide the Gaussian weights are, and the integer $p$ is a precision parameter.
+
+Let $P_s$ be the permutation of length-$s$ vectors that reorders their entries by multiplying each position by $t$ modulo $s$, and let $P_t$ be the permutation of length-$t$ vectors that reorders their entries by multiplying each position by $-s$ modulo $t$.
+
+The one-dimensional identity is <cite data-source="paper">Lemma 19 (Resampling without executing the two permutations)</cite>. It applies when <cite data-source="paper">with gcd(s, t) = 1 and</cite> <cite data-source="paper">θ := t/s − 1 > p/α4</cite>. $A$ maps length-$s$ vectors to length-$t$ vectors and $B$ maps length-$t$ vectors back to length-$s$ vectors, and neither increases the maximum modulus of an entry. With these operators the identity reads
+
+$$P_s F_s = 2^{2\alpha^2}\, B\, P_t F_t\, A.$$
+
+The two permutations stay on the two sides of the identity instead of being carried out as sorts.
+
+Powers of two matter because of the later steps. A transform whose length is a power of two splits into one layer of two-point butterflies for each factor of two in its length, where a butterfly replaces two entries by their sum and their difference, up to a scale factor. For example, a transform of length $t = 8$ is computed in $3$ layers of $4$ butterflies each, and each layer touches all $8$ entries once, so it costs one pass over the data. The polynomial transforms of the later steps keep this layered structure: <cite data-source="paper">as roots of unity in the remaining axes, and multiplication by such a root is a signed shift of the</cite> coefficient list.

@@ -1,0 +1,15 @@
+A *gate* is a vertex where several wires meet and their values are combined, and a *terminal* is an end of a wire, its source or its sink, where the network's values enter or leave. The subset-intersection network, a linear network on the three-element subsets of a ground set, is built from gates and terminals, so this page explains what each one does and why a gate can act on stored arrays.
+
+A network carries values on *wires*. Each wire <cite data-source="paper">carries one scalar</cite> at a time. <cite data-source="paper">The vertices on a wire are its source, the gates that touch</cite> it in time order, and its sink. The source and the sink of a wire are its *terminals*.
+
+<cite data-source="paper">A gate is a fixed linear map on a specified set of</cite> wires, and <cite data-source="paper">untouched wires retain their values</cite>. The wires that a gate touches are its *incidences*. For a scalar gate, the map acts at each *address*, a position in the arrays that the wires carry, and combines the values at one address using only the values at that same address. The gate is <cite data-source="paper">applied pointwise to matching addresses on the roles that it touches</cite>. A *pointwise linear gate*, also called a gate applied pointwise, is one whose combination is the same fixed linear combination at every address.
+
+Example. Let a gate act on two wires that hold $3$ and $1$ at an address. It replaces them by their sum and their difference, both computed from the original values: the first wire gets $3+1=4$ and the second gets $3-1=2$. A third wire at that address keeps its value.
+
+Each gate and terminal $v$ is a vertex type of [Linear networks and frames](linear-network-frames.md), and carries a frame $D_v$, an invertible linear operator on arrays. <cite data-source="paper">All incidences of one gate</cite> <cite data-source="paper">have the same frame</cite>, so a gate has one frame $D_v$ on all its wires.
+
+Why one frame? Let a two-wire gate have logical input arrays $g_1$ and $g_2$, the arrays on its first and second input wire. Each output of the gate is a fixed combination $\alpha_1 g_1 + \alpha_2 g_2$, where $\alpha_1$ and $\alpha_2$ are the input weights, the same at every address. If the first wire stored $D_u g_1$ and the second stored $D_{u'} g_2$ with $D_{u'} \neq D_u$, the gate would form $\alpha_1 D_u g_1 + \alpha_2 D_{u'} g_2$. In general this is not the frame applied to the logical output, so the stored output would not represent it. With one frame $D_v$ on both wires, the stored output is
+$$\alpha_1 D_v g_1 + \alpha_2 D_v g_2 = D_v(\alpha_1 g_1 + \alpha_2 g_2),$$
+because $D_v$ is linear and the weights are scalars that do not depend on the arrays. Writing $G(g_1, g_2)$ for the logical output, this says $G(D_v g_1, D_v g_2) = D_v\, G(g_1, g_2)$. The gate applied to stored arrays therefore gives the stored form of the logical output.
+
+So the gate can be applied to the stored arrays, and the frame removed afterwards, without changing the logical result.

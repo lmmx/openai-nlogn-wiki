@@ -1,0 +1,176 @@
+{
+  "symbols": [
+    {
+      "symbol": "\\mathcal{X}",
+      "name": "source chunk",
+      "meaning": "The address chunk that the addition reads, whose selected bits are XORed into the target.",
+      "relation": "direct",
+      "quote": "Packed selected-bit addition acts on two disjoint [address fields](address-field.md) of equal width, the source $\\mathcal{X}$ and the target $\\mathcal{W}$."
+    },
+    {
+      "symbol": "\\mathcal{W}",
+      "name": "target chunk",
+      "meaning": "The address chunk that the addition changes, whose selected bits receive the XOR.",
+      "relation": "direct",
+      "quote": "Packed selected-bit addition acts on two disjoint [address fields](address-field.md) of equal width, the source $\\mathcal{X}$ and the target $\\mathcal{W}$."
+    },
+    {
+      "symbol": "\\mathcal{T}",
+      "name": "scratch chunk",
+      "meaning": "The third address chunk, whose arbitrary initial value is restored at the end.",
+      "relation": "direct",
+      "quote": "Packed selected-bit addition uses its third chunk as [scratch storage](scratch-storage.md), $\\mathcal{T}$, whose initial value is arbitrary and must be restored."
+    },
+    {
+      "symbol": "\\lambda",
+      "name": "chunk width",
+      "meaning": "The number of address bits in each chunk, equal to the number of segments times the segment width.",
+      "relation": "count",
+      "quote": "Each chunk has width $\\lambda$ bits, cut into $\\nu$ segments of $\\mu$ bits, so $\\lambda = \\nu\\mu$."
+    },
+    {
+      "symbol": "\\nu",
+      "name": "segments per chunk",
+      "meaning": "The number of segments into which each chunk is cut.",
+      "relation": "count",
+      "quote": "Each chunk has width $\\lambda$ bits, cut into $\\nu$ segments of $\\mu$ bits, so $\\lambda = \\nu\\mu$."
+    },
+    {
+      "symbol": "\\mu",
+      "name": "segment width",
+      "meaning": "The number of bits in each segment of a chunk.",
+      "relation": "count",
+      "quote": "Each chunk has width $\\lambda$ bits, cut into $\\nu$ segments of $\\mu$ bits, so $\\lambda = \\nu\\mu$."
+    },
+    {
+      "symbol": "\\sigma",
+      "name": "segment index",
+      "meaning": "The index of a segment within a chunk, running from 0 to nu minus 1.",
+      "relation": "direct",
+      "quote": "The selected bit of segment $\\sigma$ is its lowest bit, at position $\\rho+\\sigma\\mu$ for $0\\le\\sigma<\\nu$, where $\\sigma$ is a segment index."
+    },
+    {
+      "symbol": "\\gamma",
+      "name": "guard value",
+      "meaning": "The integer formed by the non-selected bits of a segment, which lies between 0 and 2 to the power of mu minus 1, minus 1.",
+      "relation": "direct",
+      "quote": "The other $\\mu-1$ bits of a segment form its guard, whose value $\\gamma$ lies between $0$ and $2^{\\mu-1}-1$."
+    },
+    {
+      "symbol": "\\beta",
+      "name": "control bit",
+      "meaning": "The bit that decides whether a controlled update is applied.",
+      "relation": "direct",
+      "quote": "For a control bit $\\beta\\in\\{0,1\\}$, a cyclic shift of $\\mathcal{W}$ by $\\pm 2^{\\rho+\\sigma\\mu}$ adds $\\pm 1$ to the value of segment $\\sigma$, with sign $-1$ when the selected bit is $1$ and $+1$ when it is $0$."
+    },
+    {
+      "symbol": "\\xi",
+      "name": "target segment value",
+      "meaning": "The value of a segment of the target chunk during the eight updates.",
+      "relation": "direct",
+      "quote": "For a segment of $\\mathcal{W}$ with value $\\xi$ and the corresponding segment of $\\mathcal{T}$ with value $\\eta$, the construction uses eight controlled updates."
+    },
+    {
+      "symbol": "\\eta",
+      "name": "scratch segment value",
+      "meaning": "The value of the corresponding segment of the scratch chunk during the eight updates.",
+      "relation": "direct",
+      "quote": "For a segment of $\\mathcal{W}$ with value $\\xi$ and the corresponding segment of $\\mathcal{T}$ with value $\\eta$, the construction uses eight controlled updates."
+    },
+    {
+      "symbol": "[P]",
+      "name": "Iverson bracket",
+      "meaning": "The indicator that equals 1 when the statement P holds and 0 otherwise.",
+      "relation": "direct",
+      "quote": "Here $[P]$ is $1$ when $P$ holds and $0$ otherwise, and the updates run in order (1) to (8):"
+    },
+    {
+      "symbol": "\\mathcal{B}",
+      "name": "exceptional addresses",
+      "meaning": "The set of addresses at which some guard used by the parallel stage lies outside its safe range.",
+      "relation": "direct",
+      "quote": "Let $\\mathcal{B}$ be the set of addresses at which some guard of the first $\\nu-1$ segments of $\\mathcal{W}$ or $\\mathcal{T}$ lies outside this range."
+    },
+    {
+      "symbol": "R",
+      "name": "record length",
+      "meaning": "The number of bits in each record, which the cost bounds divide by.",
+      "relation": "count",
+      "quote": "Here $R$ is the number of bits in each record, and $\\zeta=\\lceil\\log_2(2V)\\rceil$ counts the bits of a stream position."
+    },
+    {
+      "symbol": "\\zeta",
+      "name": "stream address length",
+      "meaning": "The number of bits needed to write a position in the stream, ceiling of log base 2 of 2V.",
+      "relation": "count",
+      "quote": "Here $R$ is the number of bits in each record, and $\\zeta=\\lceil\\log_2(2V)\\rceil$ counts the bits of a stream position."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "simultaneous-butterfly-layer",
+      "predicate": "supplies the binary basis changes of",
+      "quote": "Packed selected-bit addition supplies the binary basis changes of the [Simultaneous butterfly layer](simultaneous-butterfly-layer.md)."
+    },
+    {
+      "prerequisite": "cost-table",
+      "predicate": "contributes one term to",
+      "quote": "Packed selected-bit addition contributes one term to the [cost table](cost-table.md) of the theorem."
+    },
+    {
+      "prerequisite": "address-field",
+      "predicate": "acts on",
+      "quote": "Packed selected-bit addition acts on two disjoint [address fields](address-field.md) of equal width, the source $\\mathcal{X}$ and the target $\\mathcal{W}$."
+    },
+    {
+      "prerequisite": "scratch-storage",
+      "predicate": "uses its third chunk as",
+      "quote": "Packed selected-bit addition uses its third chunk as [scratch storage](scratch-storage.md), $\\mathcal{T}$, whose initial value is arbitrary and must be restored."
+    },
+    {
+      "prerequisite": "xor",
+      "predicate": "adds selected bits by",
+      "quote": "Packed selected-bit addition adds selected bits by [exclusive or](xor.md), so each selected bit of $\\mathcal{W}$ is XORed with the selected bit of $\\mathcal{X}$ in the same segment."
+    },
+    {
+      "prerequisite": "cyclic-shift",
+      "predicate": "updates its target chunk by controlled",
+      "quote": "Packed selected-bit addition updates its target chunk by controlled [cyclic shifts](cyclic-shift.md)."
+    },
+    {
+      "prerequisite": "address-shear",
+      "predicate": "uses updates like",
+      "quote": "Packed selected-bit addition uses updates like the [Address shear](address-shear.md)."
+    },
+    {
+      "prerequisite": "address-interchange",
+      "predicate": "exchanges its chunks by",
+      "quote": "Packed selected-bit addition exchanges its chunks by the [Address-field interchange](address-interchange.md) to bring a target chunk beside its controls."
+    },
+    {
+      "prerequisite": "union-bound",
+      "predicate": "bounds its exceptional set by a",
+      "quote": "Packed selected-bit addition bounds its exceptional set by a [union bound](union-bound.md) over the $2(\\nu-1)$ guards, so $\\mathcal{B}$ holds at most a fraction $80(\\nu-1)/2^{\\mu}$ of all addresses."
+    },
+    {
+      "prerequisite": "payload",
+      "predicate": "is correct for every",
+      "quote": "Packed selected-bit addition is correct for every [payload](payload.md) it carries."
+    },
+    {
+      "prerequisite": "destination-rank",
+      "predicate": "computes the",
+      "quote": "Packed selected-bit addition computes the [destination rank](destination-rank.md) of each extracted record, its position in the final order after the move."
+    },
+    {
+      "prerequisite": "stable-radix-sort",
+      "predicate": "sorts the extracted records by a",
+      "quote": "Packed selected-bit addition sorts the extracted records by a [stable radix sort](stable-radix-sort.md) on these ranks, and reinserts each at its rank."
+    },
+    {
+      "prerequisite": "transform-round",
+      "predicate": "performs its basis changes in",
+      "quote": "Packed selected-bit addition performs its basis changes in each [transform round](transform-round.md)."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+A line spanned by a vector is the set of all scalar multiples of one nonzero vector, a one-dimensional subspace. The construction attaches such lines as labels to the wires of the subset-intersection network, so this page supplies the object those labels are made of.
+
+Its definition is built from the vector spaces and scalar multiples of [Linear algebra basics](linear-algebra-basics.md).
+
+Let $K$ be the field of scalars and $E$ a vector space over $K$, and let $\lambda$ denote a scalar, an element of $K$. For a nonzero vector $v \in E$, the line spanned by $v$ is the set $\langle v\rangle = \{\lambda v : \lambda \in K\}$ of all scalar multiples of $v$, where $\lambda v$ is the vector obtained by scaling $v$ by $\lambda$.
+
+The set $\langle v\rangle$ is a subspace of $E$. It contains $0 = 0v$, and it is closed under addition and scalar multiplication, since $\lambda v + \mu v = (\lambda + \mu)v$ and $\mu(\lambda v) = (\mu\lambda)v$. Its dimension is one because $v$ is a basis of it: $v$ spans it by definition, and $v$ is linearly independent, since $\lambda v = 0$ with $\lambda \neq 0$ would give $v = \lambda^{-1}\cdot 0 = 0$, contrary to the assumption that $v$ is nonzero.
+
+Take $K = \mathbb{R}$, $E = \mathbb{R}^2$ and $v = (1,2)$. Then $\langle v\rangle = \{(\lambda, 2\lambda) : \lambda \in \mathbb{R}\}$ is the line through the origin with slope 2. The vector $(3,6) = 3v$ lies on it, but $(1,3)$ does not: matching its first coordinate forces $\lambda = 1$, and then the second coordinate would be $2$, not $3$. Over the binary field $\mathbb{F}_2$ the line is much smaller. For any nonzero $v$, $\langle v\rangle = \{0, v\}$, because the only scalars are $0$ and $1$.
+
+Suppose the space carries a bilinear form, and let the line be nondegenerate when no nonzero vector of the line is orthogonal to every vector of the line. For the line spanned by $v$, a multiple $\lambda v$ is orthogonal to every vector of the line exactly when $\lambda$ times the form of $v$ with itself is zero. So the line is nondegenerate exactly when the form of $v$ with itself is nonzero.
+
+A label is a subspace attached to a gate or terminal of the network, and it must be nondegenerate: <cite data-source="paper">A label is a nondegenerate subspace of a fixed bilinear</cite> space. In the subset-intersection network, the lines are spanned by tensor products of three indicator vectors of triples, one line for each choice of three triples. At the start of the network, the source role for such a line carries the line itself. <cite data-source="paper">At stage 1 they start at Ua on Xa and zero on Ya</cite>. At the end, the sink role carries the orthogonal complement of the line: <cite data-source="paper">F on Xa and Ua⊥ on Ya</cite>.

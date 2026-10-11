@@ -1,0 +1,11 @@
+A binary change of basis is an invertible linear change of coordinates on a block of [selected address bits](address-field.md), built over the [binary field](binary-field.md). It puts a residual basis of directions into coordinate positions for the [rank-saving recursion](rank-saving-recursion.md). <cite data-source="paper">The next step puts those directions into coordinate positions without performing a general transpose.</cite>
+
+Let $m$ be the number of selected bits the change acts on, and let $\nu=(\nu_1,\dots,\nu_m)$ be the column of their values, each $\nu_i\in\mathbb F_2$. A binary change of basis is specified by an invertible matrix in [Linear algebra basics](linear-algebra-basics.md): a matrix $M$ with an inverse $M^{-1}$ satisfying $M^{-1}M=I$. Write $\mathrm{GL}(m,\mathbb F_2)$ for the set of invertible $m\times m$ matrices over $\mathbb F_2$. The change acts on an [address field](address-field.md), sending the bits $\nu$ to $M\nu$.
+
+For $M\in\mathrm{GL}(m,\mathbb F_2)$, $P_M$ is the address permutation that moves each value at an address $\kappa\in\mathbb F_2^m$ to $M\kappa$, so $(P_M f)(\kappa)=f(M^{-1}\kappa)$. It is invertible because $\kappa\mapsto M\kappa$ is a bijection. <cite data-source="paper">The matrix M need not preserve the dot product: equation (15) only uses its invertibility.</cite>
+
+**Elementary row additions.** Adding one row of $M$ to another row is a row addition. Take $m=3$ and
+$$M=\begin{pmatrix}1&1&0\\0&1&0\\0&0&1\end{pmatrix}.$$
+This adds row 2 to row 1. For $\nu=(1,1,0)$, $M\nu=(1+1,\,1,\,0)=(0,1,0)$, where sums are taken mod 2. Multiplying $M$ by itself gives $1\cdot1+1\cdot1=0$ in row 1, column 2 and leaves every other entry as in $I$, so $M^2=I$ and $M^{-1}=M$.
+
+Every $M\in\mathrm{GL}(m,\mathbb F_2)$ is a product of row additions. Gaussian elimination (reducing a matrix to $I$ by row operations) over $\mathbb F_2$ needs only row additions and row swaps. A swap is three row additions: adding row $b$ to row $a$, then row $a$ to row $b$, then row $b$ to row $a$. <cite data-source="paper">Gaussian elimination expresses any M ∈ GL(m, F2 ) as a product of at most m(m − 1) + 3m elementary row additions</cite>, so for $m=3$ there are at most $15$. <cite data-source="paper">Reversing the elimination gives the required product since each row addition is an involution.</cite>

@@ -1,0 +1,13 @@
+Fixed-width digit blocks are the form in which the [radix-digit convolution](radix-digit-convolution.md) stores each coefficient: a value written as an exact, fixed number of digits in one base, padded on the left with zeros, so that every coefficient occupies the same number of places. The argument uses them to split each input into digits so that the product becomes a convolution of short integer coefficients, the first step toward the [main theorem](main-theorem.md).
+
+A block has two parameters. $B$ is the base, a fixed integer with $B \ge 2$; each digit lies between $0$ and $B-1$. $L$ is the number of digit places in each block, a count of the digits a block always holds, zeros included. Position $\ell$ runs from $0$ to $L-1$, with $\ell = 0$ the least significant place. $s_\ell$ is the digit at place $\ell$, an integer from $0$ to $B-1$ that multiplies $B^\ell$ in the sum. $v$ is the integer stored in the block, the value its digits spell out. A block with digits $s_0, \dots, s_{L-1}$ holds $v$ with
+
+$$v = \sum_{\ell=0}^{L-1} s_\ell \, B^\ell, \qquad 0 \le v < B^L.$$
+
+Take $B = 2$ and $L = 4$. The value $5$ is stored as the block $0101$: the digits are $s_3 = 0$, $s_2 = 1$, $s_1 = 0$, $s_0 = 1$, and $0 \cdot 2^3 + 1 \cdot 2^2 + 0 \cdot 2 + 1 = 5$. The value $2$ is stored as $0010$. Both blocks have four places, so the value $2$ carries two leading zeros. Because a block always has $L$ places, a short value is padded on its most significant end, not shortened.
+
+The padding is what the paper does with its last group of input bits. <cite data-source="paper">pad the final short group with leading zeroes</cite>. The paper's splitting step begins at the least significant end: <cite data-source="paper">Read each stored operand backward from its least significant end in groups of b bits.</cite> The paper calls the group length $b$; this page writes it $L$, because $b$ already names a logarithm base on earlier pages. A group of $L$ bits is a fixed-width block with $B = 2$ and block length $L$, and as a single digit it lies in the radix $2^L$.
+
+The paper does not say why every digit must have the same width. The reason for this page's method is as follows. When every coefficient occupies exactly $L$ places, coefficient number $m$ begins at the fixed offset $mL$ from the start of the record, so any coefficient can be located by counting places, and a short final group still occupies a full block. Fixed width is what lets the convolution treat the coefficients as the entries of an array of equal-length records.
+
+Each fixed-width digit block is a special case of [mixed-radix digits](mixed-radix-digits.md), in which every place has the same length $B$, so that the $L$ places together form the complete digit string.

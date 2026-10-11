@@ -1,0 +1,9 @@
+A prime number is defined as an [Integer](integer.md) greater than one whose only positive divisors are one and itself. The proof uses primes as axis lengths: the [prime source lengths](prime-source-lengths.md) that it builds on are distinct odd primes close to powers of two.
+
+Distinct primes are used as axis lengths by a [Chinese-remainder map](chinese-remainder-map.md), which needs its axis lengths pairwise coprime. Primes give axis lengths for the [radix-digit convolution](radix-digit-convolution.md). Each prime is the length of one [cyclic coordinate](cyclic-coordinate.md). The [radix-digit coefficients](radix-digit-convolution.md) are placed on distinct prime [cyclic axes](cyclic-coordinate.md) by a Chinese-remainder map <cite data-source="paper">prime cyclic axes by a Chinese-remainder map that preserves convolution</cite>.
+
+Write $\rho$ for a prime number. Then $\rho>1$, and the only positive integers that divide $\rho$ are $1$ and $\rho$. A positive integer $\xi$ is a divisor of an integer when that integer equals $\xi\eta$ for some integer $\eta$, the cofactor of $\xi$ in that integer.
+
+Examples: $2$, $3$, $5$, $7$ and $13$ are prime. The number $1$ is not prime, since it fails $\rho>1$. The number $12$ is not prime, since $12=2\cdot6$ and $2$ is a divisor other than $1$ and $12$. The number $91=7\cdot13$ is not prime.
+
+Let $\sigma$ be a prime distinct from $\rho$. Their only common positive divisor is $1$. A common divisor $\xi>1$ would divide $\rho$, so $\xi=\rho$, and would divide $\sigma$, so $\xi=\sigma$, which contradicts $\rho\neq\sigma$. Hence $\rho$ and $\sigma$ are [Coprime](coprime.md), and any collection of distinct primes is pairwise coprime. The Chinese remainder theorem needs pairwise coprime moduli, so distinct primes supply axis lengths that it can combine.

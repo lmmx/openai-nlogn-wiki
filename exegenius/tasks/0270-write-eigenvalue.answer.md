@@ -1,0 +1,9 @@
+An eigenvalue of a linear operator is a scalar for which the operator maps some nonzero vector to a multiple of that same vector. The sources use eigenvalues in one place, to check that a bilinear form is nondegenerate.
+
+Write $V$ for the vector space on which the operator $T$ acts. Write $\theta$ for the eigenvalue, a scalar in $F$. Write $e$ for an eigenvector, a nonzero vector of $V$. An eigenvalue is stated in the language of [Linear algebra basics](linear-algebra-basics.md): a linear operator $T$ on a vector space $V$ over $F$ has eigenvalue $\theta$ when $Te = \theta e$ for some nonzero $e$ in $V$.
+
+Take $h \ge 2$. Let $J$ be the $h\times h$ matrix with every entry equal to $1$, the all-one matrix. Let $\mathbf{1}$ be the vector in $\mathbb{Q}^h$ with every entry equal to $1$. Each entry of $J\mathbf{1}$ is a sum of $h$ ones, so $J\mathbf{1} = h\mathbf{1}$. Let $d$ be any vector in $\mathbb{Q}^h$ whose entries sum to zero. Each entry of $Jd$ is that sum, so $Jd = 0$.
+
+For the operator $T = I - J/9$ this gives $T\mathbf{1} = (1 - h/9)\mathbf{1}$ and $Td = d$. So $\mathbf{1}$ is an eigenvector with eigenvalue $1 - h/9$, and every nonzero $d$ with zero entry sum is an eigenvector with eigenvalue $1$. Taking $h = 100$ gives $1 - 100/9 = -91/9$. Both eigenvalues are nonzero.
+
+A bilinear form on $\mathbb{Q}^h$ is nondegenerate when no nonzero vector is orthogonal to every vector. For a symmetric matrix $A$ this happens exactly when $A$ is invertible. An $h\times h$ matrix is invertible exactly when $0$ is not an eigenvalue, because $0$ is an eigenvalue exactly when the matrix sends some nonzero vector to zero. <cite data-source="paper">For the bit network, let F = Qh with bilinear form</cite> $\langle x,y\rangle = x^{\mathsf T}(I - J/9)y$, so the matrix is $I - J/9$. The paper checks nondegeneracy from the eigenvalues: <cite data-source="paper">This form has eigenvalues 1 and 1−h/9 = −91/9, so it is nondegenerate.</cite>

@@ -1,0 +1,197 @@
+{
+  "overview": "The target result is a deterministic fixed-tape machine that multiplies two $n$-bit integers exactly in $O(n(\\lg n)^{1-\\kappa})$ time, where $\\kappa = 2^{-182}$. Since $(\\lg n)^{1-\\kappa}/\\lg n$ tends to zero, this is asymptotically faster than $n\\log n$, and so it disproves the [$n\\log n$ optimality conjecture](n-log-n-conjecture.md) within the [fixed-tape model](fixed-tape-model.md). The result matters because it shows that $n\\log n$ is not the optimal order of growth for multiplication in this model.\n\nThe route runs through eight parts. The first sets out [running-time cost](running-time-cost.md), [arrays](array.md) and [exact integer multiplication](exact-integer-multiplication.md), which reduces to [convolution](convolution.md). The second develops the [linear algebra](linear-algebra-basics.md) and the [discrete Fourier transform](discrete-fourier-transform.md) that turns convolution into a pointwise product. The third introduces [linear networks](linear-network-frames.md) and splits integers into [radix digits](radix-digit-convolution.md), so that multiplication becomes a convolution of short coefficients. The fourth adds [congruences](congruence-modulo.md), the [Chinese remainder theorem](chinese-remainder-theorem.md) and the [polynomial ring modulo $y^r+1$](polynomial-ring-mod-yr-plus-1.md), in which a wrap-around becomes a sign change. The fifth builds [subset-intersection networks](subset-intersection-network.md), which move values while restoring scratch storage. The sixth turns them into the [address interchange](address-interchange.md) and [simultaneous butterfly layers](simultaneous-butterfly-layer.md). The seventh gives the [rank-saving recursion](rank-saving-recursion.md) and the [transform layout](transform-layout.md), and collects the [cost table](cost-table.md). The eighth packs signed coefficients ([signed packing](signed-packing.md)), recovers them exactly ([exact coefficient recovery](recovery-and-error.md)), and combines the pieces in the [main theorem](main-theorem.md).",
+  "glossary": [
+    "iverson-bracket",
+    "ceiling-function",
+    "floor-function",
+    "directed-graph",
+    "extended-reals",
+    "complex-disk",
+    "dual-space",
+    "axis-line",
+    "standard-basis-vector",
+    "symmetric-matrix",
+    "payload",
+    "near-linear-time",
+    "base-two-logarithm",
+    "integer",
+    "logarithm"
+  ],
+  "parts": [
+    {
+      "title": "Background: numbers, arrays and cost",
+      "intro": "This part fixes the vocabulary of the argument: growth rates, the cost of a machine computation, and the arrays whose entries carry addresses. It also introduces exact integer multiplication and its reduction to [convolution](convolution.md). Every later part depends on these notions.",
+      "pages": [
+        "address",
+        "big-omega-notation",
+        "big-theta-notation",
+        "little-o-notation",
+        "mathematical-induction",
+        "probability",
+        "root-of-unity",
+        "running-time-cost",
+        "telescoping-identity",
+        "array",
+        "bit-reversed-order",
+        "exact-integer-multiplication",
+        "exceptional-set",
+        "independence",
+        "mixed-radix-digits",
+        "truncation",
+        "array-norm",
+        "bijection",
+        "convolution",
+        "fixed-width-digit-blocks"
+      ]
+    },
+    {
+      "title": "Linear algebra and the Fourier transform",
+      "intro": "The argument works with linear maps on arrays, so this part recalls [linear algebra basics](linear-algebra-basics.md) and the operators built from them, including projections, eigenvalues and contractions. The [discrete Fourier transform](discrete-fourier-transform.md) is then introduced as the map that turns convolution into a pointwise product. Both are needed for the linear networks and transforms that follow.",
+      "pages": [
+        "linear-algebra-basics",
+        "bilinear-map",
+        "diagonal-scaling",
+        "discrete-fourier-transform",
+        "linear-functional",
+        "neumann-series",
+        "permutation",
+        "projection-along-subspace",
+        "supremum",
+        "address-field",
+        "eigenvalue",
+        "forward-transform",
+        "frequency-domain",
+        "linear-contraction",
+        "synthetic-transforms",
+        "transform-axis"
+      ]
+    },
+    {
+      "title": "Linear networks and radix-digit convolution",
+      "intro": "This part introduces [cyclic shifts](cyclic-shift.md) and [butterflies](butterfly.md), the local steps of a Fourier-type transform, and the linear networks that realise them. It then splits each integer into [radix digits](radix-digit-convolution.md), so that multiplication becomes a convolution of short coefficients. [Carry propagation](carry-propagation.md) turns the recovered coefficients back into a binary string.",
+      "pages": [
+        "coprime",
+        "cyclic-shift",
+        "linear-network-frames",
+        "bezout-identity",
+        "butterfly",
+        "cyclic-group",
+        "ground-set",
+        "logical-array",
+        "matrix-rank",
+        "network-gate-terminal",
+        "incidence",
+        "order-of-element",
+        "radix-digit-convolution",
+        "radix-two-factorization",
+        "tensor-product",
+        "carry-propagation",
+        "multidimensional-transform"
+      ]
+    },
+    {
+      "title": "Rings, congruences and fast multiplication",
+      "intro": "Modular arithmetic and the [Chinese remainder theorem](chinese-remainder-theorem.md) let a transform length be chosen as a product of coprime moduli. [Rings](ring.md) and the [polynomial ring modulo $y^r+1$](polynomial-ring-mod-yr-plus-1.md) supply the algebra in which the synthetic transforms act. The [Schönhage–Strassen method](schonhage-strassen.md) and the [$n\\log n$ conjecture](n-log-n-conjecture.md) are introduced here, because the main result is stated against them.",
+      "pages": [
+        "gaussian-resampling",
+        "congruence-modulo",
+        "binary-field",
+        "chinese-remainder-theorem",
+        "modular-inverse",
+        "schonhage-strassen",
+        "binary-change-of-basis",
+        "cyclic-convolution",
+        "limit-inferior",
+        "ring",
+        "bit-network",
+        "n-log-n-conjecture",
+        "negacyclic-convolution",
+        "phase-factor",
+        "polynomial-ring",
+        "polynomial-ring-mod-yr-plus-1",
+        "ring-homomorphism"
+      ]
+    },
+    {
+      "title": "Subset-intersection networks",
+      "intro": "A [subset-intersection network](subset-intersection-network.md) is a linear network on three-element subsets that exchanges two banks of values while restoring its scratch wires. This part builds its [bilinear form](bilinear-form.md), its [subspace labels](subspace-labels.md) and the complex version with [Gaussian dyadic](gaussian-dyadics.md) scalars. These networks are the device that moves values inside an array.",
+      "pages": [
+        "bilinear-form",
+        "gaussian-integer",
+        "chinese-remainder-map",
+        "fixed-tape-model",
+        "gaussian-dyadics",
+        "pointwise-product",
+        "gram-matrix",
+        "grid-numerator",
+        "indicator-vector",
+        "opposite-transform",
+        "orthogonal-complement",
+        "two-point-kernel",
+        "line-spanned-by-vector",
+        "subspace-labels",
+        "subset-intersection-network",
+        "complex-phase-network",
+        "scratch-storage"
+      ]
+    },
+    {
+      "title": "Tape procedures and address interchange",
+      "intro": "A [tape procedure](tape-procedure.md) moves the contents of a machine's tapes in a bounded number of passes. This part turns the networks above into the [address interchange](address-interchange.md), the [simultaneous butterfly layer](simultaneous-butterfly-layer.md) and the [transform round](transform-round.md). It also covers [stable radix sorting](stable-radix-sort.md), which the record moves rely on.",
+      "pages": [
+        "address-interchange",
+        "simultaneous-butterfly-layer",
+        "xor",
+        "guard-width-bound",
+        "numerical-layer",
+        "transform-round",
+        "tape-procedure",
+        "union-bound",
+        "bit-procedure",
+        "schedule",
+        "stream",
+        "bit-construction",
+        "endpoint-operator",
+        "stable-radix-sort"
+      ]
+    },
+    {
+      "title": "Recursion and transform layout",
+      "intro": "The [rank-saving recursion](rank-saving-recursion.md) splits each call into smaller calls on streams whose volume shrinks, so that the cost falls by a strict factor per level. A [transform layout](transform-layout.md) places the selected bits of all axes in consecutive chunks, and [Bluestein's identity](bluestein-chirp-identity.md) rewrites the middle transform as a cyclic convolution. This part also assembles the [cost table](cost-table.md) whose terms are bounded later.",
+      "pages": [
+        "address-shear",
+        "family-parameter",
+        "complex-construction",
+        "destination-rank",
+        "transform-identity",
+        "normalized-cyclic-convolution",
+        "padded-transform-box",
+        "rank-saving-recursion",
+        "transform-layout",
+        "bluestein-chirp-identity",
+        "cyclic-coordinate",
+        "logical-bit-volume",
+        "normalization-scales",
+        "cost-table",
+        "middle-transform",
+        "prime-number",
+        "schoolbook-multiplication"
+      ]
+    },
+    {
+      "title": "Packing, recovery and the bound",
+      "intro": "Coefficients are packed as [signed blocks](signed-packing.md) in one integer, multiplied with the [established multiplier](established-multiplier.md), and recovered by rounding. The error analysis in [exact coefficient recovery](recovery-and-error.md) shows that each computed coefficient lies within one half of its true integer value. The final part combines these pieces in the [main theorem](main-theorem.md).",
+      "pages": [
+        "established-multiplier",
+        "packed-bit-addition",
+        "phase-twist",
+        "prime-source-lengths",
+        "signed-packing",
+        "centered-residue",
+        "polynomial-ring-convolution",
+        "recovery-and-error",
+        "main-theorem"
+      ]
+    }
+  ]
+}

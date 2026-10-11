@@ -1,0 +1,235 @@
+{
+  "symbols": [
+    {
+      "symbol": "\\mathcal{X}",
+      "name": "source field",
+      "meaning": "The field whose selected bits are XORed into the target field.",
+      "relation": "direct",
+      "quote": "It acts on two disjoint blocks, each an [Address field](address-field.md) of $L=fK$ address bits, a source $\\mathcal{X}$ and a target $\\mathcal{W}$, and it XORs one selected bit of each segment of $\\mathcal{X}$ into the same bit of $\\mathcal{W}$ at every address."
+    },
+    {
+      "symbol": "\\mathcal{W}",
+      "name": "target field",
+      "meaning": "The field that receives the XOR of the selected bits of the source.",
+      "relation": "direct",
+      "quote": "It acts on two disjoint blocks, each an [Address field](address-field.md) of $L=fK$ address bits, a source $\\mathcal{X}$ and a target $\\mathcal{W}$, and it XORs one selected bit of each segment of $\\mathcal{X}$ into the same bit of $\\mathcal{W}$ at every address."
+    },
+    {
+      "symbol": "\\mathcal{Z}",
+      "name": "scratch field",
+      "meaning": "The third field, used as temporary storage and restored at the end.",
+      "relation": "direct",
+      "quote": "Packed selected-bit addition uses its third field as [Scratch storage](scratch-storage.md), $\\mathcal{Z}$, whose initial value is arbitrary and must be restored."
+    },
+    {
+      "symbol": "L",
+      "name": "field width",
+      "meaning": "The number of address bits in each field, $fK$.",
+      "relation": "count",
+      "quote": "It acts on two disjoint blocks, each an [Address field](address-field.md) of $L=fK$ address bits, a source $\\mathcal{X}$ and a target $\\mathcal{W}$, and it XORs one selected bit of each segment of $\\mathcal{X}$ into the same bit of $\\mathcal{W}$ at every address."
+    },
+    {
+      "symbol": "\\rho",
+      "name": "first selected position",
+      "meaning": "The position of the first selected bit, counted from the least significant end.",
+      "relation": "count",
+      "quote": "Let $\\rho$ be the position of the first selected bit, counted from $0$ at the least significant end, with $0\\le\\rho<K$; here $\\rho$ is a position, not the role permutation."
+    },
+    {
+      "symbol": "i",
+      "name": "segment index",
+      "meaning": "The number of a segment, running from $0$ to $f-2$.",
+      "relation": "direct",
+      "quote": "For $0\\le i<f-1$, segment $i$ is the $K$ bits from position $\\rho+iK$ upward; here $i$ numbers segments, not the imaginary unit."
+    },
+    {
+      "symbol": "a",
+      "name": "selected bit",
+      "meaning": "The lowest bit of a segment, which is 0 or 1.",
+      "relation": "direct",
+      "quote": "The lowest bit of a segment is its selected bit $a\\in\\{0,1\\}$, and the other $K-1$ bits form its guard $\\gamma$, with $0\\le\\gamma\\le 2^{K-1}-1$."
+    },
+    {
+      "symbol": "\\gamma",
+      "name": "guard value",
+      "meaning": "The integer formed by the other $K-1$ bits of a segment.",
+      "relation": "direct",
+      "quote": "The lowest bit of a segment is its selected bit $a\\in\\{0,1\\}$, and the other $K-1$ bits form its guard $\\gamma$, with $0\\le\\gamma\\le 2^{K-1}-1$."
+    },
+    {
+      "symbol": "\\xi",
+      "name": "target segment value",
+      "meaning": "The integer value of a segment of the target field.",
+      "relation": "direct",
+      "quote": "Write $\\xi$ for the value of a segment of $\\mathcal{W}$ and $\\eta$ for the value of the matching segment of $\\mathcal{Z}$."
+    },
+    {
+      "symbol": "\\eta",
+      "name": "scratch segment value",
+      "meaning": "The integer value of the matching segment of the scratch field.",
+      "relation": "direct",
+      "quote": "Write $\\xi$ for the value of a segment of $\\mathcal{W}$ and $\\eta$ for the value of the matching segment of $\\mathcal{Z}$."
+    },
+    {
+      "symbol": "\\beta",
+      "name": "control bit",
+      "meaning": "The selected bit of the source in a segment, which controls its updates.",
+      "relation": "direct",
+      "quote": "For a segment whose control bit $\\beta$ is the selected bit of $\\mathcal{X}$, they run in order:"
+    },
+    {
+      "symbol": "[P]",
+      "name": "Iverson bracket",
+      "meaning": "One when the statement $P$ holds, zero otherwise.",
+      "relation": "direct",
+      "quote": "Here $[P]$ is $1$ when $P$ holds and $0$ otherwise, and $u\\equiv v \\pmod 2$ means that $2$ divides $u-v$"
+    },
+    {
+      "symbol": "\\equiv",
+      "name": "congruence modulo 2",
+      "meaning": "The relation $u\\equiv v \\pmod 2$ holds when $2$ divides $u-v$",
+      "relation": "direct",
+      "quote": "Here $[P]$ is $1$ when $P$ holds and $0$ otherwise, and $u\\equiv v \\pmod 2$ means that $2$ divides $u-v$"
+    },
+    {
+      "symbol": "\\mathcal{E}",
+      "name": "exceptional set",
+      "meaning": "The set of addresses at which some guard lies outside the safe range.",
+      "relation": "direct",
+      "quote": "Let $\\mathcal{E}$ be the set of addresses at which some guard of a segment of $\\mathcal{W}$ or $\\mathcal{Z}$ lies outside $[10,\\,2^{K-1}-11]$."
+    },
+    {
+      "symbol": "\\delta",
+      "name": "bad fraction bound",
+      "meaning": "The bound on the fraction of exceptional addresses, capped at one.",
+      "relation": "direct",
+      "quote": "Packed selected-bit addition bounds its exceptional set by a [Union bound](union-bound.md) over the $2(f-1)$ guards: $|\\mathcal{E}|\\le\\delta M$, where $M$ is the number of records and $\\delta=\\min\\{1,\\,80(f-1)2^{-K}\\}$."
+    },
+    {
+      "symbol": "\\mathcal{R}",
+      "name": "rotation stage",
+      "meaning": "The map that applies the eight lines to all segments.",
+      "relation": "direct",
+      "quote": "Let $\\mathcal{R}$ be the composition of the eight lines over all segments, and let $\\mathcal{Q}$ be the ideal map that XORs each selected bit of $\\mathcal{X}$ into $\\mathcal{W}$ and fixes everything else."
+    },
+    {
+      "symbol": "\\mathcal{Q}",
+      "name": "ideal XOR map",
+      "meaning": "The map that performs the required XORs and fixes all other bits.",
+      "relation": "direct",
+      "quote": "Let $\\mathcal{R}$ be the composition of the eight lines over all segments, and let $\\mathcal{Q}$ be the ideal map that XORs each selected bit of $\\mathcal{X}$ into $\\mathcal{W}$ and fixes everything else."
+    },
+    {
+      "symbol": "\\pi",
+      "name": "address permutation",
+      "meaning": "The permutation of addresses that the correction must realize.",
+      "relation": "direct",
+      "quote": "So $\\pi=\\mathcal{Q}\\mathcal{R}^{-1}$ fixes every address off $\\mathcal{E}$ and permutes $\\mathcal{E}$."
+    },
+    {
+      "symbol": "\\operatorname{rank}",
+      "name": "stream rank",
+      "meaning": "The number of addresses that come before a given address in stream order.",
+      "relation": "count",
+      "quote": "Here $\\operatorname{rank}(q)$ is the number of addresses before $q$ in stream order, counted from $0$."
+    },
+    {
+      "symbol": "p",
+      "name": "family index",
+      "meaning": "The index of the family of parameters, which tends to infinity.",
+      "relation": "direct",
+      "quote": "Packed selected-bit addition has its bound stated along a [Family parameter](family-parameter.md) $p\\to\\infty$, the index of that family."
+    },
+    {
+      "symbol": "e_1",
+      "name": "source selected bit",
+      "meaning": "The bit of the source field in the two-bit step.",
+      "relation": "direct",
+      "quote": "On two bits $e_1$ of $\\mathcal{X}$ and $e_2$ of $\\mathcal{W}$, the map $(e_1,e_2)\\mapsto(e_1,\\,e_1\\oplus e_2)$ fixes $00$ and $01$ and swaps $10$ and $11$, so it XORs $e_1$ into $e_2$."
+    },
+    {
+      "symbol": "e_2",
+      "name": "target selected bit",
+      "meaning": "The bit of the target field in the two-bit step.",
+      "relation": "direct",
+      "quote": "On two bits $e_1$ of $\\mathcal{X}$ and $e_2$ of $\\mathcal{W}$, the map $(e_1,e_2)\\mapsto(e_1,\\,e_1\\oplus e_2)$ fixes $00$ and $01$ and swaps $10$ and $11$, so it XORs $e_1$ into $e_2$."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "simultaneous-butterfly-layer",
+      "predicate": "supplies the binary basis changes of",
+      "quote": "Packed selected-bit addition supplies the binary basis changes of the [Simultaneous butterfly layer](simultaneous-butterfly-layer.md)."
+    },
+    {
+      "prerequisite": "transform-round",
+      "predicate": "performs its basis changes in each",
+      "quote": "Packed selected-bit addition performs its basis changes in each [Transform round](transform-round.md)."
+    },
+    {
+      "prerequisite": "xor",
+      "predicate": "adds selected bits by",
+      "quote": "Packed selected-bit addition adds selected bits by [Exclusive or](xor.md)."
+    },
+    {
+      "prerequisite": "cost-table",
+      "predicate": "contributes one term to",
+      "quote": "Packed selected-bit addition contributes one term to the [Cost table](cost-table.md) of the main theorem, which bounds exact multiplication of $n$-bit integers by $O(n(\\lg n)^{1-\\kappa})$."
+    },
+    {
+      "prerequisite": "address-field",
+      "predicate": "acts on",
+      "quote": "It acts on two disjoint blocks, each an [Address field](address-field.md) of $L=fK$ address bits, a source $\\mathcal{X}$ and a target $\\mathcal{W}$, and it XORs one selected bit of each segment of $\\mathcal{X}$ into the same bit of $\\mathcal{W}$ at every address."
+    },
+    {
+      "prerequisite": "scratch-storage",
+      "predicate": "uses its third field as",
+      "quote": "Packed selected-bit addition uses its third field as [Scratch storage](scratch-storage.md), $\\mathcal{Z}$, whose initial value is arbitrary and must be restored."
+    },
+    {
+      "prerequisite": "address-interchange",
+      "predicate": "exchanges its fields by",
+      "quote": "Packed selected-bit addition exchanges its fields by the [Address-field interchange](address-interchange.md)."
+    },
+    {
+      "prerequisite": "address-shear",
+      "predicate": "has the form of an",
+      "quote": "Packed selected-bit addition has the form of an [Address shear](address-shear.md): each line adds a controlled $\\pm1$ to one field according to a parity test on the other."
+    },
+    {
+      "prerequisite": "cyclic-shift",
+      "predicate": "updates its target field by a",
+      "quote": "Packed selected-bit addition updates its target field by a [Cyclic shift](cyclic-shift.md) controlled by the bits of the segments."
+    },
+    {
+      "prerequisite": "union-bound",
+      "predicate": "bounds its exceptional set by a",
+      "quote": "Packed selected-bit addition bounds its exceptional set by a [Union bound](union-bound.md) over the $2(f-1)$ guards"
+    },
+    {
+      "prerequisite": "stable-radix-sort",
+      "predicate": "sorts the extracted records by a",
+      "quote": "The procedure sorts the extracted records by a [Stable radix sort](stable-radix-sort.md) on these ranks."
+    },
+    {
+      "prerequisite": "destination-rank",
+      "predicate": "computes the",
+      "quote": "Packed selected-bit addition computes the [Destination rank](destination-rank.md) of each extracted record"
+    },
+    {
+      "prerequisite": "payload",
+      "predicate": "is correct for every",
+      "quote": "Packed selected-bit addition is correct for every [Payload](payload.md) it carries"
+    },
+    {
+      "prerequisite": "stream",
+      "predicate": "scans the",
+      "quote": "The procedure scans the [Stream](stream.md) of all $M$ records with a rank counter."
+    },
+    {
+      "prerequisite": "family-parameter",
+      "predicate": "has its bound stated along a",
+      "quote": "Packed selected-bit addition has its bound stated along a [Family parameter](family-parameter.md) $p\\to\\infty$"
+    }
+  ]
+}

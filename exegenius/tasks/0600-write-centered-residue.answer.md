@@ -1,0 +1,9 @@
+The centered residue of an integer $\nu$ modulo $B$ is the representative of a residue class of [Congruence](congruence-modulo.md) modulo $B$ that lies in $[-B/2, B/2)$, so a small negative integer keeps its sign. It is the step that makes [Exact coefficient recovery](recovery-and-error.md) return exact signed integers.
+
+Let $B$ be a positive integer, the modulus, and let $\nu$ be an integer. Its centered residue $c$ is the unique integer in $[-B/2, B/2)$ with $\nu \equiv c \pmod B$, so $\nu - c$ is a multiple of $B$.
+
+This is well defined. The interval $[-B/2, B/2)$ contains exactly $B$ integers, and any two differ by less than $B$, so no two are congruent. They therefore fill all $B$ residue classes, one each. For example, take $B = 10$. The interval $[-5, 5)$ contains $-5, \dots, 4$, so $7 \equiv -3$ gives $c = -3$, $12 \equiv 2$ gives $c = 2$, and $-6 \equiv 4$ gives $c = 4$.
+
+The centered residue reads each coefficient back out of a [Signed coefficient packing](signed-packing.md) one step at a time. Let $\sum_j h_j B^j$ have integer coefficients $h_j$ with $|h_j| < B/2$. Since $\sum_j h_j B^j \equiv h_0 \pmod B$ and $h_0$ lies in $[-B/2, B/2)$, the centered residue is $h_0$. Subtracting $h_0$ and dividing by $B$ leaves $\sum_{j \ge 1} h_j B^{j-1}$, which satisfies the same bound, so repeating the step returns $h_1$, $h_2$, and so on. For example, with $B = 10$, the integer $-3 + 4 \cdot 10 = 37$ has centered residue $-3$, and $(37 + 3)/10 = 4$ has centered residue $4$.
+
+The paper writes this modulus as $B_0$ and, for each polynomial, <cite data-source="paper">define the signed evaluation integer</cite>. Its product coefficients satisfy <cite data-source="paper">|hj | ≤ r22p < 23p < B0 /2</cite>, so each lies strictly within half the modulus, which is why <cite data-source="paper">next coefficient by its centered residue modulo B0</cite>.

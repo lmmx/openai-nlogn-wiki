@@ -1,0 +1,103 @@
+{
+  "symbols": [
+    {
+      "symbol": "\\varpi",
+      "name": "digit width",
+      "meaning": "The number of bits in each digit of an input; the radix is $2^\\varpi$.",
+      "relation": "count",
+      "quote": "Let $\\varpi$ be the digit width, the number of bits in each digit, and let $2^\\varpi$ be the radix, the base of the digits."
+    },
+    {
+      "symbol": "\\Upsilon",
+      "name": "digit count",
+      "meaning": "The number of digits in each input, which is $\\lceil n/\\varpi\\rceil$.",
+      "relation": "count",
+      "quote": "Let $\\Upsilon = \\lceil n/\\varpi\\rceil$ be the digit count, the number of digits in each input."
+    },
+    {
+      "symbol": "\\mathrm{dig}",
+      "name": "digit of an input",
+      "meaning": "The digit of $x$ (or $y$) at a position, a value from $0$ to $2^\\varpi-1$.",
+      "relation": "direct",
+      "quote": "Let $\\mathrm{dig}_i(x)$ be the digit of $x$ at position $i$, for $0 \\le i \\le \\Upsilon-1$, where positions are counted from 0 at the least significant end, so that $x = \\sum_{i=0}^{\\Upsilon-1} \\mathrm{dig}_i(x)\\,(2^\\varpi)^i$."
+    },
+    {
+      "symbol": "\\vartheta",
+      "name": "formal variable",
+      "meaning": "A symbol that is not a number, in which the digit polynomials are written.",
+      "relation": "direct",
+      "quote": "Let $\\vartheta$ be a formal variable, a symbol that is not a number."
+    },
+    {
+      "symbol": "\\hat{x}",
+      "name": "digit polynomial of x",
+      "meaning": "The polynomial in $\\vartheta$ whose coefficients are the digits of $x$.",
+      "relation": "direct",
+      "quote": "Let $\\hat{x}(\\vartheta) = \\sum_{i=0}^{\\Upsilon-1} \\mathrm{dig}_i(x)\\,\\vartheta^i$ and $\\hat{y}(\\vartheta) = \\sum_{j=0}^{\\Upsilon-1} \\mathrm{dig}_j(y)\\,\\vartheta^j$."
+    },
+    {
+      "symbol": "\\hat{y}",
+      "name": "digit polynomial of y",
+      "meaning": "The polynomial in $\\vartheta$ whose coefficients are the digits of $y$.",
+      "relation": "direct",
+      "quote": "Let $\\hat{x}(\\vartheta) = \\sum_{i=0}^{\\Upsilon-1} \\mathrm{dig}_i(x)\\,\\vartheta^i$ and $\\hat{y}(\\vartheta) = \\sum_{j=0}^{\\Upsilon-1} \\mathrm{dig}_j(y)\\,\\vartheta^j$."
+    },
+    {
+      "symbol": "i",
+      "name": "digit position in x",
+      "meaning": "A position of a digit of $x$, counted from 0 at the least significant end, from 0 to $\\Upsilon-1$.",
+      "relation": "direct",
+      "quote": "Let $\\mathrm{dig}_i(x)$ be the digit of $x$ at position $i$, for $0 \\le i \\le \\Upsilon-1$, where positions are counted from 0 at the least significant end, so that $x = \\sum_{i=0}^{\\Upsilon-1} \\mathrm{dig}_i(x)\\,(2^\\varpi)^i$."
+    },
+    {
+      "symbol": "j",
+      "name": "digit position in y",
+      "meaning": "A position of a digit of $y$, counted from 0 at the least significant end, from 0 to $\\Upsilon-1$.",
+      "relation": "direct",
+      "quote": "The digits $\\mathrm{dig}_j(y)$ of $y$ are defined the same way, with $j$ the position of a digit counted from 0; this changes $j$ from its meaning on [Integer](integer.md)."
+    },
+    {
+      "symbol": "\\varsigma",
+      "name": "coefficient index",
+      "meaning": "The index of a coefficient of the product of the digit polynomials, running from $0$ to $2\\Upsilon-2$.",
+      "relation": "direct",
+      "quote": "Let $\\mathrm{cv}_\\varsigma$ be the coefficient of $\\vartheta^\\varsigma$ in the product $\\hat{x}(\\vartheta)\\hat{y}(\\vartheta)$, where the coefficient index $\\varsigma$ runs over $0 \\le \\varsigma \\le 2\\Upsilon-2$."
+    },
+    {
+      "symbol": "\\mathrm{cv}",
+      "name": "convolution coefficient",
+      "meaning": "The coefficient of $\\vartheta^\\varsigma$ in the product of the digit polynomials, an entry of the convolution of the digit sequences.",
+      "relation": "direct",
+      "quote": "Let $\\mathrm{cv}_\\varsigma$ be the coefficient of $\\vartheta^\\varsigma$ in the product $\\hat{x}(\\vartheta)\\hat{y}(\\vartheta)$, where the coefficient index $\\varsigma$ runs over $0 \\le \\varsigma \\le 2\\Upsilon-2$."
+    },
+    {
+      "symbol": "\\mathcal{T}",
+      "name": "transform length",
+      "meaning": "The power-of-two length of the transform, at least $2\\Upsilon-1$ and below $4\\Upsilon$.",
+      "relation": "direct",
+      "quote": "The convolution is computed with the [Discrete Fourier transform](discrete-fourier-transform.md) at a power-of-two length $\\mathcal{T}$ of at least $2\\Upsilon-1$."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "exact-integer-multiplication",
+      "predicate": "is a reduction of",
+      "quote": "Radix-digit convolution is a reduction of [Exact integer multiplication](exact-integer-multiplication.md) to a convolution of short integer coefficients, obtained by writing each input as a polynomial in a power of two whose coefficients are its digits."
+    },
+    {
+      "prerequisite": "discrete-fourier-transform",
+      "predicate": "is computed with",
+      "quote": "The convolution is computed with the [Discrete Fourier transform](discrete-fourier-transform.md) at a power-of-two length $\\mathcal{T}$ of at least $2\\Upsilon-1$."
+    },
+    {
+      "prerequisite": "butterfly",
+      "predicate": "computes its transforms from",
+      "quote": "Radix-digit convolution computes its transforms from [Butterfly](butterfly.md) operations: each level applies a butterfly to each pair of positions whose indices differ in one bit, so a transform of length $\\mathcal{T}$ has $\\log_2 \\mathcal{T}$ levels."
+    },
+    {
+      "prerequisite": "big-theta-notation",
+      "predicate": "states its bounds in",
+      "quote": "Radix-digit convolution states its bounds in [Big-Theta notation](big-theta-notation.md), so the costs below are $\\Theta$ bounds."
+    }
+  ]
+}

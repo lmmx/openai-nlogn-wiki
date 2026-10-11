@@ -1,0 +1,11 @@
+The pointwise product of two sequences multiplies them entry by entry, so the entry at each index is the product of the two entries at that index. On the way to fast integer multiplication, the pointwise product is applied to the outputs of two [Synthetic polynomial transforms](synthetic-transforms.md), and its result feeds the [Opposite transform](opposite-transform.md).
+
+The reason for multiplying transforms is the convolution theorem: the transform of a convolution is the pointwise product of the transforms of its inputs. So a convolution can be computed by transforming both inputs, multiplying entry by entry, and transforming back.
+
+Let $m$ be the number of entries in each sequence. Let $u=(u_0,\dots,u_{m-1})$ and $v=(v_0,\dots,v_{m-1})$ be two input sequences of length $m$. Let $j$ be an index with $0 \le j < m$, naming one position in each sequence. The pointwise product of $u$ and $v$ is the sequence $w=(w_0,\dots,w_{m-1})$ with $w_j = u_j v_j$ for every such $j$. For example, with $m=3$, $u=(2,\,1+i,\,-i)$ and $v=(1,\,3,\,2i)$, the pointwise product is $w=(2,\,3+3i,\,2)$, since $(1+i)\cdot 3=3+3i$ and $(-i)(2i)=2$.
+
+In the synthetic transforms the entries are polynomials rather than numbers. Here $r$ is a power of two, and each entry is a polynomial of degree less than $r$, so $r$ is the number of complex coefficients in an entry. Here $y$ is the indeterminate of the quotient ring $\mathbb{C}[y]/(y^r+1)$ in which the entries lie.
+
+Write $P(u_j,v_j)=u_j v_j/r$ for the normalized pointwise product of two entries, the product in the ring divided by $r$. The paper uses this normalized product as well: <cite data-source="paper">Let P (u, v) denote the exact pointwise product uv/r</cite>. For $r=2$ the ring is $\mathbb{C}[y]/(y^2+1)$, where $y^2=-1$. Take $u_j=1+y$ and $v_j=1-y$. Then $u_j v_j=1-y^2=2$, so $P(u_j,v_j)=2/2=1$.
+
+The two forward transforms are multiplied without reordering their entries: <cite data-source="paper">We may therefore multiply the forward outputs in their retained order</cite>. The [Opposite transform](opposite-transform.md) inverts the forward transform up to a normalizing factor, and it reads the product in that same order: the opposite transform <cite data-source="paper">consumes that same order after a pointwise product.</cite>

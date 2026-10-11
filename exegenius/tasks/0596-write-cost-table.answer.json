@@ -1,0 +1,118 @@
+{
+  "symbols": [
+    {
+      "symbol": "b",
+      "name": "bit length",
+      "meaning": "The rounded-up base-2 logarithm of $n$, which counts the bits of $n$.",
+      "quote": "Write $b = \\lceil \\log_2 n \\rceil$ for the rounded-up base-2 logarithm of $n$, the number of bits of $n$ (the letter $b$ changes meaning here).",
+      "relation": "count"
+    },
+    {
+      "symbol": "T",
+      "name": "padded cell count",
+      "meaning": "The number of cells of the padded box, a power of two in $[4n/b, 8n/b)$.",
+      "quote": "Write $T$ for the number of cells of the padded box (the letter $T$ changes meaning here).",
+      "relation": "count"
+    },
+    {
+      "symbol": "d",
+      "name": "axis count",
+      "meaning": "The number of axes of the padded box.",
+      "quote": "Write $d = \\lfloor b^{\\epsilon} \\rfloor = \\Theta(p^{\\epsilon})$ for the number of axes of the box (the letter $d$ changes meaning here), and $K = \\lfloor d^{c} \\rfloor = \\Theta(p^{\\epsilon c})$ for the number of bits in each address chunk, a run of consecutive address bits (the letter $K$ changes meaning here).",
+      "relation": "count"
+    },
+    {
+      "symbol": "K",
+      "name": "chunk width",
+      "meaning": "The number of bits in each address chunk.",
+      "quote": "Write $d = \\lfloor b^{\\epsilon} \\rfloor = \\Theta(p^{\\epsilon})$ for the number of axes of the box (the letter $d$ changes meaning here), and $K = \\lfloor d^{c} \\rfloor = \\Theta(p^{\\epsilon c})$ for the number of bits in each address chunk, a run of consecutive address bits (the letter $K$ changes meaning here).",
+      "relation": "count"
+    },
+    {
+      "symbol": "\\ell",
+      "name": "axis exponent",
+      "meaning": "The exponent with $r = 2^{\\ell}$, which counts the factors of two in $r$.",
+      "quote": "Write $\\ell = \\lceil \\log_2 T/d \\rceil$ for the exponent with $r = 2^{\\ell}$ (the letter $\\ell$ changes meaning here).",
+      "relation": "count"
+    },
+    {
+      "symbol": "\\epsilon",
+      "name": "dimension exponent",
+      "meaning": "A fixed positive exponent, equal to $2^{-75}$.",
+      "quote": "The fixed exponents $\\epsilon = 2^{-75}$, $c = 2^{-56}$, $\\tau = 1-2^{-50}$, $\\lambda' = 1-2^{-54}$ and $\\delta = 1/16$ are constants of the construction (the letters $c$, $\\tau$ and $\\delta$ change meaning here), and $\\epsilon$ is not the tolerance $\\varepsilon$ of limit arguments.",
+      "relation": "direct"
+    },
+    {
+      "symbol": "c",
+      "name": "chunk exponent",
+      "meaning": "A fixed positive exponent, equal to $2^{-56}$.",
+      "quote": "The fixed exponents $\\epsilon = 2^{-75}$, $c = 2^{-56}$, $\\tau = 1-2^{-50}$, $\\lambda' = 1-2^{-54}$ and $\\delta = 1/16$ are constants of the construction (the letters $c$, $\\tau$ and $\\delta$ change meaning here), and $\\epsilon$ is not the tolerance $\\varepsilon$ of limit arguments.",
+      "relation": "direct"
+    },
+    {
+      "symbol": "\\tau",
+      "name": "exchange exponent",
+      "meaning": "The exponent $1-2^{-50}$ in the cost of a chunk exchange.",
+      "quote": "The fixed exponents $\\epsilon = 2^{-75}$, $c = 2^{-56}$, $\\tau = 1-2^{-50}$, $\\lambda' = 1-2^{-54}$ and $\\delta = 1/16$ are constants of the construction (the letters $c$, $\\tau$ and $\\delta$ change meaning here), and $\\epsilon$ is not the tolerance $\\varepsilon$ of limit arguments.",
+      "relation": "direct"
+    },
+    {
+      "symbol": "\\lambda'",
+      "name": "round exponent",
+      "meaning": "The exponent $1-2^{-54}$ in the cost of a simultaneous round.",
+      "quote": "The fixed exponents $\\epsilon = 2^{-75}$, $c = 2^{-56}$, $\\tau = 1-2^{-50}$, $\\lambda' = 1-2^{-54}$ and $\\delta = 1/16$ are constants of the construction (the letters $c$, $\\tau$ and $\\delta$ change meaning here), and $\\epsilon$ is not the tolerance $\\varepsilon$ of limit arguments.",
+      "relation": "direct"
+    },
+    {
+      "symbol": "\\delta",
+      "name": "small exponent",
+      "meaning": "A fixed small exponent, equal to $1/16$.",
+      "quote": "The fixed exponents $\\epsilon = 2^{-75}$, $c = 2^{-56}$, $\\tau = 1-2^{-50}$, $\\lambda' = 1-2^{-54}$ and $\\delta = 1/16$ are constants of the construction (the letters $c$, $\\tau$ and $\\delta$ change meaning here), and $\\epsilon$ is not the tolerance $\\varepsilon$ of limit arguments.",
+      "relation": "direct"
+    },
+    {
+      "symbol": "\\alpha",
+      "name": "line-map factor",
+      "meaning": "The factor that scales the cost of the line maps.",
+      "quote": "The factor $\\alpha$ scales the cost of the line maps, a line being a slice of the box along one axis (the letter $\\alpha$ changes meaning here).",
+      "relation": "direct"
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "running-time-cost",
+      "predicate": "splits",
+      "quote": "The cost table splits the [running time cost](running-time-cost.md) of the algorithm into separate terms, one per kind of work."
+    },
+    {
+      "prerequisite": "transform-layout",
+      "predicate": "bounds the cost of",
+      "quote": "The second row bounds the cost of the chunk exchanges that produce the [transform layout](transform-layout.md)."
+    },
+    {
+      "prerequisite": "destination-rank",
+      "predicate": "prices moves to",
+      "quote": "The first row prices moves to their [destination rank](destination-rank.md), which use $O(dK)$ linear scans."
+    },
+    {
+      "prerequisite": "transform-round",
+      "predicate": "prices each simultaneous",
+      "quote": "The third row prices each simultaneous [butterfly round](transform-round.md), which acts on all axes at once."
+    },
+    {
+      "prerequisite": "chinese-remainder-theorem",
+      "predicate": "bounds the cost of",
+      "quote": "The fourth row bounds the cost of the axis exposure and restoration around the [Chinese remainder theorem](chinese-remainder-theorem.md) step: $O(d^2)$ axis moves of cost $O(\\Upsilon(1+\\ell^{\\tau}))$ each."
+    },
+    {
+      "prerequisite": "gaussian-resampling",
+      "predicate": "bounds the cost of",
+      "quote": "The fifth row bounds the cost of the line maps of [Gaussian resampling](gaussian-resampling.md)."
+    },
+    {
+      "prerequisite": "logical-bit-volume",
+      "predicate": "divides every term by",
+      "quote": "It divides every term by the [logical bit volume](logical-bit-volume.md) $\\Upsilon$ of the box, so each term becomes a power of $p$ once $d$, $K$ and $\\ell$ are substituted."
+    }
+  ]
+}

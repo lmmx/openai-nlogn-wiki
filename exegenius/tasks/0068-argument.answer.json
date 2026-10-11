@@ -1,0 +1,643 @@
+{
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "Exact multiplication of two $n$-bit integers runs in $O(n(\\lg n)^{1-\\kappa})$ time on one deterministic fixed-tape machine, with $\\kappa = 2^{-182}$.",
+    "from": [
+      "n-log-n-conjecture",
+      "exact-integer-multiplication",
+      "fixed-tape-model",
+      "running-time-cost",
+      "limit-inferior",
+      "little-o-notation",
+      "big-o-notation"
+    ],
+    "method": "reduce exact multiplication to radix-digit convolution, compute that convolution with fast tape transforms, and check that the output is exact",
+    "motivation": {
+      "text": "The fixed-tape bound needs cheap address rearrangements and transform layers, so the argument replaces the costly steps by linear combinations of intermediate data.",
+      "source": "explicit",
+      "quote": {
+        "source": "paper",
+        "quote": "The algorithm uses linear combinations of intermediate data to reduce the cost of both address rearrangement and Fourier-transform layers"
+      }
+    },
+    "children": [
+      {
+        "id": "S1",
+        "intention": "show",
+        "claim": "Exact multiplication reduces to a convolution of short integer coefficients obtained by splitting each input into radix digits.",
+        "from": [
+          "exact-integer-multiplication",
+          "polynomials",
+          "convolution"
+        ],
+        "method": "split each input into radix digits and convolve",
+        "motivation": {
+          "text": "Short coefficients keep each convolution cheap, so the cost comes from the transforms rather than from the digits.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "radix-digit-convolution",
+        "children": [
+          {
+            "id": "S1.1",
+            "intention": "infer",
+            "claim": "Multiplication reduces to convolution of short integer coefficients.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Splitting the inputs into radix digits reduces multiplication to convolution of short integer coefficients"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S2",
+        "intention": "show",
+        "claim": "The Fourier transforms in the convolution are replaced by multidimensional transforms whose axis lengths are powers of two.",
+        "from": [
+          "discrete-fourier-transform",
+          "radix-digit-convolution",
+          "multidimensional-transform",
+          "transform-axis",
+          "tensor-product"
+        ],
+        "method": "resample Gaussian weights onto power-of-two axes",
+        "motivation": {
+          "text": "Power-of-two axis lengths let the later steps use butterfly layers and polynomial transforms.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "gaussian-resampling",
+        "children": [
+          {
+            "id": "S2.1",
+            "intention": "infer",
+            "claim": "The Fourier transforms needed for the convolution become multidimensional transforms with power-of-two axes.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "it replaces the Fourier transforms needed for this convolution by multidimensional transforms whose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S3",
+        "intention": "show",
+        "claim": "One coordinate of the array is stored as the coefficient list of a polynomial modulo $y^r + 1$, with $r$ a power of two.",
+        "from": [
+          "polynomials",
+          "complex-numbers"
+        ],
+        "method": "store one coordinate as polynomial coefficients and use powers of $y$ as roots of unity",
+        "motivation": {
+          "text": "Powers of y then serve as roots of unity, so multiplying by such a root is only a signed shift of the coefficient list.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "polynomial-ring-mod-yr-plus-1",
+        "children": [
+          {
+            "id": "S3.1",
+            "intention": "infer",
+            "claim": "One coordinate is stored as the coefficient list of a polynomial modulo $y^r + 1$, with $r$ a power of two.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "one coordinate is stored as the coefficient list of a polynomial modulo y r + 1"
+            }
+          }
+        ],
+        "adds": [
+          {
+            "symbol": "y",
+            "name": "polynomial variable",
+            "meaning": "The indeterminate of the polynomial ring, whose powers act as roots of unity.",
+            "relation": "direct"
+          },
+          {
+            "symbol": "r",
+            "name": "record length",
+            "meaning": "The number of complex coefficients in a polynomial record, a power of two.",
+            "relation": "count"
+          }
+        ]
+      },
+      {
+        "id": "S4",
+        "intention": "show",
+        "claim": "The transforms are synthetic polynomial transforms whose roots of unity are powers of the polynomial variable.",
+        "from": [
+          "discrete-fourier-transform",
+          "polynomials",
+          "phase-factor"
+        ],
+        "method": "evaluate the transforms with polynomial roots of unity",
+        "motivation": {
+          "text": "Roots of unity that are powers of the variable cost only shifts and signs, so each transform reduces to address rearrangement and two-point butterflies.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "synthetic-transforms",
+        "children": [
+          {
+            "id": "S4.1",
+            "intention": "infer",
+            "claim": "The transforms are the synthetic polynomial transforms of Nussbaumer and Quandalle.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "These are the synthetic polynomial transforms of Nussbaumer and Quandalle and"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S5",
+        "intention": "show",
+        "claim": "Two disjoint contiguous address fields of $u$ bits can be interchanged in time that grows more slowly than linearly in $u$.",
+        "from": [
+          "fixed-tape-model",
+          "linear-network-frames",
+          "address-field",
+          "xor",
+          "endpoint-operator"
+        ],
+        "method": "build the permutation from XOR combinations of intermediate data in a linear network",
+        "motivation": {
+          "text": "A permutation of fields can be built from XOR combinations, which a linear network carries out while restoring its scratch values.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "address-interchange",
+        "children": [
+          {
+            "id": "S5.1",
+            "intention": "infer",
+            "claim": "Two disjoint contiguous address fields of $u$ bits are interchanged by the first procedure.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "The first procedure interchanges two disjoint contiguous address fields of u bits in an array"
+            }
+          }
+        ],
+        "adds": [
+          {
+            "symbol": "u",
+            "name": "field width",
+            "meaning": "The number of bits in each of the two interchanged address fields.",
+            "relation": "count"
+          }
+        ]
+      },
+      {
+        "id": "S6",
+        "intention": "show",
+        "claim": "A butterfly layer on the selected bits of several axes is applied at once, in a single pass.",
+        "from": [
+          "gaussian-dyadics",
+          "gaussian-integer",
+          "complex-phase-network",
+          "address-interchange",
+          "discrete-fourier-transform",
+          "butterfly",
+          "tensor-product",
+          "phase-factor"
+        ],
+        "method": "apply the layer to all selected bits together in one tape procedure",
+        "motivation": {
+          "text": "A single pass avoids the whole-array scans that separate butterfly factors would need.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "whereas separate butterfly factors would require D whole-array passes"
+          }
+        },
+        "page": "simultaneous-butterfly-layer",
+        "children": [
+          {
+            "id": "S6.1",
+            "intention": "infer",
+            "claim": "The second procedure applies the two-point map on selected coordinate bits simultaneously.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "simultaneously on selected coordinate bits of the numerical arrays"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S7",
+        "intention": "show",
+        "claim": "Each tape procedure is a fixed linear network that exchanges two banks of values and restores its scratch values.",
+        "from": [
+          "linear-algebra-basics",
+          "xor"
+        ],
+        "method": "realise each procedure as a fixed linear network with frames on its wires",
+        "motivation": {
+          "text": "Frames on the wires let a pointwise gate act on arrays without disturbing their representation.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "linear-network-frames",
+        "children": [
+          {
+            "id": "S7.1",
+            "intention": "infer",
+            "claim": "Each procedure arises from its own fixed linear network that exchanges two banks of values.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Each procedure arises from its own fixed linear network that exchanges two banks of values"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S8",
+        "intention": "show",
+        "claim": "A linear network on three-element subsets exchanges two banks of values and restores its scratch wires.",
+        "from": [
+          "subspace-labels",
+          "linear-network-frames",
+          "ground-set",
+          "indicator-vector",
+          "line-spanned-by-vector",
+          "binary-field",
+          "bilinear-map",
+          "bilinear-form",
+          "matrix-rank",
+          "network-gate-terminal",
+          "scratch-storage"
+        ],
+        "method": "label the triples by subspaces whose inclusions bound the change of frame",
+        "motivation": {
+          "text": "Orthogonality of the indicator vectors gives subspace assignments with the nesting that the change of frame needs.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "subset-intersection-network",
+        "children": [
+          {
+            "id": "S8.1",
+            "intention": "infer",
+            "claim": "The construction uses three-element subsets, with gather and scatter creating coefficients from intersection sizes.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "The construction uses three-element subsets: gather and scatter create coefficients"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S9",
+        "intention": "show",
+        "claim": "The number $s$ of smaller calls satisfies $s < Wm$, so each recursive level saves a power.",
+        "from": [
+          "subset-intersection-network",
+          "address-interchange",
+          "bit-procedure",
+          "complex-phase-network",
+          "numerical-layer",
+          "payload",
+          "binary-change-of-basis",
+          "cyclic-shift"
+        ],
+        "method": "count the smaller calls against the wire count and the label dimension",
+        "motivation": {
+          "text": "A recursion whose branching factor is strictly below the growth of the rank saves a power at each level.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "rank-saving-recursion",
+        "children": [
+          {
+            "id": "S9.1",
+            "intention": "infer",
+            "claim": "The total number $s$ of smaller calls satisfies $s < Wm$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "the total number s of smaller calls satisfies s < W m"
+            }
+          },
+          {
+            "id": "S9.2",
+            "intention": "infer",
+            "claim": "The strict inequality $s/W < m$ is the source of the power saving.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "This strict inequality is the source of the power saving"
+            }
+          }
+        ],
+        "adds": [
+          {
+            "symbol": "s",
+            "name": "smaller call count",
+            "meaning": "The number of smaller calls made on each edge of one network invocation.",
+            "relation": "count"
+          },
+          {
+            "symbol": "W",
+            "name": "wire count",
+            "meaning": "The number of wires in the network.",
+            "relation": "count"
+          },
+          {
+            "symbol": "m",
+            "name": "label dimension",
+            "meaning": "The number of coordinates of each vector in the label space.",
+            "relation": "count"
+          }
+        ]
+      },
+      {
+        "id": "S10",
+        "intention": "show",
+        "claim": "The radix-digit coefficients are placed on distinct prime cyclic axes by a map that preserves convolution.",
+        "from": [
+          "cyclic-convolution",
+          "cyclic-coordinate",
+          "radix-digit-convolution",
+          "mixed-radix-digits",
+          "coprime",
+          "modular-inverse",
+          "congruence-modulo"
+        ],
+        "method": "relabel the coefficients by mixed-radix digits for the coprime axis lengths",
+        "motivation": {
+          "text": "Mixed-radix relabeling turns one cyclic convolution into a multidimensional one whose axis lengths are pairwise coprime.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "chinese-remainder-map",
+        "children": [
+          {
+            "id": "S10.1",
+            "intention": "infer",
+            "claim": "The radix-digit coefficient list is placed on prime cyclic axes by a Chinese-remainder map that preserves convolution.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "a Chinese-remainder map that preserves convolution"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S11",
+        "intention": "show",
+        "claim": "The source and target coordinate permutations stay inside the transform identity and are not executed as sorts.",
+        "from": [
+          "gaussian-resampling",
+          "transform-layout",
+          "padded-transform-box",
+          "multidimensional-transform"
+        ],
+        "method": "keep both permutations in the transform formula",
+        "motivation": {
+          "text": "Keeping the permutations in the formula means they cancel across the convolution instead of being executed as separate sorts.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "so they need not be executed as separate full sorts"
+          }
+        },
+        "page": "transform-identity",
+        "children": [
+          {
+            "id": "S11.1",
+            "intention": "infer",
+            "claim": "Section 8 retains the source and target coordinate permutations in the transform identity.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Section 8 retains the source and target coordinate permutations in the transform identity"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S12",
+        "intention": "show",
+        "claim": "The middle transform, including its target permutation, becomes a normalized cyclic convolution.",
+        "from": [
+          "discrete-fourier-transform",
+          "cyclic-convolution",
+          "normalized-cyclic-convolution",
+          "normalization-scales",
+          "transform-identity"
+        ],
+        "method": "rewrite the transform as a cyclic convolution multiplied by chirp factors",
+        "motivation": {
+          "text": "A chirp factorisation turns the middle transform into a cyclic convolution, which the earlier steps already compute.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "bluestein-chirp-identity",
+        "children": [
+          {
+            "id": "S12.1",
+            "intention": "infer",
+            "claim": "Bluestein's chirp identity converts the middle transform, including its target permutation, into a cyclic convolution.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Bluestein’s chirp identity converts the middle transform, including its target permutation"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S13",
+        "intention": "show",
+        "claim": "A phase twist turns the last cyclic coordinate into a coordinate of a polynomial ring.",
+        "from": [
+          "polynomial-ring-mod-yr-plus-1",
+          "bluestein-chirp-identity",
+          "cyclic-coordinate"
+        ],
+        "method": "multiply the coefficients by roots of unity",
+        "motivation": {
+          "text": "The twist makes the wrap-around of the cyclic convolution match the negative wrap of the polynomial ring.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "phase-twist",
+        "children": [
+          {
+            "id": "S13.1",
+            "intention": "infer",
+            "claim": "A phase twist changes the last cyclic coordinate into a polynomial coordinate.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "A phase twist changes the last cyclic coordinate"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S14",
+        "intention": "show",
+        "claim": "Convolution on the remaining axes over the polynomial ring is computed with synthetic transforms, a pointwise product, and packed integer products.",
+        "from": [
+          "polynomial-ring-mod-yr-plus-1",
+          "polynomial-ring",
+          "synthetic-transforms",
+          "opposite-transform",
+          "signed-packing",
+          "established-multiplier",
+          "ring-homomorphism",
+          "phase-twist",
+          "simultaneous-butterfly-layer",
+          "transform-round",
+          "array-norm"
+        ],
+        "method": "pack the coefficients into integers, multiply them, and unpack",
+        "motivation": {
+          "text": "Packing turns each polynomial product into an integer product that the established multiplier can compute.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "polynomial-ring-convolution",
+        "children": [
+          {
+            "id": "S14.1",
+            "intention": "infer",
+            "claim": "The two forward synthetic transforms retain the same frequency order through their pointwise product.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "The two forward synthetic transforms retain the same frequency order"
+            }
+          },
+          {
+            "id": "S14.2",
+            "intention": "infer",
+            "claim": "The polynomial products use signed packing and the established multiplier as an ordinary subroutine.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Their polynomial products use signed packing and the established O(n log n) multiplier as an ordinary subroutine"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S15",
+        "intention": "show",
+        "claim": "The recovered coefficient error is below one half, so rounding returns the exact integer coefficients.",
+        "from": [
+          "polynomial-ring-convolution",
+          "guard-width-bound",
+          "phase-twist",
+          "array-norm",
+          "grid-numerator",
+          "linear-contraction",
+          "truncation",
+          "centered-residue",
+          "union-bound",
+          "signed-packing"
+        ],
+        "method": "bound the error accumulated through each stage",
+        "motivation": {
+          "text": "Once the total error is below one half, rounding to the nearest integer returns the true coefficient.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "recovery-and-error",
+        "children": [
+          {
+            "id": "S15.1",
+            "intention": "infer",
+            "claim": "The recovered coefficient error is strictly below one half.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "proves that the recovered coefficient error is strictly below 1/2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S16",
+        "intention": "show",
+        "claim": "Carries across the radix digits turn the recovered coefficients into the exact binary product.",
+        "from": [
+          "radix-digit-convolution",
+          "normalization-scales",
+          "grid-numerator"
+        ],
+        "method": "propagate carries through the coefficients in increasing order",
+        "motivation": {
+          "text": "Carry propagation converts the integer coefficient vector into a binary string with the same value.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "page": "carry-propagation",
+        "children": [
+          {
+            "id": "S16.1",
+            "intention": "infer",
+            "claim": "Carries are propagated to obtain the exact binary product.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "propagates carries to obtain the exact binary product"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S17",
+        "intention": "infer",
+        "claim": "The parameters are chosen so that every term in the cost table is $O(n(\\lg n)^{1-\\kappa})$ for $\\kappa = 2^{-182}$, which fits the bound of the theorem.",
+        "from": [
+          "prime-source-lengths",
+          "transform-layout",
+          "packed-bit-addition",
+          "guard-width-bound",
+          "address-shear",
+          "complex-phase-network",
+          "subspace-labels",
+          "gaussian-dyadics",
+          "cost-table",
+          "schoolbook-multiplication",
+          "stable-radix-sort",
+          "destination-rank",
+          "cyclic-shift",
+          "established-multiplier",
+          "running-time-cost"
+        ],
+        "quote": {
+          "source": "paper",
+          "quote": "A compatible choice of rational parameters makes all terms in its cost table fit Theorem 1"
+        }
+      }
+    ],
+    "adds": [
+      {
+        "symbol": "n",
+        "name": "input width",
+        "meaning": "The number of bits in each of the two input integers.",
+        "relation": "count"
+      },
+      {
+        "symbol": "\\kappa",
+        "name": "saving exponent",
+        "meaning": "The fixed constant 2^{-182} that makes the logarithmic factor a power below lg n.",
+        "relation": "direct"
+      }
+    ],
+    "salient": "A strict power saving in the logarithmic factor, valid for every input length.",
+    "page": "main-theorem"
+  }
+}

@@ -1,0 +1,11 @@
+Let $z$ denote a complex number. A root of unity is a complex number $z$ for which some positive power of $z$ equals one. The transforms in this paper sum their inputs weighted by powers of a root, so the cost of a transform depends on how cheaply those powers can be multiplied.
+
+For example, $i^2 = -1$ gives $i^4 = 1$, so $i$ is a root of unity, and $(-1)^2 = 1$ makes $-1$ one too.
+
+Write $m$ for the order of $z$, the least positive integer with $z^m = 1$; it is also the number of distinct powers $z, z^2, \ldots, z^m$. For $z = i$ the powers are $i, -1, -i, 1$, so the order is $m = 4$.
+
+A root of unity is [defined in any ring with identity](ring.md) by the same condition $z^m = 1$. Here $y$ denotes the polynomial variable in $\mathbb{C}[y]/(y^4+1)$, the ring of complex polynomials in which $y^4+1$ is treated as zero, so $y^4 = -1$. This changes the meaning of the letter $y$ bound on the logarithm page. Every element has a representative of degree below $4$. Then $y^8 = (y^4)^2 = (-1)^2 = 1$, so $y$ is a root of unity.
+
+The paper uses powers of $y$ as roots of unity <cite data-source="paper">in the remaining axes</cite>, and <cite data-source="paper">multiplication by such a root is a signed shift of the</cite> coefficient list. Let $k$ denote any integer. <cite data-source="paper">Multiplication by y a , for any integer a, permutes</cite> the coefficients and changes some signs, so multiplying the coefficient list by $y^k$ moves each coefficient to a new position without any complex multiplication.
+
+In $\mathbb{C}$, a root $z \ne 1$ satisfies $1 + z + \cdots + z^{m-1} = (z^m-1)/(z-1) = 0$, so a sum over all powers of $z$ vanishes. This uses division by $z-1$. The quotient ring has zero divisors: $(y^2-i)(y^2+i) = y^4+1 = 0$, yet neither factor is zero. A polynomial of degree below $4$ is zero in the quotient only if it is the zero polynomial, because $y^4+1$ has degree $4$ and every nonzero multiple of it has degree at least $4$; both factors have degree $2$. The paper therefore does not divide by the factor $z-1$: it verifies the cancellation <cite data-source="paper">directly instead of dividing by</cite> that factor, in its <cite data-source="paper">Lemma 15 (Synthetic character cancellation)</cite>.

@@ -1,0 +1,13 @@
+A tape procedure is a fixed procedure that rearranges the contents of a Turing machine's tapes, such as the address fields of an array, in a bounded number of scans. The [Integer multiplication below n log n](main-theorem.md) theorem uses tape procedures to move the data of its transforms between layouts more cheaply than a scan at every level.
+
+The machine is the [Fixed-tape machine model](fixed-tape-model.md). Each step <cite data-source="paper">reads and writes at most one cell on each tape and moves each head by at most one cell</cite>, so one scan of data of volume $V$, the number of stored bits, takes $O(V)$ steps.
+
+An [array](array.md) is laid out on a tape in the order of its addresses, <cite data-source="paper">stored in lexicographic order, with the first coordinate most significant</cite>. Butterflies act on selected address bits, so data must move between layouts; each move is a [permutation](permutation.md) of addresses.
+
+The moves are built from Lemma 3 of the paper: <cite data-source="paper">Each of the following operations on an array of volume V takes O(V ) steps on a fixed number of one-dimensional tapes</cite>. Its first operation is <cite data-source="paper">any fixed permutation of the pair of digit values at two specified radix-q positions, whether or not the positions are adjacent</cite>, with digits as bits.
+
+Take a four-bit array with pairs of bits as addresses, so $V=4$. Its entries sit at $(0,0)$, $(0,1)$, $(1,0)$, $(1,1)$ in that order. Exchanging the two coordinates moves the entry at $(0,1)$ to $(1,0)$ and the entry at $(1,0)$ to $(0,1)$, leaving the others in place. This is the Lemma 3 operation, costing $O(4)$ steps.
+
+The first tape procedure, [Address-field interchange](address-interchange.md), moves data between layouts by swapping two disjoint address fields of $u$ bits. Its cost is <cite data-source="paper">O(V uτ ) for a fixed τ < 1</cite>, where $u$ is the field width and $\tau$ a fixed exponent in $(0,1)$. Since $u^{\tau}<u$ for $u>1$, the cost grows more slowly than the field width.
+
+A full scan at every [transform level](transform-round.md) is too costly: <cite data-source="paper">Scanning an array of Θ(n) stored bits at each of Θ(log n) transform levels already costs Θ(n log n).</cite> The second tape procedure does the butterfly part of each [transform round](transform-round.md) in one pass, applying the butterfly <cite data-source="paper">simultaneously on selected coordinate bits of the numerical arrays</cite>. Its cost is <cite data-source="paper">O(V dλ ) for a fixed λ′ < 1</cite>. Here the letter $d$ changes meaning: it bounds the number of equal-width address chunks that one pass handles.

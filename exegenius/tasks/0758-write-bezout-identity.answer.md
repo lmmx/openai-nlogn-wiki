@@ -1,0 +1,12 @@
+Bézout's identity says that the greatest common divisor of two integers is an integer combination of them. It supplies the [modular inverses](modular-inverse.md) that the [Chinese-remainder map](chinese-remainder-map.md) needs when its lengths are coprime.
+
+Let $\gamma$ and $\rho$ be integers, not both zero. The identity is stated in terms of the greatest common divisor $\gcd(\gamma,\rho)$, the largest positive integer dividing both, which the [Coprime](coprime.md) page defines. It asserts that there are integers $\xi$ and $\zeta$, the Bézout coefficients, with
+$$\gamma\xi+\rho\zeta=\gcd(\gamma,\rho).$$
+
+The proof also finds $\xi$ and $\zeta$. The positive values of $\gamma\xi+\rho\zeta$, over all integers $\xi$ and $\zeta$, form a nonempty set, since $\gamma\gamma+\rho\rho>0$ lies in it, so the set has a least element. Let $\Delta$ be the least element, and let $\xi'$ and $\zeta'$ be integers with $\Delta=\gamma\xi'+\rho\zeta'$. Divide $\gamma$ by $\Delta$: write $\gamma=\Theta\Delta+\Gamma$ with integers $\Theta$ and $\Gamma$, where $0\le\Gamma<\Delta$. Then $\Gamma=\gamma(1-\Theta\xi')+\rho(-\Theta\zeta')$ has the same form. If $\Gamma>0$, it would be a positive value below $\Delta$, contradicting minimality, so $\Gamma=0$. Hence $\Delta$ divides $\gamma$, and the same argument with $\rho$ gives $\Delta\mid\rho$. So $\Delta$ is a positive common divisor, and $\Delta\le\gcd(\gamma,\rho)$. Conversely, $\gcd(\gamma,\rho)$ divides $\gamma\xi'+\rho\zeta'=\Delta$, so $\gcd(\gamma,\rho)\le\Delta$. Therefore $\Delta=\gcd(\gamma,\rho)$, and $\xi'$ and $\zeta'$ are Bézout coefficients.
+
+For $\gamma=3$ and $\rho=5$ we have $\gcd(3,5)=1$ and $3\cdot 2+5\cdot(-1)=1$, so $\xi=2$ and $\zeta=-1$. The coefficients are not unique: $\xi=7$ and $\zeta=-4$ also work, since $3\cdot 7+5\cdot(-4)=1$. For $\gamma=12$ and $\rho=18$ we have $\gcd(12,18)=6$ and $12\cdot(-1)+18\cdot 1=6$, so the combination equals the greatest common divisor, not $1$.
+
+When $\gamma$ and $\rho$ are coprime, $\gcd(\gamma,\rho)=1$, so $\gamma\xi\equiv 1\pmod{\rho}$. Then $\xi$ is a [modular inverse](modular-inverse.md) of $\gamma$ modulo $\rho$. For $3$ and $5$ this gives $\xi=2$, since $6\equiv 1\pmod 5$.
+
+The paper reduces rational coefficients, whose denominators are prime to the modulus, <cite data-source="paper">by the extended Euclidean algorithm using ordinary tape arithmetic</cite>. That algorithm finds Bézout coefficients, so it supplies the inverse of each denominator. For $\tfrac13$ modulo $5$ the inverse is $2$, so $\tfrac13$ reduces to $2$.

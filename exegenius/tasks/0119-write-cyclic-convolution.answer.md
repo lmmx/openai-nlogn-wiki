@@ -1,0 +1,15 @@
+Cyclic convolution is the product of two sequences of the same length in which an index that runs past the end wraps around to the start. The paper needs it because its coefficient layout and its middle transform both become cyclic convolutions, which is how the multiplication algorithm of [Integer multiplication below n log n](main-theorem.md) reduces to a product it can compute.
+
+Let $s$ be the number of entries in each sequence. Let $f = (f_0, \dots, f_{s-1})$ and $g = (g_0, \dots, g_{s-1})$ be two sequences of the same length $s$. Indices are read modulo $s$, so $g_{-1}$ means $g_{s-1}$. The cyclic convolution $f \ast g$ is the sequence with entries
+
+$$(f \ast g)_k = \sum_{j=0}^{s-1} f_j \, g_{(k-j) \bmod s}, \qquad 0 \le k < s,$$
+
+where $k$ is an output position. An index sum that reaches $s$ wraps back to the start instead of extending the sequence. This differs from [ordinary (linear) convolution](convolution.md), whose output has length $2s-1$.
+
+Identify $f$ with the polynomial $f(w) = \sum_{j=0}^{s-1} f_j w^j$, where $w$ is a formal variable. The cyclic convolution $f \ast g$ is the product in the [polynomial ring](polynomial-ring.md) $\mathbb{C}[w]/(w^s - 1)$. Its entries are the coefficients of $f(w)g(w)$ after each power $w^{s+t}$ is replaced by $w^t$, because $w^s = 1$ in that quotient. This is why the operation is called cyclic: multiplying by $w$ rotates the entries of a sequence by one position.
+
+Take $s = 4$, $f = (1, 2, 3, 4)$ and $g = (1, 1, 0, 0)$. Their ordinary product, $1 + 3w + 5w^2 + 7w^3 + 4w^4$, has five entries. Replacing $w^4$ by $1$ sends the last entry $4$ to position $0$, so $f \ast g = (1+4, 3, 5, 7) = (5, 3, 5, 7)$.
+
+The paper uses this operation in two steps. The first is its coefficient layout, which places ordinary coefficient indices onto the positions of a multidimensional array: the paper says that <cite data-source="paper">we first place the ordinary coefficient stream in its tensor order</cite>. The model for this step is Agarwal and Cooley's split. When a cyclic convolution's length factors into pairwise coprime lengths (no two share a common factor above 1), the Chinese remainder theorem relabels each position by its residues. A multidimensional cyclic convolution is the same operation on arrays indexed by several coordinates, each wrapping modulo its own length. The paper notes that <cite data-source="paper">Cooley used the Chinese remainder theorem to convert one cyclic convolution into multidimensional</cite> cyclic convolution. The paper's Section 9.3 gives a map $\Phi$ from a cyclic convolution to a multidimensional one, an isomorphism (a one-to-one map that preserves sums and products), and concludes: <cite data-source="paper">Hence Φ is an isomorphism and preserves cyclic</cite> convolution.
+
+The second step is the middle transform, the factor $QFt$ in the paper's equation (35), a Fourier-type transform. The paper states that <cite data-source="paper">The factor QFt in (35) can be computed from a cyclic convolution</cite>, so the middle transform is reduced to a cyclic convolution.

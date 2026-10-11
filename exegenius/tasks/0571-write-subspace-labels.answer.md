@@ -1,0 +1,29 @@
+Subspace labels are attached to each [gate and terminal of a network](network-gate-terminal.md) of a linear network, and they are chosen so that changing representation between neighbouring labels is cheap. The [subset-intersection network](subset-intersection-network.md) and the [complex phase network](complex-phase-network.md) build on them.
+
+Write $U$ for a label, a nondegenerate subspace of $E$, the fixed space with bilinear form $\langle\xi,\eta\rangle$. The paper states that <cite data-source="paper">A label is a nondegenerate subspace of a fixed bilinear</cite> space, and that labels are chosen <cite data-source="paper">to make the changes of frame inexpensive</cite>.
+
+Subspace labels take their orthogonality from the [bilinear form](bilinear-form.md) $\langle\xi,\eta\rangle$ of $E$. Vectors are orthogonal when $\langle\xi,\eta\rangle=0$. A subspace $U$ is nondegenerate when no nonzero vector of $U$ is orthogonal to every vector of $U$, and $U^\perp$ is the set of vectors orthogonal to every vector of $U$.
+
+<cite data-source="paper">On every edge one label will contain the other.</cite> Write $U'$ for the smaller label of an edge, so that $U'$ is contained in $U$, where $U$ is the larger label. The residual of the edge is $U\cap U'^\perp$, <cite data-source="paper">the orthogonal complement of the smaller label inside the larger one</cite>.
+
+Its dimension is $\dim U-\dim U'$. Since $U'$ is nondegenerate, $U'\cap U'^\perp=\{0\}$. Subspace labels pair each vector $y$ of $U'$ with a [linear functional](linear-functional.md) on $U'$, namely $\langle y,\cdot\rangle$. This pairing is injective, hence bijective, since both spaces have dimension $\dim U'$. So for $u\in U$ choose $u_1\in U'$ with $\langle u_1,\cdot\rangle=\langle u,\cdot\rangle$ on $U'$. Then $u-u_1\in U\cap U'^\perp$, and the split $u=u_1+(u-u_1)$ is unique. Hence $\dim U=\dim U'+\dim(U\cap U'^\perp)$.
+
+A vertex with label $U$ carries the frame $C_U$, an invertible operator on arrays, and a vertex with label $U'$ carries $C_{U'}$, built the same way. <cite data-source="paper">The frame in (5) is Dv = CU at a vertex with label U</cite>. Across an edge from $U'$ to $U$ the frame change is $C_UC_{U'}^{-1}$; the other way it is the inverse.
+
+Let $\mathcal W=\frac{1}{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$ be the Hadamard matrix of order $2$, so $\mathcal W^2=I$. For a binary vector $z$, $\mathrm{hw}(z)$ is its Hamming weight, the number of ones. Labels compute their phase exponents with the [projection along a subspace](projection-along-subspace.md) $P_U$ onto $U$ along $U^\perp$, which is defined because labels are nondegenerate. The paper defines it: <cite data-source="paper">For a nondegenerate rational subspace U ⊂ F, write PU for the projection onto U along U ⊥</cite>. Then
+$$C_U=\mathcal W^{\otimes m}\,\mathrm{diag}_x\bigl(i^{\,\mathrm{hw}(P_Ux)\bmod 4}\bigr)\,\mathcal W^{\otimes m},$$
+with $x\in\mathbb F_2^m$ an address and $\mathcal W^{\otimes m}$ the $m$-fold tensor power.
+
+For example, take $m=1$ and $U=\mathbb F_2$. Then $P_U$ is the identity, and $C_U=\frac12\begin{pmatrix}1+i&1-i\\1-i&1+i\end{pmatrix}$.
+
+The frame $C_U$ of each label, and its inverse, have entries that are a [Gaussian integer](gaussian-integer.md) divided by $2^m$.
+
+Let $X_v$ be the translation $(X_vf)(x)=f(x+v)$ for a binary vector $v\in\mathbb F_2^m$; here $v$ is a binary vector, not a vertex. The paper writes <cite data-source="paper">Here (Xv f )(x) = f (x + v)</cite>. A kernel $\varpi I+\varsigma X_v$ has coefficients $\varpi,\varsigma$. The kernels implemented <cite data-source="paper">below have Gaussian dyadic coefficients.</cite> A Gaussian dyadic is a Gaussian integer divided by a power of two. The frame change across an edge is a product of such kernels, one for each <cite data-source="paper">vector in an orthonormal basis of the edge residual</cite>, or its inverse.
+
+<cite data-source="paper">For the binary label space, every nonzero orthogonal residual of an edge has an orthonormal basis.</cite> Let $\varrho$ be the number of vectors in such a basis, $v_1,\dots,v_\varrho$, where the indices $s$ and $s'$ run over $\{1,\dots,\varrho\}$ and $v_s$ is the $s$-th vector. Orthonormality means $\langle v_s,v_{s'}\rangle=1$ if $s=s'$ and $0$ otherwise. A basis of the residual has $\dim U-\dim U'$ vectors, so $\varrho=\dim U-\dim U'$. An edge therefore uses $\varrho$ kernels, <cite data-source="paper">including on decreasing edges.</cite>
+
+Summed over all edges, the kernel count is $\sum_{\text{edges}}|\dim U-\dim U'|$, the sum of the absolute dimension changes. <cite data-source="paper">The saving will come from keeping the total dimension lost on decreasing</cite> edges small relative to $N$, the number of entries of the array.
+
+For the [bit network](bit-network.md), subspace labels are carried by the rational space $E=\mathbb Q^h$, with form $\langle\xi,\eta\rangle=\xi^\top(I-J/9)\eta$, where $\top$ is transpose and $J$ is the all-ones matrix. The triple labels are drawn from a [ground set](ground-set.md) of $h$ elements, and a triple $T$ is a three-element subset of it. The triple labels take the form of the [line spanned by a vector](line-spanned-by-vector.md) $\operatorname{span}(t_T)$, one for each triple $T$. They are built from the [indicator vector](indicator-vector.md) $t_T$ of each triple $T$, the 0-1 vector with entry 1 on $T$ and 0 elsewhere.
+
+Since $t_T^\top t_T=3$ and $t_T^\top Jt_T=9$, $\langle t_T,t_T\rangle=3-9/9=2$. For a second triple $T'$, $\langle t_{T'},t_T\rangle=|T'\cap T|-1$, so a nonzero vector $c\,t_T$ has $\langle c\,t_T,t_T\rangle=2c\neq0$ and each triple line is nondegenerate. <cite data-source="paper">S, T are neighbors when |S ∩ T | = 1</cite>. For neighbors $\langle t_{T'},t_T\rangle=0$, so their lines are orthogonal.

@@ -1,0 +1,7 @@
+A *ground set* is a finite set from which the subsets under consideration are chosen. It is the one universe that every subset is built from, so all subsets can be compared within it. The [subset-intersection network](subset-intersection-network.md), a step of the argument, works on this universe: it exchanges two banks of values indexed by the three-element subsets of a ground set and restores its scratch wires. Concretely, a ground set indexes the data banks of a [Linear networks and frames](linear-network-frames.md) through its three-element subsets.
+
+Let $\Upsilon$ be the number of elements of the ground set, a positive integer. Write $[\Upsilon]=\{1,2,\dots,\Upsilon\}$ for the ground set itself. The paper writes $h$ for this number; this page uses $\Upsilon$, since $h$ is the route position on the linear-network page. A *subset* is any collection of some of these elements.
+
+Write $\mathcal{T}$ for the set of three-element subsets of $[\Upsilon]$. <cite data-source="paper">Let T be the set of three-element subsets of [h].</cite>
+
+Take $\Upsilon=4$. Then $[4]=\{1,2,3,4\}$ and $\mathcal{T}$ has four members: $\{1,2,3\}$, $\{1,2,4\}$, $\{1,3,4\}$ and $\{2,3,4\}$. The intersection of two sets is the set of elements they share, so $\{1,2,3\}\cap\{1,2,4\}=\{1,2\}$. Two different members share at most two elements. Here each member omits exactly one of the four elements and two members omit different ones, so they always share exactly two. Sharing one element needs more room: with $\Upsilon=5$, $\{1,2,3\}\cap\{3,4,5\}=\{3\}$.

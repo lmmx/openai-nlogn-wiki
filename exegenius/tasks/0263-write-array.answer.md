@@ -1,0 +1,9 @@
+An array is a finite collection of entries, each stored at an [address](address.md) and carrying a [payload](payload.md). It is the data object that the paper's tape procedures act on: the [address-field interchange](address-interchange.md) and the [linear networks](linear-network-frames.md) of the argument are both operations on arrays, and their costs are measured by the stored volume of an array.
+
+The entries of an array are indexed by their [address](address.md), a label that locates one entry. Each entry carries a [payload](payload.md), the record data stored at its address. Addresses are written as strings of address bits, and the payload is kept separate from the address that locates it.
+
+The paper stores an array as a single stream of entries <cite data-source="paper">stored in lexicographic order, with the first coordinate most significant.</cite> Lexicographic order compares two addresses by their first coordinate, and when those agree, by the second coordinate, and so on. Because the order fixes every address, <cite data-source="paper">An address is implicit in an entry’s position in this ordered stream;</cite> the address is not written beside each data bit. An entry's position in the stream determines its address.
+
+For example, take the addresses 00, 01, 10 and 11 in that order, with the one-bit payloads 1, 0, 1 and 1. The array is stored as the stream 1011 on one tape. Its first bit is the payload at address 00, and its stored bit volume is $V = 4$. Changing the payload at address 10 means changing the third bit of the stream, and no address bits are written anywhere.
+
+The paper's term *disk array* names an array of this kind whose [norm](array-norm.md), the largest modulus of its coefficients, is at most one, so every coefficient lies in the closed unit disk. <cite data-source="paper">has norm at most one.</cite>

@@ -1,0 +1,9 @@
+The centered residue is the representative of a residue class that lies in a window centered at zero, so a small negative integer keeps its sign. It lets the paper read a signed product coefficient back from a residue, which is the step that makes [Exact coefficient recovery](recovery-and-error.md) return exact integers.
+
+Let $\kappa$ be a positive integer, the modulus, and let $\nu$ be an integer whose residue is taken. The centered residue $\tau$ of $\nu$ modulo $\kappa$ is the integer in $[-\kappa/2, \kappa/2)$ that is congruent to $\nu$ modulo $\kappa$, as defined by [Congruence](congruence-modulo.md).
+
+The interval contains exactly $\kappa$ integers, and any two of them differ by less than $\kappa$, so no two are congruent. Each residue class therefore contains exactly one of them, and $\tau$ is well defined. For example, take $\kappa = 10$. The interval $[-5, 5)$ contains $-5, \dots, 4$, so $7 \equiv -3$ gives $\tau = -3$, $12 \equiv 2$ gives $\tau = 2$, and $-6 \equiv 4$ gives $\tau = 4$.
+
+If $|\nu| < \kappa/2$, then $\nu$ already lies in the interval, so it is its own centered residue. Hence if every coefficient of a product has absolute value below $\kappa/2$, reading the residue of the product modulo $\kappa$ returns each coefficient exactly, sign included.
+
+The paper writes its modulus as $B_0$, which is $\kappa$ here. Its signed packing evaluates each polynomial at $B_0$, so the coefficients become base-$B_0$ digits of one integer, and <cite data-source="paper">define the signed evaluation integer</cite>. The paper's bound on the coefficients of a product is <cite data-source="paper">|hj | ≤ r22p < 23p < B0 /2</cite>, which keeps each coefficient strictly within half the modulus. For that reason <cite data-source="paper">next coefficient by its centered residue modulo B0</cite>.

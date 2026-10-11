@@ -1,0 +1,15 @@
+A cyclic group is a group whose elements are all the powers of one fixed element, its generator. It supplies the algebra behind the cyclic axes of the proof: the first reduction places the radix-digit coefficient list on <cite data-source="paper">prime cyclic axes by a Chinese-remainder map that preserves convolution.</cite>
+
+A *group* is a set with an associative operation, an identity element $1$, and an inverse for each element; its *order* is its number of elements. Write the operation as multiplication. For an element $\rho$ and an integer $\xi$, $\rho^\xi$ is the product of $\xi$ copies of $\rho$, with $\rho^{-1}$ the inverse of $\rho$ and $\rho^0 = 1$. The *order* of $\rho$ is the least positive integer $\sigma$ with $\rho^\sigma = 1$.
+
+For a positive integer $W$, the *cyclic group of order $W$*, written $C_W$, has the $W$ elements $\rho^0,\rho^1,\dots,\rho^{W-1}$, where $\rho^W=1$. Every power $\rho^\xi$ equals $\rho^{\xi \bmod W}$. Then $\rho$ is the generator of $C_W$.
+
+Take $W=6$, identifying $\rho^\xi$ with $\xi \bmod 6$. The generator $\rho$ reaches all six elements. The power $\rho^2$ does not: its powers are $\rho^0$, $\rho^2$, $\rho^4$, and then $\rho^6=\rho^0$ repeats.
+
+The cyclic group $C_W$ is characterized by generators whose exponents are [Coprime](coprime.md) to $W$. Indeed, the powers of $\rho^\xi$ are all of $C_W$ exactly when $\gcd(\xi,W)=1$. Let $g=\gcd(\xi,W)$. Then $\rho^{\xi\sigma}=1$ exactly when $W$ divides $\xi\sigma$, which holds exactly when $W/g$ divides $(\xi/g)\sigma$. The integers $\xi/g$ and $W/g$ are coprime, so $W/g$ divides $\sigma$. Thus $\rho^\xi$ has order $W/g$, which equals $W$ exactly when $g=1$.
+
+Each source length $s_i$ gives a *cyclic axis*, a coordinate whose indices wrap around modulo $s_i$. Let $s_1,\dots,s_d$ be the pairwise coprime source lengths, $S=\prod_i s_i$, and let $\mu_i$ be as defined on the [Coprime](coprime.md) page. Let $Y_i$ be the variable of axis $i$. The *target monomial group* is the set of monomials $Y_1^{\zeta_1}\cdots Y_d^{\zeta_d}$ with $0\le\zeta_i<s_i$, exponents added modulo $s_i$. It is the *product group* $C_{s_1}\times\cdots\times C_{s_d}$, tuples multiplied entrywise, with $S$ elements.
+
+A *cyclic convolution* of two length-$S$ sequences is their product in the polynomials in $\rho$ modulo $\rho^S-1$. The paper's argument rests on the claim that the image of the generator <cite data-source="paper">has order S, because each µi is a unit and the si are pairwise coprime.</cite> The map $\Gamma$ sends $\rho$ to $\prod_i Y_i^{\mu_i}$, so $\Gamma(\rho^\sigma)=\prod_i Y_i^{\sigma\mu_i}$. This equals $1$ exactly when $s_i \mid \sigma\mu_i$ for every $i$. Since $\mu_i$ is invertible modulo $s_i$, this means $s_i \mid \sigma$ for every $i$, and since the $s_i$ are pairwise coprime, $S \mid \sigma$.
+
+So the $S$ powers $\Gamma(\rho)^0,\dots,\Gamma(\rho)^{S-1}$ are distinct, and they run through every target monomial exactly once. Hence $\Gamma$ is a bijection, one-to-one and onto, from the coefficients of a sequence to the target monomials. Since $\Gamma$ preserves sums and products, it preserves cyclic convolution.

@@ -1,0 +1,11 @@
+The polynomial ring modulo a fixed polynomial is the set of complex polynomials in which every multiple of that polynomial counts as zero. The argument needs it because <cite data-source="paper">Sections 6 and 7 compute convolution on the remaining axes over this polynomial ring.</cite> The convolution itself is set out in [Convolution over the polynomial ring](polynomial-ring-convolution.md).
+
+Fix a monic polynomial $\Xi$ with complex coefficients of degree $r$. Monic means that the leading coefficient, the coefficient of the highest power of $y$, is $1$; the degree is that highest power. Two polynomials lie in the same class when their difference is a multiple of $\Xi$, and $\mathbb{C}[y]/(\Xi)$ is the set of these classes.
+
+Each class contains exactly one polynomial $\phi$ of degree less than $r$, by division with remainder by $\Xi$; call it the representative $\phi$ of the class. Write $\phi = \phi_0 + \phi_1 y + \dots + \phi_{r-1} y^{r-1}$, where $\phi_\ell$ is the coefficient of $y^\ell$ and $\ell$, the coefficient index, runs from $0$ to $r-1$. The list $(\phi_0,\dots,\phi_{r-1})$ is the coefficient list of the class.
+
+Addition is coefficientwise. Multiplication is ordinary polynomial multiplication followed by reduction: each term $c\,y^k$ with $k \ge r$ is replaced by its remainder on division by $\Xi$. The polynomial ring $\mathbb{C}[y]/(\Xi)$ satisfies the axioms of a [Ring](ring.md).
+
+For example, take $r=4$, $\Xi=y^4+1$, and $\phi=1+2y+3y^2$, with coefficient list $(1,2,3,0)$. Then $y^3\phi=y^3+2y^4+3y^5$. Since $y^4=-1$ and $y^5=-y$, this equals $-2-3y+y^3$, with coefficient list $(-2,-3,0,1)$. Each coefficient moves up by the exponent, and a coefficient pushed past position $r-1$ re-enters at the bottom with its sign reversed.
+
+The paper takes <cite data-source="paper">For an integer r ≥ 2 that is a power of two</cite>, and writes <cite data-source="paper">Rr = C[y]/(y r + 1),</cite> so the modulus is $\Xi=y^r+1$ and $y^r=-1$. For $0\le k<r$, multiplying by $y^k$ moves the coefficient at position $\ell$ to $\ell+k$ if $\ell+k<r$, and otherwise to $\ell+k-r$ with its sign reversed. Call this a signed shift. The paper states it as <cite data-source="paper">Multiplication by y a , for any integer a, permutes</cite> <cite data-source="paper">the coefficients and changes some signs</cite>.

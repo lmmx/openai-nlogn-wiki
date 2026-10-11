@@ -1,0 +1,19 @@
+The endpoint operator is realised by a [linear network](linear-network-frames.md) on each role array once all intermediate frames have cancelled, so it depends only on the frames at the two ends of a route.
+
+A frame is the invertible operator $D_v$ attached to a vertex $v$, and the stored array at $v$ is $D_v g$ when the logical array is $g$. <cite data-source="paper">Along an edge from u to v, the operator</cite> $D_v D_u^{-1}$ changes the stored array from $D_u g$ to $D_v g$.
+
+For a route $v_0, v_1, v_2$ of two edges, the edge changes compose to
+$$(D_{v_2} D_{v_1}^{-1})(D_{v_1} D_{v_0}^{-1}) = D_{v_2} D_{v_0}^{-1},$$
+because $D_{v_1}^{-1} D_{v_1}$ is the identity. <cite data-source="paper">Thus the intermediate frames cancel</cite>, and each interior vertex of a longer route contributes such a pair.
+
+A *pointwise linear gate* $G(g_1,\dots,g_t)=\sum_{s}\alpha_s g_s$ uses the same weights at every address. A linear operator passes through a weighted sum, so $D_v\,G(g_1,\dots,g_t)=G(D_v g_1,\dots,D_v g_t)$ when the inputs share the frame $D_v$. <cite data-source="paper">At a pointwise linear gate G, the common frame commutes with the gate</cite>, so a route through a gate keeps one shared frame there.
+
+Let $\ell$ be an input role with supplied array $\theta_\ell$. Its logical array is $g=D_{\mathrm{source}(\ell)}^{-1}\theta_\ell$, so $\theta_\ell$ is its stored form at the start. The [scalar network](subset-intersection-network.md) sends role $\ell$ to output role $\rho(\ell)$ and multiplies the value by its routing sign $\varepsilon_\ell$ once. Write $\mathcal{E}_\ell$ for the endpoint operator of role $\ell$, $D_{\mathrm{sink}(\rho(\ell))}\,D_{\mathrm{source}(\ell)}^{-1}$, with $\mathrm{source}(\ell)$ and $\mathrm{sink}(\rho(\ell))$ the vertices where the two roles start and end. The endpoint operator maps the stored form of the [logical array](logical-array.md) $g$ at the start of the route to its stored form at the end. The edge changes telescope to $\mathcal{E}_\ell$, so the route applies $\varepsilon_\ell\,\mathcal{E}_\ell$ to $\theta_\ell$.
+
+The route also exchanges roles, so output role $\rho(\ell)$ holds what role $\ell$ held. Each sign is $+1$ or $-1$, as in <cite data-source="paper">an input at Ya to Xa with sign −1</cite>, so $\varepsilon_\ell^2=1$. Move the array at output role $\rho(\ell)$ back to role $\ell$ and multiply it by $\varepsilon_\ell$ again. The sign cancels, and role $\ell$ holds $\mathcal{E}_\ell\theta_\ell$. <cite data-source="paper">the role exchange and those signs leaves the endpoint operator on every role array, including the</cite>
+
+<cite data-source="paper">We call all these auxiliary wires scratch wires; their initial values may be arbitrary.</cite> The scalar network fixes each scratch role, so $\rho(\ell)=\ell$, and <cite data-source="paper">each scratch input to its own output with sign</cite> $+1$. The same formula gives their endpoint operator, and <cite data-source="paper">including the auxiliary roles, enter this identity.</cite> The identity holds whatever array a scratch role starts with. So the endpoint operator holds on every role of the [subset-intersection network](subset-intersection-network.md).
+
+The endpoint operator is instantiated by the [bit procedure](bit-procedure.md). <cite data-source="paper">For the bit procedure, that endpoint operator is an address shear</cite>, which adds $D$ to $H$ and keeps $D$. The endpoint operator of the bit procedure is implemented by [field interchanges](address-interchange.md). <cite data-source="paper">Section 4 turns that shear into a field interchange</cite>.
+
+The intermediate frames cancel, so they are free to serve another purpose: <cite data-source="paper">intermediate frames are chosen so that every edge can be implemented by smaller calls to the same</cite> procedure.

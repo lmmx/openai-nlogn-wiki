@@ -1,0 +1,103 @@
+{
+  "symbols": [
+    {
+      "symbol": "h_p",
+      "name": "precision unit",
+      "meaning": "$2^{-p}$, the size of one unit in the last place of a stored value.",
+      "relation": "direct",
+      "quote": "Write $h_p = 2^{-p}$ for the size of one unit in the last place of a stored value; an error of $a$ units is an absolute error below $a\\,h_p$."
+    },
+    {
+      "symbol": "L",
+      "name": "log of box size",
+      "meaning": "$\\log_2 T$, the base-two logarithm of the padded box size $T$.",
+      "relation": "direct",
+      "quote": "Here $T$ counts the entries of the [Padded transform box](padded-transform-box.md), a power of two in $[4n/b, 8n/b)$, and $L=\\log_2 T$; the letter $L$ changes meaning here."
+    },
+    {
+      "symbol": "\\gamma",
+      "name": "construction constant",
+      "meaning": "A construction constant of the source, with $\\gamma = o(b)$.",
+      "relation": "direct",
+      "quote": "Here $\\gamma$ is the construction constant of the source."
+    },
+    {
+      "symbol": "E_{\\rm ring}",
+      "name": "ring-stage error",
+      "meaning": "The error of the polynomial-ring convolution stage, in units of $h_p$, bounded by $5TL$.",
+      "relation": "direct",
+      "quote": "Call this error $E_{\\rm ring}$, in units of $h_p$; so $E_{\\rm ring}<5TL$."
+    },
+    {
+      "symbol": "E_s",
+      "name": "source-transform error",
+      "meaning": "The error of the source transform stage, in units of $h_p$.",
+      "relation": "direct",
+      "quote": "The source transform contributes an error $E_s$ in units of $h_p$"
+    },
+    {
+      "symbol": "E_w",
+      "name": "scaled-result error",
+      "meaning": "The error, in units of $h_p$, of the first scaled result before the final scalings.",
+      "relation": "direct",
+      "quote": "The first multiplication by $S$ then gives the scaled result with error $E_w$ units"
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "polynomial-ring-convolution",
+      "predicate": "bounds the error of",
+      "quote": "This step bounds the error of the [Convolution over the polynomial ring](polynomial-ring-convolution.md), computed from two forward transforms, a pointwise product, and an opposite transform."
+    },
+    {
+      "prerequisite": "guard-width-bound",
+      "predicate": "takes its guard widths from",
+      "quote": "This analysis takes its guard widths from the [Guard-width bound](guard-width-bound.md), so each stored value is exact and only the stated truncations contribute error."
+    },
+    {
+      "prerequisite": "phase-twist",
+      "predicate": "bounds the error of",
+      "quote": "This analysis bounds the error of the [Phase twist](phase-twist.md) at each end of the ring map by $4h_p$, because rounding to the grid adds"
+    },
+    {
+      "prerequisite": "array-norm",
+      "predicate": "bounds the norm of",
+      "quote": "This analysis bounds the norm of every operand by one, where the norm is the [Array norm](array-norm.md), the largest modulus of an entry."
+    },
+    {
+      "prerequisite": "bilinear-map",
+      "predicate": "sums the errors of",
+      "quote": "For a [Bilinear map](bilinear-map.md) of two approximate operands, the error of the result sums the errors of the operands, each weighted by the norm of the other."
+    },
+    {
+      "prerequisite": "opposite-transform",
+      "predicate": "includes the error of",
+      "quote": "The stage bound includes the error of the [Opposite transform](opposite-transform.md), which inverts the forward transform up to a known factor, and of both forward transforms."
+    },
+    {
+      "prerequisite": "padded-transform-box",
+      "predicate": "counts the entries of",
+      "quote": "Here $T$ counts the entries of the [Padded transform box](padded-transform-box.md), a power of two in $[4n/b, 8n/b)$, and $L=\\log_2 T$; the letter $L$ changes meaning here."
+    },
+    {
+      "prerequisite": "prime-source-lengths",
+      "predicate": "divides by the product of",
+      "quote": "The final bound divides by the product $S$ of the [Prime source lengths](prime-source-lengths.md)."
+    },
+    {
+      "prerequisite": "little-o-notation",
+      "predicate": "uses the growth of",
+      "quote": "The bound uses the growth of $\\gamma$ in the [Little-o notation](little-o-notation.md) sense: $\\gamma = o(b)$."
+    },
+    {
+      "prerequisite": "normalization-scales",
+      "predicate": "undoes the normalizations of",
+      "quote": "The final scaling undoes the normalizations of the [Normalization scales](normalization-scales.md): $S$ reverses the normalization left in the first result, and $2^{2b+4}$ reverses the two input scales."
+    },
+    {
+      "prerequisite": "grid-numerator",
+      "predicate": "acts exactly on",
+      "quote": "Both scaling multiplications act exactly on the integer [Grid numerator](grid-numerator.md) of each value, so they add no error of their own."
+    }
+  ]
+}

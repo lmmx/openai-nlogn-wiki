@@ -1,0 +1,15 @@
+A diagonal scaling is a linear operator that multiplies each coordinate of a vector by its own fixed scalar. It is the phase step of the argument, because the paper's [simultaneous butterfly layer](simultaneous-butterfly-layer.md) is built from diagonal phase operations: <cite data-source="paper">becomes the simultaneous H0 layer after diagonal phase operations and a dyadic scale.</cite>
+
+A diagonal scaling is an operator built from the linear maps of [Linear algebra basics](linear-algebra-basics.md). Let $F$ be the field of scalars, and let $\mathcal I$ be the finite set of coordinate labels, one for each coordinate of the vectors. Each label $\iota\in\mathcal I$ names one coordinate, and $x_\iota$ is the value of a vector $x$ at that coordinate. Write $F^{\mathcal I}$ for the vector space of arrays $x=(x_\iota)_{\iota\in\mathcal I}$ with entries $x_\iota\in F$. Given a family of scalars $\tau=(\tau_\iota)_{\iota\in\mathcal I}$ with each $\tau_\iota\in F$, the diagonal scaling $\Delta_\tau$ is the map
+
+$$(\Delta_\tau x)_\iota=\tau_\iota\,x_\iota \qquad\text{for every } \iota\in\mathcal I.$$
+
+Each output coordinate depends on only one input coordinate, and it does so linearly. So $\Delta_\tau(x+y)=\Delta_\tau x+\Delta_\tau y$ and $\Delta_\tau(cx)=c\,\Delta_\tau x$ for vectors $x,y$ and scalars $c\in F$. Its matrix has $\tau_\iota$ in position $(\iota,\iota)$ and zeros elsewhere, which is where the name comes from.
+
+The phase operator used by the butterfly layer is a diagonal scaling. Its index set is the set of addresses, and the scalar at each address is a power of the imaginary unit $i$ fixed by that address's selected bits. In the paper's notation, <cite data-source="paper">The diagonal operator SD multiplies the value stored at an address by the phase</cite> determined by those bits, so the scalar at an address depends on that address alone. <cite data-source="paper">Here the unselected address bits are unchanged, and the same phase is applied to every coefficient</cite> stored at that address.
+
+Two facts follow from the definition. First, $\Delta_\tau$ is invertible exactly when every $\tau_\iota$ is nonzero. If all are nonzero, the scaling $\Delta_{\tau^{-1}}$ with $(\tau^{-1})_\iota=1/\tau_\iota$ is a two-sided inverse, because the $\iota$-th coordinate of $\Delta_{\tau^{-1}}\Delta_\tau x$ is $\tau_\iota^{-1}\tau_\iota x_\iota=x_\iota$. If some $\tau_{\iota_0}=0$, the vector with a $1$ in coordinate $\iota_0$ and $0$ elsewhere is sent to $0$, so the map is not injective. Second, $\Delta_\tau\Delta_\sigma=\Delta_{\tau\sigma}$, where $(\tau\sigma)_\iota=\tau_\iota\sigma_\iota$, so diagonal scalings compose by multiplying their scalars coordinatewise.
+
+Worked example. Take $F=\mathbb{C}$, $\mathcal I=\{1,2,3,4\}$ and $\tau=(1,\,i,\,-1,\,-i)$. For $x=(2,\,1+i,\,0,\,3)$,
+$$\Delta_\tau x=(2,\;i(1+i),\;0,\;-3i)=(2,\;-1+i,\;0,\;-3i).$$
+The inverse scalings are $\tau^{-1}=(1,\,-i,\,-1,\,i)$, and applying $\Delta_{\tau^{-1}}$ to the result gives $(2,\;-i(-1+i),\;0,\;i(-3i))=(2,\;1+i,\;0,\;3)=x$, as the composition rule predicts.

@@ -1,0 +1,22 @@
+Gaussian resampling replaces a [Discrete Fourier transform](discrete-fourier-transform.md) of arbitrary length $q$ by a transform of power-of-two length $W>q$. It reshapes the transforms of the [radix-digit convolution](radix-digit-convolution.md) that the integer product needs, so the later steps can use butterfly layers and polynomial transforms.
+
+Gaussian resampling converts the lengths for the [synthetic polynomial transforms](synthetic-transforms.md) into powers of two. <cite data-source="paper">The transform lengths needed for the integer product are pairwise coprime</cite>, whereas <cite data-source="paper">transforms use powers of two.</cite> Powers of two allow butterfly layers, and multiplying by a root of unity is a shift: <cite data-source="paper">multiplication by such a root is a signed shift of the</cite> coefficient list.
+
+Let $\sigma$ be the width, an integer with $2\le\sigma$ and $\sigma^2<p$, where $p>100$ is the precision. Gaussian resampling requires that $q$ and $W$ be [coprime](coprime.md), $\gcd(q,W)=1$, and $W/q-1>p/\sigma^4$. <cite data-source="paper">Lemma 19 (Resampling without executing the two permutations)</cite> states the identity below. For a real $x$, the Gaussian weight $\exp(-\pi x^2/\sigma^2)$ is near 1 when $|x|$ is small against $\sigma$, and near 0 otherwise.
+
+Gaussian resampling measures contraction with the [array norm](array-norm.md). <cite data-source="paper">The vector norm is the maximum modulus</cite> of a vector's entries. A linear map $L$ is a *contraction* when $\|L\|\le 1$, where the operator norm $\|L\|$ is the largest $\|Lu\|$ over vectors with $\|u\|\le 1$.
+
+For a length-$q$ vector $u$ with entries $u_j$, $0\le j<q$ (indices read modulo $q$), and an output index $k$ with $0\le k<W$, let $\Psi$ and $\Xi$ be the Gaussian-weighted sums
+$$(\Psi u)_k=\frac1\sigma\sum_{j\in\mathbb Z}\exp\Big(-\pi\sigma^{-2}\big(j-\tfrac{qk}{W}\big)^2\Big)u_j,\qquad (\Xi u)_k=\sum_{j\in\mathbb Z}\exp\Big(-\pi\sigma^{2}\big(\tfrac{Wj}{q}-k\big)^2\Big)u_j.$$
+
+Let $\mathcal J$ pick, for $0\le j<q$, entry $\lfloor Wj/q+\tfrac12\rfloor$ of a length-$W$ vector, the integer nearest $Wj/q$ with ties upward. Let $\Upsilon$ multiply entry $j$ by $\exp\big(\pi\sigma^2(Wj/q-\lfloor Wj/q+\tfrac12\rfloor)^2\big)$, which cancels the weight of $\Xi$ at that position.
+
+Put $\mathcal N=\mathcal J\,\Xi\,\Upsilon$, a map from length $q$ to length $q$. Its $j$-th entry is $u_j$ plus the other summands. <cite data-source="paper">The exact Gaussian identity and inverse estimate proved in [15, Theorem 4.2 and Lemma 4.6] give</cite> $\|\mathcal N-I\|<2^{-\sigma^2(W/q-1)}$. Since $\sigma^2(W/q-1)>p/\sigma^2>1$, <cite data-source="paper">Thus ∥N − I∥ < 1/2, so N is invertible by the Neumann series.</cite> For $\mathcal X=I-\mathcal N$ with $\|\mathcal X\|<1/2$, the partial sums $\sum_{l=0}^{K}\mathcal X^l$ satisfy $(I-\mathcal X)\sum_{l=0}^{K}\mathcal X^l=I-\mathcal X^{K+1}\to I$, so $\mathcal N^{-1}=\sum_{l\ge0}\mathcal X^l$ and $\|\mathcal N^{-1}\|\le 2$.
+
+Let $\Pi_q$ and $\Pi_W$ be the coordinate permutations $(\Pi_q u)_j=u_{Wj \bmod q}$ and $(\Pi_W u)_k=u_{-qk \bmod W}$, acting on vectors $u$ of length $q$ and $W$ respectively. $\Pi_q$ is a bijection because $Wj\equiv Wj' \pmod q$ forces $j\equiv j' \pmod q$, using $\gcd(q,W)=1$. For $q=5$ and $W=8$, $\Pi_5$ sends $(u_0,\dots,u_4)$ to $(u_0,u_3,u_1,u_4,u_2)$, since $8j \bmod 5$ runs through $0,3,1,4,2$.
+
+<cite data-source="paper">The first identity uses the negative Fourier sign in our definition of Fq</cite>: it says $\Xi\,\Pi_qF_q=\Pi_WF_W\,\Psi$. Since $\mathcal N\Upsilon^{-1}=\mathcal J\,\Xi$, the map $\Upsilon\mathcal N^{-1}\mathcal J$ is a left inverse of $\Xi$, so $\Pi_qF_q=\Upsilon\mathcal N^{-1}\mathcal J\,\Pi_WF_W\,\Psi$. With $\mathcal E=\Psi/2$ and $\mathcal U=2^{1-2\sigma^2}\,\Upsilon\mathcal N^{-1}\mathcal J$, the constants multiply to $2^{2\sigma^2}\cdot2^{1-2\sigma^2}\cdot\tfrac12=1$, giving
+
+$$\Pi_qF_q=2^{2\sigma^2}\,\mathcal U\,\Pi_WF_W\,\mathcal E.$$
+
+Gaussian resampling replaces the Fourier transforms by [multidimensional transforms](multidimensional-transform.md) whose axis lengths are powers of two. <cite data-source="paper">Lemma 20 (Tensor interface)</cite> applies the identity axis by axis. <cite data-source="paper">The proof of Proposition 4.7(i) in the cited paper gives</cite> $\|\mathcal E\|<3/4$ and $\|\mathcal U\|<1$, and <cite data-source="paper">Because ∥C∥ = 1, both are contractions.</cite>

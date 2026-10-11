@@ -1,0 +1,7 @@
+Near-linear time is built from the [Logarithm](logarithm.md) $\lg n$: a running time is near-linear when it is $O\big(n(\lg n)^{c}\big)$ for some fixed real exponent $c$, the power to which the logarithm factor is raised. The paper's main result achieves a bound of this form, so this page defines the target that the rest of the argument reaches.
+
+The paper's theorem gives its machine $A$ this bound. <cite data-source="paper">Its worst-case running time satisfies</cite> $T_A(n) = O\big(n(\lg n)^{1-\kappa}\big)$, with $\kappa = 2^{-182}$, so $c = 1-\kappa$ and the bound is near-linear. <cite data-source="paper">The constants and thresholds in the construction are extremely large</cite>, so the result concerns growth as $n$ grows, not a practical running time.
+
+Two examples inside the class: with $c = 1$ the bound is $n\lg n$, and with $c = 2$ it is $n(\lg n)^2$. A power of $n$ falls outside it. For $n^{3/2}$, the ratio $n^{3/2} / \big(n(\lg n)^{c}\big) = \sqrt{n}/(\lg n)^{c}$ grows without bound for every fixed $c$, because a power of $n$ outgrows every power of $\lg n$.
+
+The theorem's exponent $1-\kappa$ is below $1$, so its bound is smaller than $n\lg n$ by the ratio $(\lg n)^{-\kappa}$, which tends to $0$ as $n$ grows. This gap is what the paper's claim that the algorithm <cite data-source="paper">disproves the n log n</cite> optimality conjecture rests on. The gap is tiny at every input length that can be written down: the ratio first reaches one half only when $\lg n = 2^{2^{182}}$.

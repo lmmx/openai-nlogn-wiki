@@ -1,0 +1,19 @@
+A bilinear form decides when two vectors are orthogonal. The [subspace labels](subspace-labels.md) of the networks below are nondegenerate subspaces of one fixed form: <cite data-source="paper">A label is a nondegenerate subspace of a fixed bilinear</cite> space.
+
+Let $E$ be a vector space over the field $F$ of scalars. A bilinear form on $E$ is a special case of a [bilinear map](bilinear-map.md) whose two arguments both come from $E$: it takes vectors $x$ and $y$ of $E$ to a scalar $\langle x,y\rangle$ in $F$, and it is linear in $x$ when $y$ is fixed and linear in $y$ when $x$ is fixed. Two vectors are *orthogonal* when their form value is $0$.
+
+Let $U$ be a subspace of $E$. Its *orthogonal complement* $U^\perp$ is the set of vectors $x$ in $E$ with $\langle x,y\rangle=0$ for every $y$ in $U$. The form is *nondegenerate* when $E^\perp=\{0\}$, so that $0$ is the only vector orthogonal to all of $E$.
+
+Fix a basis $e_1,\dots,e_m$ of $E$, so $m$ is the dimension of $E$, and let $e_j$ be the $j$-th basis vector. For a matrix $M$, its transpose $M^{\top}$ has entries $(M^{\top})_{ij}=M_{ji}$. In coordinates, the form is written with the matrices of [linear algebra basics](linear-algebra-basics.md). Let $x_i$ be the $i$-th coordinate of $x$, so $x=\sum_i x_ie_i$, and let $y_j$ be the $j$-th coordinate of $y$. Let $\Psi$ be the $m\times m$ matrix with entries $\Psi_{ij}=\langle e_i,e_j\rangle$. Writing $x$ and $y$ as columns, linearity in each argument gives $\langle x,y\rangle=x^{\top}\Psi y$.
+
+So $x$ is orthogonal to all of $E$ exactly when the row $x^{\top}\Psi$ is zero (test $y$ on each standard coordinate column), that is, when $\Psi^{\top}x=0$, since $(x^{\top}\Psi)^{\top}=\Psi^{\top}x$. Thus the form is nondegenerate exactly when $\Psi^{\top}x=0$ forces $x=0$, which says $\Psi^{\top}$ is invertible. Since $\det\Psi^{\top}=\det\Psi$, the form is nondegenerate exactly when $\Psi$ is invertible.
+
+The form below is the label space of the paper's [bit network](bit-network.md). <cite data-source="paper">For the bit network, let F = Qh with bilinear form</cite> on $E=\mathbb{Q}^h$, where $h$ is the size of the ground set and <cite data-source="paper">h = 100</cite>:
+$$\langle x,y\rangle=x^{\top}(I-J/9)\,y,$$
+<cite data-source="paper">where J is the all-one matrix.</cite> Here $J$ has every entry 1, so $\Psi=I-J/9$.
+
+Let $\mathbf 1$ be the column of $h$ ones. Each row of $J$ sums to $h$, so $J\mathbf 1=h\mathbf 1$. If the entries of $x$ sum to 0, then $Jx=\mathbf 1(\mathbf 1^{\top}x)=0$. Hence $\Psi\mathbf 1=(1-h/9)\mathbf 1$ and $\Psi x=x$ for each such $x$. These vectors span $\mathbb{Q}^h$, since $\mathbf 1$ is not among them. So $\Psi$ has eigenvalues $1-h/9$ and $1$, and with $h=100$ the first is $-91/9$. Nondegeneracy is decided by the [eigenvalues](eigenvalue.md) of $\Psi$, since $\Psi$ is invertible exactly when none of them is zero. Neither is zero: <cite data-source="paper">This form has eigenvalues 1 and 1−h/9 = −91/9, so it is nondegenerate.</cite>
+
+Write $[h]=\{1,\dots,h\}$ for the set of the first $h$ positive integers. For a triple $T$, a three-element subset of $[h]$, let $t_T$ be its indicator vector, with entry 1 at each element of $T$ and 0 elsewhere. For triples $S$ and $T$ (each a three-element subset of $[h]$, with indicator vector $t_S$ or $t_T$), $\mathbf 1^{\top}t_S=\mathbf 1^{\top}t_T=3$ and $t_S^{\top}t_T=|S\cap T|$, which counts the common elements. Since $J=\mathbf 1\mathbf 1^{\top}$, we have $\langle x,y\rangle=x^{\top}y-\frac19(\mathbf 1^{\top}x)(\mathbf 1^{\top}y)$, so
+$$\langle t_S,t_T\rangle=|S\cap T|-\tfrac{3\cdot 3}{9}=|S\cap T|-1,$$
+<cite data-source="paper">⟨tS , tT ⟩ = |S ∩ T | − 1</cite>. Taking $S=T$ gives $\langle t_T,t_T\rangle=3-1=2$, as the paper records: <cite data-source="paper">⟨tT , tT ⟩ = 2.</cite>

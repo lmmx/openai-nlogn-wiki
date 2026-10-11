@@ -1,0 +1,9 @@
+A linear contraction is a linear map between the vector spaces of [Linear algebra basics](linear-algebra-basics.md) that does not increase the maximum modulus of any vector. Its role is to let errors pass through a computation without growing, so that the error in the computed coefficients stays small enough for rounding to return the exact integers.
+
+Let $L\colon \mathbb{C}^m \to \mathbb{C}^{m'}$ be a linear map, where $m$ is the number of coordinates of its input vectors and $m'$ is the number of coordinates of its output vectors. For a vector $w \in \mathbb{C}^m$, $\|w\|$ denotes the maximum modulus of its coordinates. <cite data-source="paper">The vector norm is the maximum modulus of its coordinates.</cite>
+
+The map $L$ is a linear contraction when $\|Lw\| \le \|w\|$ for every $w \in \mathbb{C}^m$. Equivalently, its operator norm $\|L\| = \sup_{\|w\| \le 1} \|Lw\|$ satisfies $\|L\| \le 1$.
+
+A linear contraction propagates an input error without increasing it. Suppose the computed input is $w + \eta$ and the exact input is $w$, so that $\eta$ is the error vector. By linearity, $L(w+\eta) - Lw = L\eta$, and therefore $\|L(w+\eta) - Lw\| \le \|\eta\|$. <cite data-source="paper">A linear contraction propagates an input error without increasing it.</cite>
+
+For example, let $F_2$ be the normalized transform of length $2$, which maps $\mathbb{C}^2$ to $\mathbb{C}^2$. For $w = (1, i)$, its two output coordinates are $\frac{1+i}{2}$ and $\frac{1-i}{2}$, each of modulus $\frac{\sqrt{2}}{2} \approx 0.71$. Hence $\|F_2 w\| \approx 0.71 \le 1 = \|w\|$. The unnormalized pair of sums $(1+i,\ 1-i)$ has norm $\sqrt{2} \approx 1.41 > 1$, so the division by the length $2$ is what makes this transform a contraction. The same reasoning applies to every normalized transform: <cite data-source="paper">Each normalized Fourier transform above is a contraction, since each output averages inputs multiplied by complex numbers of modulus one.</cite>

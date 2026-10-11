@@ -1,0 +1,15 @@
+Schoolbook multiplication is the grade-school method for multiplying two binary integers one bit at a time. It is the base case of the fast construction in [Integer multiplication below n log n](main-theorem.md), which uses it for shorter inputs.
+
+For a position $\sigma$, an integer from $0$ to $n-1$ counted from the least significant end, let $y_\sigma \in \{0,1\}$ be the bit of $y$ there, so that $\mathrm{val}(y)=\sum_{\sigma=0}^{n-1} y_\sigma 2^\sigma$. Shifting a string left by $\sigma$ places appends $\sigma$ zeros on the right, which multiplies its value by $2^\sigma$. The partial product $\zeta_\sigma$ is the copy of $x$ shifted left by $\sigma$ places when $y_\sigma=1$, and $0$ when $y_\sigma=0$. Thus $\zeta_\sigma=y_\sigma 2^\sigma\,\mathrm{val}(x)$, and summing over $\sigma$ gives
+
+$$\mathrm{val}(x)\,\mathrm{val}(y)=\sum_{\sigma=0}^{n-1}\zeta_\sigma.$$
+
+Worked example: take $n=3$, $x=011$ and $y=101$, so $\mathrm{val}(x)=3$ and $\mathrm{val}(y)=5$. Here $y_0=1$, $y_1=0$ and $y_2=1$, so $\zeta_0=011$, $\zeta_1=0$ and $\zeta_2=01100$, the copy of $011$ shifted two places left. Aligned and added, $00011+00000+01100=01111$, which is $15=3\times 5$.
+
+Each $\zeta_\sigma$ has at most $2n$ bits. Adding one to the running sum takes $O(n)$ steps, one per bit position, with carries handled in the same pass. With $n$ additions the total is $O(n^2)$ steps. Schoolbook multiplication is a method for [Exact integer multiplication](exact-integer-multiplication.md): it outputs the full $2n$-bit product of two $n$-bit inputs, and it is exact for every input.
+
+Schoolbook multiplication is the base case of a construction costed through its [logical bit volume](logical-bit-volume.md), which is needed because the construction's parameters are set only for large inputs. <cite data-source="paper">For sufficiently large n, put</cite> $b=\lceil\log_2 n\rceil$ and <cite data-source="paper">p = 6b,</cite> so $p=O(\lg n)$, and $b=\lg n$ for $n\ge 2$. $T$ counts the cells of the padded box. Taking $T$ with $4n/b\le T<8n/b$ gives $Tp<(8n/b)(6b)=48n$, so the logical bit volume $Tp$ is $O(n)$.
+
+The paper's cost table divides each cost by $Tp$ and gives a power of $p$ for each. <cite data-source="paper">Each of the seven displayed powers is at most 1 − 2κ by (45).</cite> A fixed power of $\log p$ is at most $p^{\kappa}$ for large $p$, so each dominant cost is at most a constant times $Tp\cdot p^{1-2\kappa}\cdot p^{\kappa}=Tp\cdot p^{1-\kappa}$. Since $Tp=O(n)$ and $p^{1-\kappa}=O((\lg n)^{1-\kappa})$, each is $O(n(\lg n)^{1-\kappa})$.
+
+This bound applies to large inputs only. <cite data-source="paper">Fix one cutoff beyond all the size, precision, margin and layout conditions, and use schoolbook</cite> multiplication for inputs shorter than it. Each of the finitely many shorter lengths has a fixed worst-case cost, so their largest cost is a fixed number. Since $\lg n\ge 1$ and $1-\kappa>0$, we have $n(\lg n)^{1-\kappa}\ge 1$ for all $n\ge 1$, so that number is at most a constant times $n(\lg n)^{1-\kappa}$. Hence the time is $O(n(\lg n)^{1-\kappa})$ for every input length.

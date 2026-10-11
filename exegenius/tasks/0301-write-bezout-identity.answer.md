@@ -1,0 +1,12 @@
+Bézout's identity says that the greatest common divisor of two integers is an integer combination of them. It supplies the [modular inverses](modular-inverse.md) that the [Chinese-remainder map](chinese-remainder-map.md) needs when its lengths are coprime.
+
+Let $\beta$ and $\gamma$ be integers, not both zero. Write $d=\gcd(\beta,\gamma)$ for their greatest common divisor, the largest positive integer dividing both. Bézout's identity is stated in terms of the greatest common divisor, which the [Coprime](coprime.md) page defines. The integer $\mu$ is the Bézout coefficient of $\beta$: the integer multiplying $\beta$ in a combination of $\beta$ and $\gamma$ that equals $d$. The integer $\nu$ is the Bézout coefficient of $\gamma$: the integer multiplying $\gamma$ in a combination of $\beta$ and $\gamma$ that equals $d$. The identity says that such integers exist:
+$$\beta\mu+\gamma\nu=d.$$
+
+The identity holds for every such pair, and the proof shows how to find $\mu$ and $\nu$. Let $\mu'$ and $\nu'$ be trial integers, which need not yet be the Bézout coefficients. Let $e$ be the least positive integer that can be written as $\beta\mu'+\gamma\nu'$ with $\mu'$ and $\nu'$ integers. The set of such positive values is nonempty because $\beta\beta+\gamma\gamma>0$, so $e$ exists. Divide $\beta$ by $e$: $\beta=\kappa e+\tau$ with $0\le\tau<e$, where $\kappa$ is the integer quotient and $\tau$ the remainder. Then $\tau=\beta(1-\kappa\mu')+\gamma(-\kappa\nu')$ has the same form, and it is smaller than $e$, so minimality forces $\tau=0$. Thus $e$ divides $\beta$, and the same argument shows $e$ divides $\gamma$. Hence $e\le d$. Conversely, $d$ divides $\beta$ and $\gamma$, so $d$ divides $e=\beta\mu'+\gamma\nu'$, giving $d\le e$. So $e=d$, and the trial coefficients $\mu'$ and $\nu'$ are the required $\mu$ and $\nu$.
+
+For $\beta=3$ and $\gamma=5$ we have $d=1$, and $3\cdot 2+5\cdot(-1)=1$, so $\mu=2$ and $\nu=-1$. The coefficients are not unique: $\mu=2+5t$ and $\nu=-1-3t$ also work for every integer $t$, because $3(2+5t)+5(-1-3t)=1$. For $\beta=12$ and $\gamma=18$ we have $d=6$ and $12\cdot(-1)+18\cdot 1=6$, so the combination equals the greatest common divisor rather than $1$.
+
+When $\beta$ and $\gamma$ are coprime, $d=1$ and $\beta\mu\equiv 1 \pmod{\gamma}$, so $\mu$ is an inverse of $\beta$ modulo $\gamma$. For $3$ and $5$ this gives $\mu=2$, since $6\equiv 1 \pmod 5$.
+
+The paper uses the same algorithm to reduce rational coefficients: <cite data-source="paper">by the extended Euclidean algorithm using ordinary tape arithmetic</cite>.
