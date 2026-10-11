@@ -1,7 +1,0 @@
-The established multiplier is a known deterministic algorithm that multiplies two $N$-bit integers in $O(N \log N)$ time on a multitape Turing machine. Harvey and van der Hoeven proved this unconditional bound, and the paper uses it as a black box. It is the same kind of object as the [exact integer multiplication](exact-integer-multiplication.md) problem, but it is applied to the smaller integers that appear inside the main algorithm.
-
-The paper's main construction does not call itself recursively on its own large integers. It calls the established multiplier on integers formed from [records](record.md) whose length is $O(rp)$, where $r$ is a power of two and $p$ is a precision parameter. The paper shows that this length is $o(n)$, so these calls are on inputs much shorter than the original problem.
-
-The paper states that these calls are ordinary subroutine calls, and that they do not invoke the improved theorem recursively. So the bound it proves uses the subroutine only through its known $O(N \log N)$ cost.
-
-These calls are used in [signed coefficient packing](signed-packing.md), which turns a product of polynomials into one integer product. As a concrete count, each pointwise ring product has $T/r$ records, where $T$ is the length of the padded transform, the product of its axis lengths, and four integer products on $O(rp)$ bits per record cost $O(Tp \log(rp))$ in total. This is one of the terms in the final cost bound.
