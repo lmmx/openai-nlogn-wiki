@@ -1,0 +1,5 @@
+Gaussian resampling is a technique for computing a Fourier transform of arbitrary length by transforms whose axis lengths are powers of two. It is the step that makes the integer product computable with power-of-two transforms, which have simple butterfly networks.
+
+Gaussian resampling is applied to the [Radix-digit convolution](radix-digit-convolution.md) of two integers, which needs Fourier transforms of lengths that are not powers of two. The reduction of Harvey and van der Hoeven replaces these transforms by multidimensional transforms <cite data-source="paper">whose axis lengths are powers of two</cite>.
+
+The difficulty is that a transform of length 3 needs cube roots of unity, and a radix-2 butterfly network works only with lengths that are powers of two. Gaussian resampling avoids this by moving between two sets of frequencies: the frequencies of the original length, and the frequencies of the power-of-two box. Gaussian weights, multiplied onto the values before and after the power-of-two transforms, perform this move.

@@ -1,0 +1,191 @@
+{
+  "planned": [
+    "chinese-remainder-map",
+    "exact-integer-multiplication",
+    "gaussian-resampling",
+    "prime-source-lengths",
+    "radix-digit-convolution"
+  ],
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "Distinct odd primes $s_1,\\dots,s_d$ exist with $(1-2\\eta)t_i<s_i\\le(1-\\eta)t_i$ for every axis $i$, and their product $S=\\prod_i s_i$ satisfies $T/2<S<T$.",
+    "from": [
+      "prime-numbers",
+      "gaussian-resampling",
+      "radix-digit-convolution",
+      "chinese-remainder-map",
+      "exact-integer-multiplication"
+    ],
+    "method": "pick each $s_i$ as a prime in a prime-dense interval just below the padded length $t_i$, then bound the product of the ratios",
+    "motivation": {
+      "text": "Each prime must be close to its power of two so that the product fills a fixed fraction of the padded box, and each ratio must leave room for resampling; a prime in a dense interval below $t_i$ meets both.",
+      "source": "explicit",
+      "quote": {
+        "source": "paper",
+        "quote": "fixed fraction of the padded box, while each ratio ti /si must leave enough separation for resampling."
+      }
+    },
+    "salient": "The product $S$ lies strictly between $T/2$ and $T$, a fixed fraction of the padded box, although each prime is chosen independently within its own interval.",
+    "adds": [
+      {
+        "symbol": "d",
+        "name": "number of axes",
+        "meaning": "for a count, the number of axes of the padded box, which is also the number of prime source lengths.",
+        "relation": "count"
+      },
+      {
+        "symbol": "\\eta",
+        "name": "interval margin",
+        "meaning": "the fixed fraction $\\eta=1/(4d)$ that sets how far below $t_i$ each prime interval lies.",
+        "relation": "direct"
+      },
+      {
+        "symbol": "t_i",
+        "name": "padded axis length",
+        "meaning": "the power of two that is the length of axis $i$ of the padded box.",
+        "relation": "direct"
+      },
+      {
+        "symbol": "T",
+        "name": "padded box size",
+        "meaning": "the product of the padded axis lengths, the number of entries in the padded box.",
+        "relation": "direct"
+      },
+      {
+        "symbol": "s_i",
+        "name": "prime source length",
+        "meaning": "the distinct odd prime chosen as the source length on axis $i$.",
+        "relation": "direct"
+      },
+      {
+        "symbol": "S",
+        "name": "product of source lengths",
+        "meaning": "the product $\\prod_i s_i$ of the prime source lengths.",
+        "relation": "direct"
+      }
+    ],
+    "page": "prime-source-lengths",
+    "children": [
+      {
+        "id": "S0.1",
+        "intention": "show",
+        "claim": "For $x\\in\\{r/2,r\\}$ the interval $((1-2\\eta)x,(1-\\eta)x]$ contains more than $d$ primes.",
+        "from": [
+          "prime-numbers",
+          "logarithms-floor-and-ceiling"
+        ],
+        "method": "apply the prime-interval bound to each interval and compare its prime count with $d$",
+        "motivation": {
+          "text": "Choosing $d$ distinct primes from one interval needs more than $d$ primes in it, and a count bound that grows with $x$ supplies this.",
+          "source": "recoverable"
+        },
+        "adds": [
+          {
+            "symbol": "x",
+            "name": "interval length",
+            "meaning": "the reference padded length, either $r/2$ or $r$, whose prime interval is considered.",
+            "relation": "direct"
+          }
+        ],
+        "children": [
+          {
+            "id": "S0.1.1",
+            "intention": "infer",
+            "claim": "For $0<\\eta<1/4$ and $x>e^{2/\\eta}$, the interval $((1-2\\eta)x,(1-\\eta)x]$ contains at least $\\eta x/(2\\log x)$ primes.",
+            "from": [
+              "prime-numbers",
+              "logarithms-floor-and-ceiling"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "contains at least ηx/(2 log x) primes."
+            }
+          },
+          {
+            "id": "S0.1.2",
+            "intention": "infer",
+            "claim": "For $x\\in\\{r/2,r\\}$ we have $\\log x>8d=2/\\eta$, so the hypothesis $x>e^{2/\\eta}$ of the prime-interval bound holds.",
+            "from": [
+              "logarithms-floor-and-ceiling"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "Thus both x = r/2 and x = r satisfy log x > 8d = 2/η."
+            }
+          },
+          {
+            "id": "S0.1.3",
+            "intention": "infer",
+            "claim": "The prime-count bound $x/(8d\\log x)$ exceeds $d$ for large $n$, so each interval contains more than $d$ primes.",
+            "from": [
+              "prime-numbers"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "bound for the number of primes is x/(8d log x) and exceeds d:"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.2",
+        "intention": "infer",
+        "claim": "Distinct odd primes $s_i$ with $(1-2\\eta)t_i<s_i\\le(1-\\eta)t_i$ can be chosen, one for each axis $i$, because the two intervals are disjoint and lie above $2$.",
+        "from": [
+          "prime-numbers"
+        ],
+        "quote": {
+          "source": "paper",
+          "quote": "distinct odd primes satisfying"
+        }
+      },
+      {
+        "id": "S0.3",
+        "intention": "infer",
+        "claim": "Each $\\gcd(s_i,t_i)$ equals one, since $t_i$ is a power of two.",
+        "from": [
+          "greatest-common-divisor-and-coprimality",
+          "chinese-remainder-map"
+        ],
+        "quote": {
+          "source": "paper",
+          "quote": "Every gcd(si , ti ) equals one because ti is a power of two."
+        }
+      },
+      {
+        "id": "S0.4",
+        "intention": "show",
+        "claim": "The product $S=\\prod_i s_i$ satisfies $T/2<S<T$.",
+        "from": [],
+        "method": "multiply the lower bounds on the $s_i$ and bound the result by Bernoulli's inequality, then use $s_i<t_i$ for the upper bound",
+        "motivation": {
+          "text": "Multiplying the per-axis lower bounds turns the product ratio into a $d$-th power that Bernoulli's inequality bounds below by a constant, which gives the fixed fraction.",
+          "source": "recoverable"
+        },
+        "children": [
+          {
+            "id": "S0.4.1",
+            "intention": "infer",
+            "claim": "Multiplying the lower bounds on $s_i$ and applying Bernoulli's inequality gives $S/T>(1-1/(2d))^d>1/2$ for $d\\ge 2$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "bounds on si and applying strict Bernoulli inequality gives"
+            }
+          },
+          {
+            "id": "S0.4.2",
+            "intention": "infer",
+            "claim": "Together with $s_i<t_i$, this gives $T/2<S<T$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "this gives T /2 < S < T"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

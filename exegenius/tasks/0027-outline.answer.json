@@ -1,0 +1,35 @@
+{
+  "overview": "This wiki explains how to compute a cyclic convolution of arbitrary length with Fourier transforms whose axis lengths are all powers of two. The target result is the choice of prime source lengths: for padded axis lengths $t_1,\\dots,t_d$, each a power of two, pick distinct odd primes $s_i$ just below each $t_i$ so that $S=\\prod_i s_i$ and $T=\\prod_i t_i$ satisfy $T/2<S<T$. The source length then fills a fixed fraction of the padded box, so the padding is at most a factor of two.\n\nThe route has four parts. The first, [Exact integer multiplication](exact-integer-multiplication.md) and [Radix-digit convolution](radix-digit-convolution.md), recasts an integer product as a polynomial convolution of short digit coefficients. The second part introduces [Gaussian resampling](gaussian-resampling.md), which handles a transform of length $S$ through transforms of power-of-two lengths by moving between two sets of frequencies with Gaussian weights. The third part presents the [Chinese-remainder map](chinese-remainder-map.md), which relabels coefficient positions by mixed-radix digits so that one cyclic convolution over pairwise coprime lengths becomes a multidimensional cyclic convolution. The final part, [Prime source lengths](prime-source-lengths.md), selects the $s_i$ in windows $(1-2\\eta)t_i<s_i\\le(1-\\eta)t_i$ with $\\eta=1/(4d)$. Prime counting guarantees that each window holds more than $d$ primes, disjoint windows for $x$ and $2x$ keep the choices apart, and a Bernoulli bound turns the per-axis ratios into $T/2<S<T$.",
+  "glossary": [],
+  "parts": [
+    {
+      "title": "Integer products as convolutions",
+      "intro": "[Exact integer multiplication](exact-integer-multiplication.md) fixes the problem: the $2n$-bit product of two $n$-bit strings. [Radix-digit convolution](radix-digit-convolution.md) writes both integers as polynomials in a power of two, so that the product becomes a convolution of short digit coefficients that a transform can compute. Later parts reduce the transform lengths to the source lengths, so the reader needs this reduction first.",
+      "pages": [
+        "exact-integer-multiplication",
+        "radix-digit-convolution"
+      ]
+    },
+    {
+      "title": "Resampling between power-of-two lengths",
+      "intro": "[Gaussian resampling](gaussian-resampling.md) replaces a Fourier transform of arbitrary length by transforms whose axis lengths are powers of two. It uses Gaussian weights to move between the two sets of frequencies. The prime source lengths are sized so that this resampling has enough separation to work.",
+      "pages": [
+        "gaussian-resampling"
+      ]
+    },
+    {
+      "title": "Chinese-remainder relabeling",
+      "intro": "The [Chinese-remainder map](chinese-remainder-map.md) relabels coefficient positions by mixed-radix digits when the lengths are pairwise coprime. This turns one cyclic convolution into a multidimensional cyclic convolution over those lengths. The reader needs it because the prime source lengths are pairwise coprime, so the map applies to them.",
+      "pages": [
+        "chinese-remainder-map"
+      ]
+    },
+    {
+      "title": "Choosing prime source lengths",
+      "intro": "This part chooses one odd prime $s_i$ just below each padded length $t_i$, with distinct primes across axes. For $\\eta=1/(4d)$, prime counting shows that each window holds more than $d$ primes, and the windows for $x$ and $2x$ are disjoint. A Bernoulli bound then gives $T/2<S<T$ for the product $S=\\prod_i s_i$, which is the result the wiki is built to reach.",
+      "pages": [
+        "prime-source-lengths"
+      ]
+    }
+  ]
+}
