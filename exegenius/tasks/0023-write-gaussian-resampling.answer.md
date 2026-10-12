@@ -1,9 +1,0 @@
-Gaussian resampling is an identity that rewrites a Fourier transform of prime length as a transform over several axes whose lengths are powers of two. An axis is one index dimension of a multidimensional array, and a transform over several axes applies a one-dimensional transform along each axis in turn. The identity bridges two shapes: the integer product uses transform lengths that are pairwise coprime <cite data-source="paper">The transform lengths needed for the integer product are pairwise coprime</cite>, while the synthetic transforms use powers of two.
-
-Gaussian resampling operates on the prime axes produced by the [Chinese-remainder address map](chinese-remainder-address-map.md).
-
-Let $q$ be a prime, the number of entries of the sequence $u=(u_0,\dots,u_{q-1})$. Let $F_q$ be the normalized [discrete Fourier transform](fourier-transform.md) of length $q$, so that $(F_q u)_k=\frac1q\sum_{j=0}^{q-1}u_j e^{-2\pi i jk/q}$ for $0\le k<q$.
-
-Gaussian resampling expresses each source Fourier transform through a power-of-two tensor transform. It keeps the source and target coordinate permutations, which reorder the input and output indices, inside the transform identity <cite data-source="paper">source and target coordinate permutations in the transform identity, so they need not be executed as separate full sorts</cite>.
-
-The reason for power-of-two axes is that a transform along such an axis can be evaluated with roots of unity that are powers of $y$ in the [polynomial ring modulo $y^r+1$](polynomial-ring-y.md). Since $y^r=-1$, multiplying a coefficient list by $y$ shifts each coefficient one place along the list, and the coefficient that wraps past the end changes sign. For $r=4$, $y$ times $(c_0,c_1,c_2,c_3)$ is $(-c_3,c_0,c_1,c_2)$. Each power of $y$ is therefore a signed shift, so a transform along the axis needs only signed shifts and additions.

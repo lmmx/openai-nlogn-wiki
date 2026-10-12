@@ -1,9 +1,0 @@
-The Chinese-remainder address map is a rearrangement that places a coefficient list on a product of distinct prime cyclic axes (dimensions whose indices are taken modulo their lengths) while preserving convolution. It is implemented by [fast address interchange](address-interchange.md) steps. It is the first step of the argument, since later transforms treat each axis separately.
-
-Let $N$ be the number of coefficients in the list, and let $P$ be the number of axes. Let $L_1,\dots,L_P$ be the prime lengths of the axes, pairwise distinct, so that $N = L_1 L_2 \cdots L_P$.
-
-Let $J$ be a position in the list, running from $0$ to $N-1$. The map sends $J$ to its residues $(J \bmod L_1, \dots, J \bmod L_P)$, its remainders on each axis. For $N = 15 = 3 \cdot 5$, position $7$ goes to $(1, 2)$. Because the $L_i$ are distinct primes, they are pairwise coprime, so the Chinese remainder theorem says that every tuple of residues, one modulo each $L_i$, comes from exactly one integer modulo $N$. The map is therefore a bijection: each coefficient lands at exactly one tuple of axis positions, and no tuple receives two.
-
-The map preserves [cyclic convolution](cyclic-convolution.md) of length $N$; the source paper proves this for the placement, which applies here because the axis lengths are distinct primes. In the source, the radix-digit coefficient list is placed on a product of distinct prime cyclic axes <cite data-source="paper">by a Chinese-remainder map that preserves convolution</cite>.
-
-Controlled cyclic shifts, rotations of an axis by an amount set by a control value, are among these steps. The cost measure is worst-case time on the tape: an interchange of two address fields in an array of $V$ stored bits, with field width $u$, takes time at most a constant times $V u^\tau$, so the reordering costs the sum of the times of its interchanges.

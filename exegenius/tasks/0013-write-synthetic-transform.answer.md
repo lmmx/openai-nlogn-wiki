@@ -1,9 +1,0 @@
-A synthetic polynomial transform generalizes the [discrete Fourier transform](fourier-transform.md) to a polynomial ring whose roots of unity are powers of $y$. It computes the convolution of digits in this method, and it is cheap because each stage needs only signed shifts and additions.
-
-The transform works in the [polynomial ring modulo yʳ + 1](polynomial-ring-y.md), where multiplying by a power of $y$ is a signed cyclic shift of the coefficient list. The transform is built on $y$ as a [primitive root of unity](roots-of-unity.md) of order $2r$: since $y^r=-1$, $y^{2r}=1$ and no smaller positive power of $y$ equals $1$.
-
-Here $j$ is the frequency index and $k$ is the input position, and for a sequence $x_0,\dots,x_{2r-1}$ of ring elements its transform is $\hat x_j=\sum_{k=0}^{2r-1} y^{jk}x_k$.
-
-Both forward transforms use this same index convention, so their outputs are in the same frequency order $j=0,\dots,2r-1$. The pointwise products $\hat x_j\hat z_j$ therefore pair equal frequencies, and the inverse transform, which uses the root $y^{-1}=y^{2r-1}$, reads these products in the same order without reordering. Since $2r$ is invertible in $\mathbb{C}$, the pointwise product of the two transforms is the transform of the cyclic convolution of the two input sequences.
-
-Each stage is a set of butterflies: one entry is multiplied by a root, the twiddle factor, and then added to and subtracted from the other entry. When the twiddle factor is a power of $y$, this multiplication is a signed shift of the coefficient list, so a stage needs only shifts and additions and no complex multiplication. Multiplying by $y^m$ moves each coefficient cyclically, and a term that wraps around is negated. For $r=4$, $y^3(1+2y)=y^3+2y^4=-2+y^3$, since $y^4=-1$. The coefficient list $(1,2,0,0)$ becomes $(-2,0,0,1)$. <cite data-source="paper">multiplication by such a root is a signed shift of the coefficient list</cite>
