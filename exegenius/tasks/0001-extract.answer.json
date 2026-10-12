@@ -1,0 +1,344 @@
+{
+  "target": "integer-multiplication-target",
+  "concepts": [
+    {
+      "id": "integer-multiplication-target",
+      "name": "Integer multiplication in O(n(lg n)^(1-κ)) time",
+      "title": "Integer multiplication in $O(n(\\lg n)^{1-\\kappa})$ time",
+      "aliases": ["main theorem", "Theorem 1"],
+      "gloss": "A deterministic multitape Turing machine that multiplies two n-bit integers exactly in O(n(lg n)^(1-κ)) worst-case time for a fixed κ = 2^(-182) > 0, beating the n log n conjecture in this model.",
+      "requires": ["big-o", "multitape-tm", "nlogn-conjecture", "harvey-hoeven-multiplier", "recursive-power-saving", "convolution-reduction", "chinese-remainder-address-map", "gaussian-resampling", "bluestein-chirp", "polynomial-ring-y", "synthetic-transform", "simultaneous-butterfly-layer", "address-interchange", "rounding-recovery"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "We give a deterministic algorithm that multiplies two $n$-bit integers"}
+      ],
+      "symbols": [
+        {"symbol": "O", "name": "big-O bound", "meaning": "The asymptotic upper bound notation: a function is O(g) when it is at most a constant times g for all large inputs.", "relation": "direct"},
+        {"symbol": "n", "name": "input length", "meaning": "The number of bits in each of the two input integers.", "relation": "count"},
+        {"symbol": "\\lg", "name": "binary logarithm", "meaning": "The base-2 logarithm rounded up and at least 1, so that lg n = max{ceil(log2 n), 1}.", "relation": "direct"},
+        {"symbol": "\\kappa", "name": "power-saving exponent", "meaning": "The fixed constant 2^(-182) by which the logarithmic factor is reduced below lg n.", "relation": "direct"}
+      ]
+    },
+    {
+      "id": "big-o",
+      "name": "Big-O notation",
+      "title": null,
+      "aliases": ["O-notation"],
+      "gloss": "Notation O(g) for the set of functions bounded above by a constant multiple of g for all sufficiently large inputs.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "symbols": []
+    },
+    {
+      "id": "multitape-tm",
+      "name": "Multitape Turing machine",
+      "title": null,
+      "aliases": ["multitape Turing machine", "fixed-tape model"],
+      "gloss": "A Turing machine with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, each with its own head that moves at most one cell per step.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "symbols": []
+    },
+    {
+      "id": "complex-numbers",
+      "name": "Complex numbers",
+      "title": null,
+      "aliases": [],
+      "gloss": "Numbers a + bi with a, b real and i² = −1, used for the roots of unity and the coefficients of the transforms.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "symbols": []
+    },
+    {
+      "id": "polynomials",
+      "name": "Polynomials",
+      "title": null,
+      "aliases": [],
+      "gloss": "Expressions a₀ + a₁y + … + a_k y^k over a coefficient ring, with the usual addition and multiplication.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "symbols": []
+    },
+    {
+      "id": "nlogn-conjecture",
+      "name": "Schönhage–Strassen n log n conjecture",
+      "title": null,
+      "aliases": ["n log n optimality conjecture"],
+      "gloss": "The conjecture of Schönhage and Strassen that n log n is the optimal order of growth of the time to multiply two n-bit integers on a multitape Turing machine.",
+      "requires": ["big-o", "multitape-tm"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "proposed $n\\log n$ as the optimal order of growth"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "harvey-hoeven-multiplier",
+      "name": "Harvey–van der Hoeven O(n log n) multiplication",
+      "title": null,
+      "aliases": ["Harvey and van der Hoeven multiplier"],
+      "gloss": "The unconditional O(n log n) multiplication algorithm on a multitape Turing machine, used in this result as an ordinary subroutine.",
+      "requires": ["big-o"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Harvey and van der Hoeven reached the unconditional $O(n\\log n)$ upper"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "matrix-rank",
+      "name": "Matrix rank",
+      "title": null,
+      "aliases": ["rank"],
+      "gloss": "The rank of a matrix is the maximum number of linearly independent rows or columns; the number of nonzero pivots in elimination.",
+      "requires": [],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Each step isolates a rank-one block"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "fourier-transform",
+      "name": "Discrete Fourier transform",
+      "title": null,
+      "aliases": ["Fourier transform", "DFT"],
+      "gloss": "The map sending a length-n sequence to its values at the n-th roots of unity, i.e. the sums of the sequence weighted by powers of a root of unity.",
+      "requires": ["complex-numbers", "roots-of-unity"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "it replaces the Fourier transforms needed for"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "roots-of-unity",
+      "name": "Primitive roots of unity",
+      "title": null,
+      "aliases": ["root of unity"],
+      "gloss": "A complex number ω is a primitive n-th root of unity when ω^n = 1 and no smaller positive power equals 1.",
+      "requires": ["complex-numbers"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "serve as roots of unity in the remaining axes"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "cyclic-convolution",
+      "name": "Cyclic convolution",
+      "title": null,
+      "aliases": ["normalized cyclic convolution"],
+      "gloss": "The product of two sequences in which indices are taken modulo a fixed length, so each coefficient of the result is a sum of products over residues.",
+      "requires": ["polynomials"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "into normalized cyclic convolution"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "convolution-reduction",
+      "name": "Multiplication as convolution of digits",
+      "title": null,
+      "aliases": ["radix-digit convolution"],
+      "gloss": "Writing each integer in radix 2^b digits so that the integer product becomes a convolution of the digit sequences, which is then carried back to binary.",
+      "requires": ["cyclic-convolution", "polynomials"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "reduces multiplication to convolution of short integer coefficients"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "chinese-remainder-address-map",
+      "name": "Chinese-remainder address map",
+      "title": null,
+      "aliases": ["Chinese remainder map"],
+      "gloss": "A rearrangement that places a digit sequence on a product of distinct prime cyclic axes while preserving convolution, implemented with address interchanges.",
+      "requires": ["cyclic-convolution", "address-interchange"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "by a Chinese-remainder map that preserves convolution"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "gaussian-resampling",
+      "name": "Gaussian resampling",
+      "title": null,
+      "aliases": ["Gaussian gridding"],
+      "gloss": "An identity that expresses a Fourier transform of length given by a prime as a multidimensional transform with power-of-two axis lengths, with the source and target permutations kept in the identity.",
+      "requires": ["fourier-transform", "chinese-remainder-address-map"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Gaussian resampling then expresses each source Fourier transform through a"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "bluestein-chirp",
+      "name": "Bluestein's chirp identity",
+      "title": null,
+      "aliases": ["chirp identity", "Bluestein conversion"],
+      "gloss": "The identity that converts a Fourier transform into a cyclic convolution by multiplying by chirp factors before and after it.",
+      "requires": ["gaussian-resampling", "cyclic-convolution"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Bluestein's chirp identity converts the middle transform"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "polynomial-ring-y",
+      "name": "Polynomial ring modulo yʳ + 1",
+      "title": "Polynomial ring modulo $y^r + 1$",
+      "aliases": ["negacyclic ring"],
+      "gloss": "The ring of complex polynomials in y reduced modulo y^r + 1, where multiplying by a power of y is a signed cyclic shift of the coefficient list.",
+      "requires": ["polynomials", "complex-numbers", "cyclic-convolution"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "one coordinate is stored as the coefficient list of a polynomial modulo $y^r+1$"}
+      ],
+      "symbols": [
+        {"symbol": "y", "name": "ring indeterminate", "meaning": "The variable of the polynomial ring whose powers serve as roots of unity in the remaining axes.", "relation": "direct"},
+        {"symbol": "r", "name": "coefficient count", "meaning": "The number of coefficients in the coefficient list of one polynomial record, a power of two.", "relation": "count"}
+      ]
+    },
+    {
+      "id": "synthetic-transform",
+      "name": "Synthetic polynomial transform",
+      "title": null,
+      "aliases": ["Nussbaumer polynomial transform", "synthetic transform"],
+      "gloss": "A transform over a polynomial ring in which the roots of unity are powers of y, so that each transform stage uses only signed shifts and butterfly additions.",
+      "requires": ["polynomial-ring-y", "roots-of-unity", "fourier-transform"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "These are the synthetic polynomial transforms of Nussbaumer and Quandalle"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "kronecker-packing",
+      "name": "Signed Kronecker packing",
+      "title": null,
+      "aliases": ["Kronecker substitution", "signed packing"],
+      "gloss": "Encoding a polynomial with bounded signed coefficients as an integer by evaluating it at a large power of two, so that polynomial products become integer products.",
+      "requires": ["polynomial-ring-y", "convolution-reduction"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Signed coefficient packing is a form of Kronecker substitution"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "butterfly-operation",
+      "name": "Butterfly operation",
+      "title": null,
+      "aliases": ["two-point butterfly", "H_0"],
+      "gloss": "The two-point map (u, v) ↦ ((u + v)/2, (u − v)/2) applied to a pair of values, the basic step of a fast transform.",
+      "requires": ["complex-numbers", "fourier-transform"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "two-point butterfly operations"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "simultaneous-butterfly-layer",
+      "name": "Simultaneous butterfly layer",
+      "title": null,
+      "aliases": ["butterfly layer"],
+      "gloss": "A butterfly operation applied at once on one selected address bit of every record, with exact Gaussian dyadic intermediates and a single truncation after the layer.",
+      "requires": ["butterfly-operation", "linear-network-exchange", "complex-numbers"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "simultaneously on selected coordinate bits of the numerical arrays"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "linear-network-exchange",
+      "name": "Linear network with restored auxiliary values",
+      "title": null,
+      "aliases": ["linear network", "frame"],
+      "gloss": "A fixed linear network that exchanges banks of values with prescribed signs and restores every auxiliary value, with each gate acting on the stored array through a frame operator that cancels between edges.",
+      "requires": ["matrix-rank"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Each procedure arises from its own fixed linear network that exchanges two"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "lower-triangular-factorization",
+      "name": "Lower-triangular factorization",
+      "title": null,
+      "aliases": ["Bruhat factorization with reversed order"],
+      "gloss": "The factorization A = E₁ΠE₂ of a rational matrix into invertible lower-triangular factors and a partial permutation matrix with one 1 per pivot.",
+      "requires": ["matrix-rank"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "Every rational $m\\times m$ matrix $A$ of rank $a$ has a factorization"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "address-shear",
+      "name": "Address shear",
+      "title": null,
+      "aliases": ["matrix shear"],
+      "gloss": "The permutation (H, D) ↦ (H + AD, D) on two ordered groups of address fields, which is performed with as many pairwise interchanges as the rank of A.",
+      "requires": ["lower-triangular-factorization", "linear-network-exchange"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "two fields, written as vectors $H,D$ over a common residue ring, are"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "address-interchange",
+      "name": "Fast address interchange",
+      "title": null,
+      "aliases": ["bit interchange procedure"],
+      "gloss": "A tape procedure that swaps two disjoint contiguous address fields of an array in time O(V u^τ) for width u, computed through XOR combinations of intermediate data.",
+      "requires": ["address-shear", "linear-network-exchange", "multitape-tm"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "The first procedure interchanges two disjoint contiguous address fields"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "recursive-power-saving",
+      "name": "Recursive power saving",
+      "title": null,
+      "aliases": ["recursive saving"],
+      "gloss": "The mechanism in which a network with s smaller calls on W roles and parameter m gives a recursion with cost ratio s/W < m, so that repeated recursion saves a power of the parameter.",
+      "requires": ["linear-network-exchange", "address-interchange", "simultaneous-butterfly-layer"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "The decisive property is that the total number $s$ of smaller calls satisfies $s<Wm$."},
+        {"source": "paper", "quote": "This strict inequality is the source of the power saving"}
+      ],
+      "symbols": []
+    },
+    {
+      "id": "rounding-recovery",
+      "name": "Exact recovery by rounding",
+      "title": null,
+      "aliases": ["exact recovery"],
+      "gloss": "The step in which the approximate convolution coefficients are rounded to integers, provided the error is strictly below 1/2, and carries are then propagated to give the exact binary product.",
+      "requires": ["synthetic-transform", "simultaneous-butterfly-layer", "kronecker-packing", "bluestein-chirp"],
+      "known": false,
+      "evidence": [
+        {"source": "paper", "quote": "proves that the recovered coefficient error is strictly below $1/2$"}
+      ],
+      "symbols": []
+    }
+  ]
+}

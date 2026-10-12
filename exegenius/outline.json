@@ -1,0 +1,85 @@
+{
+  "planned": [
+    "address-interchange",
+    "address-shear",
+    "bluestein-chirp",
+    "butterfly-operation",
+    "chinese-remainder-address-map",
+    "convolution-reduction",
+    "cyclic-convolution",
+    "fourier-transform",
+    "gaussian-resampling",
+    "harvey-hoeven-multiplier",
+    "integer-multiplication-target",
+    "kronecker-packing",
+    "linear-network-exchange",
+    "lower-triangular-factorization",
+    "matrix-rank",
+    "nlogn-conjecture",
+    "polynomial-ring-y",
+    "recursive-power-saving",
+    "roots-of-unity",
+    "rounding-recovery",
+    "simultaneous-butterfly-layer",
+    "synthetic-transform",
+    "tensor-product"
+  ],
+  "overview": "This wiki explains how a deterministic multitape Turing machine multiplies two $n$-bit integers in $O(n(\\lg n)^{1-\\kappa})$ worst-case time, for a fixed $\\kappa = 2^{-182} > 0$. The result matters because the Schönhage–Strassen conjecture, discussed on [its page](nlogn-conjecture.md), holds that $n\\log n$ is the optimal growth for multiplication in this model. The bound beats that conjecture, so it is a counterexample to it.\n\nThe route has five parts. The first reduces integer multiplication to a carried cyclic convolution of radix-$2^b$ digits, using [the Fourier transform](fourier-transform.md), [cyclic convolution](cyclic-convolution.md) and [convolution reduction](convolution-reduction.md), with the $O(n\\log n)$ [multiplier](harvey-hoeven-multiplier.md) as a subroutine. The second builds the tape procedures that move data, namely [linear network exchange](linear-network-exchange.md), [address interchange](address-interchange.md) and [simultaneous butterfly layers](simultaneous-butterfly-layer.md), whose cost is a power of their parameter below one; [recursive power saving](recursive-power-saving.md) turns that into the exponent. The third places the digits on distinct prime cyclic axes with the [Chinese-remainder address map](chinese-remainder-address-map.md) and rewrites prime-length transforms through [Gaussian resampling](gaussian-resampling.md) and [Bluestein's chirp identity](bluestein-chirp.md). The fourth lifts the last cyclic coordinate into the [polynomial ring modulo $y^r+1$](polynomial-ring-y.md), where wrap-around is a signed shift, and computes transforms there with the [synthetic polynomial transform](synthetic-transform.md) and [signed Kronecker packing](kronecker-packing.md). The fifth recovers the exact product by [rounding](rounding-recovery.md) the approximate coefficients, whose error is below $1/2$, and then propagating carries.",
+  "parts": [
+    {
+      "title": "Background: transforms and convolution",
+      "intro": "The reader needs the conjecture that the target beats, the $O(n\\log n)$ multiplier used as a black box, and the transform vocabulary. [The discrete Fourier transform](fourier-transform.md) and [the butterfly operation](butterfly-operation.md) give the basic fast-transform step, and [cyclic convolution](cyclic-convolution.md) is the operation the whole argument reduces to. [Multiplication as convolution of digits](convolution-reduction.md) shows that the integer product is a carried convolution, which is the first main step.",
+      "pages": [
+        "nlogn-conjecture",
+        "harvey-hoeven-multiplier",
+        "fourier-transform",
+        "butterfly-operation",
+        "cyclic-convolution",
+        "convolution-reduction"
+      ]
+    },
+    {
+      "title": "Tape address procedures",
+      "intro": "These procedures move data on a multitape machine at cost $O(V)$ times a power of their parameter, and they are the only source of the saving in running time. [Linear network exchange](linear-network-exchange.md) and [lower-triangular factorization](lower-triangular-factorization.md) supply the linear-algebra core, and [address shear](address-shear.md) turns it into an exchange of address fields. [Address interchange](address-interchange.md) and [simultaneous butterfly layers](simultaneous-butterfly-layer.md) use these to swap fields and apply butterflies to all records at once, and [recursive power saving](recursive-power-saving.md) combines them into the recursion that gives an exponent below one.",
+      "pages": [
+        "linear-network-exchange",
+        "lower-triangular-factorization",
+        "address-shear",
+        "address-interchange",
+        "simultaneous-butterfly-layer",
+        "recursive-power-saving"
+      ]
+    },
+    {
+      "title": "Prime axes and prime-length transforms",
+      "intro": "The digit sequence must be placed where a cyclic convolution can be computed with transforms of convenient length. The [Chinese-remainder address map](chinese-remainder-address-map.md) places it on distinct prime cyclic axes using address interchanges. [Gaussian resampling](gaussian-resampling.md) then rewrites a prime-length transform as a multidimensional transform with power-of-two axes, and [Bluestein's chirp identity](bluestein-chirp.md) turns the middle transform into a normalized cyclic convolution.",
+      "pages": [
+        "chinese-remainder-address-map",
+        "gaussian-resampling",
+        "bluestein-chirp"
+      ]
+    },
+    {
+      "title": "Polynomial ring and synthetic transforms",
+      "intro": "The last cyclic coordinate is lifted into a polynomial ring in which multiplying by a power of $y$ is a signed shift, so wrap-around costs no multiplication. The [polynomial ring modulo $y^r+1$](polynomial-ring-y.md) provides this ring, and the [synthetic transform](synthetic-transform.md) over it uses only signed shifts and butterfly additions. [Signed Kronecker packing](kronecker-packing.md) then turns products over the ring into integer products that the $O(n\\log n)$ multiplier can compute.",
+      "pages": [
+        "polynomial-ring-y",
+        "synthetic-transform",
+        "kronecker-packing"
+      ]
+    },
+    {
+      "title": "Exact recovery and the main result",
+      "intro": "This part closes the argument. [Rounding recovery](rounding-recovery.md) shows that the coefficient error is below $1/2$, so rounding and carries give the exact binary product. [The target page](integer-multiplication-target.md) then assembles the earlier pages into the $O(n(\\lg n)^{1-\\kappa})$ bound and states the result in full.",
+      "pages": [
+        "rounding-recovery",
+        "integer-multiplication-target"
+      ]
+    }
+  ],
+  "glossary": [
+    "roots-of-unity",
+    "matrix-rank",
+    "tensor-product"
+  ]
+}

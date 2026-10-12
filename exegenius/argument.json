@@ -1,0 +1,421 @@
+{
+  "planned": [
+    "address-interchange",
+    "address-shear",
+    "bluestein-chirp",
+    "butterfly-operation",
+    "chinese-remainder-address-map",
+    "convolution-reduction",
+    "cyclic-convolution",
+    "fourier-transform",
+    "gaussian-resampling",
+    "harvey-hoeven-multiplier",
+    "integer-multiplication-target",
+    "kronecker-packing",
+    "linear-network-exchange",
+    "lower-triangular-factorization",
+    "matrix-rank",
+    "nlogn-conjecture",
+    "polynomial-ring-y",
+    "recursive-power-saving",
+    "roots-of-unity",
+    "rounding-recovery",
+    "simultaneous-butterfly-layer",
+    "synthetic-transform",
+    "tensor-product"
+  ],
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "Two $n$-bit integers can be multiplied exactly in $O(n(\\lg n)^{1-\\kappa})$ worst-case time on a deterministic multitape Turing machine, for a fixed $\\kappa=2^{-182}$.",
+    "from": [
+      "nlogn-conjecture"
+    ],
+    "method": "reduce the product to a digit convolution, compute that convolution through transform layers whose tape cost saves a power, and recover the exact product by rounding",
+    "motivation": {
+      "text": "Each transform level scans $\\Theta(n)$ bits, so only savings in both movement and arithmetic beat $n\\log n$.",
+      "source": "explicit",
+      "quote": {
+        "source": "paper",
+        "quote": "We therefore need savings in both movement and arithmetic."
+      }
+    },
+    "page": "integer-multiplication-target",
+    "children": [
+      {
+        "id": "S1",
+        "intention": "show",
+        "claim": "The integer product is the carried convolution of the radix-$2^b$ digit sequences of the two inputs.",
+        "from": [],
+        "method": "write each input in radix digits, convolve the digit sequences, and carry the result back to binary",
+        "motivation": {
+          "text": "Short digit coefficients let the transform machinery act on fixed-width records.",
+          "source": "recoverable"
+        },
+        "page": "convolution-reduction",
+        "children": [
+          {
+            "id": "S1.1",
+            "intention": "infer",
+            "claim": "Multiplication reduces to convolution of short integer coefficients.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Splitting the inputs into radix digits reduces multiplication to"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S2",
+        "intention": "show",
+        "claim": "Both tape procedures cost $O(V)$ times a power of their parameter whose exponent is strictly below one.",
+        "from": [
+          "matrix-rank",
+          "lower-triangular-factorization",
+          "address-shear",
+          "linear-network-exchange"
+        ],
+        "method": "give each procedure a fixed linear network with fewer smaller calls than roles, and iterate the resulting recursion",
+        "motivation": {
+          "text": "If the number of smaller calls per role is below the parameter multiplier, repeated recursion compounds into a power saving.",
+          "source": "recoverable"
+        },
+        "salient": "the saving is a fixed power of the parameter, with exponent strictly below one, uniform over all widths and volumes",
+        "adds": [
+          {
+            "symbol": "V",
+            "name": "stored bit volume",
+            "meaning": "the number of stored bits in the array a tape procedure acts on",
+            "relation": "count"
+          },
+          {
+            "symbol": "u",
+            "name": "field width",
+            "meaning": "the number of bits in each address field being interchanged",
+            "relation": "count"
+          },
+          {
+            "symbol": "\\tau",
+            "name": "address-interchange exponent",
+            "meaning": "the fixed exponent below one in the cost of an address interchange",
+            "relation": "direct"
+          },
+          {
+            "symbol": "\\lambda'",
+            "name": "butterfly-layer exponent",
+            "meaning": "the fixed exponent below one in the cost of a simultaneous butterfly layer",
+            "relation": "direct"
+          },
+          {
+            "symbol": "W",
+            "name": "role count",
+            "meaning": "the number of roles, that is fixed places, in the network",
+            "relation": "count"
+          },
+          {
+            "symbol": "s",
+            "name": "smaller-call count",
+            "meaning": "the number of smaller calls the network makes on an edge",
+            "relation": "count"
+          },
+          {
+            "symbol": "m",
+            "name": "parameter multiplier",
+            "meaning": "the factor by which a recursive call multiplies the parameter",
+            "relation": "direct"
+          }
+        ],
+        "page": "recursive-power-saving",
+        "children": [
+          {
+            "id": "S2.1",
+            "intention": "infer",
+            "claim": "The address interchange of $u$-bit fields costs $O(Vu^\\tau)$ for a fixed $\\tau<1$.",
+            "from": [
+              "arithmetic-modulo-2-and-xor"
+            ],
+            "page": "address-interchange",
+            "quote": {
+              "source": "paper",
+              "quote": "Its cost is $O(Vu^\\tau)$ for a fixed $\\tau<1$."
+            }
+          },
+          {
+            "id": "S2.2",
+            "intention": "infer",
+            "claim": "A simultaneous butterfly layer on $d$ chunks costs $O(Vd^{\\lambda'})$ for a fixed $\\lambda'<1$.",
+            "from": [
+              "butterfly-operation",
+              "dyadic-rationals",
+              "tensor-product"
+            ],
+            "page": "simultaneous-butterfly-layer",
+            "quote": {
+              "source": "paper",
+              "quote": "the cost is $O(Vd^{\\lambda'})$ for a"
+            }
+          },
+          {
+            "id": "S2.3",
+            "intention": "infer",
+            "claim": "Each tape procedure is a fixed linear network that exchanges two banks of values and restores every auxiliary value.",
+            "from": [
+              "linear-maps-matrix-operations-and-invertibility"
+            ],
+            "page": "linear-network-exchange",
+            "quote": {
+              "source": "paper",
+              "quote": "Each procedure arises from its own fixed linear network that exchanges two"
+            }
+          },
+          {
+            "id": "S2.4",
+            "intention": "infer",
+            "claim": "The network has $W$ roles and $s$ smaller calls with $s<Wm$.",
+            "from": [
+              "matrix-rank"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "number $s$ of smaller calls satisfies $s<Wm$."
+            }
+          },
+          {
+            "id": "S2.5",
+            "intention": "infer",
+            "claim": "Multiplying the parameter by $m$ multiplies the recursive cost ratio by $s/W<m$, which is a strict power saving.",
+            "from": [
+              "recurrence-relations-and-divide-and-conquer-recursion"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "increases the recursive contribution by $s/W<m$."
+            }
+          }
+        ]
+      },
+      {
+        "id": "S3",
+        "intention": "show",
+        "claim": "The radix-digit coefficient list is placed on a product of distinct prime cyclic axes, preserving convolution.",
+        "from": [
+          "cyclic-convolution",
+          "modular-arithmetic",
+          "prime-numbers-and-greatest-common-divisors"
+        ],
+        "method": "apply a Chinese-remainder split of the cyclic index, realized by controlled cyclic shifts and address interchanges",
+        "motivation": {
+          "text": "The Chinese-remainder split turns one cyclic convolution into a multidimensional one, and controlled shifts make the reordering cheap.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "with coordinate powers that make the change of order a"
+          }
+        },
+        "page": "chinese-remainder-address-map",
+        "children": [
+          {
+            "id": "S3.1",
+            "intention": "infer",
+            "claim": "The radix-digit coefficient list is placed on a product of distinct prime cyclic axes by a Chinese-remainder map that preserves convolution.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "First, the radix-digit coefficient list is placed on a product of"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S4",
+        "intention": "show",
+        "claim": "A Fourier transform of prime length is a multidimensional transform whose axis lengths are powers of two.",
+        "from": [
+          "roots-of-unity",
+          "fourier-transform"
+        ],
+        "method": "apply Gaussian resampling and keep the source and target permutations inside the transform identity",
+        "motivation": {
+          "text": "Power-of-two axes can be evaluated with polynomial roots of unity, which become signed shifts.",
+          "source": "recoverable"
+        },
+        "page": "gaussian-resampling",
+        "children": [
+          {
+            "id": "S4.1",
+            "intention": "infer",
+            "claim": "Gaussian resampling expresses each source Fourier transform through a power-of-two tensor transform.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "resampling then expresses each source Fourier transform through a"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S5",
+        "intention": "show",
+        "claim": "The middle transform, with its target permutation, becomes normalized cyclic convolution.",
+        "from": [
+          "cyclic-convolution",
+          "fourier-transform"
+        ],
+        "method": "Bluestein's chirp identity with chirp factors before and after the transform",
+        "motivation": {
+          "text": "A cyclic convolution is the form that the polynomial-ring convolution can compute.",
+          "source": "recoverable"
+        },
+        "page": "bluestein-chirp",
+        "children": [
+          {
+            "id": "S5.1",
+            "intention": "infer",
+            "claim": "Bluestein's chirp identity converts the middle transform into a normalized cyclic convolution.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Next, Bluestein's chirp identity converts the middle transform,"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S6",
+        "intention": "show",
+        "claim": "The last cyclic coordinate becomes a polynomial modulo $y^r+1$, so that its wrap is a signed shift.",
+        "from": [
+          "polynomials",
+          "roots-of-unity"
+        ],
+        "method": "apply a phase twist to the last cyclic coordinate",
+        "motivation": {
+          "text": "Multiplying by a power of $y$ is a signed cyclic shift, so the twisted coordinate needs no general multiplication.",
+          "source": "recoverable"
+        },
+        "adds": [
+          {
+            "symbol": "y",
+            "name": "ring variable",
+            "meaning": "the formal variable of the polynomial ring, whose powers serve as roots of unity",
+            "relation": "direct"
+          },
+          {
+            "symbol": "r",
+            "name": "ring degree",
+            "meaning": "the number of complex coefficients in each polynomial of the ring, a power of two",
+            "relation": "count"
+          }
+        ],
+        "page": "polynomial-ring-y",
+        "children": [
+          {
+            "id": "S6.1",
+            "intention": "infer",
+            "claim": "A phase twist changes the last cyclic coordinate into a polynomial modulo $y^r+1$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "A phase twist changes the last cyclic coordinate into a polynomial"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S7",
+        "intention": "show",
+        "claim": "The two forward synthetic transforms keep the same frequency order through their pointwise product, and the opposite transform consumes that order.",
+        "from": [
+          "polynomial-ring-y"
+        ],
+        "method": "run synthetic transforms whose roots of unity are powers of $y$ and whose layers use signed shifts and butterflies",
+        "motivation": {
+          "text": "Powers of $y$ as roots of unity make each transform stage a signed shift plus butterfly additions.",
+          "source": "recoverable"
+        },
+        "page": "synthetic-transform",
+        "children": [
+          {
+            "id": "S7.1",
+            "intention": "infer",
+            "claim": "The two forward synthetic transforms keep the same frequency order through their pointwise product.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "The two forward synthetic transforms"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S8",
+        "intention": "show",
+        "claim": "Polynomial products over the ring are computed by signed packing and the $O(n\\log n)$ multiplier.",
+        "from": [
+          "harvey-hoeven-multiplier",
+          "polynomials"
+        ],
+        "method": "signed Kronecker packing of the coefficients, followed by the established multiplier as a subroutine",
+        "motivation": {
+          "text": "Evaluating a polynomial at a large power of two turns its product into an integer product.",
+          "source": "recoverable"
+        },
+        "page": "kronecker-packing",
+        "children": [
+          {
+            "id": "S8.1",
+            "intention": "infer",
+            "claim": "Polynomial products use signed packing and the established $O(n\\log n)$ multiplier as an ordinary subroutine.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "use signed packing and the established $O(n\\log n)$ multiplier as an"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S9",
+        "intention": "show",
+        "claim": "The exact product is recovered: the source permutation cancels, and the coefficient error is below $1/2$, so rounding and carries give the binary product.",
+        "from": [
+          "gaussian-resampling",
+          "dyadic-rationals"
+        ],
+        "method": "cancel the retained source permutation, then round the approximate coefficients and propagate carries",
+        "motivation": {
+          "text": "Rounding recovers the integer coefficients only once the error is strictly below one half.",
+          "source": "recoverable"
+        },
+        "page": "rounding-recovery",
+        "children": [
+          {
+            "id": "S9.1",
+            "intention": "infer",
+            "claim": "The source permutation retained during resampling cancels across the forward transforms, their product, and the opposite transform.",
+            "from": [
+              "gaussian-resampling"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "Finally, the source permutation retained during resampling cancels"
+            }
+          },
+          {
+            "id": "S9.2",
+            "intention": "infer",
+            "claim": "The recovered coefficient error is strictly below $1/2$, and carries are propagated to give the exact binary product.",
+            "from": [
+              "dyadic-rationals"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "coefficient error is strictly below $1/2$, and propagates carries to"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

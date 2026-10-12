@@ -1,0 +1,9 @@
+"Multiplication as convolution of digits" is the reduction that turns the product of two integers into a convolution of their digit sequences, followed by a carry back to binary. It is the first step of the argument: it replaces an integer product by a convolution of short coefficients, which the transform machinery can then compute.
+
+Let $b$ be the number of bits in one digit. Let $m$ be the number of digits in each input. Let $u$ be the first input and $v$ the second. The digit sequence of $u$ is its radix-$2^b$ digits, least significant first, so $u$ has $m$ digits, each between $0$ and $2^b-1$. The digit sequence of $v$ is defined the same way.
+
+Multiplication reduces to [Cyclic convolution](cyclic-convolution.md) of short integer coefficients, once the digit sequences are padded with zeros to length at least $2m-1$, which keeps the cyclic wrap-around from mixing terms. The paper opens with this reduction. <cite data-source="paper">Splitting the inputs into radix digits reduces multiplication to convolution of short integer coefficients.</cite>
+
+For example, in radix $4$ (so $b=2$), $u=13$ has digits $(1,3)$ and $v=11$ has digits $(3,2)$, since $13=1+3\cdot 4$ and $11=3+2\cdot 4$. Their convolution has coefficients $(3,11,6)$: the coefficient of $4^0$ is $1\cdot 3$, that of $4^1$ is $1\cdot 2+3\cdot 3$, and that of $4^2$ is $3\cdot 2$. The coefficient $11$ is larger than a digit, so the result is not yet in binary. Carrying is evaluating the coefficient list at $4$: $3+11\cdot 4+6\cdot 16=143=13\cdot 11$.
+
+The point of short coefficients is size. Each coefficient is a sum of at most $m$ products of $b$-bit digits, so it fits in about $2b+\lg m$ bits, whatever the length of the inputs. The transform layers therefore work on records of fixed width rather than on whole $n$-bit integers, and the carry is done once at the end.

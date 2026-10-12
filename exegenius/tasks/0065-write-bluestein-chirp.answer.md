@@ -1,0 +1,12 @@
+Bluestein's chirp identity rewrites a Fourier transform as a [normalized cyclic convolution](cyclic-convolution.md) that is bracketed by multiplications by chirps, so the transform can be computed with a convolution. Here it turns the middle transform into a convolution that the polynomial ring can compute.
+
+The identity is applied to the middle transform produced by [Gaussian resampling](gaussian-resampling.md), and it keeps the target permutation.
+
+Start from the plain transform $\hat a_k=\sum_{j=0}^{n-1}a_j\,\omega^{jk}$ for $k=0,\dots,n-1$. Choose $\zeta$, a square root of $\omega$, as the chirp base; for $\omega=e^{2\pi i/n}$, $\zeta=e^{\pi i/n}$ works. Since $\zeta^2=\omega$ and $2jk=j^2+k^2-(k-j)^2$, we have $\omega^{jk}=\zeta^{j^2}\zeta^{k^2}\zeta^{-(k-j)^2}$, and therefore
+$$\hat a_k=\zeta^{k^2}\sum_{j=0}^{n-1}\bigl(\zeta^{j^2}a_j\bigr)\,\zeta^{-(k-j)^2}.$$
+
+The factors $\zeta^{j^2}$ before the sum and $\zeta^{k^2}$ after it are chirps, factors whose exponents are quadratic in an index. The sum is a convolution with the chirp $m\mapsto\zeta^{-m^2}$ at offset $k-j$. It is cyclic when $n$ is even, because the chirp then has period $n$: $\zeta^{-(m+n)^2}=\zeta^{-m^2}\,\omega^{-mn}\,\zeta^{-n^2}=\zeta^{-m^2}$, since $\omega^{-mn}=1$ and $\zeta^{-n^2}=(-1)^n=1$. So the transform is computed by multiplying by chirps, convolving cyclically, and multiplying again. For $n=2$, $\omega=-1$, $\zeta=i$, the formula at $k=1$ gives $i(-ia_0+ia_1)=a_0-a_1$, as the definition does.
+
+The cyclic form matters because of the polynomial ring. In $\mathbb C[y]/(y^r+1)$ a product convolves coefficient lists, but a term past the top coefficient picks up a minus sign, since $y^r=-1$. A phase twist removes the sign. With $r=n$, multiply coefficient $k$ by $\zeta^k$ before the product and by $\zeta^{-k}$ after it. A wrapped term $y^{j+n}$ becomes $-y^j$ with factor $-\zeta^{j+n}=\zeta^{j}$ (using $\zeta^n=-1$), and the untwist removes $\zeta^{j}$, leaving the cyclic wrap. <cite data-source="paper">its negative wrap gives precisely the original cyclic wrap after the twist is removed</cite>. So the ring computes a cyclic convolution, which is why the argument needs this form.
+
+The target permutation is the reordering that the next stage needs of the transform output. This page uses the plain order. In the paper the same formula absorbs the reordering into the chirp exponents, so no separate permutation pass is needed (see the paper's chirp-and-permutation lemma).

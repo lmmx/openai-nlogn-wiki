@@ -1,0 +1,15 @@
+A synthetic polynomial transform generalizes the [discrete Fourier transform](fourier-transform.md) to a polynomial ring whose roots of unity are powers of $y$. It transforms the cyclic convolution that a multiplication of digits reduces to, and each of its stages needs only signed shifts and additions.
+
+It works in the [polynomial ring modulo yʳ + 1](polynomial-ring-y.md). It is built on $y$ as a [primitive root of unity](roots-of-unity.md) of order $2r$: $y^r=-1$, so $y^{2r}=1$, and no smaller positive power of $y$ equals $1$.
+
+Let $x_0,\dots,x_{2r-1}$ be a sequence of ring elements; here $x$ names a sequence, not the formal variable of earlier pages. Let $t$ be the input position and $s$ the frequency index, $s=0,\dots,2r-1$. Its transform has entries $\hat x_s=\sum_{t=0}^{2r-1} y^{st}x_t$.
+
+Split the inputs into the halves $t<r$ and $t+r$. Write $i$ for the index of the pair of frequencies $2i$ and $2i+1$, so $i$ runs over $0,\dots,r-1$. Since $y^{s(t+r)}=(-1)^s y^{st}$ (because $y^r=-1$), we get $\hat x_{2i}=\sum_{t<r} y^{2it}(x_t+x_{t+r})$ and $\hat x_{2i+1}=\sum_{t<r} y^{2it}\,y^t(x_t-x_{t+r})$. One stage therefore forms, for each pair $(x_t,x_{t+r})$, the sum and the difference times the twiddle factor $y^t$, the power of $y$ that multiplies that difference. The even and odd entries are then transforms of length $r$ of these two lists, with root $y^2$.
+
+Multiplying by a power of $y$ is a signed shift of the coefficient list <cite data-source="paper">multiplication by such a root is a signed shift of the coefficient list</cite>. So each stage needs only signed shifts and butterfly additions. For $r=4$, $y^3(1+2y)=y^3+2y^4=-2+y^3$, since $y^4=-1$: the coefficient list $(1,2,0,0)$ becomes $(-2,0,0,1)$.
+
+The inverse is $x_t=\frac{1}{2r}\sum_{s=0}^{2r-1} y^{-st}\hat x_s$, with $y^{-1}=y^{2r-1}$. This holds because $\sum_{s=0}^{2r-1} y^{su}$ equals $2r$ when $u\equiv 0 \pmod{2r}$ and $0$ otherwise, where $u$ is an integer exponent of $y$ (here $u$ does not denote the butterfly input of earlier pages). Since $r$ is a power of two, $y^r+1$ has $r$ distinct roots, all primitive $2r$-th roots of unity. A ring element of degree below $r$ that vanishes at all of them is zero, and at each root the sum is an ordinary geometric sum, which vanishes when the root's $u$-th power is not $1$.
+
+Both forward transforms use the same index convention, so their outputs share the frequency order $s=0,\dots,2r-1$. Let $z_0,\dots,z_{2r-1}$ be a second sequence of ring elements, with transform $\hat z_s=\sum_{q=0}^{2r-1} y^{sq}z_q$, where $q$ is the input position in $z$. The entrywise products $\hat x_s\hat z_s$ therefore pair equal frequencies, and the inverse reads them in that order.
+
+Expanding, $\hat x_s\hat z_s=\sum_{t,q} y^{s(t+q)}x_tz_q$. Let $x\ast z$ be the cyclic convolution of $x$ and $z$, with entries $(x\ast z)_h=\sum_{t+q\equiv h \pmod{2r}} x_tz_q$, where $h$ is the output position. Since $y^{2r}=1$, the exponent depends only on $h\equiv t+q \pmod{2r}$, so $\hat x_s\hat z_s=\sum_h y^{sh}(x\ast z)_h$. The inverse transform therefore returns $x\ast z$: transforms turn entrywise products into a cyclic convolution.

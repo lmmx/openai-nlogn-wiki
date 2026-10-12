@@ -1,0 +1,7 @@
+Here $n$ is the number of bits in each input integer. The Schönhage–Strassen conjecture is the claim that $n\log n$ is the optimal order of growth of the time needed to multiply two such integers on a multitape Turing machine. It is the benchmark against which the target result is measured.
+
+The time is worst-case running time as a function of $n$. "Optimal order of growth" means that $n\log n$ is achievable and cannot be beaten: the conjecture says that no multiplication algorithm on this machine has worst-case running time $o(n\log n)$.
+
+Schönhage and Strassen gave a multiplication method with running time $O(n\log n\log\log n)$ on a multitape Turing machine <cite data-source="paper">proved in 1971 that two $n$-bit integers can be multiplied in $O(n\log n\log\log n)$ time</cite>. After a sequence of improvements, the conjectured order is matched from above by the unconditional $O(n\log n)$ upper bound of [Harvey–van der Hoeven O(n log n) multiplication](harvey-hoeven-multiplier.md). So the upper side is already achieved, and the open question is the lower side: whether some algorithm runs in $o(n\log n)$ time.
+
+The target result is a deterministic multitape algorithm with worst-case time $O(n(\lg n)^{1-\kappa})$ for a fixed $\kappa = 2^{-182}$ ([Integer multiplication in O(n(lg n)^(1-κ)) time](integer-multiplication-target.md)). Since $(\lg n)^{1-\kappa}/\lg n = (\lg n)^{-\kappa} \to 0$, this running time is $o(n\log n)$, so the conjecture is false in this model.
