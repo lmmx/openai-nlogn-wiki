@@ -1,0 +1,157 @@
+{
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "With both coordinate permutations kept in the formula, $P_sF_s = 2^{2\\alpha^2}B_0P_tF_tA$, and the retained source permutation cancels across a convolution.",
+    "method": "keep the permutations in the Gaussian resampling identity, then cancel the source permutation through the convolution",
+    "motivation": {
+      "text": "Keeping the permutations in the formula lets the two sorts disappear instead of being executed as full passes over each coordinate.",
+      "source": "explicit",
+      "quote": {
+        "source": "paper",
+        "quote": "the source and target coordinate permutations in the transform identity, so they need not be"
+      }
+    },
+    "page": "transform-identity",
+    "adds": [
+      {
+        "symbol": "s",
+        "name": "source axis length",
+        "meaning": "The number of coordinates of the source transform axis, coprime to t.",
+        "relation": "count"
+      },
+      {
+        "symbol": "t",
+        "name": "target axis length",
+        "meaning": "The number of coordinates of the target transform axis, with s < t.",
+        "relation": "count"
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "Gaussian width parameter",
+        "meaning": "The integer width parameter of the Gaussian weights, with 2 <= alpha < p.",
+        "relation": "direct"
+      }
+    ],
+    "from": ["exact-integer-multiplication"],
+    "children": [
+      {
+        "id": "S0.1",
+        "intention": "show",
+        "claim": "The one-dimensional Gaussian resampling identity $P_sF_s = 2^{2\\alpha^2}B_0P_tF_tA$ holds with contractions $A$ and $B_0$.",
+        "method": "resample Fourier transform through Gaussian weights onto the other length, invert the near-identity factor by a Neumann series, and absorb the normalizations",
+        "motivation": {
+          "text": "The source transform length and the target length are coprime, so the Fourier transform of one length must be moved onto the power-of-two frequencies of the other; Gaussian weights move between the two sets of frequencies.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "Gaussian resampling connects these two shapes."
+          }
+        },
+        "page": "gaussian-resampling",
+        "adds": [
+          {
+            "symbol": "N",
+            "name": "near-identity factor",
+            "meaning": "The map $N=CTD$, which is the identity up to a Gaussian error of norm below one half.",
+            "relation": "direct"
+          },
+          {
+            "symbol": "C",
+            "name": "coordinate selection",
+            "meaning": "The map that selects the coordinates $q_j$ nearest to $tj/s$ from a vector of length $t$.",
+            "relation": "direct"
+          },
+          {
+            "symbol": "D",
+            "name": "Gaussian phase",
+            "meaning": "The diagonal map that multiplies coordinate $j$ by $e^{\\pi\\alpha^2\\beta_j^2}$ to cancel the Gaussian factor at the selected coordinate.",
+            "relation": "direct"
+          }
+        ],
+        "from": ["discrete-fourier-transform", "roots-of-unity"],
+        "children": [
+          {
+            "id": "S0.1.1",
+            "intention": "infer",
+            "claim": "$TP_sF_s = P_tF_tS$, the Gaussian resampling identity before normalization.",
+            "quote": {
+              "source": "paper",
+              "quote": "TPs Fs = Pt Ft S,"
+            }
+          },
+          {
+            "id": "S0.1.2",
+            "intention": "infer",
+            "claim": "$\\|N-I\\|<1/2$, so $N$ is invertible.",
+            "quote": {
+              "source": "paper",
+              "quote": "Thus ∥N − I∥ < 1/2, so N is invertible by the Neumann series."
+            }
+          },
+          {
+            "id": "S0.1.3",
+            "intention": "infer",
+            "claim": "$DN^{-1}CP_tF_tS = P_sF_s$, using the left inverse of $CT$.",
+            "quote": {
+              "source": "paper",
+              "quote": "Applying this left inverse to the first identity in (34) gives DN −1 CPt Ft S = Ps Fs ."
+            }
+          },
+          {
+            "id": "S0.1.4",
+            "intention": "infer",
+            "claim": "$B_0P_tF_tA = 2^{-2\\alpha^2}P_sF_s$, after the normalizations of $A$, $B_0$ are absorbed.",
+            "quote": {
+              "source": "paper",
+              "quote": "B0 Pt Ft A = 2−2α DN −1 CPt Ft S = 2−2α Ps Fs ,"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.2",
+        "intention": "show",
+        "claim": "The retained source permutation cancels: $RF_s^{+}R(F_su\\cdot F_sv)=(u\\ast v)/S^2$ with $S=\\prod_i s_i$.",
+        "method": "commute the permutation through pointwise products, use that it is its own inverse against the opposite transform, then apply the normalized convolution rule",
+        "motivation": {
+          "text": "A coordinate permutation commutes with pointwise products, and the normalized convolution rule turns the product of transforms into a convolution.",
+          "source": "recoverable",
+          "quote": null
+        },
+        "salient": "the permutation $R$ disappears exactly, leaving no residual reordering of the convolution",
+        "from": ["radix-digit-convolution", "discrete-fourier-transform"],
+        "children": [
+          {
+            "id": "S0.2.1",
+            "intention": "infer",
+            "claim": "$F_s^{+}R=R^{-1}F_s^{+}$, hence $RF_s^{+}R=F_s^{+}$.",
+            "from": ["modular-arithmetic", "greatest-common-divisor-and-coprimality"],
+            "quote": {
+              "source": "paper",
+              "quote": "Each ti is a unit modulo si , so tensoring this identity gives Fs+ R = R−1 Fs+ and hence RFs+ R = Fs+ ."
+            }
+          },
+          {
+            "id": "S0.2.2",
+            "intention": "infer",
+            "claim": "$(RF_su)\\cdot(RF_sv)=R(F_su\\cdot F_sv)$, since a permutation commutes with pointwise products.",
+            "quote": {
+              "source": "paper",
+              "quote": "Also (RFs u) · (RFs v) = R(Fs u · Fs v), because a coordinate permutation commutes with pointwise"
+            }
+          },
+          {
+            "id": "S0.2.3",
+            "intention": "infer",
+            "claim": "$F_s(u\\ast v)=S(F_su)\\cdot(F_sv)$ and $F_s^{+}F_s=I/S$, the normalized convolution rule.",
+            "quote": {
+              "source": "paper",
+              "quote": "The normalized convolution rule is Fs (u ∗ v) = S(Fs u) · (Fs v), while Fs+ Fs = I/S."
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

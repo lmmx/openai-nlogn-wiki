@@ -1,0 +1,17 @@
+Gaussian resampling is a technique that replaces a [Discrete Fourier transform](discrete-fourier-transform.md) of arbitrary length by transforms whose axis lengths are powers of two. It moves values between the two sets of frequencies with Gaussian weights, which are exponential factors that decay quadratically with distance.
+
+Gaussian resampling replaces the Fourier transforms needed for a [radix-digit convolution](radix-digit-convolution.md) by transforms whose axis lengths are powers of two. The integer product needs pairwise coprime transform lengths, but the synthetic transforms use powers of two. <cite data-source="paper">Gaussian resampling connects these two shapes</cite>.
+
+Here $s$ is the number of coordinates of a source vector, and $t$ is the number of coordinates of a target vector, with $s<t$ and $\gcd(s,t)=1$. The integer $\alpha$ is the width parameter of the Gaussian weights. $F_s$ and $F_t$ are the normalized Fourier transforms of length $s$ and $t$. $P_s$ and $P_t$ are the coordinate permutations $(P_s g)_j=g_{tj}$ and $(P_t h)_m=h_{-sm}$ on vectors $g$ of length $s$ and $h$ of length $t$, where $j$ and $m$ are coordinate indices (the letter $j$ changes meaning here; it is not the input index of the transform above), and subscripts are taken modulo the length. $I$ is the identity map, and $\|\cdot\|$ is the operator norm: the largest factor by which a linear map stretches a vector, measured in the maximum-modulus norm (the largest absolute value of a coordinate). A map is a contraction when its operator norm is at most $1$.
+
+The identity rests on two Gaussian-weighted maps $S$ and $T$ from vectors of length $s$ to vectors of length $t$. $D$ is the diagonal map on vectors of length $s$ that multiplies coordinate $j$ by a Gaussian factor, and $C$ selects from a length-$t$ vector the coordinates at the indices nearest $tj/s$, for $0\le j<s$. Put $N=CTD$, a map close to $I$.
+
+First, $TP_sF_s=P_tF_tS$ holds before normalization. This exact identity is the Gaussian-resampling reduction of Harvey and van der Hoeven, which the paper takes as its starting point.
+
+Second, the paper gives $\|N-I\|<1/2$ <cite data-source="paper">∥N − I∥ < 1/2, so N is invertible by the Neumann series</cite>, so $N$ is invertible. Its inverse is the Neumann series $N^{-1}=\sum_{r\ge 0}(I-N)^r$, where $r$ is the summation index. This series is the matrix analogue of a geometric series. Each term has norm at most $2^{-r}$, so the series converges, and multiplying its partial sums by $N$ leaves $I$ minus a term that tends to $0$.
+
+Third, since $N=CTD$, we have $CT=ND^{-1}$. Hence $(DN^{-1}C)T=DN^{-1}ND^{-1}=I$, so $DN^{-1}C$ is a left inverse of $T$, a map that undoes $T$ from the left. Applying it to the first identity gives $DN^{-1}CP_tF_tS=P_sF_s$.
+
+Fourth, the maps $A=S/2$ and $B_0=2^{-(2\alpha^2-2)}DN^{-1}C/2$ are the two contractions of the identity; $B_0$ here is a map, not the radix $B$. The scale factors multiply to $2^{-2\alpha^2}$, so $B_0P_tF_tA=2^{-2\alpha^2}P_sF_s$, and multiplying by $2^{2\alpha^2}$ gives $P_sF_s=2^{2\alpha^2}B_0P_tF_tA$.
+
+Both factors are contractions, and the paper proves this for its parameter choices. $N-I$ is small because $D$ cancels the Gaussian factor at each selected coordinate, leaving only the small Gaussian weights of the other coordinates. The paper bounds $\|S/2\|<3/4$ and $\|N^{-1}/2\|<7/8$, and $\|2^{-(2\alpha^2-2)}D\|<1$ <cite data-source="paper">∥D′ ∥ < 1</cite>. Since $\|C\|=1$, the norm of $B_0$ is at most $7/8$, so $\|B_0\|<1$.

@@ -1,0 +1,44 @@
+{
+  "planned": [
+    "cyclic-convolution",
+    "discrete-fourier-transform",
+    "exact-integer-multiplication",
+    "gaussian-resampling",
+    "radix-digit-convolution",
+    "transform-identity"
+  ],
+  "overview": "This wiki explains the transform identity with retained permutations, a form of the Gaussian resampling identity in which the source and target coordinate permutations stay inside the formula. The point is that the source permutation cancels across a cyclic convolution, so the product of two retained transforms gives the convolution in natural order without executing a sort. This serves exact integer multiplication: an $n$-bit product is computed as a convolution of radix-digit coefficients, and the transforms that evaluate it need power-of-two axis lengths, which the classical construction does not supply directly.\n\nThe first part sets up the problem. [Exact integer multiplication](exact-integer-multiplication.md) is reduced to a polynomial product in [radix-digit convolution](radix-digit-convolution.md). The second part supplies the tools: the [discrete Fourier transform](discrete-fourier-transform.md) and [cyclic convolution](cyclic-convolution.md). The third part presents [Gaussian resampling](gaussian-resampling.md), which replaces a transform of arbitrary length by transforms of power-of-two lengths, using Gaussian weights to move between the two sets of frequencies, and gives the one-dimensional identity $P_sF_s = 2^{2\\alpha^2}B_0P_tF_tA$ with contractions $A$ and $B_0$. The final part proves the [transform identity with retained permutations](transform-identity.md), showing that $RF_s^{+}R(F_sf\\cdot F_sg)=(f\\ast g)/M^2$, so the retained source permutation is undone inside the opposite transform.",
+  "parts": [
+    {
+      "title": "Integer multiplication as convolution",
+      "intro": "This part fixes the target problem and the first reduction. [Exact integer multiplication](exact-integer-multiplication.md) is the goal, and [radix-digit convolution](radix-digit-convolution.md) rewrites it as a product of polynomials whose coefficients are digits. The reader needs this framing to see why the later transforms must compute convolutions.",
+      "pages": [
+        "exact-integer-multiplication",
+        "radix-digit-convolution"
+      ]
+    },
+    {
+      "title": "Transforms and convolution",
+      "intro": "This part introduces the two operations the identity relies on. The [discrete Fourier transform](discrete-fourier-transform.md) maps a vector to its weighted values at roots of unity, and [cyclic convolution](cyclic-convolution.md) is the product with indices wrapped modulo the length. Both are needed to state the Gaussian resampling identity and to see how a permutation can cancel across a convolution.",
+      "pages": [
+        "discrete-fourier-transform",
+        "cyclic-convolution"
+      ]
+    },
+    {
+      "title": "Gaussian resampling",
+      "intro": "This part gives the technique that replaces a transform of arbitrary length by transforms with power-of-two axis lengths. [Gaussian resampling](gaussian-resampling.md) shows that the two sets of frequencies are related by contractions, which is the identity the retained-permutation form starts from. The reader needs it before the permutations can be kept in the formula.",
+      "pages": [
+        "gaussian-resampling"
+      ]
+    },
+    {
+      "title": "Retained permutations and cancellation",
+      "intro": "This part states the main result and its proof. The [transform identity with retained permutations](transform-identity.md) keeps the source and target permutations in the formula, so no sort is executed. Its argument shows that the retained source permutation cancels inside the opposite transform, leaving the convolution scaled by $1/M^2$.",
+      "pages": [
+        "transform-identity"
+      ]
+    }
+  ],
+  "glossary": []
+}
