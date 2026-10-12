@@ -1,0 +1,171 @@
+{
+  "planned": [
+    "cyclic-convolution",
+    "discrete-fourier-transform",
+    "exact-integer-multiplication",
+    "gaussian-resampling",
+    "operator-norm",
+    "radix-digit-convolution",
+    "transform-identity"
+  ],
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "The transform identity $P_s F_s = 2^{2\\alpha^2} B_0 P_t F_t A$ holds with linear contractions $A$ and $B_0$, so the source permutation $P_s$ and target permutation $P_t$ stay in the formula instead of being executed as sorts.",
+    "from": [
+      "radix-digit-convolution",
+      "cyclic-convolution",
+      "exact-integer-multiplication",
+      "discrete-fourier-transform",
+      "gaussian-resampling"
+    ],
+    "method": "invert the Gaussian resampling identity, which keeps both permutations, to a pair of contractions and normalize the constants",
+    "motivation": {
+      "text": "The usual implementation sorts twice on each coordinate, so keeping both permutations in the transform formula and computing that formula directly avoids those sorts and lets the permutations cancel across a convolution.",
+      "source": "explicit",
+      "quote": {
+        "source": "paper",
+        "quote": "We retain both permutations in the transform formula and compute that formula directly."
+      }
+    },
+    "salient": "the constant in front, $2^{2\\alpha^2}$, is a power of two that depends only on $\\alpha$, not on the coordinate lengths $s$ and $t$",
+    "adds": [
+      {
+        "symbol": "s",
+        "name": "source length",
+        "meaning": "the source transform length $s$, the number of entries of the source vector, with $\\gcd(s,t)=1$",
+        "relation": "count"
+      },
+      {
+        "symbol": "t",
+        "name": "target length",
+        "meaning": "the target transform length $t$, the number of entries of the target vector, with $s<t$",
+        "relation": "count"
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "Gaussian width",
+        "meaning": "the integer parameter that fixes the width of the Gaussian weights and the size of the constant $2^{2\\alpha^2}$",
+        "relation": "direct"
+      },
+      {
+        "symbol": "P_s",
+        "name": "source permutation",
+        "meaning": "the coordinate permutation $(P_s u)_j = u_{tj}$ of length-$s$ vectors",
+        "relation": "direct"
+      },
+      {
+        "symbol": "P_t",
+        "name": "target permutation",
+        "meaning": "the coordinate permutation $(P_t v)_k = v_{-sk}$ of length-$t$ vectors",
+        "relation": "direct"
+      },
+      {
+        "symbol": "A",
+        "name": "source-to-target contraction",
+        "meaning": "the linear contraction $A$ from length-$s$ to length-$t$ vectors, equal to $S'$",
+        "relation": "direct"
+      },
+      {
+        "symbol": "B_0",
+        "name": "target-to-source contraction",
+        "meaning": "the linear contraction $B_0$ from length-$t$ to length-$s$ vectors, equal to $D'J'C$",
+        "relation": "direct"
+      }
+    ],
+    "page": "transform-identity",
+    "children": [
+      {
+        "id": "S0.1",
+        "intention": "show",
+        "claim": "The Gaussian identity $TP_sF_s = P_tF_tS$ holds, with $S$ and $T$ Gaussian-weighted maps from length-$s$ to length-$t$ vectors, and the near-identity operator $N = CTD$ is invertible.",
+        "from": [
+          "discrete-fourier-transform",
+          "roots-of-unity"
+        ],
+        "method": "write both transforms through a Gaussian-weighted resampling operator $N=CTD$ whose error from the identity is small",
+        "motivation": {
+          "text": "The Gaussian weight at the selected coordinate cancels the diagonal factor, so $N$ differs from the identity by a small amount that a Neumann series can invert.",
+          "source": "recoverable"
+        },
+        "adds": [
+          {
+            "symbol": "S",
+            "name": "Gaussian resampling map",
+            "meaning": "the Gaussian-weighted map from length-$s$ to length-$t$ vectors, with $(Su)_k = \\frac{1}{\\alpha}\\sum_j e^{-\\pi\\alpha^{-2}(j-sk/t)^2}u_j$",
+            "relation": "direct"
+          },
+          {
+            "symbol": "T",
+            "name": "dual Gaussian map",
+            "meaning": "the Gaussian-weighted map from length-$s$ to length-$t$ vectors that pairs with $S$ through the frequency scaling $t/s$",
+            "relation": "direct"
+          },
+          {
+            "symbol": "N",
+            "name": "near-identity operator",
+            "meaning": "the operator $N=CTD$ on length-$s$ vectors, whose difference from the identity has norm below $1/2$",
+            "relation": "direct"
+          }
+        ],
+        "page": "gaussian-resampling",
+        "children": [
+          {
+            "id": "S0.1.1",
+            "intention": "infer",
+            "claim": "The Gaussian identity $TP_sF_s = P_tF_tS$ holds.",
+            "from": [
+              "discrete-fourier-transform"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "TPs Fs = Pt Ft S,"
+            }
+          },
+          {
+            "id": "S0.1.2",
+            "intention": "infer",
+            "claim": "$\\|N-I\\|<1/2$, so $N$ is invertible by the Neumann series.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Thus ∥N − I∥ < 1/2, so N is invertible by the Neumann series."
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.2",
+        "intention": "infer",
+        "claim": "The maps $A=S'$ and $B_0=D'J'C$ are linear contractions, since $\\|C\\|=1$ and $\\|S'\\|$, $\\|J'\\|$, $\\|D'\\|$ are below their stated bounds.",
+        "from": [
+          "operator-norm"
+        ],
+        "quote": {
+          "source": "paper",
+          "quote": "Because ∥C∥ = 1, both are contractions."
+        }
+      },
+      {
+        "id": "S0.3",
+        "intention": "infer",
+        "claim": "The left inverse $DN^{-1}C$ of $TD^{-1}$ applied to the Gaussian identity gives $DN^{-1}CP_tF_tS = P_sF_s$.",
+        "from": [],
+        "quote": {
+          "source": "paper",
+          "quote": "Applying this left inverse to the first identity in (34) gives"
+        }
+      },
+      {
+        "id": "S0.4",
+        "intention": "infer",
+        "claim": "The normalizations $2^{-2\\alpha^2}$ give $B_0P_tF_tA = 2^{-2\\alpha^2}P_sF_s$, which is the transform identity (33) with the power of two $2^{2\\alpha^2}$.",
+        "from": [],
+        "quote": {
+          "source": "paper",
+          "quote": "which is (33)."
+        }
+      }
+    ]
+  }
+}
