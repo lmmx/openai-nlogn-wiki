@@ -1,0 +1,257 @@
+{
+  "planned": [
+    "fixed-tape-machine",
+    "frame",
+    "linear-algebra",
+    "linear-network",
+    "subset-network"
+  ],
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "The subset-intersection network has a total number $s$ of smaller calls with $s<Wm$, where $W$ is its wire count and $m$ the dimension of its label space.",
+    "from": [
+      "fixed-tape-machine",
+      "linear-network",
+      "frame"
+    ],
+    "method": "exchange the two banks with a scalar network whose gates carry subspace labels from triples, then bound the total dimension change of the labels by counting dimension losses",
+    "motivation": {
+      "text": "Each edge's dimension change counts the smaller operations on that edge, so the total number of smaller calls is the sum of absolute label changes; a bound of that sum below $Wm$ gives the saving.",
+      "source": "recoverable"
+    },
+    "salient": "the strict inequality $s<Wm$ holds with a fixed rational deficit that does not depend on the input length",
+    "adds": [
+      {
+        "symbol": "s",
+        "name": "smaller-call total",
+        "meaning": "The number of smaller calls, equal to the sum of the rational ranks of the edge differences.",
+        "relation": "count"
+      },
+      {
+        "symbol": "W",
+        "name": "wire count",
+        "meaning": "The number of wires in the network, counting auxiliary wires.",
+        "relation": "count"
+      },
+      {
+        "symbol": "m",
+        "name": "label dimension",
+        "meaning": "The number of coordinates of the ambient label space, $m=h^3$.",
+        "relation": "count"
+      },
+      {
+        "symbol": "N",
+        "name": "address count",
+        "meaning": "The number of addresses $a\\in\\mathcal T^3$, which is the number of data-bank entries.",
+        "relation": "count"
+      },
+      {
+        "symbol": "L",
+        "name": "lost dimension",
+        "meaning": "The total dimension lost on the decreasing edges of the network.",
+        "relation": "count"
+      }
+    ],
+    "page": "subset-network",
+    "children": [
+      {
+        "id": "S0.1",
+        "intention": "show",
+        "claim": "A fixed linear network of three-element-subset gates exchanges the banks $X_a$ and $Y_a$ with signs and restores every scratch wire.",
+        "from": [
+          "linear-algebra",
+          "field-of-two-elements"
+        ],
+        "method": "a three-stage bank exchange built from copy, gather, scatter and side-injection rows, with the inverse schedule at the middle stage",
+        "motivation": {
+          "text": "A schedule that subtracts the old scratch contents, runs the computation, adds the result and then undoes the schedule cancels arbitrary initial scratch values.",
+          "source": "recoverable"
+        },
+        "page": "linear-network",
+        "children": [
+          {
+            "id": "S0.1.1",
+            "intention": "infer",
+            "claim": "A forward invocation changes $y_S$ to $y_S+x_S$ and leaves every other value unchanged, for arbitrary initial scratch values.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "invocation changes $y_S$ to $y_S+x_S$ and leaves every other value"
+            }
+          },
+          {
+            "id": "S0.1.2",
+            "intention": "infer",
+            "claim": "The three-stage composition exchanges $X_a$ and $Y_a$ with a sign and restores every auxiliary value.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "(X_a,Y_a)\\longmapsto(-Y_a,X_a)"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.2",
+        "intention": "show",
+        "claim": "On every route of the network the operator on each role is $D_{\\mathrm{sink}}D_{\\mathrm{source}}^{-1}$, so only the endpoint frames determine it.",
+        "from": [
+          "linear-algebra",
+          "linear-network"
+        ],
+        "method": "pass a common frame through each pointwise linear gate, so the intermediate frames cancel",
+        "motivation": {
+          "text": "Once the scalar routing is fixed, the endpoint frames determine the array operator on each route, and the intermediate frames can be chosen to make each edge cheap.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "intermediate frames can then be chosen to make each edge change inexpensive"
+          }
+        },
+        "page": "frame",
+        "children": [
+          {
+            "id": "S0.2.1",
+            "intention": "infer",
+            "claim": "A common frame commutes with a pointwise linear gate.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "$\\sum_j c_jD_v\\varphi_j=D_v(\\sum_j c_j\\varphi_j)$"
+            }
+          },
+          {
+            "id": "S0.2.2",
+            "intention": "infer",
+            "claim": "The implemented array operator is $D_{\\rm out}\\,\\mathsf S_\\Omega\\,D_{\\rm in}^{-1}$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "D_{\\rm out}\\,\\mathsf S_\\Omega\\,D_{\\rm in}^{-1}"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.3",
+        "intention": "show",
+        "claim": "The subspace labels satisfy $L=Ich$ and the sum of absolute label changes equals $Wm-2N+2L$, with loss $L<N/2$.",
+        "from": [
+          "linear-algebra",
+          "binomial-coefficients-and-counting-subsets",
+          "dot-product-and-orthogonal-vectors",
+          "field-of-two-elements"
+        ],
+        "method": "choose nested labels from triple indicator vectors and count the dimension lost at the gates that decrease",
+        "motivation": {
+          "text": "Keeping the total dimension lost on decreasing edges small relative to $N$ yields the saving.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "The saving will come from keeping the total dimension lost on decreasing"
+          }
+        },
+        "children": [
+          {
+            "id": "S0.3.1",
+            "intention": "infer",
+            "claim": "The only decreasing edges are the central-wire edges from time 3 to time 4, each losing dimension $h$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "edges are the central-wire edges from time 3 to time 4"
+            }
+          },
+          {
+            "id": "S0.3.2",
+            "intention": "infer",
+            "claim": "The total dimension lost is $L=Ich$, with $I$ invocations and $c$ central wires per invocation.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "L=Ich"
+            }
+          },
+          {
+            "id": "S0.3.3",
+            "intention": "infer",
+            "claim": "The sum of absolute label changes over all edges equals $Wm-2N+2L$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "=Wm-2N+2L"
+            }
+          },
+          {
+            "id": "S0.3.4",
+            "intention": "infer",
+            "claim": "The bit network's loss ratio is $L_{\\rm b}/N=100/539$, which is below $1/2$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "\\frac{L_{\\rm b}}{N}=\\frac{100}{539}"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.4",
+        "intention": "show",
+        "claim": "For the bit network the total rational rank $s$ of the edge differences satisfies $s<Wm$.",
+        "from": [
+          "linear-algebra",
+          "matrix-product-transpose-and-special-matrices",
+          "frame"
+        ],
+        "method": "express each edge difference of frame matrices as a projection difference whose rank is the dimension change, and add the $N$ extra source ranks",
+        "motivation": {
+          "text": "Each edge difference of the rational frame matrices has rank equal to its label dimension change, so the rank total is controlled by the label count.",
+          "source": "recoverable"
+        },
+        "children": [
+          {
+            "id": "S0.4.1",
+            "intention": "infer",
+            "claim": "The sum of the rational ranks of all edge differences equals $W_{\\rm b}m-N+2L_{\\rm b}$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "=W_{\\rm b}m-N+2L_{\\rm b}"
+            }
+          },
+          {
+            "id": "S0.4.2",
+            "intention": "infer",
+            "claim": "This rank total is strictly below $W_{\\rm b}m$, since $N-2L_{\\rm b}>0$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "177176569088785861287000000<W_{\\rm b}m"
+            }
+          },
+          {
+            "id": "S0.4.3",
+            "intention": "infer",
+            "claim": "For subspaces $U\\subset V$, the difference $P_V-P_U$ of projections has rank $\\dim V-\\dim U$.",
+            "from": [],
+            "quote": {
+              "source": "paper",
+              "quote": "Its rank is $\\dim V-\\dim U$"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S0.5",
+        "intention": "infer",
+        "claim": "For the complex network the total rank of the phase translation factors, $s_{\\rm c}$, is strictly below $W_{\\rm c}m$.",
+        "from": [],
+        "quote": {
+          "source": "paper",
+          "quote": "1873807244636671267308000000<W_{\\rm c}m"
+        }
+      }
+    ]
+  }
+}
