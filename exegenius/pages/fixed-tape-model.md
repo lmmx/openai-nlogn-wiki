@@ -1,0 +1,9 @@
+A fixed-tape machine is a Turing machine whose alphabet and number of one-dimensional tapes are both fixed in advance, so neither grows with the input. The paper states its main result in this model, and the model fixes what running time means there: the number of steps the machine takes.
+
+A step reads and writes at most one cell on each tape and moves each head by at most one cell. Extra fixed tracks and finitely many work tapes are allowed, since they change running time only by a fixed factor. <cite data-source="paper">Fixed tracks and finitely many work tapes change time by a fixed factor.</cite>
+
+The paper's constructions are built from scans, where a scan is one pass of the heads along a stretch of tape. It counts each scan's own counters and the return of its heads as part of that scan. <cite data-source="paper">Every scan includes its counters and the return of its tape heads.</cite>
+
+The model separates two kinds of rearrangement. Moving one digit in a fixed radix needs a bounded number of scans; interchanging fields whose digit counts grow is a different case. <cite data-source="paper">We distinguish moving one digit in a fixed radix, which needs a bounded number of scans, from interchanging fields whose numbers of digits grow.</cite> The paper does not take such an interchange as primitive. It realizes it from elementary scans and XOR combinations of intermediate data streams. <cite data-source="paper">The latter permutation will be realized in Section 4 by computing XOR combinations of intermediate data streams.</cite>
+
+Let $u$ denote the number of cells in each of two disjoint fields, where a field is a contiguous block of cells. A machine that moves the last cell of a block of three cells to the front uses a fixed sequence of scans whatever the cell contents, so its time is a constant. Swapping two fields of $u$ cells each is different: $u$ can grow with the input, so the same fixed sequence does not apply.

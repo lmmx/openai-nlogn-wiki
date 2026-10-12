@@ -1,11 +1,9 @@
-Exact integer multiplication is the task of computing the full product of two integers given in binary, with no rounding or truncation. It is the problem whose running time the target result improves.
+Exact integer multiplication is computing the full product of two binary integers, with no rounding or error. It is the target problem of this wiki, so its input and output must be fixed precisely first.
 
-The input is two binary strings separated by $\#$. Let $n$ be the number of bits in each input. Let $x$ be the first binary string, of length $n$. Let $y$ be the second binary string, also of length $n$. Both lie in $\{0,1\}^n$.
+Let $n$ be the common length of the two inputs. The input is two binary strings $x$ and $y$ of length $n$, and the output is the $2n$-bit binary representation of their product. On a tape the input is written as $x\#y$, with $\#$ a separator symbol.
 
-For a binary string $x$ of length $n$, let $\mathrm{val}(x)$ be its nonnegative integer value, with the leftmost bit most significant. Let $k$ be a length in bits. Let $z$ be a nonnegative integer below $2^k$, and let $\mathrm{bin}_k(z)$ be the binary representation of $z$, padded on the left with zeros to length $k$.
+Write $\mathrm{val}(x)$ for the nonnegative integer whose binary digits are $x$, with the leftmost bit most significant, so $\mathrm{val}(10)=2$ and $\mathrm{val}(11)=3$. For a nonnegative integer $z < 2^{2n}$, write $\mathrm{bin}_{2n}(z)$ for its binary representation padded on the left with zeros to exactly $2n$ bits.
 
-The output is $\mathrm{bin}_{2n}(\mathrm{val}(x)\,\mathrm{val}(y))$, the $2n$-bit representation of the product. Two $n$-bit numbers have a product below $2^{2n}$, so $2n$ bits always suffice. For $n = 2$, $x = 10$ and $y = 11$ give $\mathrm{val}(x) = 2$ and $\mathrm{val}(y) = 3$, and the output is $\mathrm{bin}_4(6) = 0110$.
+The required output is $\mathrm{bin}_{2n}(\mathrm{val}(x)\,\mathrm{val}(y))$. Since $\mathrm{val}(x)\,\mathrm{val}(y) < 2^{2n}$, the product always fits in $2n$ bits. For $n=2$, $x=10$ and $y=11$, the product is $2 \cdot 3 = 6$, so the output is $\mathrm{bin}_4(6)=0110$.
 
-Running time is the worst case over all inputs of length $n$, as a function of $n$, on a deterministic multitape Turing machine with a fixed finite alphabet and a fixed finite number of one-dimensional tapes.
-
-In 1971, Schönhage and Strassen gave a multitape Turing machine for this task with running time $O(n \log n \log\log n)$ <cite data-source="paper">can be multiplied in O(n log n log log n) time on a multitape Turing machine</cite>. Harvey and van der Hoeven then obtained an unconditional $O(n \log n)$ bound <cite data-source="paper">unconditional O(n log n) upper bound</cite>. The target result is a strict power saving in the logarithmic factor <cite data-source="paper">in the same fixed finite-tape model</cite>.
+In the main result of this wiki, exact integer multiplication is computed by a deterministic [fixed-tape machine](fixed-tape-model.md) in time below $n\lg n$. The result is stated for one fixed machine. <cite data-source="paper">There is one deterministic Turing machine A, with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, that computes this exact product for every n ≥ 1 and every pair of n-bit inputs.</cite>

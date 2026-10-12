@@ -1,9 +1,11 @@
-A tensor product is built from one [Linear map](linear-map.md) for each coordinate, and it lets a map on a multidimensional array act on each coordinate in turn. The argument uses it to pass from one-dimensional identities to identities for arrays, with their permutations kept.
+The tensor product combines two vector spaces into one, and the paper uses it to describe a transform layer that acts on several address bits at once. Write $P$ and $Q$ for the two spaces, over the same ground field.
 
-Here $i$ and $m$ index the output row and column, and $h$ and $g$ index the input row and column. Let $L$ be a linear map on vectors of length $s$ and $M$ a linear map on vectors of length $t$, with entries $L_{ih}$ (row $i$, column $h$) and $M_{mg}$ (row $m$, column $g$). The tensor product $L\otimes M$ is the linear map on arrays $u$ with $s$ rows and $t$ columns, entries $u_{hg}$, whose entry at position $(i,m)$ is
+The tensor product $P \otimes Q$ has as basis all pairs $e \otimes f$, where $e$ runs over a basis of $P$ and $f$ over a basis of $Q$. So the dimension of $P \otimes Q$ is the product of the two dimensions. For example, if $P$ has basis $e_1, e_2$ and $Q$ has basis $f_1, f_2, f_3$, then $P \otimes Q$ has the six basis vectors $e_i \otimes f_j$ and dimension $2 \times 3 = 6$.
 
-$$(L\otimes M)(u)_{im}=\sum_{h}\sum_{g} L_{ih}\,M_{mg}\,u_{hg}.$$
+A general vector of $P \otimes Q$ is not a single pair $e \otimes f$ but a sum of such pairs, with coefficients from the ground field.
 
-Applying $L\otimes M$ is the same as applying $M$ to each row of $u$ and then $L$ to each column. <cite data-source="paper">For the tensor product, apply the one-dimensional maps to one coordinate line at a time.</cite>
+Its defining property is that each [Bilinear form](bilinear-form.md) on $P$ and $Q$ becomes an ordinary linear map on $P \otimes Q$, so the tensor product linearizes it.
 
-Take $s=t=2$, $L=\begin{pmatrix}1&1\\1&-1\end{pmatrix}$, $M=\begin{pmatrix}1&0\\0&2\end{pmatrix}$, and let $u$ have $u_{00}=1$ and all other entries $0$. Only the terms with $h=g=0$ survive, so $(L\otimes M)(u)_{im}=L_{i0}M_{m0}$. This is $1$ at $(i,m)=(0,0)$ and at $(1,0)$, and $0$ elsewhere.
+A tensor power $P^{\otimes 3}$ is $P \otimes P \otimes P$, with a basis of triples taking one basis vector of $P$ from each copy; it collects three copies of $P$. The paper starts a staged construction from the empty tensor product, which has no factors. <cite data-source="paper">An empty tensor product is the one-dimensional ground field</cite>.
+
+The next page uses this to apply one two-point map to several selected address bits in a single pass.

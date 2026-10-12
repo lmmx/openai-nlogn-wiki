@@ -43,7 +43,8 @@
       "id": "fixed-tape-model",
       "name": "Fixed-tape machine model",
       "aliases": [
-        "fixed finite-tape model"
+        "fixed finite-tape model",
+        "fixed-tape machine"
       ],
       "gloss": "A Turing machine with one fixed finite alphabet and one fixed finite number of one-dimensional tapes, whose size does not grow with the input.",
       "requires": [
@@ -63,7 +64,8 @@
       "aliases": [],
       "gloss": "Given binary strings x and y of length n, output the 2n-bit binary representation of their product.",
       "requires": [
-        "turing-machine-tapes"
+        "turing-machine-tapes",
+        "fixed-tape-model"
       ],
       "known": false,
       "evidence": [
@@ -118,8 +120,7 @@
       "requires": [
         "exact-integer-multiplication",
         "polynomials",
-        "discrete-fourier-transform",
-        "axis-length"
+        "discrete-fourier-transform"
       ],
       "known": false,
       "evidence": [
@@ -134,12 +135,12 @@
       "name": "Discrete Fourier transform",
       "aliases": [
         "normalized Fourier transform",
-        "Fourier transform"
+        "transforms"
       ],
       "gloss": "The map sending a vector of q values to its q values weighted by powers of a q-th root of unity, normalized by 1/q.",
       "requires": [
         "complex-numbers",
-        "linear-map"
+        "cyclic-convolution"
       ],
       "known": false,
       "evidence": [
@@ -152,7 +153,11 @@
     {
       "id": "cyclic-convolution",
       "name": "Cyclic convolution",
-      "aliases": [],
+      "aliases": [
+        "convolution",
+        "normalized cyclic convolution",
+        "cyclic product (cyclic convolution)"
+      ],
       "gloss": "The product of two sequences in which indices wrap around modulo the sequence length.",
       "requires": [
         "polynomials"
@@ -174,11 +179,7 @@
       "gloss": "A technique that replaces a Fourier transform of arbitrary length by transforms whose axis lengths are powers of two, using Gaussian weights to move between the two sets of frequencies.",
       "requires": [
         "discrete-fourier-transform",
-        "radix-digit-convolution",
-        "coprime-integers",
-        "modular-arithmetic",
-        "operator-norm",
-        "gaussian-function"
+        "radix-digit-convolution"
       ],
       "known": false,
       "evidence": [
@@ -235,7 +236,8 @@
       "gloss": "Fourier-type transforms whose roots of unity are powers of y in a polynomial ring, so that multiplying by a root is a signed shift of coefficients.",
       "requires": [
         "discrete-fourier-transform",
-        "polynomials"
+        "polynomials",
+        "cyclic-convolution"
       ],
       "known": false,
       "evidence": [
@@ -323,7 +325,8 @@
       "requires": [
         "polynomial-ring-mod-yr-plus-1",
         "synthetic-transforms",
-        "signed-packing"
+        "signed-packing",
+        "cyclic-convolution"
       ],
       "known": false,
       "evidence": [
@@ -338,7 +341,9 @@
       "name": "Subspace labels",
       "aliases": [],
       "gloss": "Nondegenerate subspaces of a fixed bilinear space attached to each wire of a network, whose inclusions control how much work a change of representation costs.",
-      "requires": [],
+      "requires": [
+        "bilinear-form"
+      ],
       "known": false,
       "evidence": [
         {
@@ -464,7 +469,8 @@
       "requires": [
         "subset-intersection-network",
         "gaussian-dyadics",
-        "subspace-labels"
+        "subspace-labels",
+        "tensor-product"
       ],
       "known": false,
       "evidence": [
@@ -477,13 +483,16 @@
     {
       "id": "simultaneous-butterfly-layer",
       "name": "Simultaneous butterfly layer",
-      "aliases": [],
+      "aliases": [
+        "butterfly layers"
+      ],
       "gloss": "The tensor product of the two-point map H0 applied to several selected address bits at once, computed exactly in one pass rather than one axis at a time.",
       "requires": [
         "complex-phase-network",
         "gaussian-dyadics",
         "address-interchange",
-        "discrete-fourier-transform"
+        "discrete-fourier-transform",
+        "tensor-product"
       ],
       "known": false,
       "evidence": [
@@ -531,7 +540,11 @@
     {
       "id": "transform-layout",
       "name": "Transform layout",
-      "aliases": [],
+      "aliases": [
+        "transform layers",
+        "selected bits",
+        "layouts of the multiplication algorithm"
+      ],
       "gloss": "A permutation of address bits that places the selected bits of all participating axes at a common offset in consecutive chunks, so that a simultaneous butterfly layer applies to each transform round.",
       "requires": [
         "address-interchange",
@@ -570,9 +583,7 @@
       "gloss": "The Gaussian resampling identity in which the source and target coordinate permutations are kept as part of the formula, so that they cancel across a convolution instead of being executed as sorts.",
       "requires": [
         "gaussian-resampling",
-        "coprime-integers",
-        "tensor-product",
-        "convolution-theorem"
+        "cyclic-convolution"
       ],
       "known": false,
       "evidence": [
@@ -647,1110 +658,1942 @@
       ]
     },
     {
-      "id": "axis-length",
-      "name": "Axis length",
-      "aliases": [],
-      "gloss": "The number of positions along one coordinate axis of a multidimensional array; a multidimensional transform is applied along each axis in turn, with its own length.",
-      "requires": [
-        "tensor-product",
-        "transform"
-      ],
-      "known": false,
-      "evidence": [
-        {
-          "source": "paper",
-          "quote": "axis lengths are powers of two"
-        }
-      ]
-    },
-    {
-      "id": "coprime-integers",
-      "name": "Coprime integers",
+      "id": "mathematical-induction",
+      "name": "Mathematical induction",
       "aliases": [
-        "coprime"
+        "induction",
+        "proof by induction",
+        "inductive proof"
       ],
-      "gloss": "Two integers are coprime when their greatest common divisor is 1; a family of integers is pairwise coprime when every two of them are coprime.",
-      "requires": [
-        "cyclic-convolution"
-      ],
-      "known": false,
-      "evidence": [
-        {
-          "source": "paper",
-          "quote": "pairwise coprime"
-        }
-      ]
-    },
-    {
-      "id": "gaussian-width",
-      "name": "Gaussian width",
-      "aliases": [
-        "Gaussian width / Gaussian factor"
-      ],
-      "gloss": "The integer parameter that sets how wide the Gaussian weights are in a resampling; a larger value makes the weights decay more slowly, so the resampling is more accurate.",
-      "requires": [
-        "gaussian-resampling"
-      ],
-      "known": false,
-      "evidence": [
-        {
-          "source": "paper",
-          "quote": "2 ≤ α < p be integers"
-        }
-      ]
-    },
-    {
-      "id": "linear-map",
-      "name": "Linear map",
-      "aliases": [],
-      "gloss": "A map between vectors of numbers that preserves addition and scalar multiplication, so that each output coordinate is a fixed weighted sum of the input coordinates.",
+      "gloss": "A proof method that establishes a statement for all natural numbers by proving a base case and that each case implies the next.",
       "requires": [],
-      "known": false,
-      "evidence": [
-        {
-          "source": "paper",
-          "quote": "A gate is a fixed linear map on a specified set of"
-        }
-      ]
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "logarithms-and-floor-and-ceiling-functions",
+      "name": "Logarithms and floor and ceiling functions",
+      "aliases": [
+        "floor function",
+        "ceiling function",
+        "integer part",
+        "log base 2",
+        "lg"
+      ],
+      "gloss": "The logarithm inverts exponentiation, and the floor and ceiling functions round a real number down or up to an integer.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "binary-representation-of-integers",
+      "name": "Binary representation of integers",
+      "aliases": [
+        "binary string",
+        "bit string",
+        "base-2 representation",
+        "binary digits",
+        "bits"
+      ],
+      "gloss": "Every nonnegative integer has a unique representation as a finite sum of powers of two with coefficients 0 or 1, written as a string of bits.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "dyadic-rationals",
+      "name": "Dyadic rationals",
+      "aliases": [
+        "binary fractions",
+        "dyadic numbers"
+      ],
+      "gloss": "Rational numbers whose denominator is a power of two, equivalently those with a finite binary expansion.",
+      "requires": [],
+      "known": true,
+      "evidence": []
     },
     {
       "id": "modular-arithmetic",
       "name": "Modular arithmetic",
       "aliases": [
-        "modular indices"
+        "congruence modulo m",
+        "residues modulo m",
+        "integers modulo m",
+        "remainder arithmetic"
       ],
-      "gloss": "Arithmetic in which values are reduced to their remainders on division by a fixed modulus q, so that index positions wrap around after q.",
+      "gloss": "Integers a and b are congruent modulo m when m divides their difference, and arithmetic is carried out on remainders after division by m.",
       "requires": [],
-      "known": false,
-      "evidence": [
-        {
-          "source": "paper",
-          "quote": "All subscripts on a vector of length q are taken modulo q."
-        }
-      ]
+      "known": true,
+      "evidence": []
     },
     {
-      "id": "operator-norm",
-      "name": "Operator norm",
+      "id": "greatest-common-divisor-and-coprimality",
+      "name": "Greatest common divisor and coprimality",
       "aliases": [
-        "norm of a linear map"
+        "gcd",
+        "relatively prime",
+        "coprime",
+        "Euclidean algorithm"
       ],
-      "gloss": "For a linear map, the largest factor by which it stretches a vector measured in a fixed norm, taken over all vectors of norm at most one.",
+      "gloss": "The greatest common divisor of two integers is the largest integer dividing both, computed by the Euclidean algorithm, and two integers are coprime when their gcd is 1.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "prime-numbers",
+      "name": "Prime numbers",
+      "aliases": [
+        "primes",
+        "primality",
+        "prime factorization"
+      ],
+      "gloss": "A prime is an integer greater than 1 whose only positive divisors are 1 and itself, and every integer greater than 1 factors uniquely into primes.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "roots-of-unity",
+      "name": "Roots of unity",
+      "aliases": [
+        "n-th roots of unity",
+        "primitive root of unity",
+        "unit roots",
+        "powers of a root of unity"
+      ],
+      "gloss": "A complex number z is an n-th root of unity when z^n = 1, and a primitive n-th root of unity is one whose successive powers give all n of the n-th roots.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "binary-field-f2-and-xor-arithmetic",
+      "name": "Binary field F2 and XOR arithmetic",
+      "aliases": [
+        "GF(2)",
+        "field of two elements",
+        "mod-2 arithmetic",
+        "exclusive or",
+        "XOR",
+        "Boolean addition"
+      ],
+      "gloss": "The integers modulo 2, with addition given by exclusive or and multiplication by logical AND, in which each element is its own additive inverse.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "hamming-weight",
+      "name": "Hamming weight",
+      "aliases": [
+        "popcount",
+        "number of ones",
+        "weight of a binary vector",
+        "wt(x)"
+      ],
+      "gloss": "The Hamming weight of a binary string is the number of positions that hold a 1.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "vector-spaces-and-subspaces",
+      "name": "Vector spaces and subspaces",
+      "aliases": [
+        "linear subspace",
+        "span",
+        "basis",
+        "linear independence",
+        "dimension"
+      ],
+      "gloss": "A vector space is a set closed under addition and scalar multiplication, and a subspace is a subset that is itself a vector space; a basis is a linearly independent spanning set and the dimension is the size of any basis.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "matrices-and-linear-maps",
+      "name": "Matrices and linear maps",
+      "aliases": [
+        "matrix multiplication",
+        "matrix inverse",
+        "transpose",
+        "identity matrix",
+        "linear transformation"
+      ],
+      "gloss": "A matrix represents a linear map between finite-dimensional vector spaces, and matrices multiply, invert and transpose in the standard way.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "matrix-rank",
+      "name": "Matrix rank",
+      "aliases": [
+        "rank",
+        "rank of a linear map",
+        "column rank",
+        "row rank"
+      ],
+      "gloss": "The rank of a matrix is the dimension of its column space, which equals the maximum number of linearly independent columns.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "projection-onto-a-subspace",
+      "name": "Projection onto a subspace",
+      "aliases": [
+        "projection matrix",
+        "idempotent linear map",
+        "orthogonal projection"
+      ],
+      "gloss": "A projection is a linear map P with P squared equal to P, which fixes its image pointwise and maps onto a chosen subspace.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "dot-product-and-orthogonality",
+      "name": "Dot product and orthogonality",
+      "aliases": [
+        "inner product",
+        "scalar product",
+        "orthogonal vectors",
+        "perpendicular vectors",
+        "orthogonal complement"
+      ],
+      "gloss": "The dot product of two vectors is the sum of the products of their corresponding coordinates, and two vectors are orthogonal when their dot product is zero.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "eigenvalues-and-eigenvectors",
+      "name": "Eigenvalues and eigenvectors",
+      "aliases": [
+        "eigenvalue",
+        "eigenvector",
+        "spectrum",
+        "characteristic polynomial"
+      ],
+      "gloss": "A scalar lambda is an eigenvalue of a square matrix A when some nonzero vector v satisfies Av = lambda v, and such a v is an eigenvector.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "bilinear-form",
+      "name": "Bilinear form",
+      "aliases": [
+        "bilinear space",
+        "nondegenerate form"
+      ],
+      "gloss": "A function of two vectors that is linear in each argument; a form is nondegenerate when no nonzero vector is orthogonal to every vector of the space.",
       "requires": [
-        "linear-map"
+        "vector-spaces-and-subspaces",
+        "dot-product-and-orthogonality"
       ],
       "known": false,
       "evidence": [
         {
           "source": "paper",
-          "quote": "All operator norms are induced by this norm"
+          "quote": "A label is a nondegenerate subspace of a fixed bilinear"
+        },
+        {
+          "source": "paper",
+          "quote": "A nondegenerate symmetric bilinear space is nonalternating precisely when"
         }
       ]
     },
     {
       "id": "tensor-product",
       "name": "Tensor product",
-      "aliases": [],
-      "gloss": "The product of two linear maps or arrays acting on separate coordinates, so that applying the product acts on each coordinate in turn.",
+      "aliases": [
+        "tensor product of spaces"
+      ],
+      "gloss": "The product of vector spaces, whose basis is formed by pairing basis vectors of the factors, so that a tensor power of a space collects several copies of it.",
       "requires": [
-        "linear-map"
+        "vector-spaces-and-subspaces",
+        "bilinear-form"
       ],
       "known": false,
       "evidence": [
         {
           "source": "paper",
-          "quote": "For the tensor product, apply the one-dimensional maps to one coordinate line at a time."
+          "quote": "An empty tensor product is the one-dimensional ground field"
         }
       ]
-    },
-    {
-      "id": "chinese-remainder-theorem",
-      "name": "Chinese remainder theorem",
-      "aliases": [
-        "CRT"
-      ],
-      "gloss": "The theorem that a system of congruences with pairwise coprime moduli has a unique solution modulo the product of the moduli.",
-      "requires": [
-        "coprime-integers",
-        "modular-arithmetic"
-      ],
-      "known": false,
-      "evidence": [
-        {
-          "source": "paper",
-          "quote": "Cooley used the Chinese remainder theorem to convert one cyclic convolution into multidimensional"
-        }
-      ]
-    },
-    {
-      "id": "convolution-theorem",
-      "name": "Convolution theorem",
-      "aliases": [],
-      "gloss": "The fact that the transform of a convolution of two sequences is the pointwise product of their transforms.",
-      "requires": [
-        "discrete-fourier-transform",
-        "cyclic-convolution"
-      ],
-      "known": false,
-      "evidence": []
-    },
-    {
-      "id": "gaussian-function",
-      "name": "Gaussian function",
-      "aliases": [
-        "Gaussian weight",
-        "Gaussian (weight or function)"
-      ],
-      "gloss": "The bell-shaped function x ↦ e^(−x²), or a scaled and shifted copy of it, used as a smooth weight that decays rapidly away from its centre.",
-      "requires": [],
-      "known": false,
-      "evidence": []
-    },
-    {
-      "id": "matrix-product",
-      "name": "Matrix product",
-      "aliases": [],
-      "gloss": "The matrix whose (i, j) entry is the sum over k of the entry in row i, column k of the first matrix times the entry in row k, column j of the second; it represents the composition of the two linear maps.",
-      "requires": [
-        "linear-map"
-      ],
-      "known": false,
-      "evidence": []
-    },
-    {
-      "id": "transform",
-      "name": "Transform",
-      "aliases": [],
-      "gloss": "A linear map from one array of values to another array of the same kind, each output being a fixed weighted sum of the inputs, such as a discrete Fourier transform.",
-      "requires": [
-        "linear-map"
-      ],
-      "known": false,
-      "evidence": []
     }
   ],
-  "rewrite": {
-    "axis-length": [
-      "The quotation does not support the claim it is attached to (unsupported): \"The starting point of the paper, a reduction of Harvey and van der Hoeven, uses transforms whose axis lengths are powers of two\" cites \"replaces the Fourier transforms needed for this convolution by multidimensional transforms whose axis lengths are powers of two\": The quotation describes a replacement: it says the Fourier transforms needed for the convolution are replaced by multidimensional transforms with power-of-two axis lengths. It does not say that the starting point (the Harvey and van der Hoeven reduction) uses power-of-two transforms; it describes the transforms introduced in place of the starting point's Fourier transforms. Say only what the source supports, or cite the passage that supports the claim."
-    ],
-    "convolution-theorem": [
-      "The quotation does not support the claim it is attached to (unsupported): \"The factor $S$ comes from the normalization\" cites \"Fs (u ∗ v) = S(Fs u) · (Fs v)\": The quotation only shows S as a factor in the identity Fs(u ∗ v) = S(Fs u) · (Fs v). It does not say where S comes from, so it does not address the claim that S comes from the normalization. Say only what the source supports, or cite the passage that supports the claim."
-    ],
-    "discrete-fourier-transform": [
-      "$m$ means exponent here, but input count on [Linear map](linear-map.md), which this page builds on: On discrete-fourier-transform, m is an exponent of omega with 0<m<q; the input count m of a linear map is a different thing. The later DFT page should use another letter for the exponent, or say explicitly that m here is an exponent, not the input count."
-    ],
-    "exact-integer-multiplication": [
-      "The quotation does not support the claim it is attached to (unsupported): \"The target result is a strict power saving in the logarithmic factor\" cites \"in the same fixed finite-tape model\": The quotation only says the result holds in the same fixed finite-tape model; it says nothing about a strict power saving in the logarithmic factor. Say only what the source supports, or cite the passage that supports the claim."
-    ],
-    "gaussian-resampling": [
-      "The quotation does not support the claim it is attached to (unsupported): \"The sources bound $\\|S/2\\|<3/4$, $\\|N^{-1}/2\\|<7/8$ and\" cites \"∥D′ ∥ < 1\": The quotation bounds the norm of the scaled diagonal map D' by 1; it says nothing about the bounds on ||S/2|| < 3/4 or ||N^-1/2|| < 7/8 that the claim asserts. Say only what the source supports, or cite the passage that supports the claim.",
-      "$s$ means source length here, but frequency index on [Discrete Fourier transform](discrete-fourier-transform.md), which this page builds on: On gaussian-resampling, s is the source length; on the DFT page s is a frequency summation index running over 0..q-1. The later gaussian-resampling page should use another letter for the frequency index, or say that s here is the source length and not a summation index.",
-      "$p$ means precision here, but coefficient index on [Radix-digit convolution](radix-digit-convolution.md), which this page builds on: On gaussian-resampling, p is the integer precision of the approximation; on radix-digit-convolution p is a coefficient index of c. The later gaussian-resampling page should use another letter for the precision, or say that p here is the precision, not a coefficient index.",
-      "$p$ means precision here, but output position on [Discrete Fourier transform](discrete-fourier-transform.md), which this page builds on: On gaussian-resampling, p is the integer precision; on the DFT page p is an output position running over 0..q-1. The later gaussian-resampling page should use another letter for the precision, or say that p here is the precision, not an output position."
-    ],
-    "radix-digit-convolution": [
-      "$a$ means digit list of x here, but input vector on [Discrete Fourier transform](discrete-fourier-transform.md), which this page builds on: On radix-digit-convolution, a is the list of radix digits of x (length d, integer digits a_0..a_{d-1}); on the DFT page a is a generic vector of q complex numbers. The later page should use another letter for the digit list (for example a digit name tied to x), or say that a here is the digit list, padded to length q only when transformed.",
-      "$e$ means digit position here, but integer exponent on [Discrete Fourier transform](discrete-fourier-transform.md), which this page builds on: On radix-digit-convolution, e is a digit position running over 0..d-1; on the DFT page e is an integer exponent of omega. The later radix page should use another letter for the digit position, or say that e here is a digit position, not an exponent.",
-      "$z$ means formal variable here, but integer to encode on [Exact integer multiplication](exact-integer-multiplication.md), which this page builds on: On radix-digit-convolution, z is a formal polynomial variable; on exact-integer-multiplication z is a nonnegative integer below 2^k. The later radix page should use another letter for the formal variable, or say that z here is a formal variable, not an integer.",
-      "$b$ means digit list of y here, but second vector on [Discrete Fourier transform](discrete-fourier-transform.md), which this page builds on: On radix-digit-convolution, b is the digit list of y (length d); on the DFT page b is a generic second vector of q complex numbers. The later radix page should use another letter for the digit list, or say that b here is the digit list of y.",
-      "$c$ means convolution here, but pointwise product on [Discrete Fourier transform](discrete-fourier-transform.md), which this page builds on: On radix-digit-convolution, c is the coefficient list of the product a(z)b(z), i.e. the convolution; on the DFT page c is the entrywise product of transforms. The later radix page should use another letter for the convolution, or say that c here is the convolution of the digit lists."
-    ],
-    "tensor-product": [
-      "$u$ means array here, but input vector on [Linear map](linear-map.md), which this page builds on: On tensor-product, u is an s-by-t array with entries u_hg; the linear map's u is a vector of m complex numbers. The later tensor-product page should use another letter for the array, or say that u here is an array, not an input vector.",
-      "$m$ means output column index here, but input count on [Linear map](linear-map.md), which this page builds on: On tensor-product, m is an output column index; the linear map's m is the input count. The later tensor-product page should use another letter for the column index, or say it is a column index, not the input count."
-    ],
-    "transform-identity": [
-      "$F_s$ means source transform here, but normalized transform on [Convolution theorem](convolution-theorem.md), which this page builds on: On transform-identity, F_s is first the one-dimensional transform F_q with q=s; on convolution-theorem F_s is the transform applied along every axis, normalized by 1/S. Once lifted, transform-identity uses F_s in the multi-axis sense, so the page should use another letter for the one-dimensional transform, or say explicitly where F_s means the lifted transform.",
-      "$d$ means coordinate count here, but digit count on [Radix-digit convolution](radix-digit-convolution.md), which this page builds on: On transform-identity, d is the number of coordinates of the grid; on radix-digit-convolution d is the number of radix digits of each input. The later transform-identity page should use another letter for the coordinate count, or say that d here is the coordinate count, not the digit count (as it already does in part).",
-      "$u$ means source array here, but input vector on [Linear map](linear-map.md), which this page builds on: On transform-identity, u is an array on a grid of shape s_1 x ... x s_d; on linear-map u is a vector of m complex numbers. The later page should use another letter for the array, or say that u here is an array on the source grid, not an input vector.",
-      "$v$ means second source array here, but output vector on [Linear map](linear-map.md), which this page builds on: On transform-identity, v is a second array on the source grid; on linear-map v is the output vector of k complex numbers. The later page should use another letter for the array, or say that v here is a source-grid array, not an output vector."
-    ]
-  },
   "bindings": {
-    "axis-length": [
+    "address-interchange": [
       {
-        "symbol": "\\ell_1",
-        "name": "first axis length",
-        "meaning": "The number of positions along the first axis of a two-dimensional array.",
+        "symbol": "V",
+        "name": "stored volume",
+        "meaning": "The number of bits the array stores.",
         "relation": "count",
-        "quote": "For a two-dimensional array with axis lengths $\\ell_1$ and $\\ell_2$, the first axis has $\\ell_1$ positions and the second has $\\ell_2$."
+        "quote": "Let the array have stored volume $V$, the number of bits it stores."
       },
       {
-        "symbol": "\\ell_2",
-        "name": "second axis length",
-        "meaning": "The number of positions along the second axis of a two-dimensional array.",
+        "symbol": "u",
+        "name": "field width",
+        "meaning": "The number of bits in each address field.",
         "relation": "count",
-        "quote": "For a two-dimensional array with axis lengths $\\ell_1$ and $\\ell_2$, the first axis has $\\ell_1$ positions and the second has $\\ell_2$."
+        "quote": "Each address field has $u$ bits, the width of the field."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "cost exponent",
+        "meaning": "A fixed constant less than 1 in the cost bound $O(V u^{\\tau})$.",
+        "relation": "direct",
+        "quote": "The exponent $\\tau$ is a fixed constant with $\\tau<1$, so $u^{\\tau}$ grows more slowly than $u$ itself."
       }
     ],
-    "convolution-theorem": [
+    "address-shear": [
       {
-        "symbol": "d",
-        "name": "number of axes",
-        "meaning": "The number of axes of an array, which counts its dimensions.",
-        "relation": "count",
-        "quote": "Let $d$ be the number of axes of an array, let $s_i$ be the length of axis $i$, and let $S=\\prod_i s_i$ be the number of positions in the array."
-      },
-      {
-        "symbol": "s_i",
-        "name": "axis length",
-        "meaning": "The length of axis i of the array, which counts the positions along that axis.",
-        "relation": "count",
-        "quote": "Let $d$ be the number of axes of an array, let $s_i$ be the length of axis $i$, and let $S=\\prod_i s_i$ be the number of positions in the array."
-      },
-      {
-        "symbol": "S",
-        "name": "array size",
-        "meaning": "The number of positions in the array, which is the product of the axis lengths s_i.",
-        "relation": "count",
-        "quote": "Let $d$ be the number of axes of an array, let $s_i$ be the length of axis $i$, and let $S=\\prod_i s_i$ be the number of positions in the array."
-      },
-      {
-        "symbol": "F_s",
-        "name": "normalized transform",
-        "meaning": "The discrete Fourier transform applied along every axis of the array, normalized by 1/S.",
+        "symbol": "H",
+        "name": "first address field",
+        "meaning": "One of the two address fields, a vector of residues that the shear updates.",
         "relation": "direct",
-        "quote": "The theorem takes its transforms by the [Discrete Fourier transform](discrete-fourier-transform.md) $F_s$, applied along every axis and normalized by $1/S$."
+        "quote": "Address shear is the map that sends two address fields $H$ and $D$, which are vectors of residues, to $H + D$ and $D$."
+      },
+      {
+        "symbol": "D",
+        "name": "second address field",
+        "meaning": "The other address field, a vector of residues that the shear leaves unchanged.",
+        "relation": "direct",
+        "quote": "Address shear is the map that sends two address fields $H$ and $D$, which are vectors of residues, to $H + D$ and $D$."
+      }
+    ],
+    "bilinear-form": [
+      {
+        "symbol": "U",
+        "name": "ambient vector space",
+        "meaning": "The vector space over F2 on which the bilinear form is defined.",
+        "relation": "direct",
+        "quote": "Throughout, $U$ is a vector space over $\\mathbb{F}_2$, so the only scalars are $0$ and $1$."
+      },
+      {
+        "symbol": "B",
+        "name": "bilinear form",
+        "meaning": "The function that takes two vectors of U and returns a scalar, linear in each argument.",
+        "relation": "direct",
+        "quote": "A bilinear form on $U$ is a function $B$ that takes two vectors $u, v$ of $U$ and returns a scalar $B(u,v)$, linear in each argument."
+      },
+      {
+        "symbol": "u",
+        "name": "first vector",
+        "meaning": "A vector of U, the first argument of the form.",
+        "relation": "direct",
+        "quote": "A bilinear form on $U$ is a function $B$ that takes two vectors $u, v$ of $U$ and returns a scalar $B(u,v)$, linear in each argument."
+      },
+      {
+        "symbol": "v",
+        "name": "second vector",
+        "meaning": "A vector of U, the second argument of the form.",
+        "relation": "direct",
+        "quote": "A bilinear form on $U$ is a function $B$ that takes two vectors $u, v$ of $U$ and returns a scalar $B(u,v)$, linear in each argument."
+      },
+      {
+        "symbol": "W",
+        "name": "subspace",
+        "meaning": "A subspace of U whose restricted form is tested for nondegeneracy.",
+        "relation": "direct",
+        "quote": "A subspace $W$ of $U$ is nondegenerate when no nonzero vector of $W$ is orthogonal to every vector of $W$."
+      },
+      {
+        "symbol": "u_1",
+        "name": "first coordinate of u",
+        "meaning": "The first coordinate of the vector u in the example.",
+        "relation": "direct",
+        "quote": "For example, let $U=\\mathbb{F}_2^2$ and write $u=(u_1,u_2)$ and $v=(v_1,v_2)$ for its vectors."
+      },
+      {
+        "symbol": "u_2",
+        "name": "second coordinate of u",
+        "meaning": "The second coordinate of the vector u in the example.",
+        "relation": "direct",
+        "quote": "For example, let $U=\\mathbb{F}_2^2$ and write $u=(u_1,u_2)$ and $v=(v_1,v_2)$ for its vectors."
+      },
+      {
+        "symbol": "v_1",
+        "name": "first coordinate of v",
+        "meaning": "The first coordinate of the vector v in the example.",
+        "relation": "direct",
+        "quote": "For example, let $U=\\mathbb{F}_2^2$ and write $u=(u_1,u_2)$ and $v=(v_1,v_2)$ for its vectors."
+      },
+      {
+        "symbol": "v_2",
+        "name": "second coordinate of v",
+        "meaning": "The second coordinate of the vector v in the example.",
+        "relation": "direct",
+        "quote": "For example, let $U=\\mathbb{F}_2^2$ and write $u=(u_1,u_2)$ and $v=(v_1,v_2)$ for its vectors."
+      }
+    ],
+    "bluestein-chirp-identity": [
+      {
+        "symbol": "w",
+        "name": "half root of unity",
+        "meaning": "A complex number whose square is ω.",
+        "relation": "direct",
+        "quote": "Let $w = e^{\\pi i/q}$ be the number whose square is $\\omega$, so that $w^2 = \\omega$."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "reduced index",
+        "meaning": "The reduced index (k-j) mod q, an integer from 0 to q-1.",
+        "relation": "direct",
+        "quote": "Define $b_\\ell = w^{-\\ell^2}$ for $\\ell \\in \\{0,\\ldots,q-1\\}$, where $\\ell$ is the reduced index $(k-j) \\bmod q$, an integer from 0 to $q-1$."
+      },
+      {
+        "symbol": "p",
+        "name": "index shift",
+        "meaning": "An arbitrary integer shift of the index, used to show the chirp is periodic in q.",
+        "relation": "direct",
+        "quote": "For any integer $p$, $w^{-(p+q)^2} = w^{-p^2}$, because $w^{-2pq} = \\omega^{-pq} = 1$ and $w^{-q^2} = (-1)^q = 1$."
+      }
+    ],
+    "chinese-remainder-map": [
+      {
+        "symbol": "K",
+        "name": "axis count",
+        "meaning": "The number of cyclic axes, a count of the axes of the box.",
+        "relation": "count",
+        "quote": "Let $K$ be the number of axes, and let $M_\\nu$ be the length of axis $\\nu$ for $\\nu = 1,\\dots,K$, with the lengths pairwise coprime, so no two share a prime factor."
+      },
+      {
+        "symbol": "M_\\nu",
+        "name": "axis length",
+        "meaning": "The length of axis nu, a count of the positions along that axis.",
+        "relation": "count",
+        "quote": "Let $K$ be the number of axes, and let $M_\\nu$ be the length of axis $\\nu$ for $\\nu = 1,\\dots,K$, with the lengths pairwise coprime, so no two share a prime factor."
+      },
+      {
+        "symbol": "\\nu",
+        "name": "axis index",
+        "meaning": "The index of an axis, ranging from 1 to K.",
+        "relation": "direct",
+        "quote": "Let $K$ be the number of axes, and let $M_\\nu$ be the length of axis $\\nu$ for $\\nu = 1,\\dots,K$, with the lengths pairwise coprime, so no two share a prime factor."
+      },
+      {
+        "symbol": "N",
+        "name": "position count",
+        "meaning": "The number of coefficient positions, the product of the axis lengths.",
+        "relation": "count",
+        "quote": "Let $N = M_1 M_2 \\cdots M_K$ be the number of coefficient positions."
+      },
+      {
+        "symbol": "p",
+        "name": "position",
+        "meaning": "A coefficient position, an integer from 0 to N-1.",
+        "relation": "direct",
+        "quote": "Positions are $p = 0,\\dots,N-1$, and $p'$ denotes a second position."
+      },
+      {
+        "symbol": "p'",
+        "name": "second position",
+        "meaning": "A second coefficient position, paired with p in a sum.",
+        "relation": "direct",
+        "quote": "Positions are $p = 0,\\dots,N-1$, and $p'$ denotes a second position."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "target position",
+        "meaning": "The target position of a convolution entry, an integer from 0 to N-1.",
+        "relation": "direct",
+        "quote": "The original convolution sums $a_p b_{p'}$ over pairs with $p + p' \\equiv \\ell \\pmod N$, for a target position $\\ell$."
+      }
+    ],
+    "complex-phase-network": [
+      {
+        "symbol": "\\alpha",
+        "name": "first kernel scalar",
+        "meaning": "The first scalar of a two-point kernel $\\alpha I+\\beta X$, the coefficient of the identity term.",
+        "relation": "direct",
+        "quote": "Each kernel is $\\alpha I+\\beta X$, where $\\alpha$ is the first scalar of the kernel and $\\beta$ is the second scalar."
+      },
+      {
+        "symbol": "\\beta",
+        "name": "second kernel scalar",
+        "meaning": "The second scalar of a two-point kernel $\\alpha I+\\beta X$, the coefficient of the swap term.",
+        "relation": "direct",
+        "quote": "Each kernel is $\\alpha I+\\beta X$, where $\\alpha$ is the first scalar of the kernel and $\\beta$ is the second scalar."
+      },
+      {
+        "symbol": "I",
+        "name": "identity on two points",
+        "meaning": "The identity map on a pair of points, which leaves both coordinates unchanged.",
+        "relation": "direct",
+        "quote": "Each frame change is a product of two-point kernels, where $I$ is the identity on two points and $X$ is the map that swaps them."
+      },
+      {
+        "symbol": "X",
+        "name": "swap on two points",
+        "meaning": "The map on a pair of points that exchanges its two coordinates.",
+        "relation": "direct",
+        "quote": "Each frame change is a product of two-point kernels, where $I$ is the identity on two points and $X$ is the map that swaps them."
       }
     ],
     "cyclic-convolution": [
       {
-        "symbol": "\\ast",
-        "name": "cyclic convolution",
-        "meaning": "The cyclic convolution operation, which takes two vectors of q values to a vector of q values.",
+        "symbol": "t",
+        "name": "sequence length",
+        "meaning": "The number of entries in each of the two sequences, a positive integer.",
+        "relation": "count",
+        "quote": "Let $a = (a_0, \\dots, a_{t-1})$ and $b = (b_0,\\dots,b_{t-1})$ be two sequences of complex numbers of length $t$, a positive integer."
+      },
+      {
+        "symbol": "a",
+        "name": "first input sequence",
+        "meaning": "The first sequence of t complex numbers, indexed from 0 to t-1.",
         "relation": "direct",
-        "quote": "We write $u \\ast v$ for the cyclic convolution of $u$ and $v$."
+        "quote": "Let $a = (a_0, \\dots, a_{t-1})$ and $b = (b_0,\\dots,b_{t-1})$ be two sequences of complex numbers of length $t$, a positive integer."
+      },
+      {
+        "symbol": "b",
+        "name": "second input sequence",
+        "meaning": "The second sequence of t complex numbers, indexed from 0 to t-1.",
+        "relation": "direct",
+        "quote": "Let $a = (a_0, \\dots, a_{t-1})$ and $b = (b_0,\\dots,b_{t-1})$ be two sequences of complex numbers of length $t$, a positive integer."
+      },
+      {
+        "symbol": "i",
+        "name": "index into a",
+        "meaning": "The index of an entry of a, ranging over 0 to t-1.",
+        "relation": "direct",
+        "quote": "Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
+      },
+      {
+        "symbol": "j",
+        "name": "index into b",
+        "meaning": "The index of an entry of b, ranging over 0 to t-1.",
+        "relation": "direct",
+        "quote": "Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
+      },
+      {
+        "symbol": "k",
+        "name": "index into c",
+        "meaning": "The index of an entry of the output sequence c, ranging over 0 to t-1.",
+        "relation": "direct",
+        "quote": "Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
+      },
+      {
+        "symbol": "c",
+        "name": "cyclic convolution",
+        "meaning": "The output sequence a \\ast b of length t, whose k-th entry is the sum of a_i b_j over all pairs with i+j congruent to k modulo t.",
+        "relation": "direct",
+        "quote": "Their cyclic convolution $c = a \\ast b$ is the sequence of length $t$ given by the rule below. Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
       }
     ],
     "discrete-fourier-transform": [
       {
         "symbol": "q",
         "name": "vector length",
-        "meaning": "The number of values in each vector, which is the number of complex entries a transform takes.",
+        "meaning": "The number of entries in each vector, a count.",
         "relation": "count",
-        "quote": "Let $q$ be the number of values in each vector, and let $\\omega$ be a primitive $q$-th root of unity, meaning $\\omega^q=1$ and $\\omega^m\\neq 1$ for each integer exponent $m$ with $0<m<q$."
+        "quote": "Let $q$ be the number of entries in a vector."
       },
       {
         "symbol": "\\omega",
         "name": "root of unity",
-        "meaning": "A primitive $q$-th root of unity: a complex number with $\\omega^q=1$ and no smaller positive power equal to 1.",
+        "meaning": "A primitive q-th root of unity, a complex number whose powers are all different from 1 below q.",
         "relation": "direct",
-        "quote": "Let $q$ be the number of values in each vector, and let $\\omega$ be a primitive $q$-th root of unity, meaning $\\omega^q=1$ and $\\omega^m\\neq 1$ for each integer exponent $m$ with $0<m<q$."
+        "quote": "Let $\\omega$ be a primitive $q$-th root of unity: a complex number with $\\omega^q = 1$ whose powers $\\omega^1, \\dots, \\omega^{q-1}$ all differ from $1$."
       },
       {
-        "symbol": "m",
-        "name": "exponent",
-        "meaning": "An integer exponent of omega, ranging over the values with $0<m<q$ in the primitivity condition.",
-        "relation": "direct",
-        "quote": "Let $q$ be the number of values in each vector, and let $\\omega$ be a primitive $q$-th root of unity, meaning $\\omega^q=1$ and $\\omega^m\\neq 1$ for each integer exponent $m$ with $0<m<q$."
-      },
-      {
-        "symbol": "a",
+        "symbol": "x",
         "name": "input vector",
-        "meaning": "A vector of $q$ complex numbers, written $(a_0,\\dots,a_{q-1})$, that the transform acts on.",
+        "meaning": "The input vector of q complex numbers, indexed from 0 to q-1.",
         "relation": "direct",
-        "quote": "Let $a=(a_0,\\dots,a_{q-1})$ and $b$ be vectors of $q$ complex numbers, with input positions $j$ and output positions $p$ running from $0$ to $q-1$."
+        "quote": "The transform of a vector $x = (x_0, \\dots, x_{q-1})$ is the vector $X = (X_0, \\dots, X_{q-1})$ with"
       },
       {
-        "symbol": "b",
-        "name": "second vector",
-        "meaning": "A second vector of $q$ complex numbers, used with $a$ in the convolution.",
+        "symbol": "X",
+        "name": "transform vector",
+        "meaning": "The transform of x, the vector of q outputs computed from x.",
         "relation": "direct",
-        "quote": "Let $a=(a_0,\\dots,a_{q-1})$ and $b$ be vectors of $q$ complex numbers, with input positions $j$ and output positions $p$ running from $0$ to $q-1$."
+        "quote": "The transform of a vector $x = (x_0, \\dots, x_{q-1})$ is the vector $X = (X_0, \\dots, X_{q-1})$ with"
       },
       {
         "symbol": "j",
-        "name": "input position",
-        "meaning": "An input position of a vector, running from $0$ to $q-1$.",
+        "name": "input index",
+        "meaning": "The index of an input entry, ranging over 0 to q-1.",
         "relation": "direct",
-        "quote": "Let $a=(a_0,\\dots,a_{q-1})$ and $b$ be vectors of $q$ complex numbers, with input positions $j$ and output positions $p$ running from $0$ to $q-1$."
+        "quote": "Here $j$ indexes the input entries and $k$ the output entries; $i$ is a second input index used below."
       },
       {
-        "symbol": "p",
-        "name": "output position",
-        "meaning": "An output position of a transformed vector, running from $0$ to $q-1$.",
+        "symbol": "k",
+        "name": "output index",
+        "meaning": "The index of an output entry, ranging over 0 to q-1.",
         "relation": "direct",
-        "quote": "Let $a=(a_0,\\dots,a_{q-1})$ and $b$ be vectors of $q$ complex numbers, with input positions $j$ and output positions $p$ running from $0$ to $q-1$."
+        "quote": "Here $j$ indexes the input entries and $k$ the output entries; $i$ is a second input index used below."
       },
       {
-        "symbol": "F_q",
-        "name": "transform map",
-        "meaning": "The discrete Fourier transform on vectors of length $q$, whose entries are the weighted sums $(F_q a)_p$.",
+        "symbol": "i",
+        "name": "second input index",
+        "meaning": "A second index of an input entry, used when the sums are exchanged.",
         "relation": "direct",
-        "quote": "The transform $F_q$ sends $a$ to the vector with entries"
+        "quote": "Here $j$ indexes the input entries and $k$ the output entries; $i$ is a second input index used below."
       },
       {
-        "symbol": "F_q^+",
-        "name": "opposite transform",
-        "meaning": "The transform on vectors of length $q$ defined like $F_q$ but with $\\omega^{-1}$ in place of $\\omega$.",
-        "relation": "direct",
-        "quote": "and the opposite transform $F_q^+$ uses $\\omega^{-1}$ in place of $\\omega$."
-      },
-      {
-        "symbol": "s",
-        "name": "frequency index",
-        "meaning": "The summation index over frequencies, running from $0$ to $q-1$.",
-        "relation": "direct",
-        "quote": "For an integer exponent $e$, the sum $\\sum_{s=0}^{q-1}\\omega^{es}$ over the frequency index $s$ equals $q$ if $q$ divides $e$, and $0$ otherwise."
-      },
-      {
-        "symbol": "e",
+        "symbol": "m",
         "name": "integer exponent",
-        "meaning": "An integer exponent of omega in the full-period sum.",
+        "meaning": "An integer whose divisibility by q decides whether the root-of-unity sum vanishes.",
         "relation": "direct",
-        "quote": "For an integer exponent $e$, the sum $\\sum_{s=0}^{q-1}\\omega^{es}$ over the frequency index $s$ equals $q$ if $q$ divides $e$, and $0$ otherwise."
-      },
+        "quote": "The key fact is that for an integer $m$, $\\sum_{k=0}^{q-1} \\omega^{mk}$ equals $q$ when $q$ divides $m$ and $0$ otherwise."
+      }
+    ],
+    "established-multiplier": [
       {
-        "symbol": "c",
-        "name": "pointwise product",
-        "meaning": "The entrywise product of the transforms of $a$ and $b$.",
-        "relation": "direct",
-        "quote": "Let $c=(F_qa)\\cdot(F_qb)$ be the entrywise product, and write $h$ for an input position of $b$."
-      },
-      {
-        "symbol": "h",
-        "name": "input position of b",
-        "meaning": "An input position of the vector $b$, running from $0$ to $q-1$.",
-        "relation": "direct",
-        "quote": "Let $c=(F_qa)\\cdot(F_qb)$ be the entrywise product, and write $h$ for an input position of $b$."
+        "symbol": "n",
+        "name": "input length",
+        "meaning": "The number of bits in each of the two binary input strings.",
+        "relation": "count",
+        "quote": "Here $n$ is the number of bits in each input string, so the product has $2n$ bits."
       }
     ],
     "exact-integer-multiplication": [
       {
         "symbol": "n",
         "name": "input length",
-        "meaning": "The number of bits in each of the two binary inputs.",
+        "meaning": "The number of bits in each of the two inputs, the common length of x and y.",
         "relation": "count",
-        "quote": "Let $n$ be the number of bits in each input."
+        "quote": "Let $n$ be the common length of the two inputs."
       },
       {
         "symbol": "x",
         "name": "first input",
-        "meaning": "The first binary string of the input, of length n.",
+        "meaning": "The first binary string input, of length n.",
         "relation": "direct",
-        "quote": "Let $x$ be the first binary string, of length $n$."
+        "quote": "The input is two binary strings $x$ and $y$ of length $n$, and the output is the $2n$-bit binary representation of their product."
       },
       {
         "symbol": "y",
         "name": "second input",
-        "meaning": "The second binary string of the input, also of length n.",
+        "meaning": "The second binary string input, of length n.",
         "relation": "direct",
-        "quote": "Let $y$ be the second binary string, also of length $n$."
+        "quote": "The input is two binary strings $x$ and $y$ of length $n$, and the output is the $2n$-bit binary representation of their product."
       },
       {
-        "symbol": "\\mathrm{val}(x)",
-        "name": "binary value",
-        "meaning": "The nonnegative integer value of the binary string x, with the leftmost bit most significant.",
+        "symbol": "\\mathrm{val}",
+        "name": "binary value function",
+        "meaning": "The function mapping a binary string to the nonnegative integer whose binary digits it is, leftmost bit most significant.",
         "relation": "direct",
-        "quote": "For a binary string $x$ of length $n$, let $\\mathrm{val}(x)$ be its nonnegative integer value, with the leftmost bit most significant."
-      },
-      {
-        "symbol": "k",
-        "name": "padded length",
-        "meaning": "The number of bits in a padded binary representation.",
-        "relation": "count",
-        "quote": "Let $k$ be a length in bits."
+        "quote": "Write $\\mathrm{val}(x)$ for the nonnegative integer whose binary digits are $x$, with the leftmost bit most significant, so $\\mathrm{val}(10)=2$ and $\\mathrm{val}(11)=3$."
       },
       {
         "symbol": "z",
         "name": "integer to encode",
-        "meaning": "A nonnegative integer below 2^k that is written in binary.",
+        "meaning": "A nonnegative integer less than 2^{2n} whose binary representation is taken.",
         "relation": "direct",
-        "quote": "Let $z$ be a nonnegative integer below $2^k$, and let $\\mathrm{bin}_k(z)$ be the binary representation of $z$, padded on the left with zeros to length $k$."
+        "quote": "For a nonnegative integer $z < 2^{2n}$, write $\\mathrm{bin}_{2n}(z)$ for its binary representation padded on the left with zeros to exactly $2n$ bits."
       },
       {
-        "symbol": "\\mathrm{bin}_k(z)",
+        "symbol": "\\mathrm{bin}",
         "name": "padded binary representation",
-        "meaning": "The binary representation of z, padded on the left with zeros to length k.",
+        "meaning": "The function giving the binary representation of an integer padded on the left with zeros to a fixed number of bits.",
         "relation": "direct",
-        "quote": "Let $z$ be a nonnegative integer below $2^k$, and let $\\mathrm{bin}_k(z)$ be the binary representation of $z$, padded on the left with zeros to length $k$."
+        "quote": "For a nonnegative integer $z < 2^{2n}$, write $\\mathrm{bin}_{2n}(z)$ for its binary representation padded on the left with zeros to exactly $2n$ bits."
       }
     ],
-    "gaussian-function": [
-      {
-        "symbol": "z",
-        "name": "evaluation point",
-        "meaning": "A real number at which the Gaussian function is evaluated, namely the distance from its centre.",
-        "relation": "direct",
-        "quote": "Here $z$ is a real number, the distance from the centre at which the weight is evaluated."
-      },
-      {
-        "symbol": "\\alpha",
-        "name": "width parameter",
-        "meaning": "An integer, at least 2, that sets how wide the Gaussian bell is.",
-        "relation": "direct",
-        "quote": "Here $\\alpha$ is an integer width parameter with $\\alpha\\ge 2$, and a larger $\\alpha$ gives a wider bell."
-      },
-      {
-        "symbol": "G_\\alpha",
-        "name": "Gaussian weight",
-        "meaning": "The Gaussian function $G_\\alpha(z)=e^{-\\pi z^2/\\alpha^2}$, a bell-shaped weight centred at zero.",
-        "relation": "direct",
-        "quote": "Write $G_\\alpha$ for the Gaussian function, $G_\\alpha(z)=e^{-\\pi z^2/\\alpha^2}$."
-      },
-      {
-        "symbol": "s",
-        "name": "input length",
-        "meaning": "The number of input values in each vector that the weighted map takes.",
-        "relation": "count",
-        "quote": "Let $s$ and $t$ be integers, and let $u$ be a vector of $s$ values."
-      },
-      {
-        "symbol": "t",
-        "name": "output length",
-        "meaning": "The number of output values, indexed from 0 to t-1, that the weighted map returns.",
-        "relation": "count",
-        "quote": "Let $s$ and $t$ be integers, and let $u$ be a vector of $s$ values."
-      },
-      {
-        "symbol": "\\kappa",
-        "name": "output position",
-        "meaning": "The position of an output value of the weighted map, running from 0 to t-1.",
-        "relation": "direct",
-        "quote": "Here $\\kappa$ is the position of an output value, and $\\ell$ is a summation index over the integers."
-      },
-      {
-        "symbol": "\\ell",
-        "name": "summation index",
-        "meaning": "An integer index over which the weighted sum runs.",
-        "relation": "direct",
-        "quote": "Here $\\kappa$ is the position of an output value, and $\\ell$ is a summation index over the integers."
-      },
-      {
-        "symbol": "S",
-        "name": "Gaussian map",
-        "meaning": "The linear map from vectors of s values to vectors of t values whose weights are Gaussians.",
-        "relation": "direct",
-        "quote": "The Gaussian function is used to build the [linear map](linear-map.md) $S$ below."
-      },
-      {
-        "symbol": "T",
-        "name": "second Gaussian map",
-        "meaning": "The second Gaussian-weighted map, built like S with the roles of the two grids exchanged.",
-        "relation": "direct",
-        "quote": "The second map $T$ is built the same way with the roles of the two grids exchanged."
-      },
-      {
-        "symbol": "N",
-        "name": "correction map",
-        "meaning": "A map built from S, T, a diagonal rescaling and a coordinate selection, which is close to the identity.",
-        "relation": "direct",
-        "quote": "Here $N$ is a correction map built from $S$, $T$, a diagonal rescaling and a selection of coordinates."
-      },
-      {
-        "symbol": "\\theta",
-        "name": "length gap",
-        "meaning": "The relative gap t/s - 1 between the two lengths.",
-        "relation": "direct",
-        "quote": "The terms of $N$ other than the selected one are negligible when $\\alpha^2\\theta>1$, where $\\theta=t/s-1$."
-      }
-    ],
-    "gaussian-resampling": [
-      {
-        "symbol": "s",
-        "name": "source length",
-        "meaning": "The number of coordinates of the source vector, the length of the transform on the source grid.",
-        "relation": "count",
-        "quote": "The identity is restricted to [coprime integers](coprime-integers.md) $s<t$, where $s$ is the number of coordinates of the source vector and $t$ the number of coordinates of the target."
-      },
-      {
-        "symbol": "t",
-        "name": "target length",
-        "meaning": "The number of coordinates of the target vector, the length of the transform on the target grid.",
-        "relation": "count",
-        "quote": "The identity is restricted to [coprime integers](coprime-integers.md) $s<t$, where $s$ is the number of coordinates of the source vector and $t$ the number of coordinates of the target."
-      },
-      {
-        "symbol": "\\theta",
-        "name": "relative excess",
-        "meaning": "The ratio t/s minus one, measuring how much longer the target is than the source.",
-        "relation": "direct",
-        "quote": "Let $\\theta=t/s-1$ be the relative excess of $t$ over $s$."
-      },
-      {
-        "symbol": "\\alpha",
-        "name": "Gaussian width",
-        "meaning": "An integer, at least 2, that sets the width parameter of the Gaussian weights.",
-        "relation": "direct",
-        "quote": "The identity needs $\\theta>p/\\alpha^4$, where $\\alpha\\ge 2$ is an integer Gaussian width and $p$ is the integer precision of the numerical approximation."
-      },
-      {
-        "symbol": "p",
-        "name": "precision",
-        "meaning": "The integer precision of the numerical approximation, which bounds how large theta must be.",
-        "relation": "direct",
-        "quote": "The identity needs $\\theta>p/\\alpha^4$, where $\\alpha\\ge 2$ is an integer Gaussian width and $p$ is the integer precision of the numerical approximation."
-      },
-      {
-        "symbol": "P_s",
-        "name": "source permutation",
-        "meaning": "The permutation of length-s vectors sending u to the vector with entries u_{tj} at index j, indices taken modulo s.",
-        "relation": "direct",
-        "quote": "The permutations $P_s$ and $P_t$ are defined using [modular arithmetic](modular-arithmetic.md) on their indices, with subscripts taken modulo the length:"
-      },
-      {
-        "symbol": "P_t",
-        "name": "target permutation",
-        "meaning": "The permutation of length-t vectors sending v to the vector with entries v_{-sk} at index k, indices taken modulo t.",
-        "relation": "direct",
-        "quote": "The permutations $P_s$ and $P_t$ are defined using [modular arithmetic](modular-arithmetic.md) on their indices, with subscripts taken modulo the length:"
-      },
-      {
-        "symbol": "F_s",
-        "name": "source transform",
-        "meaning": "The normalized transform of length s, the transform F_q with q equal to s.",
-        "relation": "direct",
-        "quote": "Write $F_s$ and $F_t$ for the normalized transforms of length $s$ and $t$, that is, $F_q$ with $q=s$ or $q=t$."
-      },
-      {
-        "symbol": "F_t",
-        "name": "target transform",
-        "meaning": "The normalized transform of length t, the transform F_q with q equal to t.",
-        "relation": "direct",
-        "quote": "Write $F_s$ and $F_t$ for the normalized transforms of length $s$ and $t$, that is, $F_q$ with $q=s$ or $q=t$."
-      },
-      {
-        "symbol": "S",
-        "name": "source-to-target Gaussian map",
-        "meaning": "The Gaussian map sending length-s vectors to length-t vectors, with entries (Su)_k given by a Gaussian-weighted sum over j.",
-        "relation": "direct",
-        "quote": "The two Gaussian maps $S$ and $T$ are built from the [Gaussian function](gaussian-function.md)."
-      },
-      {
-        "symbol": "T",
-        "name": "target-to-source Gaussian map",
-        "meaning": "The Gaussian map sending length-s vectors to length-t vectors, with entries (Tu)_k given by a second Gaussian-weighted sum over j.",
-        "relation": "direct",
-        "quote": "The two Gaussian maps $S$ and $T$ are built from the [Gaussian function](gaussian-function.md)."
-      },
-      {
-        "symbol": "\\mu_j",
-        "name": "nearest target index",
-        "meaning": "For each source position j, the integer nearest to tj/s, which is the target entry that C selects.",
-        "relation": "direct",
-        "quote": "$C$ maps length-$t$ vectors to length-$s$ vectors by taking, for each $j$ with $0\\le j<s$, the entry at $\\mu_j$, the integer nearest to $tj/s$."
-      },
-      {
-        "symbol": "C",
-        "name": "selection map",
-        "meaning": "The map from length-t vectors to length-s vectors that copies the entries at the indices mu_j.",
-        "relation": "direct",
-        "quote": "$C$ maps length-$t$ vectors to length-$s$ vectors by taking, for each $j$ with $0\\le j<s$, the entry at $\\mu_j$, the integer nearest to $tj/s$."
-      },
-      {
-        "symbol": "D",
-        "name": "diagonal correction",
-        "meaning": "The diagonal map on length-s vectors whose j-th factor cancels the Gaussian factor of T at entry mu_j.",
-        "relation": "direct",
-        "quote": "The diagonal map $D$ is $(Du)_j=e^{\\pi\\alpha^2(tj/s-\\mu_j)^2}u_j$ on length-$s$ vectors, which cancels the Gaussian factor of $T$ at that entry."
-      },
-      {
-        "symbol": "N",
-        "name": "correction map",
-        "meaning": "The map CTD on length-s vectors, which is close to the identity.",
-        "relation": "direct",
-        "quote": "Put $N=CTD$."
-      },
-      {
-        "symbol": "I",
-        "name": "identity map",
-        "meaning": "The map that leaves every vector unchanged.",
-        "relation": "direct",
-        "quote": "Its $j$th entry is $u_j$ plus other terms, so $N$ is close to $I$, the identity map, which leaves every vector unchanged."
-      },
-      {
-        "symbol": "\\nu",
-        "name": "series index",
-        "meaning": "The summation index of the Neumann series, a non-negative integer.",
-        "relation": "direct",
-        "quote": "Here $\\nu$ is the summation index, and its $\\nu$th term has norm at most $2^{-\\nu}$, so the series converges."
-      },
-      {
-        "symbol": "D'",
-        "name": "scaled diagonal map",
-        "meaning": "The diagonal map D multiplied by the scalar 2 to the power minus (2 alpha squared minus 2).",
-        "relation": "direct",
-        "quote": "Write $D'=2^{-(2\\alpha^2-2)}D$ for the scaled diagonal map."
-      },
-      {
-        "symbol": "A",
-        "name": "source-to-target contraction",
-        "meaning": "The contraction S/2, mapping length-s vectors to length-t vectors.",
-        "relation": "direct",
-        "quote": "$A$ maps length-$s$ vectors to length-$t$ vectors, and $B_0$ maps them back, where $A=S/2$ and $B_0=D'N^{-1}C/2$."
-      },
-      {
-        "symbol": "B_0",
-        "name": "target-to-source contraction",
-        "meaning": "The contraction D' N^{-1} C / 2, mapping length-t vectors back to length-s vectors.",
-        "relation": "direct",
-        "quote": "$A$ maps length-$s$ vectors to length-$t$ vectors, and $B_0$ maps them back, where $A=S/2$ and $B_0=D'N^{-1}C/2$."
-      }
-    ],
-    "linear-map": [
-      {
-        "symbol": "L",
-        "name": "linear map",
-        "meaning": "The rule that takes an input vector $u$ of $m$ complex numbers and returns an output vector $v$ of $k$ complex numbers.",
-        "relation": "direct",
-        "quote": "A linear map is a rule $L$ with two fixed sizes: $m$, the number of input coordinates, and $k$, the number of output coordinates."
-      },
+    "fixed-tape-model": [
       {
         "symbol": "u",
-        "name": "input vector",
-        "meaning": "The vector of $m$ complex numbers that the linear map $L$ takes as input.",
-        "relation": "direct",
-        "quote": "It takes a vector $u$ of $m$ complex numbers and returns a vector $v$ of $k$ complex numbers, written $L:\\mathbb{C}^m\\to\\mathbb{C}^k$."
-      },
-      {
-        "symbol": "v",
-        "name": "output vector",
-        "meaning": "The vector of $k$ complex numbers that the linear map $L$ returns.",
-        "relation": "direct",
-        "quote": "It takes a vector $u$ of $m$ complex numbers and returns a vector $v$ of $k$ complex numbers, written $L:\\mathbb{C}^m\\to\\mathbb{C}^k$."
-      },
-      {
-        "symbol": "m",
-        "name": "input count",
-        "meaning": "The number of input coordinates of $L$.",
+        "name": "field size",
+        "meaning": "The number of cells in each of two disjoint fields, which counts the cells of a field.",
         "relation": "count",
-        "quote": "A linear map is a rule $L$ with two fixed sizes: $m$, the number of input coordinates, and $k$, the number of output coordinates."
+        "quote": "Let $u$ denote the number of cells in each of two disjoint fields, where a field is a contiguous block of cells."
+      }
+    ],
+    "gaussian-dyadics": [
+      {
+        "symbol": "a",
+        "name": "real numerator part",
+        "meaning": "The integer real part of the numerator $a + bi$ of a Gaussian dyadic.",
+        "relation": "direct",
+        "quote": "Here $a$ and $b$ are the integer real and imaginary parts of the numerator $a + bi$, a Gaussian integer (a complex number with integer real and imaginary parts)."
+      },
+      {
+        "symbol": "b",
+        "name": "imaginary numerator part",
+        "meaning": "The integer imaginary part of the numerator $a + bi$ of a Gaussian dyadic.",
+        "relation": "direct",
+        "quote": "Here $a$ and $b$ are the integer real and imaginary parts of the numerator $a + bi$, a Gaussian integer (a complex number with integer real and imaginary parts)."
       },
       {
         "symbol": "k",
-        "name": "output count",
-        "meaning": "The number of output coordinates of $L$.",
-        "relation": "count",
-        "quote": "A linear map is a rule $L$ with two fixed sizes: $m$, the number of input coordinates, and $k$, the number of output coordinates."
+        "name": "denominator exponent",
+        "meaning": "The non-negative integer exponent that sets the common denominator $2^k$.",
+        "relation": "direct",
+        "quote": "The exponent $k$ is a non-negative integer that sets the denominator $2^k$."
       },
       {
-        "symbol": "u_j",
-        "name": "input coordinate",
-        "meaning": "The $j$-th coordinate of the input vector $u$.",
+        "symbol": "H_0",
+        "name": "two-point map",
+        "meaning": "The map that sends a pair of coefficients $u$, $v$ to their halved sum and halved difference.",
         "relation": "direct",
-        "quote": "Write $u_j$ for the $j$-th input coordinate of $u$, $v_i$ for the $i$-th output coordinate of $v$, and $a_{ij}$ for the weight that output $i$ gives to input $j$."
+        "quote": "A butterfly layer applies the two-point map $H_0$ to pairs of coefficients whose indices differ in one selected bit, sending $u$, $v$ to $\\left(\\frac{u+v}{2}, \\frac{u-v}{2}\\right)$."
       },
       {
-        "symbol": "v_i",
-        "name": "output coordinate",
-        "meaning": "The $i$-th coordinate of the output vector $v$.",
+        "symbol": "u",
+        "name": "first coefficient",
+        "meaning": "The first coefficient of a pair on which the two-point map $H_0$ acts.",
         "relation": "direct",
-        "quote": "Write $u_j$ for the $j$-th input coordinate of $u$, $v_i$ for the $i$-th output coordinate of $v$, and $a_{ij}$ for the weight that output $i$ gives to input $j$."
+        "quote": "A butterfly layer applies the two-point map $H_0$ to pairs of coefficients whose indices differ in one selected bit, sending $u$, $v$ to $\\left(\\frac{u+v}{2}, \\frac{u-v}{2}\\right)$."
       },
       {
-        "symbol": "a_{ij}",
-        "name": "weight",
-        "meaning": "The fixed number by which output coordinate $i$ multiplies input coordinate $j$.",
+        "symbol": "v",
+        "name": "second coefficient",
+        "meaning": "The second coefficient of a pair on which the two-point map $H_0$ acts.",
         "relation": "direct",
-        "quote": "Write $u_j$ for the $j$-th input coordinate of $u$, $v_i$ for the $i$-th output coordinate of $v$, and $a_{ij}$ for the weight that output $i$ gives to input $j$."
+        "quote": "A butterfly layer applies the two-point map $H_0$ to pairs of coefficients whose indices differ in one selected bit, sending $u$, $v$ to $\\left(\\frac{u+v}{2}, \\frac{u-v}{2}\\right)$."
       }
     ],
-    "operator-norm": [
+    "guard-width-bound": [
       {
-        "symbol": "\\|u\\|",
-        "name": "vector norm",
-        "meaning": "The largest modulus among the coordinates of the vector u.",
-        "relation": "direct",
-        "quote": "The norm of $u$, written $\\|u\\|$, is the largest modulus (absolute value) among its coordinates."
+        "symbol": "\\Delta",
+        "name": "guard count",
+        "meaning": "The number of extra bits that bounds every depth of an intermediate coefficient in the layer.",
+        "relation": "count",
+        "quote": "Let the guard count $\\Delta = \\lceil C_0 D^{C_1} \\rceil$ be the number of extra bits that bounds every depth."
       },
       {
-        "symbol": "\\|L\\|",
-        "name": "operator norm",
-        "meaning": "The largest factor by which L stretches a vector of norm at most one.",
+        "symbol": "C_0",
+        "name": "first guard constant",
+        "meaning": "A constant fixed by the network construction, the leading factor in the guard count.",
         "relation": "direct",
-        "quote": "Here $\\sup$ denotes the supremum, the least upper bound, so the operator norm $\\|L\\|$ is the least upper bound of $\\|Lu\\|$ over all vectors $u$ with $\\|u\\|\\le 1$"
+        "quote": "Let $C_0$ and $C_1$ be constants fixed by the network construction, and let $D$ be the number of selected address chunks of the layer (the paper writes $d$)."
+      },
+      {
+        "symbol": "C_1",
+        "name": "second guard constant",
+        "meaning": "A constant fixed by the network construction, the exponent applied to the chunk count in the guard count.",
+        "relation": "direct",
+        "quote": "Let $C_0$ and $C_1$ be constants fixed by the network construction, and let $D$ be the number of selected address chunks of the layer (the paper writes $d$)."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "coefficient depth",
+        "meaning": "The number of complex addition, subtraction, halving, sign change, or multiplication-by-i operations on the longest chain producing an intermediate coefficient.",
+        "relation": "count",
+        "quote": "Let the depth $\\eta$ of an intermediate coefficient be the number of these operations on its longest chain, where a chain starts at an input coefficient and follows an operand into each result that uses it."
+      },
+      {
+        "symbol": "\\kappa",
+        "name": "input fractional bits",
+        "meaning": "The number of fractional bits in each input coefficient.",
+        "relation": "count",
+        "quote": "Take inputs in $2^{-\\kappa}\\mathbb{Z}[i]$, the Gaussian integers divided by $2^{\\kappa}$, with modulus at most $1$, where $\\kappa$ is the number of fractional bits in each input coefficient."
+      }
+    ],
+    "main-theorem": [
+      {
+        "symbol": "\\kappa",
+        "name": "savings constant",
+        "meaning": "The fixed positive constant $2^{-182}$ by which the logarithmic factor's exponent is reduced below 1.",
+        "relation": "direct",
+        "quote": "The power is $\\kappa=2^{-182}$, a fixed positive number, so the time is $O(n(\\lg n)^{1-\\kappa})$."
+      }
+    ],
+    "packed-bit-addition": [
+      {
+        "symbol": "\\mu",
+        "name": "selected positions per chunk",
+        "meaning": "The number of selected bit positions in each address chunk, a count.",
+        "relation": "count",
+        "quote": "Here $\\mu$ is the number of selected positions in each chunk, and $\\nu$ indexes them, from $0$ to $\\mu-1$."
+      },
+      {
+        "symbol": "\\nu",
+        "name": "selected-position index",
+        "meaning": "The index of a selected position, ranging over 0 to mu minus 1; it changes meaning from the earlier pages that bind it.",
+        "relation": "direct",
+        "quote": "Here $\\mu$ is the number of selected positions in each chunk, and $\\nu$ indexes them, from $0$ to $\\mu-1$."
+      },
+      {
+        "symbol": "K",
+        "name": "selected-position spacing",
+        "meaning": "The spacing between consecutive selected bit positions, which differs from the chunk width of the transform layout page.",
+        "relation": "direct",
+        "quote": "The letter $K$ is the spacing between selected positions here, not the chunk width of the transform layout page."
+      },
+      {
+        "symbol": "L",
+        "name": "chunk width",
+        "meaning": "The number of bits in each address chunk, equal to mu times K, a count.",
+        "relation": "count",
+        "quote": "The record's address is split into three chunks, each of $L$ bits, so $L$ is the chunk width."
+      },
+      {
+        "symbol": "\\xi",
+        "name": "source chunk",
+        "meaning": "The address chunk whose selected bits are XORed into the target chunk.",
+        "relation": "direct",
+        "quote": "The procedure XORs selected bits of the source chunk $\\xi$ into the target chunk $\\eta$, leaving the third chunk $\\zeta$ as it is."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "target chunk",
+        "meaning": "The address chunk that receives the XORs of the selected bits of the source chunk.",
+        "relation": "direct",
+        "quote": "The procedure XORs selected bits of the source chunk $\\xi$ into the target chunk $\\eta$, leaving the third chunk $\\zeta$ as it is."
+      },
+      {
+        "symbol": "\\zeta",
+        "name": "untouched chunk",
+        "meaning": "The third address chunk, which the procedure leaves unchanged.",
+        "relation": "direct",
+        "quote": "The procedure XORs selected bits of the source chunk $\\xi$ into the target chunk $\\eta$, leaving the third chunk $\\zeta$ as it is."
+      },
+      {
+        "symbol": "E",
+        "name": "bits per record",
+        "meaning": "The number of bits in one record, a count.",
+        "relation": "count",
+        "quote": "Each record has $E$ bits, the number of bits in one record."
+      },
+      {
+        "symbol": "\\lambda_0",
+        "name": "coordinate range size",
+        "meaning": "The number of values of each of the four other coordinate ranges, lambda_0 through lambda_3, a count.",
+        "relation": "count",
+        "quote": "Let $\\lambda_0,\\dots,\\lambda_3$ be the sizes of the four other coordinate ranges."
       },
       {
         "symbol": "M",
-        "name": "second map",
-        "meaning": "A second linear map whose output length matches the input length of L.",
+        "name": "record count",
+        "meaning": "The number of records in the rectangle, a count; it changes meaning from the earlier pages that bind it.",
+        "relation": "count",
+        "quote": "Write $M = 2^{3L}\\lambda_0\\lambda_1\\lambda_2\\lambda_3$ for the number of records, since each of the three chunks takes $2^L$ values."
+      },
+      {
+        "symbol": "\\sigma",
+        "name": "composed shift",
+        "meaning": "The composition of the constant number of cyclic shifts applied first.",
         "relation": "direct",
-        "quote": "Let $M$ be a second linear map whose output length matches the input length of $L$, so that $LM$ is defined."
+        "quote": "The construction first applies a constant number of cyclic shifts, whose composition is $\\sigma$."
+      },
+      {
+        "symbol": "T",
+        "name": "exact map",
+        "meaning": "The exact map that performs the XORs on every record; it changes meaning from the earlier pages that bind it.",
+        "relation": "direct",
+        "quote": "Let $T$ be the exact map that performs the XORs on every record, and let $Z$ be the set of exceptional addresses, where $\\sigma$ and $T$ disagree."
+      },
+      {
+        "symbol": "Z",
+        "name": "exceptional set",
+        "meaning": "The set of addresses where the shifts and the exact map disagree.",
+        "relation": "direct",
+        "quote": "Let $T$ be the exact map that performs the XORs on every record, and let $Z$ be the set of exceptional addresses, where $\\sigma$ and $T$ disagree."
+      },
+      {
+        "symbol": "\\delta",
+        "name": "exceptional fraction",
+        "meaning": "The bound on the fraction of records in the exceptional set, min of 1 and 80(mu minus 1) times 2 to the minus K.",
+        "relation": "direct",
+        "quote": "The fraction $\\delta = \\min\\{1, 80(\\mu-1)2^{-K}\\}$ is small when $K$ is large."
+      }
+    ],
+    "phase-twist": [
+      {
+        "symbol": "\\theta",
+        "name": "twist root",
+        "meaning": "A primitive $2r$-th root of unity whose powers are the coordinate factors of the twist.",
+        "relation": "direct",
+        "quote": "Let $\\theta$, a primitive $2r$-th root of unity, be the twist root."
       },
       {
         "symbol": "A",
-        "name": "contraction A",
-        "meaning": "A linear map that is a contraction, used as a factor on the Gaussian resampling page.",
+        "name": "twisted first input",
+        "meaning": "The polynomial in $y$ obtained from the sequence $a$ by multiplying its $j$-th entry by $\\theta^j$.",
         "relation": "direct",
-        "quote": "On the [Gaussian resampling](gaussian-resampling.md) page, the factors $A$ and $B_0$ are linear maps that are contractions, so they cannot increase the norm of what they are applied to."
+        "quote": "The twisted input of $a$ is $A(y)=\\sum_j \\theta^j a_j y^j$."
       },
       {
-        "symbol": "B_0",
-        "name": "contraction B_0",
-        "meaning": "A linear map that is a contraction, used as a factor on the Gaussian resampling page.",
+        "symbol": "B",
+        "name": "twisted second input",
+        "meaning": "The polynomial in $y$ obtained from the sequence $b$ by multiplying its $j$-th entry by $\\theta^j$.",
         "relation": "direct",
-        "quote": "On the [Gaussian resampling](gaussian-resampling.md) page, the factors $A$ and $B_0$ are linear maps that are contractions, so they cannot increase the norm of what they are applied to."
+        "quote": "The twisted input of $b$ is $B(y)=\\sum_j \\theta^j b_j y^j$."
+      }
+    ],
+    "polynomial-ring-convolution": [
+      {
+        "symbol": "\\rho",
+        "name": "synthetic root of unity",
+        "meaning": "The root y^{2r/q} of order q, whose powers index the frequencies of the transforms.",
+        "relation": "direct",
+        "quote": "Let $\\rho = y^{2r/q}$, a synthetic root of unity: since $y$ has order $2r$, $\\rho^q = 1$."
+      },
+      {
+        "symbol": "\\lambda",
+        "name": "frequency index",
+        "meaning": "The index from 0 to q-1 that labels the frequency of an entry of a transform.",
+        "relation": "direct",
+        "quote": "The index $\\lambda$ runs from $0$ to $q-1$ and labels the frequency of an entry."
+      },
+      {
+        "symbol": "\\Phi",
+        "name": "forward transform",
+        "meaning": "The forward synthetic transform of an array of records, with entries indexed by frequency.",
+        "relation": "direct",
+        "quote": "Let $\\Phi$ be the forward transform, $\\Phi(a)_\\lambda = \\sum_j a_j\\rho^{j\\lambda}$, and let $\\Psi$ be the opposite transform, which takes an array $Y$ of $q$ records to $\\Psi(Y)_k = \\frac{1}{q}\\sum_\\lambda Y_\\lambda\\rho^{-k\\lambda}$, dividing by $q$ and using the inverse root $\\rho^{-1}$."
+      },
+      {
+        "symbol": "\\Psi",
+        "name": "opposite transform",
+        "meaning": "The transform that uses the inverse root and divides by q, mapping frequency-indexed records back to records.",
+        "relation": "direct",
+        "quote": "Let $\\Phi$ be the forward transform, $\\Phi(a)_\\lambda = \\sum_j a_j\\rho^{j\\lambda}$, and let $\\Psi$ be the opposite transform, which takes an array $Y$ of $q$ records to $\\Psi(Y)_k = \\frac{1}{q}\\sum_\\lambda Y_\\lambda\\rho^{-k\\lambda}$, dividing by $q$ and using the inverse root $\\rho^{-1}$."
+      },
+      {
+        "symbol": "Y",
+        "name": "transform input",
+        "meaning": "An array of q records, the input of the opposite transform.",
+        "relation": "direct",
+        "quote": "Let $\\Phi$ be the forward transform, $\\Phi(a)_\\lambda = \\sum_j a_j\\rho^{j\\lambda}$, and let $\\Psi$ be the opposite transform, which takes an array $Y$ of $q$ records to $\\Psi(Y)_k = \\frac{1}{q}\\sum_\\lambda Y_\\lambda\\rho^{-k\\lambda}$, dividing by $q$ and using the inverse root $\\rho^{-1}$."
+      },
+      {
+        "symbol": "\\odot",
+        "name": "pointwise product",
+        "meaning": "The entrywise product of two arrays of records in the ring.",
+        "relation": "direct",
+        "quote": "Here $\\odot$ multiplies two arrays entrywise in the ring, the pointwise product."
+      },
+      {
+        "symbol": "\\delta",
+        "name": "index offset",
+        "meaning": "The integer i+j-k, the offset of a pair of indices (i,j) from the target index k.",
+        "relation": "direct",
+        "quote": "where $\\delta = i+j-k$ is the offset of the pair $(i,j)$ from $k$."
+      }
+    ],
+    "polynomial-ring-mod-yr-plus-1": [
+      {
+        "symbol": "y",
+        "name": "polynomial variable",
+        "meaning": "The indeterminate of the polynomial ring, whose powers act as roots of unity.",
+        "relation": "direct",
+        "quote": "Here $y$ is the indeterminate of the polynomial ring, whose powers act as roots of unity."
+      },
+      {
+        "symbol": "r",
+        "name": "record length",
+        "meaning": "The number of complex coefficients in a polynomial record, a power of two.",
+        "relation": "count",
+        "quote": "Here $r$ is the number of complex coefficients in a polynomial record, a power of two."
+      },
+      {
+        "symbol": "\\alpha_i",
+        "name": "record coefficient",
+        "meaning": "The coefficient of $y^i$ in an element's record, for $0 \\le i < r$.",
+        "relation": "direct",
+        "quote": "Here $\\alpha_i$ is the coefficient of $y^i$ in the record."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "power exponent",
+        "meaning": "A non-negative integer exponent, so that $y^\\ell$ is a power of $y$.",
+        "relation": "direct",
+        "quote": "Here $\\ell$ is a non-negative integer exponent, so $y^\\ell$ is a power of $y$."
+      }
+    ],
+    "prime-source-lengths": [
+      {
+        "symbol": "s_\\nu",
+        "name": "prime source length",
+        "meaning": "The ν-th prime source length, an odd prime that counts the positions along axis ν.",
+        "relation": "count",
+        "quote": "Prime source lengths are distinct odd primes $s_\\nu$, one for each axis $\\nu$, chosen so that their product fills a fixed fraction of the padded box."
+      },
+      {
+        "symbol": "T_\\nu",
+        "name": "padded axis length",
+        "meaning": "The ν-th padded axis length, a power of two that counts the positions along axis ν of the padded box.",
+        "relation": "count",
+        "quote": "Here $T_\\nu$, a power of two, is the $\\nu$-th padded axis length, and the padded box is the box whose axis lengths are the $T_\\nu$."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "window width",
+        "meaning": "A fixed constant with 0 < η < 1/4 that sets the width of the window for the prime source lengths.",
+        "relation": "direct",
+        "quote": "where $\\eta$, a fixed constant with $0<\\eta<1/4$, sets the width of the window."
       }
     ],
     "radix-digit-convolution": [
       {
-        "symbol": "B",
-        "name": "radix",
-        "meaning": "The base in which the integers are written, equal to $2^w$.",
-        "relation": "direct",
-        "quote": "Let $B = 2^w$ be the radix, the base in which the integers are written, with $w$ the number of bits in each radix digit."
+        "symbol": "d",
+        "name": "digit width",
+        "meaning": "The number of bits in each digit, a count.",
+        "relation": "count",
+        "quote": "Fix a digit width $d$, the number of bits in each digit, and a digit count $N$, the number of digits in each input, with $Nd \\ge n$ so that both inputs fit."
       },
+      {
+        "symbol": "N",
+        "name": "digit count",
+        "meaning": "The number of digits in each input, a count.",
+        "relation": "count",
+        "quote": "Fix a digit width $d$, the number of bits in each digit, and a digit count $N$, the number of digits in each input, with $Nd \\ge n$ so that both inputs fit."
+      },
+      {
+        "symbol": "i",
+        "name": "digit index i",
+        "meaning": "An index of a digit, used in the convolution sum for the coefficients.",
+        "relation": "direct",
+        "quote": "The letters $i$, $j$ and $l$ index digits on this page, not the transform entries or the imaginary unit they denote elsewhere."
+      },
+      {
+        "symbol": "j",
+        "name": "digit index j",
+        "meaning": "An index of a digit or of a product coefficient, ranging over the digit positions.",
+        "relation": "direct",
+        "quote": "The letters $i$, $j$ and $l$ index digits on this page, not the transform entries or the imaginary unit they denote elsewhere."
+      },
+      {
+        "symbol": "l",
+        "name": "digit index l",
+        "meaning": "An index of a digit of y, used in the convolution sum for the coefficients.",
+        "relation": "direct",
+        "quote": "The letters $i$, $j$ and $l$ index digits on this page, not the transform entries or the imaginary unit they denote elsewhere."
+      },
+      {
+        "symbol": "x_j",
+        "name": "digit of x",
+        "meaning": "The j-th radix-2^d digit of val(x), an integer in [0, 2^d).",
+        "relation": "direct",
+        "quote": "The digit $x_j$ is an integer in $[0, 2^d)$, the $j$-th radix-$2^d$ digit of $\\mathrm{val}(x)$, with $x_0$ the least significant; $y_j$ is defined the same way from $\\mathrm{val}(y)$."
+      },
+      {
+        "symbol": "y_j",
+        "name": "digit of y",
+        "meaning": "The j-th radix-2^d digit of val(y), an integer in [0, 2^d).",
+        "relation": "direct",
+        "quote": "The digit $x_j$ is an integer in $[0, 2^d)$, the $j$-th radix-$2^d$ digit of $\\mathrm{val}(x)$, with $x_0$ the least significant; $y_j$ is defined the same way from $\\mathrm{val}(y)$."
+      },
+      {
+        "symbol": "T",
+        "name": "formal variable",
+        "meaning": "The indeterminate whose powers mark the digit positions in the polynomials P(T) and Q(T).",
+        "relation": "direct",
+        "quote": "Digits become the coefficients of polynomials in a formal variable $T$: $P(T) = \\sum_{j} x_j T^j$ and $Q(T) = \\sum_{j} y_j T^j$, so that $P(2^d) = \\mathrm{val}(x)$ and $Q(2^d) = \\mathrm{val}(y)$."
+      },
+      {
+        "symbol": "P",
+        "name": "digit polynomial of x",
+        "meaning": "The polynomial whose coefficients are the digits of x, so that P(2^d) = val(x).",
+        "relation": "direct",
+        "quote": "Digits become the coefficients of polynomials in a formal variable $T$: $P(T) = \\sum_{j} x_j T^j$ and $Q(T) = \\sum_{j} y_j T^j$, so that $P(2^d) = \\mathrm{val}(x)$ and $Q(2^d) = \\mathrm{val}(y)$."
+      },
+      {
+        "symbol": "Q",
+        "name": "digit polynomial of y",
+        "meaning": "The polynomial whose coefficients are the digits of y, so that Q(2^d) = val(y).",
+        "relation": "direct",
+        "quote": "Digits become the coefficients of polynomials in a formal variable $T$: $P(T) = \\sum_{j} x_j T^j$ and $Q(T) = \\sum_{j} y_j T^j$, so that $P(2^d) = \\mathrm{val}(x)$ and $Q(2^d) = \\mathrm{val}(y)$."
+      },
+      {
+        "symbol": "e_j",
+        "name": "product coefficient",
+        "meaning": "The j-th coefficient of the product P(T)Q(T), the sum of x_i y_l over i+l=j.",
+        "relation": "direct",
+        "quote": "The product $P(T)Q(T) = \\sum_j e_j T^j$ has coefficients $e_j = \\sum_{i+l=j} x_i y_l$, the ordinary (non-cyclic) convolution of the two digit lists, and so $\\mathrm{val}(x)\\,\\mathrm{val}(y) = P(2^d)Q(2^d) = \\sum_j e_j 2^{dj}$."
+      }
+    ],
+    "rank-saving-recursion": [
+      {
+        "symbol": "f",
+        "name": "recursion parameter",
+        "meaning": "The recursion parameter: the number of field digits for address interchange, or of selected axes for a numerical layer.",
+        "relation": "count",
+        "quote": "Here the letter $f$ changes meaning: it is the recursion parameter, the number of field digits for address interchange or of selected axes for a numerical layer, a stage of the arithmetic that works along chosen axes of the data."
+      }
+    ],
+    "recovery-and-error": [
+      {
+        "symbol": "\\nu",
+        "name": "coefficient index",
+        "meaning": "The index of a coefficient of the convolution, a position in its output.",
+        "relation": "direct",
+        "quote": "Let $\\nu$ be the index of a coefficient of the convolution."
+      },
+      {
+        "symbol": "c_\\nu",
+        "name": "true coefficient",
+        "meaning": "The true integer value of the convolution coefficient at index nu.",
+        "relation": "direct",
+        "quote": "Write $c_\\nu$ for the true integer coefficient at index $\\nu$, and $\\hat c_\\nu$ for the value the machine computes for it."
+      },
+      {
+        "symbol": "\\hat c_\\nu",
+        "name": "computed coefficient",
+        "meaning": "The value the machine computes for the coefficient at index nu, which is only approximately an integer.",
+        "relation": "direct",
+        "quote": "Write $c_\\nu$ for the true integer coefficient at index $\\nu$, and $\\hat c_\\nu$ for the value the machine computes for it."
+      }
+    ],
+    "signed-packing": [
       {
         "symbol": "w",
-        "name": "bits per digit",
-        "meaning": "The number of bits in each radix digit.",
+        "name": "block width",
+        "meaning": "The number of bits given to each coefficient in a packed integer.",
         "relation": "count",
-        "quote": "Let $B = 2^w$ be the radix, the base in which the integers are written, with $w$ the number of bits in each radix digit."
-      },
-      {
-        "symbol": "d",
-        "name": "digit count",
-        "meaning": "The number of radix digits of each input.",
-        "relation": "count",
-        "quote": "Let $d$ be the number of radix digits of each input, and let $a = (a_0, \\dots, a_{d-1})$ be the list of digits of $x$, so $x = \\sum_{e=0}^{d-1} a_e B^e$ with $0 \\le a_e < B$."
-      },
-      {
-        "symbol": "a",
-        "name": "digit list of x",
-        "meaning": "The list of radix digits of the first input x, indexed from $a_0$ to $a_{d-1}$.",
-        "relation": "direct",
-        "quote": "Let $d$ be the number of radix digits of each input, and let $a = (a_0, \\dots, a_{d-1})$ be the list of digits of $x$, so $x = \\sum_{e=0}^{d-1} a_e B^e$ with $0 \\le a_e < B$."
-      },
-      {
-        "symbol": "e",
-        "name": "digit position",
-        "meaning": "The position of a digit in the digit list of an input, running from $0$ to $d-1$.",
-        "relation": "direct",
-        "quote": "Let $e$ and $f$ be digit positions."
+        "quote": "Fix a block width $w$, the number of bits given to each coefficient."
       },
       {
         "symbol": "f",
-        "name": "digit position",
-        "meaning": "The position of a digit in the digit list of the second input, running from $0$ to $d-1$.",
+        "name": "polynomial",
+        "meaning": "A polynomial with integer coefficients, packed into the integer $F$.",
         "relation": "direct",
-        "quote": "Let $e$ and $f$ be digit positions."
+        "quote": "For a polynomial $f$ with integer coefficients, write $F = f(2^w)$ for its packed integer."
       },
       {
-        "symbol": "z",
-        "name": "formal variable",
-        "meaning": "A placeholder for the powers of a polynomial.",
+        "symbol": "F",
+        "name": "packed integer of f",
+        "meaning": "The integer $f(2^w)$ obtained by packing the coefficients of $f$ into blocks of width $w$.",
         "relation": "direct",
-        "quote": "Let $z$ be a formal variable, a placeholder for the powers of a polynomial, so that $a(B) = x$ for $a(z) = \\sum_e a_e z^e$."
+        "quote": "For a polynomial $f$ with integer coefficients, write $F = f(2^w)$ for its packed integer."
       },
       {
-        "symbol": "b",
-        "name": "digit list of y",
-        "meaning": "The list of radix digits of the second input y, indexed like $a$.",
+        "symbol": "g",
+        "name": "second polynomial",
+        "meaning": "A second polynomial with integer coefficients, packed into the integer $G$.",
         "relation": "direct",
-        "quote": "The input $y$ has digit list $b$ in the same way."
+        "quote": "If $g$ is a second polynomial with packed integer $G = g(2^w)$ and $h = fg$, then $FG = h(2^w)$ exactly."
       },
       {
-        "symbol": "c",
-        "name": "convolution",
-        "meaning": "The list of coefficients of the product $a(z)b(z)$, which is the convolution of $a$ and $b$.",
+        "symbol": "G",
+        "name": "packed integer of g",
+        "meaning": "The integer $g(2^w)$ obtained by packing the coefficients of $g$ into blocks of width $w$.",
         "relation": "direct",
-        "quote": "The convolution $c = a * b$ is the list of coefficients of the product $a(z)b(z)$."
+        "quote": "If $g$ is a second polynomial with packed integer $G = g(2^w)$ and $h = fg$, then $FG = h(2^w)$ exactly."
+      },
+      {
+        "symbol": "h",
+        "name": "product polynomial",
+        "meaning": "The product $fg$ of the two polynomials, whose coefficients are recovered from the product $FG$.",
+        "relation": "direct",
+        "quote": "If $g$ is a second polynomial with packed integer $G = g(2^w)$ and $h = fg$, then $FG = h(2^w)$ exactly."
+      }
+    ],
+    "simultaneous-butterfly-layer": [
+      {
+        "symbol": "D",
+        "name": "selected chunk count",
+        "meaning": "The number of selected address chunks the layer acts on, at most d, a count.",
+        "relation": "count",
+        "quote": "The layer acts on $D$ selected chunks, where $1 \\le D \\le d$."
+      },
+      {
+        "symbol": "z_0",
+        "name": "first pair input",
+        "meaning": "The first input of the pair of coefficients on which the two-point map acts.",
+        "relation": "direct",
+        "quote": "The two-point map $H_0$ sends a pair with first input $z_0$ and second input $z_1$ to half their sum and half their difference: $H_0(z_0,z_1) = ((z_0+z_1)/2,\\ (z_0-z_1)/2)$."
+      },
+      {
+        "symbol": "z_1",
+        "name": "second pair input",
+        "meaning": "The second input of the pair of coefficients on which the two-point map acts.",
+        "relation": "direct",
+        "quote": "The two-point map $H_0$ sends a pair with first input $z_0$ and second input $z_1$ to half their sum and half their difference: $H_0(z_0,z_1) = ((z_0+z_1)/2,\\ (z_0-z_1)/2)$."
+      },
+      {
+        "symbol": "z_{00}",
+        "name": "value at bits 00",
+        "meaning": "The value at the address whose two selected bits are 00; the other three values are indexed the same way.",
+        "relation": "direct",
+        "quote": "For $D=2$, the four values $z_{00}, z_{01}, z_{10}, z_{11}$, indexed by the two selected bits, become four sums and differences, each divided by 4."
+      },
+      {
+        "symbol": "C",
+        "name": "two-point kernel",
+        "meaning": "The complex two-point kernel, a 2 by 2 complex matrix of the form aI + bX.",
+        "relation": "direct",
+        "quote": "The complex two-point kernel $C = aI + bX$ is a $2\\times 2$ complex matrix."
+      },
+      {
+        "symbol": "S",
+        "name": "phase matrix",
+        "meaning": "The diagonal 2 by 2 matrix with diagonal entries 1 and i.",
+        "relation": "direct",
+        "quote": "Let $S$ be the diagonal $2\\times 2$ matrix with diagonal entries $1$ and $i$."
+      },
+      {
+        "symbol": "S_D",
+        "name": "address phase map",
+        "meaning": "The diagonal map multiplying the value at each address by i raised to the number of selected bits equal to 1.",
+        "relation": "direct",
+        "quote": "The diagonal map $S_D$ multiplies the value at each address by $i$ raised to the number of selected bits equal to 1."
+      },
+      {
+        "symbol": "\\beta_D",
+        "name": "layer scalar",
+        "meaning": "The scalar factor in the identity between H_0 on D bits and the phased kernel, a power of 1/2 times a fourth root of unity.",
+        "relation": "direct",
+        "quote": "The scalar $\\beta_D$ is a power of $\\tfrac12$ times a fourth root of unity, with at most one further factor $b$."
+      },
+      {
+        "symbol": "\\lambda'",
+        "name": "cost exponent",
+        "meaning": "A fixed exponent below 1 in the layer's cost bound O(V d^{\\lambda'}).",
+        "relation": "direct",
+        "quote": "Here $\\lambda'$ is a fixed exponent below 1, so the cost grows more slowly than $d$ full passes over the array."
+      }
+    ],
+    "subset-intersection-network": [
+      {
+        "symbol": "m",
+        "name": "label space dimension",
+        "meaning": "The dimension of the fixed space from which the subspace labels are drawn.",
+        "relation": "count",
+        "quote": "Here $m$ is the dimension of the fixed space from which the labels are drawn."
+      },
+      {
+        "symbol": "s",
+        "name": "smaller call count",
+        "meaning": "The total number of smaller calls made by one call.",
+        "relation": "count",
+        "quote": "Here $s$ is the total number of smaller calls made by one call."
+      },
+      {
+        "symbol": "t",
+        "name": "volume shrink factor",
+        "meaning": "The factor by which the stream volume shrinks, so that each smaller call works on a stream of 1/t of the volume.",
+        "relation": "direct",
+        "quote": "Here $t$ is the factor by which the stream volume shrinks, so each smaller call works on a stream of $1/t$ of the volume."
+      }
+    ],
+    "subspace-labels": [
+      {
+        "symbol": "F",
+        "name": "fixed bilinear space",
+        "meaning": "The fixed vector space on which the bilinear form is defined and on which all labels lie.",
+        "relation": "direct",
+        "quote": "Subspace labels are based on the fixed bilinear space $F$, whose [Bilinear form](bilinear-form.md) $\\langle p,q\\rangle$ is linear in each argument, where $p$ and $q$ are vectors of $F$."
       },
       {
         "symbol": "p",
-        "name": "coefficient index",
-        "meaning": "The index of a coefficient of $c$.",
+        "name": "first vector",
+        "meaning": "A vector of F, the first argument of the bilinear form.",
         "relation": "direct",
-        "quote": "Here $p$ is the index of a coefficient of $c$, so $c_p = \\sum_{e+f=p} a_e b_f$."
+        "quote": "Subspace labels are based on the fixed bilinear space $F$, whose [Bilinear form](bilinear-form.md) $\\langle p,q\\rangle$ is linear in each argument, where $p$ and $q$ are vectors of $F$."
+      },
+      {
+        "symbol": "q",
+        "name": "second vector",
+        "meaning": "A vector of F, the second argument of the bilinear form.",
+        "relation": "direct",
+        "quote": "Subspace labels are based on the fixed bilinear space $F$, whose [Bilinear form](bilinear-form.md) $\\langle p,q\\rangle$ is linear in each argument, where $p$ and $q$ are vectors of $F$."
+      },
+      {
+        "symbol": "L",
+        "name": "smaller label",
+        "meaning": "A nondegenerate subspace of F attached to a wire; on an edge, the label contained in the other.",
+        "relation": "direct",
+        "quote": "A label $L$ is a nondegenerate subspace of $F$, meaning $L\\cap L^{\\perp}=\\{0\\}$, where $L^{\\perp}$ is the set of vectors orthogonal to every vector of $L$."
+      },
+      {
+        "symbol": "M",
+        "name": "larger label",
+        "meaning": "On an edge, the label that contains the smaller label L.",
+        "relation": "direct",
+        "quote": "For an edge with $L\\subseteq M$, $L$ and $M$ are its smaller and larger label."
+      },
+      {
+        "symbol": "R",
+        "name": "orthogonal residual",
+        "meaning": "On an edge, the subspace of the larger label M orthogonal to the smaller label L.",
+        "relation": "direct",
+        "quote": "Its orthogonal residual is $R=M\\cap L^{\\perp}$, the orthogonal complement of the smaller label inside the larger one."
+      },
+      {
+        "symbol": "c",
+        "name": "component in L",
+        "meaning": "The part of a vector p in M that lies in the smaller label L.",
+        "relation": "direct",
+        "quote": "For $p\\in M$, write $p=c+r$ with $c\\in L$ and $r\\in L^{\\perp}$; then $r=p-c\\in M$, so $r\\in R$."
+      },
+      {
+        "symbol": "r",
+        "name": "component in residual",
+        "meaning": "The part of a vector p in M that lies in L^perp, and hence in the residual R.",
+        "relation": "direct",
+        "quote": "For $p\\in M$, write $p=c+r$ with $c\\in L$ and $r\\in L^{\\perp}$; then $r=p-c\\in M$, so $r\\in R$."
+      }
+    ],
+    "synthetic-transforms": [
+      {
+        "symbol": "r",
+        "name": "record length",
+        "meaning": "The number of complex coefficients in a record, a power of two.",
+        "relation": "count",
+        "quote": "Let $r$ be a power of two, the number of complex coefficients in a record."
+      },
+      {
+        "symbol": "y",
+        "name": "ring variable",
+        "meaning": "The variable of the polynomial ring in which y^r is identified with -1.",
+        "relation": "direct",
+        "quote": "Let $y$ be the variable of the ring $\\mathbb{C}[y]/(y^r+1)$, in which $y^r$ is identified with $-1$."
+      },
+      {
+        "symbol": "p",
+        "name": "input records",
+        "meaning": "The vector of q records that a transform takes as input.",
+        "relation": "direct",
+        "quote": "Write $p=(p_0,\\dots,p_{q-1})$ for the input vector of $q$ records."
+      },
+      {
+        "symbol": "\\hat{p}",
+        "name": "transformed records",
+        "meaning": "The vector of transformed records, whose entry k is the transform of the input at frequency index k.",
+        "relation": "direct",
+        "quote": "where $\\hat p_k$ is the transformed record at frequency index $k$."
       }
     ],
     "tensor-product": [
       {
-        "symbol": "L",
-        "name": "first map",
-        "meaning": "A linear map on vectors of length $s$.",
+        "symbol": "P",
+        "name": "first space",
+        "meaning": "A vector space, the first factor of the tensor product.",
         "relation": "direct",
-        "quote": "Let $L$ be a linear map on vectors of length $s$ and $M$ a linear map on vectors of length $t$, with entries $L_{ih}$ (row $i$, column $h$) and $M_{mg}$ (row $m$, column $g$)."
-      },
-      {
-        "symbol": "M",
-        "name": "second map",
-        "meaning": "A linear map on vectors of length $t$.",
-        "relation": "direct",
-        "quote": "Let $L$ be a linear map on vectors of length $s$ and $M$ a linear map on vectors of length $t$, with entries $L_{ih}$ (row $i$, column $h$) and $M_{mg}$ (row $m$, column $g$)."
-      },
-      {
-        "symbol": "\\otimes",
-        "name": "tensor product",
-        "meaning": "The operator that combines $L$ and $M$ into a linear map on arrays with $s$ rows and $t$ columns.",
-        "relation": "direct",
-        "quote": "The tensor product $L\\otimes M$ is the linear map on arrays $u$ with $s$ rows and $t$ columns, entries $u_{hg}$, whose entry at position $(i,m)$ is"
-      },
-      {
-        "symbol": "u",
-        "name": "array",
-        "meaning": "An array with $s$ rows and $t$ columns, whose entries are $u_{hg}$.",
-        "relation": "direct",
-        "quote": "The tensor product $L\\otimes M$ is the linear map on arrays $u$ with $s$ rows and $t$ columns, entries $u_{hg}$, whose entry at position $(i,m)$ is"
-      },
-      {
-        "symbol": "i",
-        "name": "output row index",
-        "meaning": "The index of an output row, which is the first coordinate of an output position.",
-        "relation": "direct",
-        "quote": "Here $i$ and $m$ index the output row and column, and $h$ and $g$ index the input row and column."
-      },
-      {
-        "symbol": "m",
-        "name": "output column index",
-        "meaning": "The index of an output column, which is the second coordinate of an output position.",
-        "relation": "direct",
-        "quote": "Here $i$ and $m$ index the output row and column, and $h$ and $g$ index the input row and column."
-      },
-      {
-        "symbol": "h",
-        "name": "input row index",
-        "meaning": "The index of an input row of the array $u$.",
-        "relation": "direct",
-        "quote": "Here $i$ and $m$ index the output row and column, and $h$ and $g$ index the input row and column."
-      },
-      {
-        "symbol": "g",
-        "name": "input column index",
-        "meaning": "The index of an input column of the array $u$.",
-        "relation": "direct",
-        "quote": "Here $i$ and $m$ index the output row and column, and $h$ and $g$ index the input row and column."
-      }
-    ],
-    "transform-identity": [
-      {
-        "symbol": "F_s",
-        "name": "source transform",
-        "meaning": "The normalized transform $F_q$ with $q=s$, acting on vectors of $s$ coordinates.",
-        "relation": "direct",
-        "quote": "Write $F_s$ and $F_t$ for $F_q$ with $q=s$ and $q=t$, the normalized transforms of vectors of $s$ and $t$ coordinates, and $F_s^+$ for the opposite transform $F_q^+$ with $q=s$."
-      },
-      {
-        "symbol": "F_t",
-        "name": "target transform",
-        "meaning": "The normalized transform $F_q$ with $q=t$, acting on vectors of $t$ coordinates.",
-        "relation": "direct",
-        "quote": "Write $F_s$ and $F_t$ for $F_q$ with $q=s$ and $q=t$, the normalized transforms of vectors of $s$ and $t$ coordinates, and $F_s^+$ for the opposite transform $F_q^+$ with $q=s$."
-      },
-      {
-        "symbol": "F_s^+",
-        "name": "opposite source transform",
-        "meaning": "The opposite transform $F_q^+$ with $q=s$, which uses $\\omega^{-1}$ in place of $\\omega$.",
-        "relation": "direct",
-        "quote": "Write $F_s$ and $F_t$ for $F_q$ with $q=s$ and $q=t$, the normalized transforms of vectors of $s$ and $t$ coordinates, and $F_s^+$ for the opposite transform $F_q^+$ with $q=s$."
-      },
-      {
-        "symbol": "d",
-        "name": "coordinate count",
-        "meaning": "The number of coordinates of the grid, a count.",
-        "relation": "count",
-        "quote": "Here $d$ is the number of coordinates, not the digit count."
-      },
-      {
-        "symbol": "s_i",
-        "name": "source axis length",
-        "meaning": "The number of entries along coordinate $i$ of the source grid, a count.",
-        "relation": "count",
-        "quote": "Here $s_i$ and $t_i$ are the numbers of entries along coordinate $i$ of the source and target grids."
-      },
-      {
-        "symbol": "t_i",
-        "name": "target axis length",
-        "meaning": "The number of entries along coordinate $i$ of the target grid, a count.",
-        "relation": "count",
-        "quote": "Here $s_i$ and $t_i$ are the numbers of entries along coordinate $i$ of the source and target grids."
-      },
-      {
-        "symbol": "R",
-        "name": "source permutation",
-        "meaning": "The tensor product of the one-dimensional source permutations $P_{s_i}$, permuting the source coordinates.",
-        "relation": "direct",
-        "quote": "Here $R=\\bigotimes_i P_{s_i}$ permutes the source coordinates, and $Q=\\bigotimes_i P_{t_i}$ permutes the target coordinates."
+        "quote": "Write $P$ and $Q$ for the two spaces, over the same ground field."
       },
       {
         "symbol": "Q",
-        "name": "target permutation",
-        "meaning": "The tensor product of the one-dimensional target permutations $P_{t_i}$, permuting the target coordinates.",
+        "name": "second space",
+        "meaning": "A vector space, the second factor of the tensor product.",
         "relation": "direct",
-        "quote": "Here $R=\\bigotimes_i P_{s_i}$ permutes the source coordinates, and $Q=\\bigotimes_i P_{t_i}$ permutes the target coordinates."
+        "quote": "Write $P$ and $Q$ for the two spaces, over the same ground field."
       },
       {
-        "symbol": "R_c",
-        "name": "index permutation",
-        "meaning": "The permutation $(R_c z)_j=z_{cj}$ of length-$q$ vectors, for a unit $c$ modulo $q$.",
+        "symbol": "e",
+        "name": "basis vector of P",
+        "meaning": "A basis vector of the first factor P, paired with a basis vector f of Q to form a basis vector of the tensor product.",
         "relation": "direct",
-        "quote": "Write $R_c$ for the permutation $(R_c z)_j=z_{cj}$ of length-$q$ vectors, where $c$ is a unit modulo $q$."
+        "quote": "The tensor product $P \\otimes Q$ has as basis all pairs $e \\otimes f$, where $e$ runs over a basis of $P$ and $f$ over a basis of $Q$."
       },
       {
-        "symbol": "A",
-        "name": "source-to-target contraction",
-        "meaning": "The tensor product of the one-dimensional contractions $A$, mapping source arrays to target arrays.",
+        "symbol": "f",
+        "name": "basis vector of Q",
+        "meaning": "A basis vector of the second factor Q, paired with a basis vector e of P to form a basis vector of the tensor product.",
         "relation": "direct",
-        "quote": "The letters $A$ and $B_0$ denote the one-dimensional contractions below, and after lifting they denote tensor products."
-      },
+        "quote": "The tensor product $P \\otimes Q$ has as basis all pairs $e \\otimes f$, where $e$ runs over a basis of $P$ and $f$ over a basis of $Q$."
+      }
+    ],
+    "transform-layout": [
       {
-        "symbol": "B_0",
-        "name": "target-to-source contraction",
-        "meaning": "The tensor product of the one-dimensional contractions $B_0$, mapping target arrays to source arrays.",
-        "relation": "direct",
-        "quote": "The letters $A$ and $B_0$ denote the one-dimensional contractions below, and after lifting they denote tensor products."
-      },
-      {
-        "symbol": "u",
-        "name": "source array",
-        "meaning": "An array on the source grid of shape $s_1\\times\\cdots\\times s_d$.",
-        "relation": "direct",
-        "quote": "The arrays $u$ and $v$ now live on the source grid of shape $s_1\\times\\cdots\\times s_d$."
-      },
-      {
-        "symbol": "v",
-        "name": "second source array",
-        "meaning": "A second array on the source grid of shape $s_1\\times\\cdots\\times s_d$.",
-        "relation": "direct",
-        "quote": "The arrays $u$ and $v$ now live on the source grid of shape $s_1\\times\\cdots\\times s_d$."
-      },
-      {
-        "symbol": "*",
-        "name": "cyclic convolution",
-        "meaning": "The cyclic convolution of two arrays on the source grid.",
-        "relation": "direct",
-        "quote": "Writing $u*v$ for the cyclic convolution on the source grid."
-      },
-      {
-        "symbol": "\\cdot",
-        "name": "coordinatewise product",
-        "meaning": "The product of two arrays taken entry by entry on the same grid.",
-        "relation": "direct",
-        "quote": "Permutations commute with coordinatewise products, so $(RF_su)\\cdot(RF_sv)=R\\big((F_su)\\cdot(F_sv)\\big)$, where $\\cdot$ is the coordinatewise product."
+        "symbol": "K",
+        "name": "chunk width",
+        "meaning": "The number of address bits in one chunk.",
+        "relation": "count",
+        "quote": "Chunks are $K$ address bits wide, where $K$ is the number of bits in one chunk."
       }
     ]
   },
   "relations": {
-    "axis-length": [
+    "address-interchange": [
       {
-        "prerequisite": "transform",
-        "predicate": "sets the length of",
-        "quote": "An axis length is the number of positions along one coordinate axis of a multidimensional array, and it sets the length of the [Transform](transform.md) applied along that axis."
+        "prerequisite": "fixed-tape-model",
+        "predicate": "runs on",
+        "quote": "The procedure runs on a [Fixed-tape machine model](fixed-tape-model.md)."
+      },
+      {
+        "prerequisite": "linear-network-frames",
+        "predicate": "is built from",
+        "quote": "The procedure is built from a fixed [Linear networks and frames](linear-network-frames.md) network that exchanges two banks of values."
+      }
+    ],
+    "address-shear": [
+      {
+        "prerequisite": "linear-network-frames",
+        "predicate": "is the endpoint operator of",
+        "quote": "For the bit procedure, the address shear is the endpoint operator of a route through a [Linear networks and frames](linear-network-frames.md)."
+      },
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "is the first of three",
+        "quote": "Address shear is the first of three address updates in an [Address-field interchange](address-interchange.md)."
+      }
+    ],
+    "bluestein-chirp-identity": [
+      {
+        "prerequisite": "discrete-fourier-transform",
+        "predicate": "rewrites",
+        "quote": "Bluestein's chirp identity rewrites a [Discrete Fourier transform](discrete-fourier-transform.md) so that the transform can be computed with convolution, which the multiplication reduction needs."
+      },
+      {
+        "prerequisite": "cyclic-convolution",
+        "predicate": "computes its transforms by",
+        "quote": "It computes its transforms by a [Cyclic convolution](cyclic-convolution.md) multiplied by chirp factors."
+      }
+    ],
+    "carry-propagation": [
+      {
+        "prerequisite": "radix-digit-convolution",
+        "predicate": "is applied to",
+        "quote": "It is applied to the coefficients of the [Radix-digit convolution](radix-digit-convolution.md) once they are recovered."
+      }
+    ],
+    "chinese-remainder-map": [
+      {
+        "prerequisite": "cyclic-convolution",
+        "predicate": "preserves",
+        "quote": "It preserves the [cyclic convolution](cyclic-convolution.md) of a sequence."
+      },
+      {
+        "prerequisite": "radix-digit-convolution",
+        "predicate": "acts on the coefficients of",
+        "quote": "It acts on the coefficients of a [radix-digit convolution](radix-digit-convolution.md) before any transform is computed, turning one cyclic convolution into a convolution over several cyclic axes at once."
+      }
+    ],
+    "complex-phase-network": [
+      {
+        "prerequisite": "subset-intersection-network",
+        "predicate": "is built on",
+        "quote": "A complex phase network is built on a [Subset-intersection network](subset-intersection-network.md) with a frame change on each edge."
+      },
+      {
+        "prerequisite": "gaussian-dyadics",
+        "predicate": "takes its scalars from",
+        "quote": "Each frame change takes its scalars from [Gaussian dyadics](gaussian-dyadics.md), so every sum and product stays exact, with no rounding."
+      },
+      {
+        "prerequisite": "subspace-labels",
+        "predicate": "is labelled by",
+        "quote": "Each wire is labelled by [Subspace labels](subspace-labels.md)."
       },
       {
         "prerequisite": "tensor-product",
-        "predicate": "is one factor in",
-        "quote": "Each axis length is one factor in the [Tensor product](tensor-product.md) that gives the full transform."
-      }
-    ],
-    "convolution-theorem": [
-      {
-        "prerequisite": "discrete-fourier-transform",
-        "predicate": "takes its transforms by",
-        "quote": "The theorem takes its transforms by the [Discrete Fourier transform](discrete-fourier-transform.md) $F_s$, applied along every axis and normalized by $1/S$."
-      },
-      {
-        "prerequisite": "cyclic-convolution",
-        "predicate": "concerns",
-        "quote": "The theorem concerns the [Cyclic convolution](cyclic-convolution.md) $u*v$, taken along every axis, so each index wraps around modulo its axis length."
-      }
-    ],
-    "coprime-integers": [
-      {
-        "prerequisite": "cyclic-convolution",
-        "predicate": "enable the splitting of",
-        "quote": "Coprime integers enable the splitting of one [cyclic convolution](cyclic-convolution.md) into a multidimensional one over the same lengths."
+        "predicate": "is a tensor product of",
+        "quote": "Applied to all selected address bits at once, the network is a [Tensor product](tensor-product.md) of one kernel per bit, evaluated on all addresses."
       }
     ],
     "discrete-fourier-transform": [
       {
-        "prerequisite": "linear-map",
-        "predicate": "is built as a",
-        "quote": "The discrete Fourier transform is built as a [Linear map](linear-map.md) that sends a vector of complex numbers to another vector of the same length."
+        "prerequisite": "cyclic-convolution",
+        "predicate": "reduces",
+        "quote": "The transform reduces a [Cyclic convolution](cyclic-convolution.md) of two vectors to entrywise multiplication of their transforms, up to a constant factor."
+      }
+    ],
+    "established-multiplier": [
+      {
+        "prerequisite": "exact-integer-multiplication",
+        "predicate": "is a known algorithm for",
+        "quote": "The established multiplier, also called the Harvey–van der Hoeven multiplier, is a known algorithm for [exact integer multiplication](exact-integer-multiplication.md): it takes two binary strings and outputs their product."
+      }
+    ],
+    "exact-integer-multiplication": [
+      {
+        "prerequisite": "fixed-tape-model",
+        "predicate": "is computed by",
+        "quote": "In the main result of this wiki, exact integer multiplication is computed by a deterministic [fixed-tape machine](fixed-tape-model.md) in time below $n\\lg n$."
       }
     ],
     "gaussian-resampling": [
       {
         "prerequisite": "discrete-fourier-transform",
-        "predicate": "replaces",
-        "quote": "Gaussian resampling is an identity that replaces the [Discrete Fourier transform](discrete-fourier-transform.md) of an arbitrary length by transforms whose lengths are powers of two."
+        "predicate": "expresses",
+        "quote": "Gaussian resampling expresses each source [Discrete Fourier transform](discrete-fourier-transform.md) through a power-of-two tensor transform, meaning a transform over several axes at once in which each axis length is a power of two."
       },
       {
         "prerequisite": "radix-digit-convolution",
-        "predicate": "serves",
-        "quote": "It serves the [Radix-digit convolution](radix-digit-convolution.md) of digit vectors, which needs such transforms."
-      },
-      {
-        "prerequisite": "coprime-integers",
-        "predicate": "is restricted to",
-        "quote": "The identity is restricted to [coprime integers](coprime-integers.md) $s<t$, where $s$ is the number of coordinates of the source vector and $t$ the number of coordinates of the target."
-      },
-      {
-        "prerequisite": "modular-arithmetic",
-        "predicate": "is defined using",
-        "quote": "The permutations $P_s$ and $P_t$ are defined using [modular arithmetic](modular-arithmetic.md) on their indices, with subscripts taken modulo the length:"
-      },
-      {
-        "prerequisite": "operator-norm",
-        "predicate": "is measured by",
-        "quote": "The size of $N-I$ is measured by its [operator norm](operator-norm.md), $\\|N-I\\|$."
-      },
-      {
-        "prerequisite": "gaussian-function",
-        "predicate": "is built from",
-        "quote": "The two Gaussian maps $S$ and $T$ are built from the [Gaussian function](gaussian-function.md)."
+        "predicate": "is applied to",
+        "quote": "Gaussian resampling is applied to the [Radix-digit convolution](radix-digit-convolution.md) of the two integers' digit coefficients, so the Fourier transforms it replaces are those of that convolution."
       }
     ],
-    "operator-norm": [
+    "guard-width-bound": [
       {
-        "prerequisite": "linear-map",
-        "predicate": "is defined for",
-        "quote": "The operator norm is defined for any [linear map](linear-map.md) $L$, and it is the largest factor by which $L$ stretches a vector."
+        "prerequisite": "simultaneous-butterfly-layer",
+        "predicate": "bounds the intermediate coefficients of",
+        "quote": "A guard-width bound is an explicit number of extra bits that bounds the intermediate coefficients of a [simultaneous butterfly layer](simultaneous-butterfly-layer.md) and makes them exact, so that one truncation at the end suffices."
+      },
+      {
+        "prerequisite": "gaussian-dyadics",
+        "predicate": "limits the denominators of",
+        "quote": "So the guard count limits the denominators of the [Gaussian dyadics](gaussian-dyadics.md) that appear as intermediate coefficients."
+      }
+    ],
+    "main-theorem": [
+      {
+        "prerequisite": "fixed-tape-model",
+        "predicate": "runs in",
+        "quote": "Integer multiplication below $n\\lg n$ is the main theorem: a single deterministic Turing machine that runs in the [fixed-tape machine model](fixed-tape-model.md) multiplies two $n$-bit integers exactly, with its logarithmic factor reduced by a fixed power."
+      },
+      {
+        "prerequisite": "n-log-n-conjecture",
+        "predicate": "refutes",
+        "quote": "It refutes the [n log n optimality conjecture](n-log-n-conjecture.md) in this model."
+      },
+      {
+        "prerequisite": "radix-digit-convolution",
+        "predicate": "is reduced to",
+        "quote": "Multiplication is reduced to the [radix-digit convolution](radix-digit-convolution.md) of the two integers' digit coefficients."
+      },
+      {
+        "prerequisite": "chinese-remainder-map",
+        "predicate": "relabels its axis positions by",
+        "quote": "It relabels its axis positions by the [Chinese-remainder map](chinese-remainder-map.md)."
+      },
+      {
+        "prerequisite": "rank-saving-recursion",
+        "predicate": "is organized by",
+        "quote": "Its movement is organized by [rank-saving recursion](rank-saving-recursion.md)."
+      },
+      {
+        "prerequisite": "transform-layout",
+        "predicate": "computes its transforms on",
+        "quote": "It computes its transforms on a [transform layout](transform-layout.md) that places the selected bits of each axis at a common offset."
+      },
+      {
+        "prerequisite": "transform-identity",
+        "predicate": "is based on",
+        "quote": "The transform identity is based on the [transform identity with retained permutations](transform-identity.md), so permutations cancel instead of being sorted."
+      },
+      {
+        "prerequisite": "prime-source-lengths",
+        "predicate": "chooses its source lengths as",
+        "quote": "It chooses its source lengths as [prime source lengths](prime-source-lengths.md)."
+      },
+      {
+        "prerequisite": "phase-twist",
+        "predicate": "converts the last cyclic coordinate by",
+        "quote": "It converts the last cyclic coordinate by a [phase twist](phase-twist.md)."
+      },
+      {
+        "prerequisite": "polynomial-ring-convolution",
+        "predicate": "multiplies its records by",
+        "quote": "It multiplies its records by [convolution over the polynomial ring](polynomial-ring-convolution.md)."
+      },
+      {
+        "prerequisite": "packed-bit-addition",
+        "predicate": "adds selected bits with",
+        "quote": "It adds selected bits with [packed selected-bit addition](packed-bit-addition.md)."
+      },
+      {
+        "prerequisite": "recovery-and-error",
+        "predicate": "recovers its coefficients by",
+        "quote": "It recovers its coefficients by [exact coefficient recovery](recovery-and-error.md), which rounds them to integers."
+      },
+      {
+        "prerequisite": "carry-propagation",
+        "predicate": "ends with",
+        "quote": "The result ends with [carry propagation](carry-propagation.md)."
+      }
+    ],
+    "n-log-n-conjecture": [
+      {
+        "prerequisite": "exact-integer-multiplication",
+        "predicate": "bounds the cost of",
+        "quote": "The conjecture bounds the cost of [Exact integer multiplication](exact-integer-multiplication.md), where the input is two $n$-bit binary strings and the output is their $2n$-bit product."
+      }
+    ],
+    "packed-bit-addition": [
+      {
+        "prerequisite": "simultaneous-butterfly-layer",
+        "predicate": "supplies the binary basis changes for",
+        "quote": "It supplies the binary basis changes for the [simultaneous butterfly layer](simultaneous-butterfly-layer.md), whose exact computation needs them."
+      },
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "is built from",
+        "quote": "Packed selected-bit addition is built from three streaming operations, fixed multitape procedures whose time grows with the volume they process: an [address-field interchange](address-interchange.md) of equal-width chunks, cyclic shifts of chunk ranges, and a fixed permutation of two-bit values."
+      },
+      {
+        "prerequisite": "address-shear",
+        "predicate": "is a restricted form of",
+        "quote": "Packed selected-bit addition is a restricted form of the [address shear](address-shear.md) that changes only the selected positions."
+      }
+    ],
+    "phase-twist": [
+      {
+        "prerequisite": "bluestein-chirp-identity",
+        "predicate": "follows",
+        "quote": "The phase twist follows [Bluestein's chirp identity](bluestein-chirp-identity.md), which has already turned the middle transform into a normalized cyclic convolution."
+      },
+      {
+        "prerequisite": "polynomial-ring-mod-yr-plus-1",
+        "predicate": "is based on",
+        "quote": "A phase twist is based on the [polynomial ring modulo $y^r+1$](polynomial-ring-mod-yr-plus-1.md), into which it maps that axis."
+      }
+    ],
+    "polynomial-ring-convolution": [
+      {
+        "prerequisite": "polynomial-ring-mod-yr-plus-1",
+        "predicate": "takes its records from",
+        "quote": "Convolution over the polynomial ring takes its records from the [Polynomial ring modulo y^r + 1](polynomial-ring-mod-yr-plus-1.md), in which $y^r = -1$."
+      },
+      {
+        "prerequisite": "cyclic-convolution",
+        "predicate": "is the cyclic product of",
+        "quote": "Convolution over the polynomial ring is the cyclic product of two arrays of records, in the sense of [Cyclic convolution](cyclic-convolution.md)."
+      },
+      {
+        "prerequisite": "synthetic-transforms",
+        "predicate": "computes its transforms with",
+        "quote": "Convolution over the polynomial ring computes its transforms with [Synthetic polynomial transforms](synthetic-transforms.md), so the transforms need only signed shifts and additions, because multiplying by a power of $y$ is a signed shift of coefficients."
+      },
+      {
+        "prerequisite": "signed-packing",
+        "predicate": "computes its products with",
+        "quote": "Convolution over the polynomial ring computes its products with [Signed coefficient packing](signed-packing.md)."
+      }
+    ],
+    "polynomial-ring-mod-yr-plus-1": [
+      {
+        "prerequisite": "synthetic-transforms",
+        "predicate": "is the coefficient ring of",
+        "quote": "The ring is the coefficient ring of the [Synthetic polynomial transforms](synthetic-transforms.md), whose roots of unity are powers of $y$."
+      }
+    ],
+    "prime-source-lengths": [
+      {
+        "prerequisite": "gaussian-resampling",
+        "predicate": "leave enough separation for",
+        "quote": "Second, the ratio $T_\\nu/s_\\nu$ must leave enough separation for [Gaussian resampling](gaussian-resampling.md), which moves between transforms of length $s_\\nu$ and of length $T_\\nu$."
+      },
+      {
+        "prerequisite": "chinese-remainder-map",
+        "predicate": "supply axis lengths to",
+        "quote": "Distinct primes are pairwise coprime, so the $s_\\nu$ supply axis lengths to the [Chinese-remainder map](chinese-remainder-map.md), which turns one cyclic convolution into a multidimensional one."
       }
     ],
     "radix-digit-convolution": [
       {
         "prerequisite": "exact-integer-multiplication",
         "predicate": "reduces",
-        "quote": "Radix-digit convolution reduces [exact integer multiplication](exact-integer-multiplication.md) to a polynomial product whose coefficients are short integers."
+        "quote": "Radix-digit convolution reduces [exact integer multiplication](exact-integer-multiplication.md) to a convolution of short integer digit lists, which is the first step toward a fast product."
       },
       {
         "prerequisite": "discrete-fourier-transform",
         "predicate": "is computed by",
-        "quote": "Radix-digit convolution is computed by [Fourier transforms](discrete-fourier-transform.md) of length $q \\ge 2d-1$."
+        "quote": "The convolution is computed by [transforms](discrete-fourier-transform.md) quickly on a fixed layout, which is why the reduction stops at this form rather than at the integer product."
+      }
+    ],
+    "rank-saving-recursion": [
+      {
+        "prerequisite": "subset-intersection-network",
+        "predicate": "is realized by",
+        "quote": "Rank-saving recursion is realized by a [subset-intersection network](subset-intersection-network.md) on three-element subsets."
       },
       {
-        "prerequisite": "axis-length",
-        "predicate": "is computed with transforms of",
-        "quote": "After [Gaussian resampling](gaussian-resampling.md), the convolution is computed with transforms of [axis lengths](axis-length.md) that are powers of two."
+        "prerequisite": "address-interchange",
+        "predicate": "is instantiated by",
+        "quote": "Rank-saving recursion is instantiated by [address-field interchange](address-interchange.md), where the parameter $f$ counts field digits."
+      }
+    ],
+    "recovery-and-error": [
+      {
+        "prerequisite": "polynomial-ring-convolution",
+        "predicate": "is applied to the output of",
+        "quote": "Recovery is applied to the output of the [Convolution over the polynomial ring](polynomial-ring-convolution.md), after the known normalizations and digit scales are removed."
+      },
+      {
+        "prerequisite": "phase-twist",
+        "predicate": "undoes",
+        "quote": "Recovery undoes the [phase twist](phase-twist.md) before the coefficients are read, which restores the original cyclic wrap-around."
+      },
+      {
+        "prerequisite": "guard-width-bound",
+        "predicate": "is secured by",
+        "quote": "Exact recovery is secured by the [Guard-width bound](guard-width-bound.md), which fixes enough extra bits that a single final truncation, discarding those bits, suffices."
+      }
+    ],
+    "signed-packing": [
+      {
+        "prerequisite": "established-multiplier",
+        "predicate": "is computed by",
+        "quote": "The product of the two packed integers is computed by the [Established O(n log n) multiplier](established-multiplier.md), used as a black box."
+      }
+    ],
+    "simultaneous-butterfly-layer": [
+      {
+        "prerequisite": "complex-phase-network",
+        "predicate": "is realized by",
+        "quote": "The layer's complex form $C^{\\otimes D}$ is realized by a [complex phase network](complex-phase-network.md) with dyadic frame changes."
+      },
+      {
+        "prerequisite": "gaussian-dyadics",
+        "predicate": "keeps its intermediate values exact in",
+        "quote": "The layer keeps its intermediate values exact in [Gaussian dyadics](gaussian-dyadics.md)."
+      },
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "moves its address chunks by",
+        "quote": "The layer moves its address chunks by [address-field interchange](address-interchange.md), which realizes these changes of basis."
+      },
+      {
+        "prerequisite": "discrete-fourier-transform",
+        "predicate": "is built from",
+        "quote": "The layer is built from the normalized [discrete Fourier transform](discrete-fourier-transform.md) of length 2, namely $H_0$, applied to each selected bit."
+      },
+      {
+        "prerequisite": "tensor-product",
+        "predicate": "is formed as a",
+        "quote": "On $D$ selected bits, the layer is formed as a [tensor product](tensor-product.md) of $H_0$ with itself $D$ times, so each output combines all $2^D$ values that agree with it on the unselected bits."
+      }
+    ],
+    "subset-intersection-network": [
+      {
+        "prerequisite": "subspace-labels",
+        "predicate": "attaches",
+        "quote": "The network attaches [subspace labels](subspace-labels.md) to its gates and terminals."
+      },
+      {
+        "prerequisite": "linear-network-frames",
+        "predicate": "is based on",
+        "quote": "The network is based on [linear networks and frames](linear-network-frames.md), so its wires carry scalars and its gates combine them."
+      }
+    ],
+    "subspace-labels": [
+      {
+        "prerequisite": "bilinear-form",
+        "predicate": "is based on",
+        "quote": "Subspace labels are based on the fixed bilinear space $F$, whose [Bilinear form](bilinear-form.md) $\\langle p,q\\rangle$ is linear in each argument, where $p$ and $q$ are vectors of $F$."
+      }
+    ],
+    "synthetic-transforms": [
+      {
+        "prerequisite": "discrete-fourier-transform",
+        "predicate": "is based on",
+        "quote": "A synthetic polynomial transform is based on the [Discrete Fourier transform](discrete-fourier-transform.md): it has the same form, but its roots of unity are powers of a ring variable, so that multiplying by a root is a signed shift of coefficients."
+      },
+      {
+        "prerequisite": "cyclic-convolution",
+        "predicate": "compute",
+        "quote": "Together, the two forward transforms, the pointwise product and the opposite transform compute a [cyclic convolution](cyclic-convolution.md) of records."
       }
     ],
     "tensor-product": [
       {
-        "prerequisite": "linear-map",
-        "predicate": "is built from",
-        "quote": "A tensor product is built from one [Linear map](linear-map.md) for each coordinate, and it lets a map on a multidimensional array act on each coordinate in turn."
-      }
-    ],
-    "transform": [
-      {
-        "prerequisite": "linear-map",
-        "predicate": "is a linear map",
-        "quote": "A transform is a [Linear map](linear-map.md) from one array of values to another array of the same kind, each output being a fixed weighted sum of the inputs."
+        "prerequisite": "bilinear-form",
+        "predicate": "linearizes",
+        "quote": "Its defining property is that each [Bilinear form](bilinear-form.md) on $P$ and $Q$ becomes an ordinary linear map on $P \\otimes Q$, so the tensor product linearizes it."
       }
     ],
     "transform-identity": [
       {
         "prerequisite": "gaussian-resampling",
-        "predicate": "is derived from",
-        "quote": "The one-dimensional identity is derived from [Gaussian resampling](gaussian-resampling.md)."
+        "predicate": "rewrites",
+        "quote": "The transform identity with retained permutations rewrites [Gaussian resampling](gaussian-resampling.md) so that the source and target coordinate permutations stay inside the formula."
       },
       {
-        "prerequisite": "coprime-integers",
-        "predicate": "holds for",
-        "quote": "The one-dimensional identity holds for [coprime](coprime-integers.md) $s<t$ with $\\theta=t/s-1$ large enough: $P_sF_s=2^{2\\alpha^2}B_0P_tF_tA$, with contractions $A$ and $B_0$."
+        "prerequisite": "cyclic-convolution",
+        "predicate": "is applied inside",
+        "quote": "It is applied inside a [cyclic convolution](cyclic-convolution.md), so its transforms run without executing those permutations as sorts."
+      }
+    ],
+    "transform-layout": [
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "is reached by swapping",
+        "quote": "Transform layout is reached by swapping contiguous chunks, as in [Address-field interchange](address-interchange.md)."
       },
       {
-        "prerequisite": "tensor-product",
-        "predicate": "is lifted by",
-        "quote": "The identity is lifted by a [tensor product](tensor-product.md) of the one-dimensional identities to $d$ coordinates."
+        "prerequisite": "synthetic-transforms",
+        "predicate": "lays out the rounds of",
+        "quote": "The layout lays out the rounds of [Synthetic polynomial transforms](synthetic-transforms.md) on tape, one layer per round."
       },
       {
-        "prerequisite": "convolution-theorem",
-        "predicate": "is based on",
-        "quote": "The cancellation is based on the [convolution theorem](convolution-theorem.md): with the $1/q$ factor of $F_q$, $F_s(u*v)=\\left(\\prod_i s_i\\right)(F_su)\\cdot(F_sv)$."
+        "prerequisite": "simultaneous-butterfly-layer",
+        "predicate": "feeds",
+        "quote": "It feeds the [Simultaneous butterfly layer](simultaneous-butterfly-layer.md) its bits in this form."
       }
     ]
   },
-  "pilot": "transform-identity"
+  "added": {
+    "address-interchange": [
+      "Address-field interchange is a tape procedure, a procedure carried out on the tapes of a Turing machine, that swaps two disjoint, contiguous address fields of an array (cited).",
+      "The main result uses it to make the transform layers cheap, where a transform layer is one of the levels of the transform, each of which rearranges and combines the whole array.",
+      "The cost of the procedure therefore matters.",
+      "The procedure runs on a [Fixed-tape machine model](fixed-tape-model.",
+      "The exponent $\\tau$ is a fixed constant with $\\tau<1$, so $u^{\\tau}$ grows more slowly than $u$ itself.",
+      "The procedure runs in $O(V u^{\\tau})$ time (cited).",
+      "The network has scratch wires for temporary values and restores them, and the final permutation is exact for any initial scratch values (cited).",
+      "The network is applied recursively to streams.",
+      "A stream is a block of stored values handled as one unit, here a fraction of the volume $V$.",
+      "Each recursive level costs a strictly smaller power of $u$, because the network's edge ranks sum to less than its number of wires (cited)."
+    ],
+    "address-shear": [
+      "Address shear is the map that sends two address fields $H$ and $D$, which are vectors of residues, to $H + D$ and $D$.",
+      "It is the endpoint update of the bit procedure, the paper's version of the construction for binary integers rather than complex numbers.",
+      "The map is invertible: subtracting $D$ from its first field recovers $H$, so the inverse is the same kind of update with a minus sign.",
+      "For the bit procedure, the address shear is the endpoint operator of a route through a [Linear networks and frames](linear-network-frames.",
+      "md).",
+      "Address shear is the first of three address updates in an [Address-field interchange](address-interchange.",
+      "md).",
+      "(cited) The shear alone does not swap $H$ and $D$."
+    ],
+    "carry-propagation": [
+      "The coefficients are integers that can be larger than the base, so they cannot be read off as bits.",
+      "At each position it adds the coefficient $c_j$ to the carry from the previous position, writes the low bit of the sum as the next output bit, and passes the high part on as the carry.",
+      "Each step preserves the total: coefficient plus carry equals bit plus twice the new carry, so the output bits spell the same integer as the coefficients.",
+      "Worked example, in base 2 with coefficients 3, 2, 1, which stand for $3 + 2\\cdot 2 + 1\\cdot 4 = 11$.",
+      "Position 0 gives $3 = 1 + 2\\cdot 1$: bit 1, carry 1.",
+      "Position 1 gives $2 + 1 = 3 = 1 + 2\\cdot 1$: bit 1, carry 1.",
+      "Position 2 gives $1 + 1 = 2 = 0 + 2\\cdot 1$: bit 0, carry 1.",
+      "The coefficients run out, but the carry may not.",
+      "Position 3 has coefficient 0 and gives $0 + 1 = 1 = 1 + 2\\cdot 0$: bit 1, carry 0.",
+      "In general the carry can exceed 1, so after the last coefficient each position writes the low bit of the carry and passes on the high part, until the carry is 0.",
+      "This stops because the carry after position $j$ is at most the total divided by $2^{j+1}$.",
+      "On the fixed-tape machine, a work tape is a scratch tape.",
+      "The bits are written to it in the order they are produced, and the stream is then reversed."
+    ],
+    "discrete-fourier-transform": [
+      "The discrete Fourier transform maps a vector of complex numbers to another vector of the same length, and the paper uses this normalized form to compute convolutions (cited).",
+      "Let $\\omega$ be a primitive $q$-th root of unity: a complex number with $\\omega^q = 1$ whose powers $\\omega^1, \\dots, \\omega^{q-1}$ all differ from $1$.",
+      "The transform of a vector $x = (x_0, \\dots, x_{q-1})$ is the vector $X = (X_0, \\dots, X_{q-1})$ with",
+      "Here $j$ indexes the input entries and $k$ the output entries; $i$ is a second input index used below.",
+      "Each output weights all inputs by powers of $\\omega$; $1/q$ is the normalization.",
+      "These letters change meaning here.",
+      "Its inverse has no extra factor.",
+      "The key fact is that for an integer $m$, $\\sum_{k=0}^{q-1} \\omega^{mk}$ equals $q$ when $q$ divides $m$ and $0$ otherwise.",
+      "When $q$ divides $m$ every term is $1$.",
+      "Otherwise the sum is the geometric series $(\\omega^{mq}-1)/(\\omega^m-1)$, whose numerator is $0$.",
+      "Substituting $X_k$ gives",
+      "$$\\sum_{k=0}^{q-1} X_k\\,\\omega^{-jk} = \\frac{1}{q}\\sum_{i=0}^{q-1} x_i \\sum_{k=0}^{q-1} \\omega^{(i-j)k}.",
+      "For $0 \\le i, j \\le q-1$, the integer $i-j$ lies strictly between $-q$ and $q$, so $q$ divides it only when $i=j$.",
+      "By the fact, the inner sum is $q$ when $i=j$ and $0$ otherwise, which leaves $x_j$:",
+      "$$x_j = \\sum_{k=0}^{q-1} X_k\\,\\omega^{-jk}, \\qquad j = 0,\\dots,q-1.",
+      "The transform reduces a [Cyclic convolution](cyclic-convolution.",
+      "md) of two vectors to entrywise multiplication of their transforms, up to a constant factor.",
+      "To see the factor, let $c = a \\ast b$, so $c_m = \\sum_{i+j \\equiv m \\pmod q} a_i b_j$.",
+      "For each $k$,",
+      "$$\\frac{1}{q}\\sum_{m=0}^{q-1} c_m\\,\\omega^{mk} = q\\Big(\\frac{1}{q}\\sum_i a_i\\,\\omega^{ik}\\Big)\\Big(\\frac{1}{q}\\sum_j b_j\\,\\omega^{jk}\\Big).",
+      "The right side is $\\frac{1}{q}\\sum_{i,j} a_i b_j\\,\\omega^{(i+j)k}$.",
+      "Since $\\omega^{(i+j)k}$ depends only on $i+j$ modulo $q$, grouping the pairs by $m \\equiv i+j$ gives the left side.",
+      "So the transform of $c$ is $q$ times the entrywise product of the transforms of $a$ and $b$, and convolution can be computed by transforming, multiplying entrywise, dividing by $q$, and inverting."
+    ],
+    "fixed-tape-model": [
+      "The paper states its main result in this model, and the model fixes what running time means there: the number of steps the machine takes.",
+      "A step reads and writes at most one cell on each tape and moves each head by at most one cell.",
+      "Extra fixed tracks and finitely many work tapes are allowed, since they change running time only by a fixed factor.",
+      "(cited)",
+      "The paper's constructions are built from scans, where a scan is one pass of the heads along a stretch of tape.",
+      "It counts each scan's own counters and the return of its heads as part of that scan.",
+      "(cited)",
+      "Moving one digit in a fixed radix needs a bounded number of scans; interchanging fields whose digit counts grow is a different case.",
+      "(cited) The paper does not take such an interchange as primitive.",
+      "It realizes it from elementary scans and XOR combinations of intermediate data streams.",
+      "(cited)",
+      "Let $u$ denote the number of cells in each of two disjoint fields, where a field is a contiguous block of cells.",
+      "A machine that moves the last cell of a block of three cells to the front uses a fixed sequence of scans whatever the cell contents, so its time is a constant.",
+      "Swapping two fields of $u$ cells each is different: $u$ can grow with the input, so the same fixed sequence does not apply."
+    ],
+    "gaussian-resampling": [
+      "Gaussian resampling is a reduction that replaces a Fourier transform of arbitrary length by transforms whose axis lengths are powers of two, which is what makes the transforms of the multiplier cheap.",
+      "Gaussian resampling expresses each source [Discrete Fourier transform](discrete-fourier-transform.",
+      "The construction is the one of Harvey and van der Hoeven; this page states its effect and does not re-derive the identity behind it."
+    ],
+    "linear-network-frames": [
+      "A linear network is a fixed wiring diagram of gates that transforms stored values by linear operations.",
+      "It is the device the paper uses to rearrange data inside an array without losing any of it.",
+      "Each gate combines the values on its input wires linearly.",
+      "The wires carry *banks* of values, one value per wire, and each vertex (a node of the diagram) carries an invertible linear operator called its *frame*.",
+      "Each procedure in the paper uses its own fixed linear network, which exchanges two banks of values and restores every auxiliary value.",
+      "The auxiliary wires are scratch space: they may hold arbitrary values during the computation, but they end with the values they started with.",
+      "Because every gate is linear, composing the gates gives a linear map from the input values to the output values.",
+      "The input and output have the same wires, so this map is a square matrix acting on the stacked banks (all values listed as one column).",
+      "The network acts on whole arrays.",
+      "An *address* is the binary label of one entry of the array.",
+      "A *scalar gate* applies one fixed linear rule to the values at each address on the wires it touches, the same rule at every address.",
+      "Rows of the array are distributed among the roles, so one operator acts identically on every address."
+    ],
+    "main-theorem": [
+      "md) multiplies two $n$-bit integers exactly, with its logarithmic factor reduced by a fixed power.",
+      "The power is $\\kappa=2^{-182}$, a fixed positive number, so the time is $O(n(\\lg n)^{1-\\kappa})$.",
+      "It refutes the [n log n optimality conjecture](n-log-n-conjecture.",
+      "md) in this model.",
+      "Without its constant factor, $n(\\lg n)^{1-\\kappa}=n\\lg n\\cdot(\\lg n)^{-\\kappa}$ is below $n\\lg n$ for every $n\\ge 3$.",
+      "There $\\lg n>1$ (since $\\lg 3\\approx 1.",
+      "58$), so $(\\lg n)^{-\\kappa}<1$.",
+      "The ratio to $n\\lg n$ tends to $0$, so the order is strictly smaller.",
+      "The obstacle is the transform layers, the rounds of the transform.",
+      "(cited) The transform calculation consists of address rearrangements, signed shifts and butterfly operations.",
+      "(cited) Two tape procedures supply them.",
+      "A field is a block of consecutive address bits.",
+      "The first procedure interchanges two disjoint equal address fields of $u$ bits in an array of stored volume $V$, in time $O(Vu^{\\tau})$.",
+      "md) to $d$ selected chunks, in time $O(Vd^{\\lambda'})$.",
+      "It computes its transforms on a [transform layout](transform-layout.",
+      "Its movement is organized by [rank-saving recursion](rank-saving-recursion.",
+      "It multiplies its records by [convolution over the polynomial ring](polynomial-ring-convolution.",
+      "The result ends with [carry propagation](carry-propagation.",
+      "Rational parameters are then chosen so that every term of the cost table fits the bound, and the total cost is $O(n(\\lg n)^{1-\\kappa})$."
+    ],
+    "phase-twist": [
+      "A phase twist is a coefficientwise multiplication by roots of unity that turns the wrap-around of one cyclic axis into a sign change, so that a cyclic convolution along that axis can be computed in a polynomial ring.",
+      "md), into which it maps that axis.",
+      "Without the twist, the ring product would negate every wrapped term, which the cyclic product does not do.",
+      "Let $a$ and $b$ be length-$r$ sequences with cyclic product $c_k=\\sum_{i+j\\equiv k \\pmod r} a_i b_j$.",
+      "Let $\\theta$, a primitive $2r$-th root of unity, be the twist root.",
+      "The twisted input of $a$ is $A(y)=\\sum_j \\theta^j a_j y^j$.",
+      "The twisted input of $b$ is $B(y)=\\sum_j \\theta^j b_j y^j$.",
+      "Since $y^r=-1$, a term with $i+j\\ge r$ becomes $-y^{i+j-r}$.",
+      "Fix an output index $k$ with $0\\le k<r$.",
+      "The pairs with $i+j\\equiv k \\pmod r$ have either $i+j=k$ or $i+j=k+r$.",
+      "The first kind contributes $\\theta^k a_i b_j y^k$.",
+      "The second kind contributes $\\theta^{k+r}a_i b_j y^{k+r}=\\theta^k a_i b_j y^k$, because $\\theta^r=-1$ and $y^r=-1$.",
+      "So the coefficient of $y^k$ in $A(y)B(y)$ is $\\theta^k c_k$, and multiplying by $\\theta^{-k}$ recovers $c_k$.",
+      "For $r=2$ and $\\theta=\\sqrt{-1}$, let $A(y)=a_0+\\theta a_1 y$ and $B(y)=b_0+\\theta b_1 y$.",
+      "Their product is $a_0b_0+\\theta(a_0b_1+a_1b_0)y+\\theta^2a_1b_1y^2$.",
+      "With $y^2=-1$ and $\\theta^2=-1$, this is $(a_0b_0+a_1b_1)+\\theta(a_0b_1+a_1b_0)y$, so the two coefficients are $c_0$ and $\\theta c_1$."
+    ],
+    "rank-saving-recursion": [
+      "Rank-saving recursion is the recursion in which one call on a stored volume $V$ splits into $s$ smaller calls, each on a stream holding $1/W$ of that volume, so that the cost grows by a strictly smaller factor per level.",
+      "Here the letter $f$ changes meaning: it is the recursion parameter, the number of field digits for address interchange or of selected axes for a numerical layer, a stage of the arithmetic that works along chosen axes of the data.",
+      "A call at parameter $mf$ on volume $V$ makes $s$ calls at parameter $f$, each on a stream of volume $V/W$.",
+      "(cited) A call at $f$ costs a fixed amount per unit of volume, because its cost scales with the volume it acts on.",
+      "The $s$ calls at $f$ therefore cost $s \\cdot (V/W)$ times that unit cost.",
+      "Dividing by $V$, the recursive contribution at $mf$ is $s/W$ times that at $f$.",
+      "Each level multiplies the parameter by $m$ and the per-volume cost by $s/W$, a smaller factor.",
+      "The strict inequality is what gives the saving: if $s=Wm$, each level would multiply the cost by $m$ too, and there would be no gain.",
+      "Each level doubles the parameter and multiplies the per-volume cost by $5/3$.",
+      "In general the per-volume cost grows like $f^{\\log_m(s/W)}$ as the parameter grows to $f$, and the exponent is below $1$ because $s/W<m$."
+    ],
+    "signed-packing": [
+      "A negative coefficient simply subtracts from its block.",
+      "One integer multiplication thus gives $FG$, and the coefficients of $h$ are read back from it, provided each is below $2^{w-1}$ in absolute value.",
+      "Recovery reads the blocks from the bottom as balanced digits in $[-2^{w-1}, 2^{w-1})$, carrying remainders upward.",
+      "Such a digit string is unique for its value: if two had equal values, their lowest differing block would leave a difference that is a multiple of $2^w$ yet smaller than $2^w$ in absolute value, so it is zero.",
+      "The coefficients of $h$ form such a string, so they are the recovered digits.",
+      "Worked example: take $f = 1-2x$, $g = 3+x$ and $w = 4$, where $x$ is the polynomial variable, not the input string.",
+      "The balanced base-16 digits of $-589$ are $3$, $-5$, $-2$, the coefficients of $fg = 3-5x-2x^2$."
+    ],
+    "transform-identity": [
+      "The transform identity with retained permutations rewrites [Gaussian resampling](gaussian-resampling.",
+      "md) so that the source and target coordinate permutations stay inside the formula.",
+      "It is applied inside a [cyclic convolution](cyclic-convolution.",
+      "md), so its transforms run without executing those permutations as sorts.",
+      "Gaussian resampling replaces a transform of arbitrary length by transforms whose lengths are powers of two.",
+      "Its usual implementation sorts each coordinate twice, once into source order and once into target order, and on a fixed tape each sort is paid for in full.",
+      "The identity instead keeps both permutations in the formula and computes that formula directly.",
+      "Sorting into that order moves every coordinate once, and sorting back moves them all again.",
+      "A permutation followed by its inverse is the identity, so the formula can drop such a pair, and the pair is never executed."
+    ]
+  },
+  "background": {
+    "summary": "The reader has completed an undergraduate computer science degree: big-O analysis, polynomials and complex numbers, and Turing machines with tapes, plus the discrete mathematics and first linear algebra course that such a degree requires. For the paper this means modular arithmetic, gcd and primes, roots of unity, binary arithmetic over F2 with Hamming weight, and basic vector-space and matrix facts (subspaces, rank, projections, dot product, eigenvalues) at first-course depth. Bilinear forms, tensor products, finite-field and ring theory, the Chinese remainder theorem, Newton iteration and the Fourier and convolution machinery beyond the basics are treated as not known.",
+    "added": [
+      "mathematical-induction",
+      "logarithms-and-floor-and-ceiling-functions",
+      "binary-representation-of-integers",
+      "dyadic-rationals",
+      "modular-arithmetic",
+      "greatest-common-divisor-and-coprimality",
+      "prime-numbers",
+      "roots-of-unity",
+      "binary-field-f2-and-xor-arithmetic",
+      "hamming-weight",
+      "vector-spaces-and-subspaces",
+      "matrices-and-linear-maps",
+      "matrix-rank",
+      "projection-onto-a-subspace",
+      "dot-product-and-orthogonality",
+      "eigenvalues-and-eigenvectors"
+    ]
+  }
 }

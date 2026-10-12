@@ -1,0 +1,7 @@
+Transform layout is a permutation of address bits that puts the selected bits of all participating axes at a common offset in consecutive chunks, so that a [Simultaneous butterfly layer](simultaneous-butterfly-layer.md) can act on each transform round.
+
+An axis is one dimension of the array of records. Its index occupies a contiguous field of address bits, and the fields start in axis order. A round acts on the selected bits of the participating axes, so those bits must be moved to a common offset first. Chunks are $K$ address bits wide, where $K$ is the number of bits in one chunk. The layout is built from single-bit moves and chunk interchanges. <cite data-source="paper">The layout uses the single-bit moves of Lemma 3 and the chunk interchanges of Lemma 12</cite>
+
+Take $K = 2$ and two axes of four bits each, so the address has eight bits in four chunks. Chunks 1 and 2 hold the first axis, and chunks 3 and 4 hold the second. A round selects the first bit of each axis, which sits at offset 0 of chunks 1 and 3. Swapping chunks 2 and 3 puts the second axis's first bit at offset 0 of chunk 2. The selected bits now sit at a common offset in consecutive chunks, so one pass of the layer covers both axes. Transform layout is reached by swapping contiguous chunks, as in [Address-field interchange](address-interchange.md).
+
+The layout lays out the rounds of [Synthetic polynomial transforms](synthetic-transforms.md) on tape, one layer per round. It feeds the [Simultaneous butterfly layer](simultaneous-butterfly-layer.md) its bits in this form.

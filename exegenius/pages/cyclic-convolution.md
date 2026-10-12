@@ -1,15 +1,11 @@
-Cyclic convolution is an operation on two vectors of the same length that combines them like polynomial multiplication, except that positions past the end wrap around to the start. It is the operation that the transform identities later in the argument turn into a pointwise product.
+Cyclic convolution is the product of two sequences of the same length in which indices wrap around modulo that length. The argument later computes this product with transforms, so the reader needs its exact definition and a small example.
 
-Let $u$ and $v$ be vectors of $q$ values, with coordinates indexed by $0, 1, \ldots, q-1$. We write $u \ast v$ for the cyclic convolution of $u$ and $v$. It is again a vector of $q$ values, whose $k$-th coordinate, for $k = 0, \ldots, q-1$, is
+Let $a = (a_0, \dots, a_{t-1})$ and $b = (b_0,\dots,b_{t-1})$ be two sequences of complex numbers of length $t$, a positive integer. Their cyclic convolution $c = a \ast b$ is the sequence of length $t$ given by the rule below. Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$.
 
-$$(u \ast v)_k = \sum_{j=0}^{q-1} u_j \, v_{(k-j) \bmod q}.$$
+$$c_k = \sum_{\substack{0 \le i,\, j \le t-1 \\ i+j \equiv k \pmod{t}}} a_i\, b_j, \qquad 0 \le k \le t-1.$$
 
-Here $(k-j) \bmod q$ is the remainder of $k-j$ after division by $q$, so an index that falls below $0$ or past $q-1$ is taken modulo $q$. Each pair of positions $j$ and $k-j$ contributes one product, and the products landing on the same output position $k$ are added.
+The condition $i+j \equiv k \pmod{t}$ means that $i+j$ and $k$ leave the same remainder on division by $t$. An index sum that runs past $t-1$ therefore wraps around to the start. In ordinary (linear) convolution the term $a_i b_j$ would sit at position $i+j$, which can reach $2t-2$. In cyclic convolution it is folded back onto a position between $0$ and $t-1$.
 
-Ordinary polynomial multiplication of two length-$q$ vectors would produce $2q-1$ values. Cyclic convolution folds the extra values back onto the start: the products that would fall at positions $q, \ldots, 2q-2$ are added to positions $0, \ldots, q-2$.
+Example: take $t=3$, $a=(1,2,3)$ and $b=(4,5,6)$. The pairs with $i+j \equiv 0 \pmod 3$ are $(0,0)$, $(1,2)$ and $(2,1)$, so $c_0 = 4 + 12 + 15 = 31$. Similarly $c_1 = 5 + 8 + 18 = 31$ and $c_2 = 6 + 10 + 12 = 28$.
 
-For a small example take $q = 3$, $u = (1, 2, 0)$ and $v = (0, 1, 1)$. The ordinary product has coefficients $(0, 1, 3, 2, 0)$. The entry at position $3$ wraps onto position $0$, and the entry at position $4$ wraps onto position $1$, giving
-
-$$u \ast v = (0+2,\; 1+0,\; 3) = (2, 1, 3).$$
-
-Direct evaluation of the sum for $k=0$ gives the same value, $u_1 v_2 = 2$, as the only nonzero product.
+The paper uses the symbol $\ast$ for this product <cite data-source="paper">denote cyclic convolution in the displayed axes</cite>.

@@ -1,0 +1,5 @@
+Gaussian resampling is the step that makes the transforms of the multiplier usable: it expresses each source [Discrete Fourier transform](discrete-fourier-transform.md) through a power-of-two tensor transform, meaning a transform over several axes at once in which each axis length is a power of two.
+
+Here $q$ is the number of values in one source transform. A transform of length $q$ is not directly served by the fast radix-2 method, which needs power-of-two lengths, so the reduction moves the work to lengths that are powers of two. The move between the two sets of frequencies uses Gaussian weights, which are factors whose exponent is quadratic in the frequency index.
+
+Gaussian resampling is applied to the [Radix-digit convolution](radix-digit-convolution.md) of the two integers' digit coefficients, so the Fourier transforms it replaces are those of that convolution. Each such transform becomes a multidimensional transform whose axis lengths are powers of two. <cite data-source="paper">it replaces the Fourier transforms needed for this convolution by multidimensional transforms whose</cite>

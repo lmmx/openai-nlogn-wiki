@@ -1,0 +1,9 @@
+Carry propagation is the final step that turns the recovered integer coefficients of a convolution into the binary string of an exact product. It is applied to the coefficients of the [Radix-digit convolution](radix-digit-convolution.md) once they are recovered.
+
+The coefficients are integers that can be larger than the base, so they cannot be read off as bits. Carry propagation processes them from the least significant position upward. At each position it adds the coefficient $c_j$ to the carry from the previous position, writes the low bit of the sum as the next output bit, and passes the high part on as the carry. Each step preserves the total: coefficient plus carry equals bit plus twice the new carry, so the output bits spell the same integer as the coefficients.
+
+Worked example, in base 2 with coefficients 3, 2, 1, which stand for $3 + 2\cdot 2 + 1\cdot 4 = 11$. Position 0 gives $3 = 1 + 2\cdot 1$: bit 1, carry 1. Position 1 gives $2 + 1 = 3 = 1 + 2\cdot 1$: bit 1, carry 1. Position 2 gives $1 + 1 = 2 = 0 + 2\cdot 1$: bit 0, carry 1.
+
+The coefficients run out, but the carry may not. Position 3 has coefficient 0 and gives $0 + 1 = 1 = 1 + 2\cdot 0$: bit 1, carry 0. In general the carry can exceed 1, so after the last coefficient each position writes the low bit of the carry and passes on the high part, until the carry is 0. This stops because the carry after position $j$ is at most the total divided by $2^{j+1}$. The bits from least to most significant are 1, 1, 0, 1; reversing them gives 1011, which is 11.
+
+On the fixed-tape machine, a work tape is a scratch tape. The bits are written to it in the order they are produced, and the stream is then reversed. <cite data-source="paper">Write the resulting bits from least to most significant on a work tape, then reverse that stream and output exactly 2n bits in most-significant-first order.</cite>

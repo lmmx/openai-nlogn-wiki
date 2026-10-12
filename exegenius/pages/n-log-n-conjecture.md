@@ -1,0 +1,7 @@
+The n log n optimality conjecture is the claim that $n\log n$ is the optimal order of growth for the time needed to multiply two $n$-bit integers exactly. It is also called the Schönhage–Strassen conjecture, and it is the target against which faster multiplication methods are measured.
+
+Let $n$ be the number of bits in each of the two input integers. The conjecture bounds the cost of [Exact integer multiplication](exact-integer-multiplication.md), where the input is two $n$-bit binary strings and the output is their $2n$-bit product.
+
+Schoolbook multiplication takes $O(n^2)$ bit operations, so the question is how far below that the best method can go. In 1971 Schönhage and Strassen gave a multitape Turing machine algorithm running in $O(n\log n\log\log n)$ time <cite data-source="paper">Schönhage and Strassen proved in 1971 that two n-bit integers can be multiplied in O(n log n log log n) time on a multitape Turing machine</cite>. They also proposed that $n\log n$ is the optimal order of growth <cite data-source="paper">proposed n log n as the optimal order of growth</cite>.
+
+Harvey and van der Hoeven later reached an unconditional $O(n\log n)$ upper bound, meaning one that needs no extra unproven hypothesis <cite data-source="paper">Harvey and van der Hoeven reached the unconditional O(n log n) upper bound</cite>. The open question is whether this upper bound is also optimal: whether no exact method can do asymptotically better than $n\log n$.

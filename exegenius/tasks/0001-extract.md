@@ -1,6 +1,6 @@
 # exegenius task 0001-extract
 
-Project directory: `/home/louis/lab/openai-nlogn` (paths below are relative to it)
+Project directory: `/mnt/openai-nlogn` (paths below are relative to it)
 
 Decompose the source documents into the concepts a specific reader must understand to reach a target result. Your answer is a prerequisite graph that becomes a wiki with one explanatory page per concept the reader does not already know.
 
