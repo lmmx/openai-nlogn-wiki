@@ -1,7 +1,0 @@
-A phase twist is a coefficientwise multiplication by roots of unity that makes the wrap-around of one cyclic coordinate into a sign change. It is what lets a cyclic convolution in that coordinate be computed inside a polynomial ring.
-
-The phase twist follows [Bluestein's chirp identity](bluestein-chirp-identity.md), which has already turned the middle transform into a normalized cyclic convolution. A phase twist is based on the [polynomial ring modulo $y^r+1$](polynomial-ring-mod-yr-plus-1.md), into which it maps that coordinate.
-
-A phase twist multiplies the $j$-th coordinate of a length-$r$ sequence by $\theta^j$, where $\theta$ is a primitive $2r$-th root of unity. So $\theta^r=-1$, and the twist of an output coordinate is the factor that undoes the sign of a wrapped term.
-
-Take $r=2$ and $\theta=i$. Let $a=(a_0,a_1)$ and $b=(b_0,b_1)$ have cyclic product $c=(a_0b_0+a_1b_1,\; a_0b_1+a_1b_0)$. Twist the inputs to $(a_0,\,ia_1)$ and $(b_0,\,ib_1)$ and multiply modulo $y^2+1$. The first coordinate is $a_0b_0+(ia_1)(ib_1)(-1)=a_0b_0+a_1b_1$, because the wrapped term $y^2$ equals $-1$. The second coordinate is $i(a_0b_1+a_1b_0)$. So the product in the polynomial ring is the cyclic product with its $j$-th coordinate multiplied by $\theta^j$, and untwisting the output by $\theta^{-j}$ recovers $c$. <cite data-source="paper">its negative wrap gives precisely the original cyclic wrap after the twist is removed</cite>.

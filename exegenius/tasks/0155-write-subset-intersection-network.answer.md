@@ -1,9 +1,0 @@
-A subset-intersection network is a fixed linear network on the three-element subsets of a ground set. It is the exchange step that the [address-field interchange](address-interchange.md) applies recursively. It exchanges two banks of scalars while restoring every scratch wire, meaning every auxiliary wire ends with the value it started with.
-
-The network is based on [linear networks and frames](linear-network-frames.md), so its wires carry scalars and its gates combine them. Gates are the vertices that combine values, and terminals are the endpoints where the two banks attach. The network attaches [subspace labels](subspace-labels.md) to its gates and terminals. Here $m$ is the dimension of the fixed space from which the labels are drawn.
-
-Take the ground set $\{1,2,3,4\}$. Two distinct three-element subsets of it always meet in exactly two elements, so a gate that depends only on intersection size treats every pair of distinct subsets alike. It treats a subset paired with itself, which meets in three elements, differently.
-
-Gather and scatter are the two operations that group values by intersection size. Gather combines the values whose subsets share a given intersection size, and scatter spreads a value back over those subsets. <cite data-source="paper">The construction uses three-element subsets: gather and scatter create coefficients depending on intersection size, and auxiliary wires cancel the unwanted coefficients.</cite> Such coefficients, with the rest cancelled, give an exchange whose subspace ranks can be controlled.
-
-Here $s$ is the total number of smaller calls made by one call. Here $q$ is the factor by which the stream volume shrinks, so each smaller call works on a stream of $1/q$ of the volume. The step needs the inequality $s<qm$, which is the property the rest of the argument uses.

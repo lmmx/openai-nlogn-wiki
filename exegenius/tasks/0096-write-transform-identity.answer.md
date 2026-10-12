@@ -1,5 +1,0 @@
-The transform identity with retained permutations rewrites [Gaussian resampling](gaussian-resampling.md) so that the source and target coordinate permutations stay inside the formula. It is applied inside a [cyclic convolution](cyclic-convolution.md), so its transforms run without executing those permutations as sorts.
-
-Gaussian resampling replaces a transform of arbitrary length by transforms whose lengths are powers of two. Its usual implementation sorts each coordinate twice, once into source order and once into target order, and on a fixed tape each sort is paid for in full. The identity instead keeps both permutations in the formula and computes that formula directly. <cite data-source="paper">We retain both permutations in the transform formula</cite>.
-
-Take four coordinates whose source order reverses them. Sorting into that order moves every coordinate once, and sorting back moves them all again. With the permutation kept symbolic, nothing moves. A permutation followed by its inverse is the identity, so the formula can drop such a pair, and the pair is never executed.
