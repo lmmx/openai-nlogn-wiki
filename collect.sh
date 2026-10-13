@@ -11,5 +11,5 @@ done
 for run in "$root"/runs/*/; do
   (cd "$run" && exegenius status > status.txt 2>&1 || true)
 done
-{ exegenius --version; claude --version 2>/dev/null || true; git -C "${EXEGENIUS_SRC:-$HOME/exegenius}" rev-parse HEAD 2>/dev/null || true; } > "$root/results/versions.txt"
+{ exegenius --version; claude --version 2>/dev/null || true; git -C "${EXEGENIUS_SRC:-/home/user/exegenius}" rev-parse HEAD 2>/dev/null || echo "exegenius clone not found"; } > "$root/results/versions.txt"
 du -sh "$root/results/transcripts"

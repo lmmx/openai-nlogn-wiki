@@ -11,9 +11,12 @@ in lmmx/exegenius (branch `timing-and-parallelism`).
 `paper.tex`. With `[checks] coverage = "reject"`, exegenius sends such an answer back, naming
 the unread sections. Does the planner then read them and produce a better plan?
 
-**Conditions.** Four planning-only runs, same binary, same config, same definitions:
-- `A1`, `A2`: `[checks] coverage = "report"` (control: nothing is sent back)
-- `B1`, `B2`: `[checks] coverage = "reject"` (treatment: sent back at most twice)
+**Replication.** This branch repeats the experiment of branch `131026-exp-coverage-recovery`
+(results at commit 52704ba, runs A1, A2, B1, B2) with four more runs per condition.
+
+**Conditions.** Eight planning-only runs, same binary, same config, same definitions:
+- `A3`, `A4`, `A5`, `A6`: `[checks] coverage = "report"` (control: nothing is sent back)
+- `B3`, `B4`, `B5`, `B6`: `[checks] coverage = "reject"` (treatment: sent back at most twice)
 
 ## Protocol
 
@@ -34,8 +37,8 @@ that part, record exactly what happened, and go on to the report.
    `exegenius --version` prints 0.6.0 and `git rev-parse --short HEAD` in the clone prints
    `1d90c28`. If attaching or building is refused, stop and report it (step 6): do not try
    another route.
-3. **Set up the runs:** `./setup-run.sh A1 report`, `./setup-run.sh A2 report`,
-   `./setup-run.sh B1 reject`, `./setup-run.sh B2 reject`.
+3. **Set up the runs:** `./setup-run.sh A3 report` and likewise `A4`, `A5`, `A6` with
+   `report`; `./setup-run.sh B3 reject` and likewise `B4`, `B5`, `B6` with `reject`.
 4. **Run each to the end of planning.** In each run directory, run the exegenius loop as
    `.claude/skills/exegenius/SKILL.md` describes, with these rules. The runs may go on at
    the same time.
@@ -62,10 +65,10 @@ that part, record exactly what happened, and go on to the report.
    Do not judge whether recovery worked: that analysis is done from the pushed artefacts.
    A run that ended badly is a result, not something to fix.
 7. **Commit and push** everything (runs, results, RESULTS.md) to this branch,
-   `131026-exp-coverage-recovery`, as Louis Maddox <louismmx@gmail.com>
+   `131026-exp-coverage-recovery-2`, as Louis Maddox <louismmx@gmail.com>
    (`git -c user.name="Louis Maddox" -c user.email=louismmx@gmail.com commit ...`), with no
    Co-Authored-By, "Generated with" or session-link lines. Verify the push (local HEAD equals
    the remote branch). Do not open a pull request.
 8. **Tell the development session:** send a message to session
    `session_017HFxUWtQFLBWkSui3shhmS` saying the branch and commit pushed and one line of
-   status (for example "4 runs completed" or "stopped at step 1: planner type not offered").
+   status (for example "8 runs completed" or "stopped at step 1: planner type not offered").
