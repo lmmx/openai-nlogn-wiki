@@ -5,6 +5,8 @@ The development session in lmmx/exegenius designed it and analyses the results; 
 executes it exactly and reports facts. Preregistration: `calibration/plans/S1.md` in
 lmmx/exegenius. Method: `calibration/PROTOCOL.md`.
 
+**Attempt 2.** The first runner was refused `add_repo` (`results-attempt-1.md`). The author has authorised an allow rule for `mcp__claude-code-remote__add_repo` in `.claude/settings.json` on this branch, and only that rule. Nothing else about the protocol has changed.
+
 **Question.** At the planning configuration of E1 and E3, does a cheaper model reach a basic quality bar, and does a stronger one match or exceed Sonnet at high effort? Two runs per arm (screening).
 
 **Arms.** 2 runs per arm, same binary, configuration (`arm.toml`, the same for every arm),
