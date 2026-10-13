@@ -26,13 +26,23 @@ fails, stop that part, record exactly what happened, and go on to the report.
    either is missing, stop: push nothing but `RESULTS.md` saying which, and report it
    (step 6).
 2. **Attach and build exegenius.** lmmx/exegenius is the tool under test and part of this
-   session's work: attach it to the session with the `add_repo` tool, `access: "push"` (which
-   attaches it as a source of the session). Never push to lmmx/exegenius: this session pushes
-   only to this wiki branch. Clone it as `add_repo` instructs, check out commit `cc70355`,
-   run `cargo build --release` in it, and put `target/release/exegenius` on PATH (for
-   example copy it to `/usr/local/bin`). Check that `exegenius --version` prints 0.6.0 and
-   `git rev-parse --short HEAD` in the clone prints `cc70355`. If attaching or building is
-   refused, stop and report it (step 6): do not try another route.
+   session's work. Never push to lmmx/exegenius: this session pushes only to this wiki
+   branch. Do these as **separate steps, each in its own tool call, in this order, waiting
+   for each to finish** (a first attempt, `results-attempt-1.md`, ran the registration in
+   the same turn as the build, and the build was refused because the clone was not yet a
+   registered source):
+   1. `add_repo` with `owner: lmmx`, `repo: exegenius`, `access: "push"`;
+   2. clone it as `add_repo` instructs, to `/home/user/exegenius`, and fetch enough history
+      to contain commit `cc70355`;
+   3. `git checkout cc70355` in the clone, on its own;
+   4. `register_repo_root` for lmmx/exegenius at `/home/user/exegenius`, on its own, and
+      wait for its result;
+   5. only then, `cargo build --release` in the clone, and copy `target/release/exegenius`
+      to `/usr/local/bin`.
+
+   Check that `exegenius --version` prints 0.6.0 and `git rev-parse --short HEAD` in the
+   clone prints `cc70355`. If a step is refused, stop and report it (step 6): do not try
+   another route.
 3. **Set up the runs:** `./setup-run.sh M1` and likewise `M2`–`M5`.
 4. **Run each to the end of planning.** In each run directory, run the exegenius loop as
    `.claude/skills/exegenius/SKILL.md` describes, with these rules. The runs may go on at
