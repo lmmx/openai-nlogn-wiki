@@ -2,8 +2,8 @@
 # usage: ./setup-run.sh RUN
 # Makes runs/RUN: the planner-handoff run's exegenius.toml with [checks] coverage = "reject"
 # and coverage_depth = "sections" (the defaults of the binary under test, written out), and
-# paper.tex. Both arms use the same configuration; they differ only in the subagent type
-# the runner gives the tasks to (EXPERIMENT.md).
+# paper.tex. The configuration is E1's; this experiment changes only the effort the runner
+# passes (EXPERIMENT.md).
 set -euo pipefail
 run=$1
 root=$(cd "$(dirname "$0")" && pwd)
