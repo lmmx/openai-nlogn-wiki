@@ -1,6 +1,7 @@
 # Experiment: does a coverage rejection make the planner recover?
 
-This branch is a fixed protocol, run by a separate Claude Code cloud session (the runner).
+Earlier attempts are recorded in `attempts/`: their runner had only this repository attached,
+so building exegenius was refused as code from outside the session. This branch is a fixed protocol, run by a separate Claude Code cloud session (the runner).
 The development session in lmmx/exegenius designed it and analyses the results; the runner
 executes it exactly and reports facts. Background: `docs/journal/2026-10-13-coverage-recovery.md`
 in lmmx/exegenius (branch `timing-and-parallelism`).
@@ -23,12 +24,16 @@ that part, record exactly what happened, and go on to the report.
 1. **Check the planner definition loaded.** This session must offer `exegenius-planner` as a
    subagent type (it loads from `.claude/agents/` at the repository root when the session
    starts). If it does not, stop: push nothing, and report that as the blocker (step 6).
-2. **Build exegenius** from lmmx/exegenius at commit `1d90c28` (branch
-   `timing-and-parallelism`): clone it to `~/exegenius` (if the clone is refused, add the
-   repository to the session for read access and clone again), `cargo build --release`, and
-   put `target/release/exegenius` on PATH (for example copy it to `/usr/local/bin`). Check
-   `exegenius --version` prints 0.6.0 and `git -C ~/exegenius rev-parse --short HEAD` prints
-   `1d90c28`.
+2. **Attach and build exegenius.** lmmx/exegenius is the tool under test and part of this
+   session's work: attach it to the session with the `add_repo` tool, `access: "push"` (which
+   attaches it as a source of the session; `read` only reports that a public repository is
+   readable and attaches nothing). Never push to lmmx/exegenius: this session pushes only to
+   this wiki branch. Clone it as `add_repo` instructs, check out commit `1d90c28` (branch
+   `timing-and-parallelism`), run `cargo build --release` in it, and put
+   `target/release/exegenius` on PATH (for example copy it to `/usr/local/bin`). Check that
+   `exegenius --version` prints 0.6.0 and `git rev-parse --short HEAD` in the clone prints
+   `1d90c28`. If attaching or building is refused, stop and report it (step 6): do not try
+   another route.
 3. **Set up the runs:** `./setup-run.sh A1 report`, `./setup-run.sh A2 report`,
    `./setup-run.sh B1 reject`, `./setup-run.sh B2 reject`.
 4. **Run each to the end of planning.** In each run directory, run the exegenius loop as
@@ -57,7 +62,7 @@ that part, record exactly what happened, and go on to the report.
    Do not judge whether recovery worked: that analysis is done from the pushed artefacts.
    A run that ended badly is a result, not something to fix.
 7. **Commit and push** everything (runs, results, RESULTS.md) to this branch,
-   `exp-coverage-recovery`, as Louis Maddox <louismmx@gmail.com>
+   `131026-exp-coverage-recovery`, as Louis Maddox <louismmx@gmail.com>
    (`git -c user.name="Louis Maddox" -c user.email=louismmx@gmail.com commit ...`), with no
    Co-Authored-By, "Generated with" or session-link lines. Verify the push (local HEAD equals
    the remote branch). Do not open a pull request.
