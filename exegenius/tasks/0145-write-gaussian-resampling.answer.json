@@ -1,0 +1,133 @@
+{
+  "symbols": [
+    {
+      "symbol": "s",
+      "name": "source length",
+      "meaning": "The number of coordinates of the source transform.",
+      "relation": "count",
+      "quote": "Gaussian resampling rewrites a [Discrete Fourier transform](fourier-transform.md) of length $s$, the number of its coordinates, as a transform of a longer length $t$, keeping both coordinate permutations inside the transform identity."
+    },
+    {
+      "symbol": "t",
+      "name": "target length",
+      "meaning": "The length of the target transform, which is larger than s.",
+      "relation": "count",
+      "quote": "Gaussian resampling rewrites a [Discrete Fourier transform](fourier-transform.md) of length $s$, the number of its coordinates, as a transform of a longer length $t$, keeping both coordinate permutations inside the transform identity."
+    },
+    {
+      "symbol": "F_q",
+      "name": "normalized transform",
+      "meaning": "The normalized Fourier transform of a vector of length q.",
+      "relation": "direct",
+      "quote": "Let $F_q$ be the normalized transform of length $q$: $(F_q u)_k=\\frac1q\\sum_{j=0}^{q-1}u_j e^{-2\\pi i jk/q}$."
+    },
+    {
+      "symbol": "\\sigma",
+      "name": "Gaussian width",
+      "meaning": "A fixed integer at least 2 that sets the width of the Gaussian weights.",
+      "relation": "direct",
+      "quote": "Fix an integer width $\\sigma\\ge2$, the Gaussian width."
+    },
+    {
+      "symbol": "K",
+      "name": "sampling map",
+      "meaning": "The map from vectors of length s to vectors of length t whose weights are Gaussians centred at sk/t.",
+      "relation": "direct",
+      "quote": "Let $K$ and $M$ map $\\mathbb C^s$ to $\\mathbb C^t$ by"
+    },
+    {
+      "symbol": "M",
+      "name": "spreading map",
+      "meaning": "The map from vectors of length s to vectors of length t whose weights are Gaussians centred at tj/s.",
+      "relation": "direct",
+      "quote": "Let $K$ and $M$ map $\\mathbb C^s$ to $\\mathbb C^t$ by"
+    },
+    {
+      "symbol": "P_s",
+      "name": "source permutation",
+      "meaning": "The coordinate permutation of length-s vectors sending u to the vector with entries u_{tj}.",
+      "relation": "direct",
+      "quote": "Let $P_s$ and $P_t$ be the coordinate permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$, with $v$ of length $t$ (here $v$ is new)."
+    },
+    {
+      "symbol": "P_t",
+      "name": "target permutation",
+      "meaning": "The coordinate permutation of length-t vectors sending v to the vector with entries v_{-sk}.",
+      "relation": "direct",
+      "quote": "Let $P_s$ and $P_t$ be the coordinate permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$, with $v$ of length $t$ (here $v$ is new)."
+    },
+    {
+      "symbol": "v",
+      "name": "length-t vector",
+      "meaning": "A vector of length t, the input of the target permutation P_t.",
+      "relation": "direct",
+      "quote": "Let $P_s$ and $P_t$ be the coordinate permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$, with $v$ of length $t$ (here $v$ is new)."
+    },
+    {
+      "symbol": "\\theta",
+      "name": "relative excess",
+      "meaning": "The number t/s - 1, the relative excess of the target length over the source length.",
+      "relation": "direct",
+      "quote": "The hypotheses are $p>100$, $2\\le\\sigma<\\sqrt p$, $s<t<2^p$ and $\\theta>p/\\sigma^4$, where $p$ is the integer precision and $\\theta=t/s-1$."
+    },
+    {
+      "symbol": "\\rho_j",
+      "name": "nearest integer",
+      "meaning": "The integer nearest tj/s, with ties rounded up, which selects a coordinate.",
+      "relation": "direct",
+      "quote": "Let $\\rho_j=\\lfloor tj/s+\\tfrac12\\rfloor$ be the integer nearest $tj/s$, with ties rounded up."
+    },
+    {
+      "symbol": "\\delta_j",
+      "name": "offset",
+      "meaning": "The signed distance from tj/s to its nearest integer, with absolute value at most 1/2.",
+      "relation": "direct",
+      "quote": "Let $\\delta_j=tj/s-\\rho_j$, so $|\\delta_j|\\le\\tfrac12$."
+    },
+    {
+      "symbol": "\\Lambda",
+      "name": "selection map",
+      "meaning": "The map from length-t vectors to length-s vectors that selects coordinate rho_j for each j.",
+      "relation": "direct",
+      "quote": "Let $\\Lambda:\\mathbb C^t\\to\\mathbb C^s$ select coordinate $\\rho_j$, $(\\Lambda v)_j=v_{\\rho_j}$."
+    },
+    {
+      "symbol": "\\Delta",
+      "name": "diagonal correction",
+      "meaning": "The diagonal map on length-s vectors that multiplies entry j by exp(pi sigma^2 delta_j^2).",
+      "relation": "direct",
+      "quote": "Let $\\Delta$ multiply entry $j$ by $e^{\\pi\\sigma^2\\delta_j^2}$."
+    },
+    {
+      "symbol": "N",
+      "name": "near-identity map",
+      "meaning": "The composite of the selection map, the spreading map and the diagonal correction, a map from length-s vectors to themselves that is close to the identity.",
+      "relation": "direct",
+      "quote": "Let $N=\\Lambda M\\Delta$ be the map from $\\mathbb C^s$ to itself."
+    },
+    {
+      "symbol": "\\nu",
+      "name": "power exponent",
+      "meaning": "The positive integer exponent with t = 2^nu in the application.",
+      "relation": "direct",
+      "quote": "In the application $t=2^{\\nu}$, where $\\nu$ is a positive integer, so $F_t$ has power-of-two length."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "fourier-transform",
+      "predicate": "rewrites",
+      "quote": "Gaussian resampling rewrites a [Discrete Fourier transform](fourier-transform.md) of length $s$, the number of its coordinates, as a transform of a longer length $t$, keeping both coordinate permutations inside the transform identity."
+    },
+    {
+      "prerequisite": "operator-norm",
+      "predicate": "is measured by",
+      "quote": "Gaussian resampling is measured by the [operator norm of a linear map](operator-norm.md), $\\|L\\|=\\sup_{\\|u\\|\\le1}\\|Lu\\|$, so a linear map $L$ is a *contraction* when $\\|L\\|\\le1$."
+    },
+    {
+      "prerequisite": "multidim-transform",
+      "predicate": "expresses each source transform through",
+      "quote": "Thus Gaussian resampling expresses each source transform through a [Multidimensional transform with power-of-two axes](multidim-transform.md)."
+    }
+  ]
+}

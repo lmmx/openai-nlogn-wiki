@@ -1,0 +1,11 @@
+A multidimensional transform with power-of-two axes is the [Discrete Fourier transform](fourier-transform.md) applied along every coordinate of an array whose coordinate lengths are powers of two. [Gaussian resampling](gaussian-resampling.md) uses it in place of prime-length transforms. Harvey and van der Hoeven's reduction replaces the Fourier transforms needed for convolution by multidimensional transforms <cite data-source="paper">whose axis lengths are powers of two</cite>.
+
+Let $d$ be the number of axes, and for each axis $\ell = 1,\dots,d$ let $r_\ell$, a power of two, be the number of entries along that axis. Here $j_\ell$ and $k_\ell$ are the input and output indices along axis $\ell$, both ranging over $0,\dots,r_\ell-1$. Let $A$ be the input array, with entries $A_{j_1\cdots j_d}$, and $B$ the transformed array, with entries $B_{k_1\cdots k_d}$. The letters $A$, $B$, $j$ and $k$ take these meanings here.
+
+The transform applies one [Discrete Fourier transform](fourier-transform.md) on each axis, and is built with the [tensor product](tensor-product.md) of these one-axis maps, so each map acts only along its own axis. The map for axis $\ell$ has entry $\frac{1}{r_\ell}\exp(-2\pi\mathrm{i}\,j_\ell k_\ell/r_\ell)$ in row $k_\ell$ and column $j_\ell$. The entry of a tensor product of matrices is the product of the factor entries, so the entry in row $(k_1,\dots,k_d)$ and column $(j_1,\dots,j_d)$ is the product over $\ell$ below, with the factors $1/r_\ell$ multiplying to $1/(r_1\cdots r_d)$. Applying this matrix to $A$ gives $B$:
+
+$$B_{k_1\cdots k_d}=\frac{1}{r_1\cdots r_d}\sum_{j_1=0}^{r_1-1}\cdots\sum_{j_d=0}^{r_d-1}A_{j_1\cdots j_d}\prod_{\ell=1}^{d}\exp\Big(-\frac{2\pi\mathrm{i}\,j_\ell k_\ell}{r_\ell}\Big).$$
+
+Each factor of the product depends on one axis only, so the sum over $j_1$ can be taken first, then $j_2$, and so on. Each step is the length-$r_\ell$ transform applied to every line of entries along axis $\ell$, so the axes can be processed one at a time, in any order.
+
+Take $d=2$ and $r_1=r_2=2$. The length-2 transform sends $(u_0,u_1)$ to $((u_0+u_1)/2,(u_0-u_1)/2)$, since $\exp(-\pi\mathrm{i})=-1$. For $A_{00}=1$, $A_{01}=2$, $A_{10}=3$, $A_{11}=4$, the formula gives $B_{00}=5/2$, $B_{01}=-1/2$, $B_{10}=-1$ and $B_{11}=0$.

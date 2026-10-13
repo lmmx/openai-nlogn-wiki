@@ -1,0 +1,477 @@
+{
+  "target": "fixed-tape-multiplication",
+  "concepts": [
+    {
+      "id": "big-o",
+      "name": "Big-O notation",
+      "aliases": ["O(n)"],
+      "gloss": "Notation bounding how a function grows asymptotically, up to a constant factor, as its input grows.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "title": null
+    },
+    {
+      "id": "polynomial",
+      "name": "Polynomials",
+      "aliases": [],
+      "gloss": "Expressions sum of constant multiples of powers of a variable, whose coefficients can be listed in order.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "title": null
+    },
+    {
+      "id": "complex-numbers",
+      "name": "Complex numbers",
+      "aliases": ["Gaussian integers"],
+      "gloss": "Numbers a + ib with real a and b and imaginary unit i satisfying i² = −1.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "title": null
+    },
+    {
+      "id": "multitape-tm",
+      "name": "Multitape Turing machine",
+      "aliases": ["multitape Turing machine"],
+      "gloss": "A Turing machine with several tapes, each with its own head, that reads and writes at most one cell per tape per step.",
+      "requires": [],
+      "known": true,
+      "evidence": [],
+      "title": null
+    },
+    {
+      "id": "fixed-tape-model",
+      "name": "Fixed-tape machine model",
+      "aliases": ["fixed finite-tape model"],
+      "gloss": "A multitape Turing machine with one fixed finite alphabet and a fixed finite number of one-dimensional tapes, the same for every input length.",
+      "requires": ["multitape-tm", "big-o"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "a fixed finite alphabet and a fixed finite number of one-dimensional tapes"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "schonhage-strassen-conjecture",
+      "name": "Schonhage-Strassen optimality conjecture",
+      "aliases": ["n log n optimality conjecture"],
+      "gloss": "The conjecture that n log n is the optimal order of growth of the time needed to multiply two n-bit integers on a multitape Turing machine.",
+      "requires": ["big-o", "fixed-tape-model"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "proposed $n\\log n$ as the optimal order of growth"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "power-saving",
+      "name": "Power saving in the logarithmic factor",
+      "aliases": ["(lg n)^(1-kappa) saving"],
+      "gloss": "A bound of the form n times (lg n) raised to the power 1 − κ for a fixed κ > 0, which is smaller than n log n by a polynomial factor in log n.",
+      "requires": ["big-o", "schonhage-strassen-conjecture"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "We obtain a strict power saving in the"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "linear-network",
+      "name": "Linear network",
+      "aliases": ["fixed linear network"],
+      "gloss": "A fixed network of wires with gates that apply fixed linear maps to the values on their wires, used here to exchange two banks of values while restoring all auxiliary values.",
+      "requires": [],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Each procedure arises from its own fixed linear network that exchanges two"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "frame",
+      "name": "Frame of a vertex",
+      "aliases": ["frame"],
+      "gloss": "An invertible linear operator attached to a gate or terminal that sets how the array on each wire there is stored; changing frames along an edge cancels between the two ends of a route.",
+      "requires": ["linear-network"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "We call $D_v$ its frame"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "role-streams",
+      "name": "Role streams from a cyclic row split",
+      "aliases": ["roles"],
+      "gloss": "Splitting the rows of an array cyclically among the W fixed wire roles of a network, so that each role carries an equal share of the volume and gates act pointwise on matching addresses.",
+      "requires": ["linear-network"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Distribute rows cyclically among the $W$ roles"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "subset-network",
+      "name": "Subset-intersection finite network",
+      "aliases": ["three-element subset network"],
+      "gloss": "A linear network over three-element subsets of a fixed ground set, whose gather, scatter, copy and side wires implement the scalar exchange of two banks by intersection-size coefficients over F_2 or Z[i,1/2].",
+      "requires": ["linear-network"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "three-element subsets: gather and scatter create coefficients depending"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "subspace-labels",
+      "name": "Nested subspace labels",
+      "aliases": [],
+      "gloss": "Assignments of subspaces of a fixed space to the gates and terminals of a network, nested along edges, whose dimension drops measure the smaller operations needed on each edge.",
+      "requires": ["frame", "subset-network"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The subspaces at adjacent vertices are nested."
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "address-shear",
+      "name": "Address shear",
+      "aliases": ["H + D shear"],
+      "gloss": "The address permutation that replaces the first of two address fields H by H + D, leaving D fixed, which is the endpoint operator of the bit network on arrays.",
+      "requires": ["linear-network", "frame"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "For the bit procedure, that endpoint operator is an address shear:"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "recursive-saving",
+      "name": "Rank-saving recursion",
+      "aliases": ["recursive saving"],
+      "gloss": "A recursive scheme in which an edge matrix of rank a costs a smaller calls and the total number s of smaller calls over W roles satisfies s < Wm, so that multiplying the parameter by m multiplies the cost by less than m per unit volume.",
+      "requires": ["frame", "role-streams", "subspace-labels"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The decisive property is that the total"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "tape-interchange",
+      "name": "Fast interchange of address chunks",
+      "aliases": ["chunk interchange"],
+      "gloss": "A fixed-tape procedure that swaps two disjoint equal-width address fields of an array in time O(V u^τ) for a fixed τ < 1, where V is the stored volume and u the field width, using XOR combinations of intermediate data.",
+      "requires": ["fixed-tape-model", "address-shear", "recursive-saving"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The first procedure interchanges two disjoint contiguous address fields"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "gaussian-dyadic",
+      "name": "Gaussian dyadic numbers",
+      "aliases": ["Gaussian dyadics"],
+      "gloss": "Complex numbers whose real and imaginary parts are both dyadic rationals, that is, have power-of-two denominators.",
+      "requires": ["complex-numbers"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Intermediate values are exact Gaussian dyadics,"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "butterfly-layer",
+      "name": "Simultaneous butterfly layer H₀",
+      "aliases": ["H_0 layer"],
+      "gloss": "The map H₀(u,v) = ((u+v)/2, (u−v)/2) applied at once to a selected coordinate bit of every chunk, a two-point butterfly acting coefficientwise on polynomial records.",
+      "requires": ["gaussian-dyadic", "frame", "complex-numbers"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "simultaneously on selected coordinate bits of the numerical arrays."
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "polynomial-ring",
+      "name": "Polynomial ring modulo yʳ + 1",
+      "aliases": ["C[y]/(y^r+1)"],
+      "gloss": "The ring of complex polynomials of degree less than r, with multiplication reduced modulo y^r + 1; multiplication by a power of y permutes and sign-changes the coefficient list.",
+      "requires": ["polynomial", "complex-numbers"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "is stored as the coefficient list of a polynomial modulo $y^r+1$, with $r$ a power of two."
+        }
+      ],
+      "title": "Polynomial ring modulo $y^r + 1$",
+      "symbols": [
+        {
+          "symbol": "y",
+          "name": "polynomial variable",
+          "meaning": "The formal variable whose powers act as roots of unity on the remaining axes.",
+          "relation": "direct"
+        },
+        {
+          "symbol": "r",
+          "name": "coefficient count",
+          "meaning": "The number of complex coefficients in each polynomial record, which is a power of two.",
+          "relation": "count"
+        }
+      ]
+    },
+    {
+      "id": "roots-of-unity",
+      "name": "Root of unity",
+      "aliases": ["primitive root of unity"],
+      "gloss": "A number whose some positive integer power equals one; here powers of y in the polynomial ring play this role.",
+      "requires": ["complex-numbers"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "serve as roots of unity in the remaining axes"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "synthetic-transform",
+      "name": "Synthetic polynomial transform",
+      "aliases": ["synthetic transform", "polynomial transform"],
+      "gloss": "A discrete Fourier transform whose roots of unity are powers of y in the polynomial ring, so that each twiddle multiplication is a signed shift and the transform is computed by simultaneous butterfly layers.",
+      "requires": ["polynomial-ring", "roots-of-unity", "butterfly-layer"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "These are the synthetic polynomial transforms of Nussbaumer and Quandalle and"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "fourier-transform",
+      "name": "Discrete Fourier transform",
+      "aliases": ["Fourier transform"],
+      "gloss": "The map sending a vector u of length q to the vector whose k-th entry is (1/q) times the sum over j of u_j times exp(−2πijk/q).",
+      "requires": ["complex-numbers"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "replaces the Fourier transforms needed for"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "multidim-transform",
+      "name": "Multidimensional transform with power-of-two axes",
+      "aliases": ["power-of-two tensor transform"],
+      "gloss": "A transform on an array indexed by several coordinates, each with length a power of two, obtained as a tensor product of one-dimensional Fourier transforms.",
+      "requires": ["fourier-transform"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "transforms whose axis lengths are powers of two"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "gaussian-resampling",
+      "name": "Gaussian resampling",
+      "aliases": ["Gaussian gridding"],
+      "gloss": "A rewriting of a Fourier transform of prime length as a transform with power-of-two axis lengths, with source and target coordinate permutations kept inside the transform identity.",
+      "requires": ["fourier-transform", "multidim-transform"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Gaussian resampling then expresses each source Fourier transform through a"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "cyclic-convolution",
+      "name": "Cyclic convolution",
+      "aliases": ["convolution modulo x^S - 1"],
+      "gloss": "The product of two coefficient lists in the ring of polynomials modulo x^S − 1, in which exponents wrap around modulo S.",
+      "requires": ["polynomial"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Thus convolution modulo $x^S-1$ has no nonzero wraparound."
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "bluestein",
+      "name": "Bluestein's chirp identity",
+      "aliases": ["chirp identity"],
+      "gloss": "An identity writing a Fourier transform as a cyclic convolution sandwiched between pointwise multiplications by chirp sequences exp(−πi s j² / t).",
+      "requires": ["cyclic-convolution", "fourier-transform"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Next, Bluestein's chirp identity converts the middle transform,"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "crt-axis-map",
+      "name": "Chinese-remainder axis map",
+      "aliases": ["Chinese-remainder address map"],
+      "gloss": "The bijection sending a coefficient index written in mixed radix with pairwise coprime lengths to coordinates on a product of cyclic axes, which turns one cyclic convolution into a multidimensional one.",
+      "requires": ["cyclic-convolution"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Agarwal and Cooley used the Chinese remainder"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "radix-digit-convolution",
+      "name": "Radix-digit convolution",
+      "aliases": ["radix-2^b digit polynomials"],
+      "gloss": "Writing each n-bit input as a polynomial in 2^b with about n/b nonnegative digits, so that integer multiplication becomes a convolution whose coefficients are bounded by a fixed power of two.",
+      "requires": ["cyclic-convolution", "polynomial"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Splitting the inputs into radix digits reduces multiplication to"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "signed-packing",
+      "name": "Signed coefficient packing",
+      "aliases": ["Kronecker substitution"],
+      "gloss": "Encoding a polynomial with signed integer coefficients as one integer by placing coefficients at fixed bit offsets, so that a polynomial product becomes an integer product.",
+      "requires": ["polynomial"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Signed coefficient packing is a form of Kronecker substitution"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "multiplier-subroutine",
+      "name": "Established fast multiplier",
+      "aliases": ["Harvey-van der Hoeven multiplier"],
+      "gloss": "The known deterministic O(n log n) multiplication algorithm of Harvey and van der Hoeven, used as a black-box subroutine on shorter integers.",
+      "requires": ["big-o", "fixed-tape-model"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Calls to the established $O(n\\log n)$ multiplier are ordinary subroutine"
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "exact-recovery",
+      "name": "Exact recovery by rounding and carries",
+      "aliases": ["carry propagation"],
+      "gloss": "Recovering the exact integer coefficients of a convolution by rounding the computed values, whose error is below one half, and then propagating carries in radix 2^b.",
+      "requires": ["radix-digit-convolution", "gaussian-dyadic"],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Propagate radix-$2^b$ carries in increasing coefficient order."
+        }
+      ],
+      "title": null
+    },
+    {
+      "id": "fixed-tape-multiplication",
+      "name": "Fixed-tape integer multiplication with a power saving",
+      "aliases": ["main theorem"],
+      "gloss": "A deterministic fixed-tape Turing machine that multiplies two n-bit integers exactly in O(n(lg n)^(1−κ)) worst-case time, for a fixed κ = 2^(−182), disproving the n log n optimality conjecture in this model.",
+      "requires": [
+        "fixed-tape-model",
+        "power-saving",
+        "tape-interchange",
+        "butterfly-layer",
+        "synthetic-transform",
+        "gaussian-resampling",
+        "bluestein",
+        "crt-axis-map",
+        "radix-digit-convolution",
+        "signed-packing",
+        "multiplier-subroutine",
+        "exact-recovery"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "We give a deterministic algorithm that multiplies two $n$-bit integers"
+        }
+      ],
+      "title": null
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+A frame of a vertex is an invertible linear operator attached to a gate or terminal in a [Linear network](linear-network.md) that fixes how the array on each wire there is stored. Frames let the network keep data in different stored forms at different vertices, while the net effect of a route on each role's array stays a single endpoint operator, which the interchange argument needs.
+
+A vertex is a source, gate or sink of the network. Here $u$ and $v$ denote vertices, not the butterfly inputs of earlier pages. Write $D_v$ for the frame of a vertex $v$; it is an invertible linear operator on the space of arrays indexed by the common address set, the fixed finite set of positions that every role's array is indexed by. All incidences of one gate share its frame. If $g$ is the logical array on a wire at that vertex, the stored array is $D_v g$.
+
+Along an edge from $u$ to $v$, the frame change $D_vD_u^{-1}$ converts the stored form at $u$ into the stored form at $v$. <cite data-source="paper">changes the stored array from $D_ug$ to $D_vg$</cite> For example, if $D_u$ is the identity and $D_v = 2I$, then a logical array $g$ is stored as $g$ at $u$ and as $2g$ at $v$, and the change along the edge doubles it.
+
+A pointwise linear gate with input arrays $g_1,\ldots,g_t$ applies a fixed linear combination at every address: its output is $\sum_{i=1}^{t} c_i g_i$, with fixed scalars $c_1,\ldots,c_t$ and $i$ indexing the inputs. Because $D_v$ is linear, $\sum_{i=1}^{t} c_i (D_v g_i) = D_v\bigl(\sum_{i=1}^{t} c_i g_i\bigr)$. So applying the gate to the stored arrays $D_v g_1,\ldots,D_v g_t$ gives $D_v$ applied to its logical output, and the gate computes on stored arrays as it would on logical ones.
+
+The argument needs frames because a role's array may change representation along the network. Composing the frame changes along a route leaves only the frames at its two ends, <cite data-source="paper">the intermediate frames cancel</cite>

@@ -1,0 +1,7 @@
+A role stream is the share of an array's rows that one role of a fixed network carries, obtained by dealing the rows out cyclically. It is how a fixed network is applied to an array, and the [Fast interchange of address chunks](tape-interchange.md) step relies on it.
+
+A row is the complete ordered suffix of the active address fields, taken at a fixed prefix and row index. Let $W$ denote the number of roles, that is, the number of fixed wire places in the network. For each prefix, the row count is padded to a multiple of $W$, and the rows are then dealt cyclically: row $i$ goes to role $i \bmod W$. Take $W = 4$ and six rows. Padding adds two rows to make eight, so role 0 receives rows 0 and 4, role 1 receives rows 1 and 5, and so on, and each role holds two rows.
+
+Role streams are carried by the wires of a [Linear network](linear-network.md): each role is one wire place of it. Let $V$ denote the node volume after padding, the number of bits the node holds once its rows are padded. All role streams have the same local address set. Each role stream holds an equal share of the node, and <cite data-source="paper">each contains $V/W$ bits</cite>.
+
+A scalar gate, an operation on single values, is applied pointwise: it acts on the values at matching addresses of the roles it touches. This is how the network is used on an array, since each role stream occupies one wire place and the local addresses agree across roles.
