@@ -1,0 +1,9 @@
+Gaussian resampling is the reduction of Harvey and van der Hoeven that replaces the Fourier transforms of prime length in a convolution by transforms whose axes have power-of-two lengths. It is the step that makes the rest of the argument work on power-of-two axes, which the fast machinery of the main theorem can handle.
+
+The obstacle is that a standard FFT splits a transform of length $2m$ into two transforms of length $m$, so it needs a power-of-two length. A prime-length transform has no such split, so each prime axis would need its own algorithm.
+
+Harvey and van der Hoeven's reduction replaces each Fourier transform needed for the convolution by a multidimensional transform whose axes have power-of-two lengths <cite data-source="paper">by multidimensional transforms whose axis lengths are powers of two</cite>. The rewrite is an identity that the source states and proves; this page needs only its shape. Here $p$ denotes the number of points on one prime cyclic axis, a prime number. A transform of length $p$ evaluates a list of $p$ values at the $p$-th roots of unity. The identity expresses that evaluation through transforms over power-of-two axes, and the original values are read back from their results.
+
+It acts on the axes placed by the [Chinese-remainder map to prime cyclic axes](crt-address-map.md). Each such axis has prime length $p$, and the reduction removes the prime-length transform along it.
+
+The resulting transforms have power-of-two axes, so they can be computed by two-point butterflies. It evaluates its transforms by the butterfly layers of [Discrete Fourier transform and butterflies](dft-fft.md). Each butterfly layer costs linear time in the array it acts on, and a power-of-two transform has $\lg$ of its length many such layers. This is the reason the later speedups of butterfly layers and address moves can be applied to the transforms that the multiplication needs.

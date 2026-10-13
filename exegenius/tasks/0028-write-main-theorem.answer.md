@@ -1,0 +1,13 @@
+Integer multiplication in $O(n(\lg n)^{1-\kappa})$ time, the main theorem of this wiki, is that a fixed deterministic machine multiplies $n$-bit integers within this bound, where $n$ is the number of bits in each input integer and $\kappa=2^{-182}$ is the fixed saving exponent in the logarithmic factor. It disproves the [n log n optimality conjecture](nlogn-conjecture.md).
+
+One deterministic Turing machine computes the exact product for every $n\ge1$, <cite data-source="paper">with a fixed finite alphabet and a fixed finite number of one-dimensional tapes</cite>.
+
+Radix-digit splitting [reduces the integer product to a convolution](radix-digit-reduction.md) of short coefficients. The machine places the coefficient list by the [Chinese-remainder map to prime cyclic axes](crt-address-map.md) onto prime cyclic axes. Gaussian resampling, Bluestein's chirp and a phase twist then give a convolution over $\mathbb C[y]/(y^r+1)$. The machine computes its convolution by [Convolution with retained transform order and cancelled permutations](ring-convolution-retained-order.md). It recovers its coefficients by [Fixed-point precision and exact recovery](fixed-point-precision.md).
+
+The machine performs its address moves by [Fast interchange of address fields](fast-address-interchange.md). It performs its butterfly layers by [Fast simultaneous butterfly layers](fast-butterfly-layers.md).
+
+Let $V$ be the stored bit volume, $u$ the width of each address field, $d$ the number of equal-width address chunks in which one bit position is selected, and $\tau,\lambda'<1$ fixed exponents. Two tape procedures cost $O(Vu^\tau)$ for an address interchange of two $u$-bit fields and $O(Vd^{\lambda'})$ for a simultaneous butterfly layer.
+
+Both procedures come from fixed linear networks. Let $W$ be the number of roles of each network, $s$ the total number of its smaller calls and $m$ the dimension of the space whose subspaces label its gates, so that $s<Wm$. Let $k$ be the recursion level and $F_k$ the time divided by volume at level $k$, so that $u=m^k$. A call at level $k$ makes $s$ calls at level $k-1$, each on a stream of volume $V/W$, so $F_k\le (s/W)F_{k-1}+O(1)$ with $F_0=O(1)$. Since $s/W<m$, choose a rational $\tau\in(0,1)$ with $s/W<m^\tau$. Then the sum of $(s/W)^j$ over $j\le k$ is $O(m^{k\tau})$, so $F_k=O(u^\tau)$ and the interchange costs $O(Vu^\tau)$. The butterfly layer follows the same recursion.
+
+The $n\log n$ cost comes from scanning all stored bits at each of the $\Theta(\log n)$ transform levels. Faster versions of these operations lower the whole bound. The factor drops by $\kappa$ because $s<Wm$ is strict: the cost per unit volume grows as $m^{k\tau}$ with $\tau<1$, not linearly in the levels.
