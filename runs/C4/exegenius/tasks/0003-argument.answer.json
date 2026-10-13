@@ -1,0 +1,553 @@
+{
+ "root": {
+  "id": "R",
+  "intention": "show",
+  "claim": "Two $n$-bit integers are multiplied exactly by a deterministic fixed-tape machine in time $O(n(\\lg n)^{1-\\kappa})$ with $\\kappa=2^{-182}$.",
+  "method": "Reduce the product to convolution through a chain of exact changes of representation, supply the movement and butterfly cost savings by two fast tape procedures, and assemble parameters, precision and cost.",
+  "motivation": {
+   "text": "Scanning an array of $\\Theta(n)$ bits at each of $\\Theta(\\log n)$ transform levels costs $\\Theta(n\\log n)$, so both address movement and arithmetic must be sped up before the transform chain is used.",
+   "source": "explicit",
+   "quote": {
+    "source": "paper",
+    "quote": "We therefore need savings in both movement and arithmetic. Two tape"
+   }
+  },
+  "children": [
+   {
+    "id": "S1",
+    "intention": "infer",
+    "claim": "A machine with one fixed alphabet and a fixed number of tapes pays for moving data by scans, so a pass over $n$ bits costs $\\Theta(n)$.",
+    "quote": {
+     "source": "paper",
+     "quote": "A machine has one fixed finite alphabet and one fixed finite number of"
+    },
+    "page": "multitape-model",
+    "from": [
+     "turing-tapes",
+     "big-o"
+    ]
+   },
+   {
+    "id": "S2",
+    "intention": "show",
+    "claim": "Fixed linear exchange networks with $s<Wm$ give a recursion whose per-volume cost grows by a factor $s/W<m$ when the parameter is multiplied by $m$, hence cost $V\\cdot(\\text{parameter})^\\theta$ with $\\theta<1$.",
+    "method": "Build a fixed network on $W$ roles with frames, label its gates by nested subspaces of an $m$-dimensional space so that the number $s$ of smaller calls is below $Wm$, then solve the recursion.",
+    "motivation": {
+     "text": "The power saving comes only from a strict rank deficit across the edges of the network, so the argument must construct the network and its labels before the recursion can be analysed.",
+     "source": "explicit",
+     "quote": {
+      "source": "paper",
+      "quote": "is the source of the power saving. The later tape and arithmetic"
+     }
+    },
+    "children": [
+     {
+      "id": "S2.1",
+      "intention": "infer",
+      "claim": "With an invertible frame $D_v$ at each vertex, gates act pointwise and intermediate frames cancel, leaving an endpoint operator on each role array.",
+      "quote": {
+       "source": "paper",
+       "quote": "At each source, gate and sink $v$, assign an invertible $R$-linear operator"
+      },
+      "page": "linear-network-frames",
+      "from": [
+       "matrices-and-linear-maps",
+       "diagonal-matrices"
+      ]
+     },
+     {
+      "id": "S2.2",
+      "intention": "infer",
+      "claim": "Labelling gates by subspaces of an $m$-dimensional space built from three-element subsets makes adjacent edge operators nested, so the total number $s$ of smaller calls is less than $Wm$.",
+      "quote": {
+       "source": "paper",
+       "quote": "The saving will come from keeping the total dimension lost on decreasing"
+      },
+      "page": "subset-intersection-network",
+      "from": [
+       "linear-network-frames",
+       "vector-spaces-over-finite-fields",
+       "matrices-and-linear-maps"
+      ],
+      "salient": "The total rank is strictly below the trivial bound $Wm$ (a small but strict deficit), and this strictness is what the whole power saving rests on."
+     },
+     {
+      "id": "S2.3",
+      "intention": "infer",
+      "claim": "A call at parameter $mf$ uses $s$ calls at parameter $f$ on volume $V/W$ with $W$ roles and label dimension $m$, so $s/W<m^\\tau$ with $\\tau<1$ and the cost is $V$ times a power of the parameter below $1$.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\frac{s_{\\rm b}}{W_{\\rm b}}<m^\\tau,"
+      },
+      "page": null,
+      "from": []
+     }
+    ],
+    "page": "recursive-power-saving",
+    "from": [
+     "recurrences-and-divide-and-conquer",
+     "big-o",
+     "multitape-model"
+    ],
+    "adds": [
+     {
+      "symbol": "W",
+      "name": "number of roles",
+      "meaning": "the number of wires (roles) of the network, among which rows are distributed.",
+      "relation": "count"
+     },
+     {
+      "symbol": "m",
+      "name": "label dimension",
+      "meaning": "the dimension of the fixed space whose subspaces label the gates.",
+      "relation": "direct"
+     },
+     {
+      "symbol": "s",
+      "name": "number of smaller calls",
+      "meaning": "the total number of smaller calls over all edges of the network.",
+      "relation": "count"
+     }
+    ],
+    "salient": "The saving is a power of the parameter, obtained from a strict inequality $s<Wm$ between two nearly equal quantities."
+   },
+   {
+    "id": "S3",
+    "intention": "show",
+    "claim": "Two disjoint contiguous address fields of $u$ bits of an array of volume $V$ can be interchanged in time $O(Vu^\\tau)$ with a fixed $\\tau<1$, exactly for arbitrary auxiliary values.",
+    "method": "Realise the bit network on tape: factor each edge operator into lower triangular shears performed in linear time, and apply the recursion with the rank saving; then remove width and row restrictions.",
+    "motivation": {
+     "text": "Plain sorting of fields costs a full pass per level; computing XOR combinations through the saving network replaces most passes by smaller interchanges, which is where $\\tau<1$ comes from.",
+     "source": "recoverable",
+     "quote": null
+    },
+    "children": [
+     {
+      "id": "S3.1",
+      "intention": "infer",
+      "claim": "A rational shear $(H,D)\\mapsto(H+AD,D)$ of rank $a$ is performed with $a$ interchanges of $b$-digit fields plus linear work, via lower triangular factors with reversed coordinate order, on $u$-digit fields.",
+      "quote": {
+       "source": "paper",
+       "quote": "is the Bruhat factorization for arbitrary matrices, with coordinate order"
+      },
+      "page": "lower-triangular-shear",
+      "from": [
+       "matrices-and-linear-maps",
+       "permutations",
+       "multitape-model"
+      ]
+     },
+     {
+      "id": "S3.2",
+      "intention": "infer",
+      "claim": "The interchange of two $u$-bit chunks $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$ is done for arbitrary widths $u$ in $O(Vu^\\tau)$ steps.",
+      "quote": {
+       "source": "paper",
+       "quote": "There exist fixed $0<\\tau<1$ and one fixed finite-alphabet multitape"
+      },
+      "page": null,
+      "from": []
+     }
+    ],
+    "page": "chunk-interchange",
+    "from": [
+     "recursive-power-saving",
+     "subset-intersection-network",
+     "linear-network-frames",
+     "multitape-model"
+    ],
+    "adds": [
+     {
+      "symbol": "u",
+      "name": "chunk width",
+      "meaning": "the number of bits (digits) in each of the two interchanged address chunks.",
+      "relation": "count"
+     }
+    ],
+    "salient": "The final effect is an exact permutation, although intermediate steps form XOR combinations of data, and it is exact for arbitrary auxiliary initial values."
+   },
+   {
+    "id": "S4",
+    "intention": "show",
+    "claim": "A butterfly layer $H_0$ on the same bit of $d$ address chunks of a polynomial array of volume $V$ costs $O(Vd^{\\lambda'})$ with $\\lambda'<1$, instead of $d$ full passes.",
+    "method": "Apply the complex network to a tensor product of an auxiliary kernel using phase frames, bound the exact dyadic intermediate values, then convert to $H_0$ with a single truncation.",
+    "motivation": {
+     "text": "Separate butterfly factors would need $D$ whole-array passes; the same rank-saving recursion over selected bits gives a power saving in the number of chunks.",
+     "source": "explicit",
+     "quote": {
+      "source": "paper",
+      "quote": "whereas separate butterfly factors"
+     }
+    },
+    "children": [
+     {
+      "id": "S4.1",
+      "intention": "infer",
+      "claim": "The two-point butterfly $H_0(u,v)=((u+v)/2,(u-v)/2)$ is applied coefficientwise to selected bits of many address chunks, as a tensor product over $d$ chunks.",
+      "quote": {
+       "source": "paper",
+       "quote": "of $H_0(u,v)=((u+v)/2,(u-v)/2)$ on the $D$ selected bits, acting"
+      },
+      "page": "butterfly-h0",
+      "from": [
+       "fast-fourier-transform",
+       "polynomials",
+       "complex-numbers"
+      ]
+     },
+     {
+      "id": "S4.2",
+      "intention": "infer",
+      "claim": "Diagonal phase frames express a tensor product of the auxiliary kernel $C$ on many selected bits via smaller groups of bits separated by binary changes of basis done by moving whole chunks.",
+      "quote": {
+       "source": "paper",
+       "quote": "We first construct tensor products of the auxiliary two-point kernel"
+      },
+      "page": "phase-frames",
+      "from": [
+       "linear-network-frames",
+       "diagonal-matrices",
+       "butterfly-h0",
+       "chunk-interchange"
+      ]
+     },
+     {
+      "id": "S4.3",
+      "intention": "infer",
+      "claim": "All intermediate values are exact Gaussian dyadics, and the layer is evaluated exactly before one truncation.",
+      "quote": {
+       "source": "paper",
+       "quote": "call. Finally, we bound the intermediate dyadic values and convert the"
+      },
+      "page": "gaussian-dyadics",
+      "from": [
+       "fixed-point-precision"
+      ]
+     },
+     {
+      "id": "S4.4",
+      "intention": "infer",
+      "claim": "The layer over $d$ chunks costs $O(Vd^{\\lambda'})$ with $\\lambda'<1$.",
+      "quote": {
+       "source": "paper",
+       "quote": "coefficient order, and component format in $O(Vd^{\\lambda'})$ time,"
+      },
+      "page": null,
+      "from": []
+     }
+    ],
+    "page": "fast-butterfly-layer",
+    "from": [
+     "recursive-power-saving",
+     "chunk-interchange",
+     "ring-y-r",
+     "fixed-point-precision"
+    ],
+    "adds": [
+     {
+      "symbol": "d",
+      "name": "number of chunks",
+      "meaning": "the number of equal-width address chunks (selected axes) on which the layer acts at once.",
+      "relation": "count"
+     }
+    ],
+    "salient": "The cost exponent $\\lambda'$ is below $1$ uniformly in the number of chunks, versus linear cost for separate factors."
+   },
+   {
+    "id": "S5",
+    "intention": "show",
+    "claim": "Convolution over $\\mathcal R_r=\\mathbb C[y]/(y^r+1)$ with $r$ coefficients per record is computed with synthetic transforms laid out on tape, a pointwise product and the opposite transform, with the stored frequency order retained.",
+    "method": "Use polynomial roots of unity $y^{2r/t}$ so the transforms are signed shifts and butterflies, arrange tape layout so the parallel layers apply, then multiply pointwise by exact ring products.",
+    "motivation": {
+     "text": "Roots of unity inside the ring act as signed shifts, which makes each transform level a butterfly layer that the fast simultaneous layer accelerates.",
+     "source": "recoverable",
+     "quote": null
+    },
+    "children": [
+     {
+      "id": "S5.1",
+      "intention": "infer",
+      "claim": "The ring of polynomials modulo $y^r+1$ with $r$ coefficients has powers of $y$ as roots of unity, and multiplication by $y^a$ is a signed cyclic shift of the coefficients.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\mathcal R_r=\\mathbb C[y]/(y^r+1),\\qquad"
+      },
+      "page": "ring-y-r",
+      "from": [
+       "polynomials",
+       "complex-numbers",
+       "modular-arithmetic",
+       "norms-and-triangle-inequality"
+      ]
+     },
+     {
+      "id": "S5.2",
+      "intention": "infer",
+      "claim": "With $\\omega_t=y^{2r/t}$ the synthetic transforms are computed by radix-two butterflies and the frequency order is retained through the pointwise product.",
+      "quote": {
+       "source": "paper",
+       "quote": "For a power of two $t$ dividing $2r$, define $\\omega_t=y^{2r/t}$."
+      },
+      "page": "synthetic-transform",
+      "from": [
+       "ring-y-r",
+       "dft-convolution",
+       "fast-fourier-transform"
+      ]
+     },
+     {
+      "id": "S5.3",
+      "intention": "infer",
+      "claim": "The selected bits of the participating axes are placed at a common offset in consecutive chunks so that the parallel layers apply, and the layout cost is included.",
+      "quote": {
+       "source": "paper",
+       "quote": "we must place the selected bits of the participating axes at a common"
+      },
+      "page": null,
+      "from": []
+     },
+     {
+      "id": "S6",
+      "intention": "show",
+      "claim": "Two polynomials in the ring modulo $y^r+1$ with disk coefficients are multiplied exactly in $O(rp\\log(rp))$ time.",
+      "method": "Pack signed coefficients into one integer (Kronecker substitution) and call the established integer multiplier as an ordinary subroutine.",
+      "motivation": {
+       "text": "A polynomial product is an integer product after packing, so the known $O(N\\log N)$ multiplier handles it; being short records of $O(rp)$ bits, its cost is acceptable.",
+       "source": "explicit",
+       "quote": {
+        "source": "paper",
+        "quote": "To multiply the polynomial records, we use the fixed-tape integer"
+       }
+      },
+      "children": [
+       {
+        "id": "S6.1",
+        "intention": "infer",
+        "claim": "Signed coefficients including negative ones are packed into one integer so that the polynomial product becomes an integer product.",
+        "quote": {
+         "source": "paper",
+         "quote": "reduction is a signed form of Kronecker substitution; compare"
+        },
+        "page": "kronecker-packing",
+        "from": [
+         "polynomials",
+         "binary-representation-and-bit-operations"
+        ]
+       },
+       {
+        "id": "S6.2",
+        "intention": "infer",
+        "claim": "Both inputs are packed, multiplied by the Harvey--van der Hoeven multiplier, and unpacked to give the exact product and the rounded $fg/r$.",
+        "quote": {
+         "source": "paper",
+         "quote": "One can compute the exact Gaussian integer"
+        },
+        "page": null,
+        "from": []
+       }
+      ],
+      "page": "hvdh-multiplier",
+      "from": [
+       "polynomials"
+      ]
+     },
+     {
+      "id": "S5.4",
+      "intention": "infer",
+      "claim": "Convolution on the retained transform layout is approximated with the stated error by the two forward transforms, the pointwise ring product and the opposite transform.",
+      "quote": {
+       "source": "paper",
+       "quote": "$\\mathcal M_r$ on disk grid operands has an approximation with error"
+      },
+      "page": null,
+      "from": []
+     }
+    ],
+    "page": "transform-layout",
+    "from": [
+     "ring-y-r",
+     "dft-convolution",
+     "fast-butterfly-layer",
+     "chunk-interchange",
+     "synthetic-transform"
+    ],
+    "adds": [
+     {
+      "symbol": "r",
+      "name": "record length",
+      "meaning": "the number of complex coefficients in a polynomial record, a power of two.",
+      "relation": "count"
+     }
+    ]
+   },
+   {
+    "id": "S7",
+    "intention": "show",
+    "claim": "A Fourier transform of coprime length is expressed through a power-of-two tensor transform by Gaussian resampling, with the permutations retained and the middle transform turned into cyclic convolution.",
+    "method": "Use Harvey--van der Hoeven resampling, keeping source and target permutations inside the transform formula, apply it line by line over many coordinates, and rewrite the middle transform by a chirp identity.",
+    "motivation": {
+     "text": "The needed lengths are pairwise coprime, but the synthetic transforms need powers of two, and sorting twice per coordinate would cost too much.",
+     "source": "explicit",
+     "quote": {
+      "source": "paper",
+      "quote": "The transform lengths needed for the integer product are pairwise coprime,"
+     }
+    },
+    "children": [
+     {
+      "id": "S7.1",
+      "intention": "infer",
+      "claim": "The source and target coordinate permutations are kept inside the transform formula instead of being sorted, so they cancel across the forward transforms, product and inverse.",
+      "quote": {
+       "source": "paper",
+       "quote": "We retain both permutations in the transform formula and"
+      },
+      "page": "retained-permutations",
+      "from": [
+       "permutations",
+       "fixed-point-precision"
+      ]
+     },
+     {
+      "id": "S7.2",
+      "intention": "infer",
+      "claim": "One-dimensional resampling maps are applied line by line over many coordinates, with axis movement by chunk interchange.",
+      "quote": {
+       "source": "paper",
+       "quote": "For the tensor product, apply the one-dimensional maps to one coordinate"
+      },
+      "page": "tensor-resampling",
+      "from": [
+       "chunk-interchange",
+       "tuples-products-of-sets-and-mixed-radix-indexing"
+      ]
+     },
+     {
+      "id": "S7.3",
+      "intention": "infer",
+      "claim": "Bluestein's chirp identity writes the middle transform as a cyclic convolution between pointwise phase multiplications, without applying the target permutation separately.",
+      "quote": {
+       "source": "paper",
+       "quote": "computed from a cyclic convolution and two pointwise phase"
+      },
+      "page": "bluestein-chirp",
+      "from": [
+       "dft-convolution",
+       "euler-s-formula-and-exponentials-of-complex-numbers"
+      ]
+     }
+    ],
+    "page": "gaussian-resampling",
+    "from": [
+     "dft-convolution",
+     "fixed-point-precision",
+     "gaussian-function-and-gaussian-sums",
+     "hvdh-multiplier"
+    ]
+   },
+   {
+    "id": "S8",
+    "intention": "show",
+    "claim": "The integer product is recovered exactly from the ring convolution with a compatible parameter choice, and the total cost fits $O(n(\\lg n)^{1-\\kappa})$.",
+    "method": "Fix the parameters, map the radix-digit coefficients to prime axes, twist to the polynomial ring, run the algorithm, bound precision, and sum the cost table.",
+    "motivation": {
+     "text": "Every earlier procedure comes with its own cost and error; only a single compatible choice of parameters and an explicit total accounting yields the final exponent.",
+     "source": "recoverable",
+     "quote": null
+    },
+    "children": [
+     {
+      "id": "S8.1",
+      "intention": "infer",
+      "claim": "A fixed rational choice of $\\tau,\\lambda',\\epsilon,\\kappa=2^{-182}$ and the other constants makes all layer conditions hold.",
+      "quote": {
+       "source": "paper",
+       "quote": "The two motif exponents were fixed in \\eqref{eq:explicit-motif-exponents}."
+      },
+      "page": "parameter-choice",
+      "from": [
+       "floor-ceiling-rounding-and-logarithms"
+      ]
+     },
+     {
+      "id": "S8.2",
+      "intention": "infer",
+      "claim": "A Chinese-remainder address map places the coefficient list on a product of pairwise coprime prime cyclic axes and preserves convolution.",
+      "quote": {
+       "source": "paper",
+       "quote": "Let $s_1,\\ldots,s_d$ be the pairwise coprime"
+      },
+      "page": "crt-prime-axes",
+      "from": [
+       "modular-arithmetic",
+       "greatest-common-divisor-and-coprimality",
+       "cyclic-groups-and-direct-products"
+      ]
+     },
+     {
+      "id": "S8.3",
+      "intention": "infer",
+      "claim": "A phase twist $x_d\\mapsto\\zeta y$ converts the last cyclic coordinate into a polynomial modulo $y^r+1$ whose negative wrap gives the original cyclic wrap.",
+      "quote": {
+       "source": "paper",
+       "quote": "The power-of-two complex convolution used in the chirp identity is"
+      },
+      "page": "phase-twist",
+      "from": [
+       "ring-y-r",
+       "dft-convolution",
+       "euler-s-formula-and-exponentials-of-complex-numbers"
+      ]
+     },
+     {
+      "id": "S8.4",
+      "intention": "infer",
+      "claim": "Writing both integers in a radix turns their product into a convolution of short integer coefficient lists, followed by carry propagation.",
+      "quote": {
+       "source": "paper",
+       "quote": "The source-transform procedures now supply the three transforms needed"
+      },
+      "page": "radix-digit-convolution",
+      "from": [
+       "schoolbook-multiplication-and-carries",
+       "binary-representation-and-bit-operations"
+      ]
+     },
+     {
+      "id": "S8.5",
+      "intention": "infer",
+      "claim": "Values are stored on a $2^{-p}$ grid with truncation errors that add under composition, and a final coefficient error below $1/2$ lets rounding and carries recover the exact product.",
+      "quote": {
+       "source": "paper",
+       "quote": "Put $h_p=2^{-p}$, and use the coefficient sup norm throughout this"
+      },
+      "page": "fixed-point-precision",
+      "from": [
+       "real-and-complex-number-approximation",
+       "norms-and-triangle-inequality",
+       "floor-ceiling-rounding-and-logarithms"
+      ]
+     },
+     {
+      "id": "S8.6",
+      "intention": "infer",
+      "claim": "All terms of the cost table, divided by the volume $V=\\Theta(n)$, fit $O((\\lg n)^{1-\\kappa})$.",
+      "quote": {
+       "source": "paper",
+       "quote": "For the cost calculation put $V=Tp=\\Theta(n)$. The fixed-width coefficient"
+      },
+      "page": null,
+      "from": []
+     }
+    ],
+    "page": null,
+    "from": []
+   }
+  ],
+  "page": "main-theorem",
+  "from": [
+   "conjecture"
+  ],
+  "salient": "The saving is a power of the logarithm, $(\\lg n)^{-\\kappa}$ with a tiny $\\kappa=2^{-182}$, below the long-conjectured $n\\log n$."
+ }
+}
