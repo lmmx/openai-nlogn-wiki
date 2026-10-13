@@ -1,5 +1,0 @@
-The established fast multiplier is the known deterministic algorithm of Harvey and van der Hoeven that multiplies two integers, each with $n$ bits, in $O(n\log n)$ time. It is a black box: the argument does not reprove it, and calls it whenever the product of two shorter integers is needed.
-
-Within the argument the multiplier runs on a [Fixed-tape machine model](fixed-tape-model.md). A call takes two integers and returns their product, and the argument uses only that behaviour and the $O(n\log n)$ time bound. The calls are ordinary subroutine calls. <cite data-source="paper">they do not invoke the improved theorem recursively.</cite> That matters because the improved theorem is what the argument proves: if a call used it, the cost of each call would depend on the bound being proved.
-
-The multiplier is needed for polynomial products, which [Signed coefficient packing](signed-packing.md) turns into single integer products: packing puts each coefficient at its own bit offset, so one product carries a whole polynomial product. The multiplier computes these integer products.

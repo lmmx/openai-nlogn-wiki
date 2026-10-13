@@ -1,5 +1,0 @@
-A source or sink of a [Linear network](linear-network.md) is an end vertex of a wire, where data enter the network or leave it. The terminals of a network are its sources and sinks, the places where the network meets its banks of values. This concept names those places, so that later pages can say which values a network reads at its start and writes at its end.
-
-A wire carries one scalar through the network. Along it, the vertices are the points where the value is read or changed. A gate is a fixed linear map applied to the values on the wires it touches, and it changes only those wires. <cite data-source="paper">The vertices on a wire are its source, the gates that touch it in time order, and its sink</cite>. So the value at a source is changed by each gate on the wire in turn, and the sink holds the result.
-
-For example, suppose a wire's source holds the value 3 and one gate on that wire doubles its value. The sink of that wire then holds 6. The source is where the network takes in 3, and the sink is where it delivers 6 to the bank it meets there.
