@@ -1,0 +1,95 @@
+{
+  "planned": [
+    "address-fields",
+    "address-shear-factorization",
+    "bluestein-chirp",
+    "convolution",
+    "crt-address-map",
+    "dft-fft",
+    "fast-address-interchange",
+    "fast-butterfly-layers",
+    "fixed-point-precision",
+    "fixed-tape-model",
+    "gaussian-resampling",
+    "linear-network-roles",
+    "main-theorem",
+    "nlogn-conjecture",
+    "phase-twist-convolution",
+    "poly-ring-y-r",
+    "radix-digit-reduction",
+    "recursive-power-saving",
+    "ring-convolution-retained-order",
+    "scratch-restoration",
+    "signed-packing",
+    "ss-hh-background",
+    "subset-intersection-construction",
+    "synthetic-transforms",
+    "tensor-product-of-vector-spaces"
+  ],
+  "overview": "The target result is an integer multiplication algorithm for a deterministic fixed-tape Turing machine. It multiplies two $n$-bit integers in $O(n(\\lg n)^{1-\\kappa})$ time, where $\\kappa = 2^{-182}$. Schönhage and Strassen proposed that $n \\log n$ is the optimal order of cost for multiplication, so the result disproves that conjecture in this model.\n\nThe first part sets out the [n log n optimality conjecture](nlogn-conjecture.md), the [fixed-tape machine model](fixed-tape-model.md), and the [convolution](convolution.md) that integer products reduce to. [Radix digit reduction](radix-digit-reduction.md) turns the product into a convolution of short coefficients followed by carry propagation, and [address fields](address-fields.md) describe how arrays are laid out on tapes. The second part introduces the [discrete Fourier transform](dft-fft.md), the [polynomial ring modulo $y^r+1$](poly-ring-y-r.md), the [multitape background](ss-hh-background.md), and [synthetic transforms](synthetic-transforms.md), which need no multiplications by roots of unity.\n\nThe third part builds a [fast interchange of address fields](fast-address-interchange.md) from a linear network with roles, scratch restoration, a shear factorization, and a recursive saving from subset intersections. The fourth part adds [fixed-point precision](fixed-point-precision.md) and the [simultaneous butterfly layers](fast-butterfly-layers.md) that use the interchange. The fifth part places the coefficients on prime cyclic axes with the [Chinese-remainder address map](crt-address-map.md), and reduces the remaining transforms through [Gaussian resampling](gaussian-resampling.md), [Bluestein's identity](bluestein-chirp.md), a [phase twist](phase-twist-convolution.md), and [signed packing](signed-packing.md). The last part combines these into the [main theorem](main-theorem.md).",
+  "parts": [
+    {
+      "title": "Background and the conjecture",
+      "intro": "This part fixes the conjectured bound, the machine model, and the reduction of integer products to convolution. The reader needs these to see what the main theorem beats and how the cost is measured. Radix digit reduction and [address fields](address-fields.md) prepare the data layout used later.",
+      "pages": [
+        "nlogn-conjecture",
+        "convolution",
+        "radix-digit-reduction",
+        "fixed-tape-model",
+        "address-fields"
+      ]
+    },
+    {
+      "title": "Transforms and cheap roots",
+      "intro": "The [discrete Fourier transform](dft-fft.md) turns convolution into a pointwise product, which is the basis of the fast multiplication route. [Polynomial rings modulo $y^r+1$](poly-ring-y-r.md) make roots of unity into signed shifts, and [synthetic transforms](synthetic-transforms.md) exploit this. The [Schönhage–Strassen to Harvey–van der Hoeven chain](ss-hh-background.md) shows what these transforms achieve in the multitape setting.",
+      "pages": [
+        "poly-ring-y-r",
+        "dft-fft",
+        "ss-hh-background",
+        "synthetic-transforms"
+      ]
+    },
+    {
+      "title": "Fast address interchange",
+      "intro": "The main construction needs to exchange two address fields on a tape at sub-linear cost per volume. This part builds that procedure from a linear network with roles, scratch restoration, and a shear factorization. It also shows that subset-intersection gathering yields a recursive power saving, which the later butterfly layers reuse.",
+      "pages": [
+        "linear-network-roles",
+        "scratch-restoration",
+        "address-shear-factorization",
+        "subset-intersection-construction",
+        "recursive-power-saving",
+        "fast-address-interchange"
+      ]
+    },
+    {
+      "title": "Simultaneous butterfly layers",
+      "intro": "A butterfly layer acts on many address bits at once, and the cost must be kept below a linear multiple of the data volume. [Fixed-point precision](fixed-point-precision.md) guarantees that rounding recovers exact coefficients despite the arithmetic. The [fast butterfly layers](fast-butterfly-layers.md) combine this with the interchange from the previous part.",
+      "pages": [
+        "fixed-point-precision",
+        "fast-butterfly-layers"
+      ]
+    },
+    {
+      "title": "Placing the convolution on axes",
+      "intro": "The coefficient list is moved onto a product of prime cyclic axes, where the transforms become simpler. The [Chinese-remainder map](crt-address-map.md) preserves convolution, and [Gaussian resampling](gaussian-resampling.md) and [Bluestein's identity](bluestein-chirp.md) rewrite the transforms on those axes. The [phase twist](phase-twist-convolution.md), [signed packing](signed-packing.md), and [retained-order convolution](ring-convolution-retained-order.md) finish the reduction to packed polynomial products.",
+      "pages": [
+        "crt-address-map",
+        "gaussian-resampling",
+        "bluestein-chirp",
+        "phase-twist-convolution",
+        "signed-packing",
+        "ring-convolution-retained-order"
+      ]
+    },
+    {
+      "title": "The main theorem",
+      "intro": "This part states the target result and assembles the cost bounds from the earlier parts. It shows that the total time is $O(n(\\lg n)^{1-\\kappa})$ and that this disproves the $n \\log n$ conjecture in the fixed-tape model. The reader should check each prerequisite against the parts above.",
+      "pages": [
+        "main-theorem"
+      ]
+    }
+  ],
+  "glossary": [
+    "tensor-product-of-vector-spaces"
+  ]
+}

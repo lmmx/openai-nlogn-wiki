@@ -1,0 +1,17 @@
+The main theorem of this wiki is that one fixed deterministic machine multiplies two $n$-bit integers, where $n$ is the number of bits in each input and $\kappa=2^{-182}$ is a fixed saving exponent, in $O(n(\lg n)^{1-\kappa})$ time. It disproves the [n log n optimality conjecture](nlogn-conjecture.md) for this model.
+
+One deterministic Turing machine computes the exact product for every $n\ge1$, <cite data-source="paper">with a fixed finite alphabet and a fixed finite number of one-dimensional tapes</cite>.
+
+[Reduction of integer product to digit convolution](radix-digit-reduction.md) turns the product into a convolution of short coefficients. The machine places the coefficient list by the [Chinese-remainder map to prime cyclic axes](crt-address-map.md), and computes its convolution by [Convolution with retained transform order and cancelled permutations](ring-convolution-retained-order.md). It recovers its coefficients by [Fixed-point precision and exact recovery](fixed-point-precision.md).
+
+The machine performs its address moves by [Fast interchange of address fields](fast-address-interchange.md). It performs its butterfly layers by [Fast simultaneous butterfly layers](fast-butterfly-layers.md). These cost $O(Vu^\tau)$ and $O(Vd^{\lambda'})$, with $V$ the stored bit volume and $\tau,\lambda'<1$ fixed. The $n\log n$ cost comes from scanning all stored bits at each of the $\Theta(\log n)$ transform levels, so cheaper moves and layers lower the whole bound.
+
+Both procedures come from fixed linear networks, and the recursion saves a power because $s/W<m^\tau$. Each network has $W$ wires, and $s$ is the total rank change over its edges. The total is $Wm$ minus a positive deficit from the negative source projections, so $s<Wm$ <cite data-source="paper">The sum of the rational ranks of all edge differences is</cite>.
+
+Let $t$ be the recursion level, so a chunk has $e=m^t$ radix-$q$ digits, and let $F(e)$ be the time divided by the stored volume $V$ at that level. Each chunk is cut into $m$ consecutive fields of $e/m$ digits, so one level divides the field width by $m$. A call makes $s$ child calls on streams of volume $V/W$, and does its own basis changes, scalar gates and reassembly at cost $O(e^\tau+1)$ per unit volume. Hence $F(e)\le (s/W)F(e/m)+O(e^\tau+1)$ with $F(1)=O(1)$. Put $\rho=(s/W)/m^\tau$. Since $s/W<m$ and $m^\tau$ tends to $m$ as $\tau\to1$, a rational $\tau\in(0,1)$ with $\rho<1$ exists; this is where strictness is used. Unrolling gives a geometric sum:
+$$F(m^t)=O\big(m^{t\tau}\big)\sum_{j\ge0}\rho^j=O\big(m^{t\tau}\big).$$
+A field of $e$ radix-$q$ digits has $\Theta(e)$ bits, so $e$ is proportional to $u$ and the interchange costs $O(Vu^\tau)$.
+
+The butterfly layer uses a second fixed network with its own $W$, $s$ and $m$, also satisfying $s<Wm$, and runs the same recursion on the $d$ selected chunks. Its exponent $\lambda'$ must exceed two explicit exponents, one from the node overhead and one from the small-level leaves, and the sources fix such a $\lambda'<1$.
+
+The logarithmic factor drops by $\kappa$ rather than by a multiple of the levels. Strictness gives the per-level power $\tau<1$, but $\kappa$ is not read off from $\tau$. The sources check their explicit margins by direct substitution, the smallest being $2\kappa=2^{-181}$ <cite data-source="paper">Direct substitution gives</cite>, which absorbs each fixed power of the logarithm.

@@ -1,0 +1,19 @@
+Fixed-point precision and exact recovery turns approximate transform output into exact integers, and then into the digits of the product. It recovers the integer coefficients produced by the [Reduction of integer product to digit convolution](radix-digit-reduction.md).
+
+Each complex coefficient is stored as a pair of integer numerators $X$ over $2^p$, where $p$ is the working precision in bits; a numerator $X$ represents $X/2^p$. Scalings by known integers and powers of two are exact on numerators, so the only inexact steps are transforms, pointwise products and truncations. The source sets $p=6b$ <cite data-source="paper">p=6b</cite>, where $b=\lceil\log_2 n\rceil$ <cite data-source="paper">b=\lceil\log_2n\rceil</cite>, so $n\le 2^b$.
+
+Let $T$ be the power of two in $[4n/b,8n/b)$, and $S$ the cyclic convolution length, with $T/2<S<T$. Since $T<8n/b<2^b$ for $b>8$, we have $S<2^b$. Let $L=\log_2 T$ (this letter changes meaning from the Gaussian resampling page), so $L<b$. The digit lists have degree below $T/2<S$, so cyclic convolution has no wraparound. It computes its transforms by the [forward transform of length $S$](dft-fft.md) and its opposite, which run in finite precision.
+
+Let $\xi_j=x_j/2^{b+2}$ and $\psi_j=y_j/2^{b+2}$; each entry lies in $[0,1/4)$. Let $\Phi$ be the forward transform of length $S$, with $(\Phi\xi)_m=\frac1S\sum_k\xi_k\omega^{mk}$, where $\omega$ is a primitive $S$-th root of unity, and let $\Phi^{+}$ be its opposite, with $\omega^{-mk}$ in its place. Two identities hold: $\Phi(\xi*\psi)=S\,\Phi\xi\cdot\Phi\psi$, since powers of $\omega$ multiply by adding exponents mod $S$; and $\Phi^{+}\Phi=I/S$, since $\sum_m\omega^{m(k-k')}$ is $S$ for $k=k'$ and $0$ otherwise. Hence
+$$\Phi^{+}(\Phi\xi\cdot\Phi\psi)=\frac1S\,\Phi^{+}\Phi(\xi*\psi)=\frac{\xi*\psi}{S^2}.$$
+The source's transforms also carry a coordinate permutation, which cancels from this product <cite data-source="paper">retained source permutation $R$ cancels when computing a convolution</cite>, so the identity holds for the transforms written here.
+
+Each computed transform, after the source scale $2^\gamma$, has error below $E_s2^{-p}$ with $E_s=9\cdot 2^\gamma TL$ <cite data-source="paper">E_s=9\,2^\gamma TL</cite>; here $\gamma$ is the exponent of that scale (this letter changes meaning from the scratch-restoration page). Each factor of the pointwise product contributes $E_s2^{-p}$ and truncation adds $2\cdot2^{-p}$, and the opposite transform adds $E_s2^{-p}$ more, so the computed $\Phi^{+}$ result is within $(3E_s+2)2^{-p}$ of $(\xi*\psi)/S^2$. Multiplying by $S$ multiplies this error by $S$: it is below $S(3E_s+2)2^{-p}<28\cdot2^\gamma T^2L\cdot2^{-p}$, since $3E_s+2=27\cdot2^\gamma TL+2<28\cdot2^\gamma TL$. The second scaling by $2^{2b+4}S$ and $2^{-p}=2^{-6b}$ give a coefficient error below
+$$2^{2b+4}S\cdot 28\cdot2^\gamma T^2L\cdot2^{-6b}<448\,b\,2^{-b+\gamma}\le 448\,b\,2^{-3b/4},$$
+using $S<T<2^b$, $L<b$, and $\gamma\le b/4$ for large $b$ <cite data-source="paper">For example $b\ge2^{24}$ implies $\gamma\le b/4$.</cite>. For large $b$ this is below $\tfrac12$ <cite data-source="paper">448b\,2^{-3b/4}<\frac12</cite>. The coefficient $c_j=2^{2b+4}(\xi*\psi)_j$ is an integer, so rounding each computed value returns $c_j$ exactly.
+
+Carry propagation then gives the digits. Let $h_0=0$ and, for $0\le j<S$,
+$$d_j=(c_j+h_j)\bmod 2^b,\qquad h_{j+1}=\left\lfloor\frac{c_j+h_j}{2^b}\right\rfloor.$$
+Since $c_j+h_j=d_j+2^bh_{j+1}$, induction gives $\sum_{i<j}c_i2^{bi}=\sum_{i<j}d_i2^{bi}+h_j2^{bj}$. With $j=S$, $xy=\sum_{i<S}c_i2^{bi}<2^{2n}\le 2^{bS}$, because $S>T/2\ge2n/b$. The digit sum also lies below $2^{bS}$, so $h_S=0$, and $d_0,\dots,d_{S-1}$ are the radix-$2^b$ digits of $xy$.
+
+Example, radix $10$ for $2^b$ and $c=(12,15,3)$: $d_0=2$, $h_1=1$; $d_1=6$, $h_2=1$; $d_2=4$, $h_3=0$. The digits $4,6,2$ give $462=12+15\cdot10+3\cdot100$.

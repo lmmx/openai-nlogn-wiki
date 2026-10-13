@@ -1,0 +1,19 @@
+Recursive power saving is the argument that a recursion's cost per stored bit can grow as a fixed power of its parameter, with exponent $\lambda<1$, which the main theorem needs.
+
+Let $f$ be the parameter of a call: the number of field digits for an address interchange (exchanging two disjoint address fields of $u$ bits), or the number of selected axes for a numerical layer (a butterfly layer on chosen axes of a polynomial-valued array). Here $m$ is the factor by which the parameter grows; this letter changes meaning from the subspace dimension of the prerequisite. A recursive call at parameter $mf$ makes $s$ subcalls at parameter $f$, each on a stream of volume $V/W$. The recursion is built on the [Three-element subset intersection construction](subset-intersection-construction.md), which gives $s<Wm$ smaller calls.
+
+Let $\Phi(f)$ be the cost of a call divided by the volume $V$ it works on. The subcalls contribute $\frac{s}{W}\Phi(f)$. Let $C$ be a constant such that the call's own outside work is at most $C(mf)^\lambda$, so
+
+$$\Phi(mf)\le\frac{s}{W}\Phi(f)+C(mf)^\lambda.$$
+
+The outside work is a fixed number of address-field row additions. An address interchange of $u$-bit fields costs $O(Vu^\tau)$, where $\tau<1$ is fixed.<cite data-source="paper">Its cost is $O(Vu^\tau)$ for a fixed $\tau<1$.</cite> Here $K$ is the bit count of one axis chunk, $d$ is the paper's axis-count parameter (this letter changes meaning from the DFT page), and $\eta>0$ is fixed, with $K\le d^\eta$. A row addition on fields of $u=fK$ bits costs $O(V(u^\tau+1))$. Since $\beta=\tfrac12$ and $f\ge d^\beta$ at an internal node, $d\le f^{1/\beta}$, so the outside work divided by $V$ is $O((fK)^\tau+1)\le O(f^{\tau(1+\eta/\beta)}+1)$, which is $O(f^\lambda)$ when $\lambda>\tau(1+\eta/\beta)$.
+
+Let $\nu$ count the levels of unrolling, which stop once $f/m^\nu<d^\beta$. Each leaf is handled by one kernel per chunk, at cost $O(f/m^\nu)$. After $\nu$ levels the weight is $(s/W)^\nu$, so the internal costs sum to
+
+$$C f^\lambda\sum_{\nu\ge0}\Big(\frac{s/W}{m^\lambda}\Big)^\nu.$$
+
+The saving exists because $s/W<m$. <cite data-source="paper">is the source of the power saving.</cite> Taking $\lambda$ with $\log_m(s/W)<\lambda<1$ makes the ratio below 1, so the internal sum is at most a constant times $f^\lambda$.
+
+The leaves at depth $\nu$ have $u=f/m^\nu<d^\beta$ chunks and total weight $(s/W)^\nu$, so they cost $O((s/W)^\nu u)$. Choose $\sigma$ with $\max\{0,\log_m(s/W)\}\le\sigma<\lambda$. Then $(s/W)^\nu\le m^{\nu\sigma}=(f/u)^\sigma$, and the leaves cost $O(f^\sigma d^{\beta(1-\sigma)})\le O(f^\lambda)$.
+
+For example, with $m=2$, $s=3$, $W=2$, we have $s/W=\tfrac32$ and $\log_2(3/2)\approx0.585$. For $\lambda=0.8$ the ratio is $\tfrac{3/2}{2^{0.8}}\approx0.86$.

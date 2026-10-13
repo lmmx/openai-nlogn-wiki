@@ -1,0 +1,20 @@
+The three-element subset intersection construction is a fixed network of gather, scatter and auxiliary wires, built inside a [Finite linear network with roles and frames](linear-network-roles.md). Its purpose is to make the number of smaller calls small enough for the recursion, the decisive property of the paper's argument. <cite data-source="paper">number $s$ of smaller calls satisfies $s<Wm$</cite>
+
+Let $[h]=\{1,\dots,h\}$ be the ground set, with $h=100$ (the letter $h$ changes meaning here). A three-element subset $T$ of $[h]$ is a *triple*, and $\mathcal T$ is the set of all triples. Triples $T$ and $S$ are *neighbors* when $|T\cap S|=1$. Each triple carries a value $g_T$.
+
+Over $\mathbb F_2$, gather puts the sum of the $g_T$ with $e\in T$ on a central wire $C_e$ for each element $e$ of $[h]$, and scatter adds $\sum_{e\in S}C_e$ into the target $S$. So $g_T$ reaches $S$ with coefficient $|S\cap T|$ mod $2$. For each neighbor pair, an auxiliary wire $A_{ST}$ carries a copy of $g_T$ into $S$, which adds a further $g_T$ to $S$ exactly when $|S\cap T|=1$. The net coefficient $|S\cap T|+[|S\cap T|=1]$ mod $2$ is therefore $0$ for $|S\cap T|\in\{0,1,2\}$ and $1$ for $T=S$, so $S$ keeps only $g_S$. Here $[\cdot]$ is $1$ when its condition holds and $0$ otherwise.
+
+The labels are over $\mathbb Q$. Let $J$ be the all-one $h\times h$ matrix (the letter $J$ changes meaning here), and let the bilinear form on $\mathbb Q^h$ have matrix $I-J/9$. Then $\langle t_T,t_S\rangle=|T\cap S|-1$, because $t_T^{\top}Jt_S=3\cdot 3=9$, so neighbors are orthogonal.
+
+The label space $\mathcal F=(\mathbb Q^h)^{\otimes 3}$ is built from the [Tensor product of vector spaces](tensor-product-of-vector-spaces.md) of three copies of $\mathbb Q^h$, with the product form, and has dimension $D=h^3$, which is the paper's $m$ (the letter $m$ changes meaning here). A *label* $U$ is a nondegenerate subspace of $\mathcal F$. For an index $\iota=(T_1,T_2,T_3)\in\mathcal T^3$, the label $U_\iota$ is the line spanned by $t_{T_1}\otimes t_{T_2}\otimes t_{T_3}$, and $N=\binom h3^3$ counts the indices $\iota$. Each gate or sink with label $U$ carries the projection $P_U$ onto $U$ along $U^\perp$, and the source of index $\iota$ carries $-P_{U_\iota}$.
+
+Each edge carries the difference of its endpoint matrices, and $s$ is the sum of the ranks of these differences over all edges. If $U\subseteq V$ for labels $U$ and $V$ (here $V$ is a label), then $P_V-P_U$ is the identity on $V\cap U^\perp$ and zero on $U\oplus V^\perp$, so its rank is $\dim V-\dim U$. Reversing an edge negates its matrix and keeps its rank, so an edge that changes a label by $k$ dimensions has rank $k$, except the source edges treated below.
+
+A smaller call is one use of the same fixed procedure on a stream of smaller volume. Each unit of rank costs one such call, which the tape section calls an interchange. <cite data-source="paper">An edge matrix of rank $a$ will require $a$ smaller interchanges.</cite> So $s$ counts the smaller calls.
+
+Sources have dimension $1$ and total $N$. The $N$ sinks that receive them have label $U_\iota^\perp$, of dimension $D-1$, and the other sinks have dimension $D$, so the $W$ sinks total $WD-N$. The signed dimension changes over all edges total $WD-2N$ <cite data-source="paper">Thus the signed dimension changes will sum to $Wm-2N$</cite>, because the contributions at gates cancel.
+
+Let $L$ be the total dimension lost on decreasing edges, the edges whose label shrinks (the letter $L$ changes meaning here). Taking absolute values adds $2L$, so the sum of absolute label changes over all edges is $WD-2N+2L$ <cite data-source="paper">the sum of absolute changes is $Wm-2N+2L$</cite>. Each source's first edge has matrix $2P_{U_\iota}$, of rank one with no label change. <cite data-source="paper">Its first edge matrix is therefore $2P_{U_a}$, of rational rank one,</cite> so these $N$ ranks give
+$$s=WD-2N+2L+N=WD-N+2L.$$
+
+In the paper's bit network, built from this construction with $h=100$, the loss ratio is $L/N=100/539$ <cite data-source="paper">The loss ratios have the exact values</cite>. Since $2L/N=200/539<1$, this gives $s<WD$.

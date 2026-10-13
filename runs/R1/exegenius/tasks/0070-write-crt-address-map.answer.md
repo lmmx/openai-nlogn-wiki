@@ -1,0 +1,11 @@
+The Chinese-remainder map to prime cyclic axes is the rearrangement that places a coefficient list on a product of cyclic axes whose lengths are distinct primes. It is the first representation change in the argument, and it prepares the list for transforms on those axes.
+
+Let $N$, the number of coefficients in the list, be written $N = P_1 P_2 \cdots P_t$, where $t$ is the number of distinct primes and $P_\ell$ is the $\ell$-th of them. Each index $i \in \{0,\dots,N-1\}$ is sent to the tuple of its residues $(i \bmod P_1, \dots, i \bmod P_t)$. Each $\mathbb{Z}_{P_\ell}$, the set of residues modulo $P_\ell$, is one axis of length $P_\ell$, and an axis is cyclic because its values wrap around modulo its length.
+
+Because the $P_\ell$ are pairwise coprime, the Chinese remainder theorem says that each tuple comes from exactly one index modulo $N$. There are $N$ indices and $N$ tuples, so the map is a bijection. Reduction modulo $P_\ell$ also respects addition, so the sum of two indices, reduced modulo $N$, goes to the componentwise sum of their tuples, each reduced modulo its own $P_\ell$.
+
+For example, take $N = 15$ with $P_1 = 3$ and $P_2 = 5$. Index $7$ goes to $(1, 2)$ and index $8$ goes to $(2, 3)$. Their sum $15 \equiv 0$ goes to $(0, 0)$, which is $(1+2, 2+3)$ reduced modulo $(3, 5)$.
+
+This map preserves [convolution](convolution.md) on the axes, so a cyclic product of two lists on $\mathbb{Z}_N$ becomes a product on the prime axes. The map is applied to the radix-digit coefficient list produced by [reduction of integer product to digit convolution](radix-digit-reduction.md). The paper places it on <cite data-source="paper">distinct prime cyclic axes</cite>, which lets the next step, [Gaussian resampling](gaussian-resampling.md), express each Fourier transform on these axes through transforms with power-of-two lengths.
+
+The map's axis moves are costed in the [fixed-tape machine model and stream operations](fixed-tape-model.md). The paper implements the map through <cite data-source="paper">triangular controlled shifts and charged axis moves</cite>. A shift or move rearranges the stored entries, which the model counts as data movement, since each step touches one cell per tape.

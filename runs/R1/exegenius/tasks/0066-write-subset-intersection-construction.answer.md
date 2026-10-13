@@ -1,0 +1,13 @@
+The three-element subset intersection construction is a fixed network of gather, scatter and auxiliary wires that makes few enough smaller calls for the recursion to save a power. It is built inside a [Finite linear network with roles and frames](linear-network-roles.md).
+
+Let $[h]=\{1,\dots,h\}$ be the ground set, with $h=100$, and let $\mathcal T$ be its set of three-element subsets. For $T\in\mathcal T$, let $t_T$ be its indicator vector. Call $T,T'$ *neighbors* when $|T\cap T'|=1$. Each triple $T$ carries a value $g_T$.
+
+**Coefficients.** Gather sums the values $g_T$ of all triples containing an element $e\in[h]$ onto one central wire per element, and scatter adds the central wires of the elements of $T'$ to the target $T'$. An element of $T\cap T'$ is counted once, so $g_T$ reaches $T'$ with coefficient $|T\cap T'|$ modulo $2$. That is $1$ exactly for neighbors. A copy onto a side wire for each neighbor pair, injected back into the target, cancels those terms, leaving $g_{T'}$ alone since $|T'\cap T'|=3$ is odd. Scratch values are removed and restored, so their initial values do not matter.
+
+**Labels.** Over $\mathbb Q$, the bilinear form with matrix $I-J/9$ gives $\langle t_T,t_{T'}\rangle=|T\cap T'|-1$, zero exactly for neighbors, where $J$ is the all-one matrix. Let $\mathcal F=(\mathbb Q^h)^{\otimes 3}$, of dimension $m=h^3$ (the letter $m$ changes meaning here). Each index $\alpha=(T_1,T_2,T_3)$ gets the line $U_\alpha$ spanned by $t_{T_1}\otimes t_{T_2}\otimes t_{T_3}$. Because neighbors are orthogonal, a label containing $t_T$ can grow by the complement of $t_{T'}$ along a side wire.
+
+**Counting.** Give each gate or sink with label $U$ the projection $P_U$ onto $U$ along $U^\perp$, each source of index $\alpha$ the matrix $-P_{U_\alpha}$, and other sources zero. Let $s$, the number of smaller calls, be the sum of the ranks of the edge differences over all edges. Each edge's rank is its absolute label change, and each unit of rank costs one smaller call <cite data-source="paper">implements an edge change with one smaller interchange per unit of its rational rank</cite>. Signed changes telescope to $Wm-2N$, where $N$ counts the indices $\alpha$. Decreasing edges lose a total $L$, adding $2L$; the $N$ source edges add $N$. So
+$$s=Wm-N+2L,$$
+and $L/N=100/539$ <cite data-source="paper">The loss ratios have the exact values</cite> gives $2L<N$, hence $s<Wm$.
+
+The network meets the count needed for the recursion. <cite data-source="paper">The decisive property is that the total number $s$ of smaller calls satisfies $s<Wm$.</cite> The recursion in [Recursive power saving from s<Wm](recursive-power-saving.md) uses this inequality to save a fixed power.

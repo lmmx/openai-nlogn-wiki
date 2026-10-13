@@ -1,0 +1,337 @@
+{
+ "claims": [
+  {
+   "claim": "a fixed network of gather, scatter and auxiliary wires that makes few enough smaller calls for the recursion to save a power",
+   "verdict": "correct",
+   "lines": [
+    159,
+    174,
+    643,
+    656,
+    783,
+    1350,
+    1353
+   ],
+   "note": "Matches the overview (s<Wm gives s/W<m, saving a power) and the statement that all numbers are fixed."
+  },
+  {
+   "claim": "$[h]=\\{1,\\dots,h\\}$ be the ground set, with $h=100$",
+   "verdict": "correct",
+   "lines": [
+    655,
+    658
+   ],
+   "note": "h=100."
+  },
+  {
+   "claim": "For a three-element subset $T$ of $[h]$, called a triple, $t_T$ is its indicator vector, and $\\mathcal T$ is the set of all triples",
+   "verdict": "correct",
+   "lines": [
+    658,
+    861,
+    862
+   ],
+   "note": ""
+  },
+  {
+   "claim": "Call two triples $T,S$ *neighbors* when $|T\\cap S|=1$",
+   "verdict": "correct but incomplete",
+   "lines": [
+    689,
+    690,
+    695,
+    696
+   ],
+   "note": "This is the bit construction's neighbor rule. The complex construction uses distinct triples with even intersection. The page treats only the bit network and never says so."
+  },
+  {
+   "claim": "gather puts the sum of the $g_T$ with $T\\ni e$ on a central wire $C_e$ for each element $e$, and scatter adds $\\sum_{e\\in S}C_e$ to the target $S$",
+   "verdict": "correct but incomplete",
+   "lines": [
+    683,
+    685,
+    693,
+    694,
+    705,
+    712,
+    724,
+    744,
+    750
+   ],
+   "note": "The paper's gather *adds* to C_i, and the scratch values are arbitrary. 'Puts' holds only because schedule rows 0-1 and 6-7 cancel and restore the old scratch values, and the page leaves those rows out."
+  },
+  {
+   "claim": "So $g_T$ reaches $S$ with coefficient $|S\\cap T|$ mod $2$",
+   "verdict": "correct",
+   "lines": [
+    752,
+    753
+   ],
+   "note": ""
+  },
+  {
+   "claim": "A copy of $g_T$ on an auxiliary wire $A_{ST}$ for each neighbor pair, injected back into $S$, adds $1$ exactly when $|S\\cap T|=1$",
+   "verdict": "correct",
+   "lines": [
+    682,
+    691,
+    692,
+    753,
+    754
+   ],
+   "note": ""
+  },
+  {
+   "claim": "The net coefficient $|S\\cap T|+[|S\\cap T|=1]$ mod $2$ is $0$ for sizes $0,1,2$ and $1$ for $T=S$, so only $g_S$ remains",
+   "verdict": "correct",
+   "lines": [
+    753,
+    755,
+    759,
+    730
+   ],
+   "note": "Sizes: 0 gives 0, 1 gives 1+1=0, 2 gives 0, 3 (T=S) gives 1. Net map y_S <- y_S + x_S."
+  },
+  {
+   "claim": "the bilinear form with matrix $I-J/9$ ... gives $\\langle t_T,t_S\\rangle=|T\\cap S|-1$; neighbors are orthogonal",
+   "verdict": "correct but incomplete",
+   "lines": [
+    856,
+    866,
+    869,
+    870
+   ],
+   "note": "The formula is right: |T∩S| - 3*3/9. The page leaves out what the labels need: the form is nondegenerate (eigenvalues 1 and -91/9), and <t_T,t_T>=2≠0, so triple lines are nondegenerate."
+  },
+  {
+   "claim": "$\\mathcal F=(\\mathbb Q^h)^{\\otimes 3}$ ... of dimension $D=h^3$",
+   "verdict": "correct",
+   "lines": [
+    656,
+    876,
+    877
+   ],
+   "note": "The paper calls this dimension m, with m=h^3=10^6."
+  },
+  {
+   "claim": "A label $U$ is a nondegenerate subspace of $\\mathcal F$",
+   "verdict": "correct",
+   "lines": [
+    849
+   ],
+   "note": ""
+  },
+  {
+   "claim": "the label $U_\\iota$ is the line spanned by $t_{T_1}\\otimes t_{T_2}\\otimes t_{T_3}$",
+   "verdict": "correct",
+   "lines": [
+    879
+   ],
+   "note": ""
+  },
+  {
+   "claim": "Along a side wire, a label containing $t_T$ may grow to $t_S^\\perp$, since $t_T\\perp t_S$, adding $h-2$ dimensions",
+   "verdict": "correct but incomplete",
+   "lines": [
+    946,
+    953,
+    1036,
+    1038,
+    1048,
+    1058
+   ],
+   "note": "In the paper only the P-component grows, P⊗<t_X> ⊂ P⊗t_Y^⊥, on side edge 2→5. The B⊗F summand and the Q factor stay fixed. Read literally, 'a label containing t_T grows to t_S^⊥' gains h-2 only when the label is exactly the line <t_T>."
+  },
+  {
+   "claim": "Give each gate or sink with label $U$ the projection $P_U$ onto $U$ along $U^\\perp$, and the source of index $\\iota$ the matrix $-P_{U_\\iota}$",
+   "verdict": "correct but incomplete",
+   "lines": [
+    1115,
+    1118
+   ],
+   "note": "This is the X_a source only. Every other source (Y_a and all scratch wires) gets the zero matrix, and the page never says so."
+  },
+  {
+   "claim": "If $U\\subseteq V$, then $P_V-P_U$ is the identity on $V\\cap U^\\perp$ and zero on $U\\oplus V^\\perp$, so its rank is $\\dim V-\\dim U$",
+   "verdict": "correct",
+   "lines": [
+    1158,
+    1161
+   ],
+   "note": "The paper says the map is zero on the orthogonal complement of V∩U^⊥, which equals U⊕V^⊥ for nondegenerate U⊆V. The page relies on labels being nondegenerate. Reversing an edge negates the matrix and keeps the rank, which the page leaves implicit."
+  },
+  {
+   "claim": "Each unit of rank costs one smaller call. An edge matrix of rank $a$ will require $a$ smaller interchanges.",
+   "verdict": "correct",
+   "lines": [
+    1134,
+    1136,
+    1351
+   ],
+   "note": "The quote appears verbatim at line 1351."
+  },
+  {
+   "claim": "Let $N=\\binom h3^3$, the number of indices $\\iota$",
+   "verdict": "correct",
+   "lines": [
+    656,
+    659,
+    660
+   ],
+   "note": "N=v^3=4227952113000000."
+  },
+  {
+   "claim": "Signed label changes telescope along each wire, and gate labels cancel",
+   "verdict": "correct",
+   "lines": [
+    892,
+    893,
+    1066,
+    1067
+   ],
+   "note": ""
+  },
+  {
+   "claim": "Sources have dimension $1$, summing to $N$",
+   "verdict": "correct but incomplete",
+   "lines": [
+    884,
+    887,
+    891,
+    1068
+   ],
+   "note": "The sum N is right. Read literally, though, the claim is false: only the N sources of X_a have dimension 1, while the Y_a sources and all scratch sources have label 0 (W-N sources in all). The page never gives those zero labels."
+  },
+  {
+   "claim": "sinks have dimension $D$, except the $N$ sinks that receive the sources, which have label $U_\\iota^\\perp$ and dimension $D-1$",
+   "verdict": "correct",
+   "lines": [
+    884,
+    887,
+    891,
+    1121
+   ],
+   "note": "These are the Y_a sinks. Under rho, X_a's value is routed to Y_a. Sink total = WD-N."
+  },
+  {
+   "claim": "So the signed total is $WD-2N$",
+   "verdict": "correct but incomplete",
+   "lines": [
+    891,
+    892,
+    1069
+   ],
+   "note": "Arithmetic is right: (WD-N)-N. But W, the total wire count, is never defined on the page. In the paper it is W_b = 2N + I(v z_b + c_b)."
+  },
+  {
+   "claim": "Let $L$ be the total dimension lost on decreasing edges",
+   "verdict": "correct",
+   "lines": [
+    853,
+    854,
+    893,
+    894
+   ],
+   "note": ""
+  },
+  {
+   "claim": "Each of the $3\\binom h3^2$ invocations has $h$ central wires, each losing $h$ on a decreasing edge, so $L=3\\binom h3^2h^2$",
+   "verdict": "correct but incomplete",
+   "lines": [
+    676,
+    683,
+    775,
+    955,
+    957,
+    998,
+    1003,
+    1033,
+    1061,
+    1062,
+    1070
+   ],
+   "note": "I=3v^2, c_b=h=100, and the loss is h on center edge 3→4, so L=Ich. The page leaves out the lemma's key content: every edge joins comparable labels, and the center 3→4 edges are the ONLY decreasing edges. Without that, L is not justified as the total loss."
+  },
+  {
+   "claim": "Absolute values add $2L$",
+   "verdict": "correct",
+   "lines": [
+    894,
+    1006,
+    1071
+   ],
+   "note": ""
+  },
+  {
+   "claim": "The first edge out of each source has matrix $2P_{U_\\iota}$, rank one, with no label change",
+   "verdict": "correct but incomplete",
+   "lines": [
+    1162,
+    1165
+   ],
+   "note": "This holds only for the X_a sources ('each source' is too broad). It needs the first gate on X_a to have label exactly U_a, because B=0 at stage 1 (line 1163). The page gives no gate labels, so it cannot justify this. For the other sources the matrix is 0 and rank equals dimension change, as at every ordinary edge."
+  },
+  {
+   "claim": "$s=WD-2N+2L+N=WD-N+2L$",
+   "verdict": "correct",
+   "lines": [
+    1147,
+    1152
+   ],
+   "note": "Matches s_b = W_b m - N + 2L_b. Numerically, 177176569088785861287000000."
+  },
+  {
+   "claim": "$L/N=3h^2/\\binom h3=100/539$",
+   "verdict": "correct",
+   "lines": [
+    1105,
+    1108
+   ],
+   "note": "3*10^4/161700 = 100/539, which I recomputed."
+  },
+  {
+   "claim": "so $2L<N$ and $s<WD$",
+   "verdict": "correct",
+   "lines": [
+    895,
+    897,
+    1110,
+    1152,
+    1167
+   ],
+   "note": "The deficit is N-2L>0."
+  },
+  {
+   "claim": "Here $\\mathcal F$ is the fixed space, so the paper's dimension $m$ is $D$",
+   "verdict": "correct",
+   "lines": [
+    656,
+    876,
+    877
+   ],
+   "note": ""
+  },
+  {
+   "claim": "The paper's decisive property is a bound on the number of smaller calls, smaller calls satisfies $s<Wm$",
+   "verdict": "correct",
+   "lines": [
+    167,
+    168
+   ],
+   "note": "The quote appears verbatim at line 168."
+  }
+ ],
+ "derivation": {
+  "holds": true,
+  "gaps": [
+   "W is never defined on the page. In the paper it is the total wire count, data plus side plus central, eq. bit-wire-count at line 778. It enters WD-2N.",
+   "The page never states that every edge joins comparable (nested) labels (Lemma line 998). That is the hypothesis U⊆V needed to turn 'rank = dim V - dim U' into 'rank = |label dimension change'| on every edge.",
+   "Only the X_a sources have label U_ι and matrix -P_{U_ι}. The Y_a and scratch sources have label 0 and matrix 0. The page says 'Sources have dimension 1', so the source sum N (rather than W) cannot be derived from the page.",
+   "L=3C(h,3)^2 h^2 needs the fact that the center 3→4 edges are the only decreasing edges, each losing exactly h (lines 998-1000, 1061). The page gives no gate-label table, so a reader cannot check this.",
+   "'No label change' on the first X_a edge needs the first gate label to equal U_ι exactly (B=0 at stage 1, line 1163). The page does not justify this.",
+   "That decreasing edges contribute rank equal to the absolute loss (the reversed edge negates P_V-P_U, line 1160) is left implicit in 'absolute values add 2L'."
+  ],
+  "errors": [],
+  "summary": "The accounting chain is valid, and every equation and number matches the paper: rank = label dimension change; signed total Wm-2N from source sum N and sink sum Wm-N; +2L for absolute values; +N for the rank-one 2P_{U_a} source edges; s = Wm-N+2L; L/N=100/539<1/2, so s<Wm. Nothing is wrong. The gaps are in the premises, which the page asserts without support: W is undefined; nesting of labels on every edge is never stated; the source dimensions are misdescribed as all 1 (only the N X_a sources are); and the claims that the center 3→4 edges are the only decreasing edges, and that the first X_a gate has label U_ι, depend on gate labels the page never gives."
+ }
+}

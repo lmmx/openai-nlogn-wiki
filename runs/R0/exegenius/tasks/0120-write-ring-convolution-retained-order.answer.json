@@ -1,0 +1,88 @@
+{
+  "symbols": [
+    {
+      "symbol": "\\phi",
+      "name": "first input array",
+      "meaning": "The first of the two input arrays of the convolution, indexed by $i$ on each axis.",
+      "relation": "direct",
+      "quote": "Let $\\phi$ and $\\psi$ be the two input arrays."
+    },
+    {
+      "symbol": "\\psi",
+      "name": "second input array",
+      "meaning": "The second of the two input arrays of the convolution, indexed by $j$ on each axis.",
+      "relation": "direct",
+      "quote": "Let $\\phi$ and $\\psi$ be the two input arrays."
+    },
+    {
+      "symbol": "\\ast",
+      "name": "ring convolution",
+      "meaning": "The cyclic convolution of two arrays on one axis, with products taken in the ring.",
+      "relation": "direct",
+      "quote": "Let $\\ast$ denote their cyclic convolution on one axis of length $t$, with products taken in the ring:"
+    },
+    {
+      "symbol": "\\mathcal{D}",
+      "name": "forward transform",
+      "meaning": "The transform sending an array to its entries $(\\mathcal D\\phi)_m$, indexed by frequency $m$.",
+      "relation": "direct",
+      "quote": "The forward transform $\\mathcal D$ sends an array to $(\\mathcal D\\phi)_m=\\sum_i\\omega^{mi}\\phi_i$, where $\\omega$ is the primitive $t$th root of unity of the ring and $m$ is the frequency index."
+    },
+    {
+      "symbol": "\\mathcal{D}^{+}",
+      "name": "opposite transform",
+      "meaning": "The transform that inverts the forward transform up to the scalar $M$.",
+      "relation": "direct",
+      "quote": "Let $\\mathcal D^{+}$ be the opposite transform."
+    },
+    {
+      "symbol": "M",
+      "name": "normalization scalar",
+      "meaning": "The known scalar fixed by the normalization of the transforms.",
+      "relation": "direct",
+      "quote": "Let $M$ be the known scalar fixed by the normalization of the transforms."
+    },
+    {
+      "symbol": "\\odot",
+      "name": "entrywise product",
+      "meaning": "The product of ring elements at the same address, applied entry by entry.",
+      "relation": "direct",
+      "quote": "Let $\\odot$ be the entrywise product of ring elements at the same address."
+    },
+    {
+      "symbol": "\\sigma",
+      "name": "layout permutation",
+      "meaning": "The permutation of addresses fixed by the layout, which moves the entry for frequency $m$ to address $\\sigma(m)$.",
+      "relation": "direct",
+      "quote": "Let $\\sigma$ be the permutation of addresses that the layout of the forward transforms fixes: the entry for frequency $m$ is stored at address $\\sigma(m)$, so the stored arrays are $\\sigma\\mathcal{D}\\phi$ and $\\sigma\\mathcal{D}\\psi$."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "synthetic-transforms",
+      "predicate": "computes its transforms by",
+      "quote": "This convolution computes its transforms by [Synthetic polynomial transforms](synthetic-transforms.md), which need only signed shifts, address rearrangements and butterflies."
+    },
+    {
+      "prerequisite": "signed-packing",
+      "predicate": "computes its products through",
+      "quote": "This convolution computes its products through [Signed coefficient packing (Kronecker substitution)](signed-packing.md): polynomial products are packed into integers and multiplied by the ordinary $O(n\\log n)$ multiplier as a subroutine."
+    },
+    {
+      "prerequisite": "gaussian-resampling",
+      "predicate": "is applied after",
+      "quote": "This convolution is applied after [Gaussian resampling](gaussian-resampling.md), which writes each source transform through a power-of-two tensor transform."
+    },
+    {
+      "prerequisite": "phase-twist-convolution",
+      "predicate": "is taken over the ring from",
+      "quote": "This convolution is taken over the ring from the [Last-coordinate phase twist](phase-twist-convolution.md), in which the negative wrap gives the original cyclic wrap."
+    }
+  ],
+  "derivations": [
+    {
+      "step": "S7.2",
+      "quote": "The opposite transform takes the stored product and first applies $\\sigma^{-1}$, so the $\\sigma$ cancels and no sort is run."
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "derivations": [
+    {
+      "step": "S1",
+      "quote": "Hence $\\Phi(\\ell)\\le (s/W)\\Phi(\\ell/m)+O(\\ell^\\tau+1)$ with $\\Phi(1)=O(1)$, since the children cost $s(V/W)\\Phi(\\ell/m)$ and dividing by $V$ gives $s/W$. Since $s/W<m$, some rational $\\tau<1$ gives $(s/W)/m^\\tau<1$; this is where $s<Wm$ is used. Dividing by $m^{k\\tau}$ gives $m^{-k\\tau}\\Phi(m^k)\\le \\frac{s/W}{m^\\tau}\\,m^{-(k-1)\\tau}\\Phi(m^{k-1})+O(1)$, since $\\ell^\\tau+1\\le 2\\ell^\\tau$. Unrolling gives a geometric sum with ratio $(s/W)/m^\\tau<1$, so $\\Phi(m^k)=O(m^{k\\tau})$. A field of $\\ell$ radix-$q$ digits has $\\Theta(\\ell)$ bits, because $q$ is fixed, so $\\ell$ is proportional to $u$ and the interchange costs $O(Vu^\\tau)$. The butterfly layer uses a second fixed network, also with $s<Wm$, and runs the same recursion on the $d$ selected chunks, so it costs $O(Vd^{\\lambda'})$ once $\\lambda'$ exceeds two exponents. Nodes with at least $\\sqrt d$ active chunks have node overhead of $O(\\ell^\\lambda)$ per unit volume, with $\\ell\\le d$ and $\\lambda=1-2^{-52}$. Smaller nodes, the small-level leaves, cost $O(d^{\\sigma+(1-\\sigma)/2})$ with $\\sigma=1-2^{-50}$. So $\\lambda'$ must exceed $\\lambda$ and $\\sigma+(1-\\sigma)/2$, and $\\lambda'=1-2^{-54}$ does."
+    }
+  ],
+  "relations": [
+    {
+      "prerequisite": "fast-address-interchange",
+      "predicate": "performs its address moves by",
+      "quote": "The machine performs its address moves by [Fast interchange of address fields](fast-address-interchange.md)."
+    },
+    {
+      "prerequisite": "fast-butterfly-layers",
+      "predicate": "performs its butterfly layers by",
+      "quote": "It performs its butterfly layers by [Fast simultaneous butterfly layers](fast-butterfly-layers.md)."
+    },
+    {
+      "prerequisite": "ring-convolution-retained-order",
+      "predicate": "computes its convolution by",
+      "quote": "The machine computes its convolution by [Convolution with retained transform order and cancelled permutations](ring-convolution-retained-order.md)."
+    },
+    {
+      "prerequisite": "fixed-point-precision",
+      "predicate": "recovers its coefficients by",
+      "quote": "The machine recovers its coefficients by [Fixed-point precision and exact recovery](fixed-point-precision.md)."
+    },
+    {
+      "prerequisite": "nlogn-conjecture",
+      "predicate": "disproves",
+      "quote": "It disproves the [n log n optimality conjecture](nlogn-conjecture.md) for this model."
+    },
+    {
+      "prerequisite": "crt-address-map",
+      "predicate": "places its coefficient list by",
+      "quote": "The machine places its coefficient list by the [Chinese-remainder map to prime cyclic axes](crt-address-map.md)."
+    }
+  ],
+  "symbols": [
+    {
+      "symbol": "\\ell",
+      "name": "chunk digit count",
+      "relation": "count",
+      "meaning": "The number of radix-q digits in a chunk at a recursion level, equal to m^k.",
+      "quote": "Let $\\ell=m^k$ be the number of radix-$q$ digits in a chunk at recursion level $k$, where $m$ is the number of fields per chunk and $q$ is a fixed prime."
+    },
+    {
+      "symbol": "p",
+      "name": "logarithmic scale",
+      "relation": "direct",
+      "meaning": "The logarithmic scale 6 times the ceiling of lg n, the power in each row of the cost table.",
+      "quote": "Each row of that table is a power $p$ with exponent one minus a margin, where $p=6\\lceil\\lg n\\rceil$."
+    }
+  ]
+}

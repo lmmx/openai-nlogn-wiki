@@ -1,0 +1,13 @@
+The Chinese-remainder map to prime cyclic axes is the rearrangement that places a coefficient list on a product of cyclic axes whose lengths are distinct primes.
+
+Let $N$, the number of coefficients in the list, be written $N = P_1 P_2 \cdots P_T$, where $T$ is the number of distinct primes and $P_\nu$ is the $\nu$-th of them, for $\nu = 1,\dots,T$. Each index $e \in \{0,\dots,N-1\}$ is sent to the tuple of its residues $(e \bmod P_1, \dots, e \bmod P_T)$. Each $\mathbb{Z}_{P_\nu}$, the set of residues modulo $P_\nu$, is one axis of length $P_\nu$. An axis is cyclic because its values wrap around modulo its length.
+
+The $P_\nu$ are pairwise coprime, since distinct primes share no factor. The Chinese remainder theorem then says that each tuple comes from exactly one index modulo $N$. There are $N$ indices and $N$ tuples, so the map is a bijection. Moreover, two indices agree modulo $N$ exactly when they agree modulo every $P_\nu$: the forward direction holds because each $P_\nu$ divides $N$, and the reverse is the uniqueness part of the theorem.
+
+For example, take $N = 15$ with $P_1 = 3$ and $P_2 = 5$. Index $7$ goes to $(1, 2)$ and index $8$ goes to $(2, 3)$. Their sum $15 \equiv 0$ goes to $(0, 0)$, which is $(1+2, 2+3)$ reduced modulo $(3, 5)$.
+
+Let $a$ and $b$ be lists of length $N$, and let $c_k=\sum_{i+j\equiv k \pmod N} a_i b_j$ be their cyclic [convolution](convolution.md). Under the map, a pair of indices contributes to $c_k$ exactly when, in every coordinate, the residues add to the residue of $k$. So the sum is cyclic along each axis separately. This map preserves [convolution](convolution.md) on the axes, so a cyclic product of two lists on $\mathbb{Z}_N$ becomes a product on the prime axes: the cyclic convolution is carried out along every axis at once.
+
+The map is applied to the radix-digit coefficient list produced by [reduction of integer product to digit convolution](radix-digit-reduction.md). The paper's map targets a product of <cite data-source="paper">distinct prime cyclic axes</cite>. [Gaussian resampling](gaussian-resampling.md) expresses the Fourier transform on each prime-length axis through a multidimensional transform with power-of-two axis lengths, so the placement on prime axes is what lets it apply.
+
+The paper's assembly section implements the map through <cite data-source="paper">triangular controlled shifts and charged axis moves</cite>. A shift or move rearranges the stored entries. The map's axis moves are costed in the [fixed-tape machine model and stream operations](fixed-tape-model.md), which counts each such step as data movement, since each step touches one cell per tape.

@@ -1,0 +1,13 @@
+The polynomial ring modulo a power-of-two wrap is the ring of complex polynomials in one variable in which that variable's wrap power is identified with $-1$. It is the coefficient ring in which the root multiplications of the remaining transform axes become cheap signed shifts.
+
+Here $y$ is the ring variable, the polynomial variable whose powers act as roots of unity. The ring degree $r$ is the number of complex coefficients in each element, a power of two. In the paper, one coordinate is stored as the coefficient list of a polynomial modulo $y^r+1$ <cite data-source="paper">with $r$ a power of two</cite>.
+
+An element is a polynomial in $y$ of degree below $r$, stored as its list of $r$ coefficients from $y^0$ up to $y^{r-1}$. Addition is coefficientwise. Multiplication takes the ordinary product, then replaces each power $y^{r+j}$ by $-y^j$, where $j$ is the exponent left after removing $y^r$ and $0\le j<r$; this holds because $y^{r+j}=y^r y^j=-y^j$. The letter $j$ denotes an index into the list $b$ on the convolution page, so here it changes meaning. Equivalently, the ring is the quotient of $\mathbb{C}[y]$ by the ideal $(y^r+1)$, the set of all polynomial multiples of $y^r+1$; the rule gives the representative of degree below $r$.
+
+Since $y^r=-1$, $y^{2r}=(y^r)^2=1$, so every power of $y$ equals $y^s$ for an exponent $s$ with $0\le s<2r$.
+
+If $s<r$, multiplying by $y^s$ moves each coefficient up $s$ places, and a coefficient pushed past position $r-1$ re-enters at the bottom with its sign reversed. This is a signed shift by $s$. If $r\le s<2r$, then $y^s=-y^{s-r}$, so multiplying by $y^s$ is minus a signed shift by $s-r$. For $r=4$, multiplying $1+2y+3y^2+4y^3$ by $y^3$ gives $-2-3y-4y^2+y^3$, the list $(-2,-3,-4,1)$.
+
+The remaining axes are the other coordinates of the multidimensional transforms <cite data-source="paper">whose axis lengths are powers of two</cite>. A transform along one axis combines the entries that differ only in that coordinate, using roots of unity of the axis's length. Powers of $y$ <cite data-source="paper">serve as roots of unity in the remaining axes</cite>. By the two cases above, every root multiplication on such an axis is a signed shift, possibly negated.
+
+A fast transform along an axis is built from butterflies: each butterfly takes two entries, multiplies one by a root, and replaces the pair with their sum and their difference. Address rearrangements move entries between butterfly layers. So a transform whose roots are powers of $y$ needs only signed shifts, address rearrangements, and additions and subtractions, with no general complex multiplication.

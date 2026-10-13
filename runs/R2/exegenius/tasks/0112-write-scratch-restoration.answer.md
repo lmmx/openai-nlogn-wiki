@@ -1,0 +1,7 @@
+Restoring auxiliary scratch values is a way to use spare wires as temporary storage during a computation while returning them to their starting contents, so that the result does not depend on those contents. A scratch wire may be overwritten along the way, but its starting value is arbitrary.
+
+Let $\alpha$ denote the starting value of a scratch wire, which may be any value. The basic move is a pair of writes. The computation adds a value $\gamma$ to the wire, where $\gamma$ is computed from data, so the wire holds $\alpha+\gamma$. Later the same $\gamma$ is subtracted again, and the wire holds $\alpha$ once more. This works because $\gamma$ is computed from data that the write leaves unchanged. <cite data-source="paper">Each update leaves its control wires unchanged.</cite>
+
+The data is also affected by the wire's contents, so $\alpha$ must be removed from it. Before the data is updated from the wire, the contribution of $\alpha$ is subtracted from the data, so that $\alpha$ cancels from the final data. The full schedule of writes and undo-writes then leaves every scratch wire unchanged <cite data-source="paper">and restores every auxiliary value.</cite> The interchange built this way is exact for every starting value of $\alpha$. <cite data-source="paper">The final permutation is exact for arbitrary initial auxiliary values.</cite>
+
+The procedure is applied to a [Finite linear network with roles and frames](linear-network-roles.md), whose wires include the auxiliary registers.

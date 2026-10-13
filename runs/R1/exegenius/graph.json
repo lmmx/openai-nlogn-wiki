@@ -1,0 +1,3610 @@
+{
+  "target": "main-theorem",
+  "concepts": [
+    {
+      "id": "big-o",
+      "name": "Big-O notation",
+      "aliases": [],
+      "gloss": "Asymptotic upper bound on growth.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "polynomials",
+      "name": "Polynomials",
+      "aliases": [],
+      "gloss": "Sums of powers of a variable with coefficients.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "complex-numbers",
+      "name": "Complex numbers",
+      "aliases": [
+        "Gaussian integer"
+      ],
+      "gloss": "Numbers a+bi, with roots of unity.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "turing-machine-tapes",
+      "name": "Multitape Turing machine",
+      "aliases": [],
+      "gloss": "Finite-state machine with tapes read and written one cell per step.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "fixed-tape-model",
+      "name": "Fixed-tape machine model and stream operations",
+      "aliases": [
+        "fixed-tape machine"
+      ],
+      "gloss": "Machine with one fixed finite alphabet and a fixed number of one-dimensional tapes; each step touches one cell per tape, so data movement (scans, shifts, permutations) is the cost to minimize.",
+      "requires": [
+        "turing-machine-tapes",
+        "big-o"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "A machine has one fixed finite alphabet and one fixed finite number of one-dimensional tapes."
+        }
+      ]
+    },
+    {
+      "id": "convolution",
+      "name": "Convolution",
+      "aliases": [],
+      "gloss": "Product of polynomials / combination of coefficient lists where entries sum by index (cyclic if indices wrap).",
+      "requires": [
+        "polynomials"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Splitting the inputs into radix digits reduces multiplication to"
+        }
+      ]
+    },
+    {
+      "id": "dft-fft",
+      "name": "Discrete Fourier transform and butterflies",
+      "aliases": [
+        "transform (the DFT/FFT the layout is for)",
+        "twiddle factor",
+        "bit-reversed input",
+        "forward transform of length S"
+      ],
+      "gloss": "Evaluation of a coefficient list at roots of unity, computed in log-many levels of two-point butterfly operations; turns convolution into pointwise product.",
+      "requires": [
+        "complex-numbers",
+        "polynomials",
+        "convolution",
+        "address-fields"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "two-point butterfly operations"
+        }
+      ]
+    },
+    {
+      "id": "nlogn-conjecture",
+      "name": "The n log n optimality conjecture",
+      "aliases": [],
+      "gloss": "Schönhage–Strassen's proposal that n log n is the optimal order of cost for multiplying n-bit integers.",
+      "requires": [
+        "big-o",
+        "turing-machine-tapes"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "proposed $n\\log n$ as the optimal order of growth"
+        }
+      ]
+    },
+    {
+      "id": "ss-hh-background",
+      "name": "Schönhage–Strassen to Harvey–van der Hoeven multiplication",
+      "aliases": [],
+      "gloss": "Chain of multitape algorithms from O(n log n log log n) to the unconditional O(n log n) bound, using transforms over rings with cheap roots of unity.",
+      "requires": [
+        "dft-fft",
+        "nlogn-conjecture"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Harvey and van der Hoeven reached the unconditional $O(n\\log n)$ upper"
+        }
+      ]
+    },
+    {
+      "id": "radix-digit-reduction",
+      "name": "Reduction of integer product to digit convolution",
+      "aliases": [],
+      "gloss": "Splitting the inputs into radix digits turns the integer product into a convolution of short integer coefficients, followed by carry propagation.",
+      "requires": [
+        "convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Splitting the inputs into radix digits reduces multiplication to"
+        }
+      ]
+    },
+    {
+      "id": "crt-address-map",
+      "name": "Chinese-remainder map to prime cyclic axes",
+      "aliases": [],
+      "gloss": "Places the coefficient list on a product of distinct prime cyclic axes by a map preserving convolution, implemented via triangular controlled shifts and axis moves.",
+      "requires": [
+        "convolution",
+        "radix-digit-reduction",
+        "fixed-tape-model"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Chinese-remainder map that preserves"
+        }
+      ]
+    },
+    {
+      "id": "gaussian-resampling",
+      "name": "Gaussian resampling",
+      "aliases": [
+        "Gaussian (weighting function)"
+      ],
+      "gloss": "Harvey–van der Hoeven reduction expressing each Fourier transform of prime-length axes through a multidimensional transform with power-of-two axis lengths.",
+      "requires": [
+        "dft-fft",
+        "crt-address-map"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "it replaces the Fourier transforms needed for"
+        }
+      ]
+    },
+    {
+      "id": "bluestein-chirp",
+      "name": "Bluestein's chirp identity",
+      "aliases": [],
+      "gloss": "Rewrites a discrete Fourier transform as a cyclic convolution via chirp phases.",
+      "requires": [
+        "dft-fft",
+        "convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Bluestein's chirp identity converts the middle transform,"
+        }
+      ]
+    },
+    {
+      "id": "poly-ring-y-r",
+      "name": "Polynomial ring modulo $y^r+1$",
+      "title": "Polynomial ring modulo $y^r+1$",
+      "symbols": [
+        {
+          "symbol": "y",
+          "name": "ring variable",
+          "meaning": "The polynomial variable whose powers act as roots of unity.",
+          "relation": "direct"
+        },
+        {
+          "symbol": "r",
+          "name": "ring degree",
+          "meaning": "The power of two giving the number of coefficients in each polynomial.",
+          "relation": "count"
+        }
+      ],
+      "aliases": [],
+      "gloss": "Complex-coefficient polynomials in y reduced by y^r = -1, so multiplying by a power of y is a signed shift of the coefficient list and powers of y serve as roots of unity.",
+      "requires": [
+        "polynomials",
+        "complex-numbers"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "one coordinate is stored as the coefficient list of a polynomial modulo $y^r+1$"
+        }
+      ]
+    },
+    {
+      "id": "synthetic-transforms",
+      "name": "Synthetic polynomial transforms",
+      "aliases": [
+        "fast transform and transform axes"
+      ],
+      "gloss": "Nussbaumer-style transforms over the polynomial ring where root multiplications are signed shifts, leaving address rearrangements, shifts and butterflies.",
+      "requires": [
+        "dft-fft",
+        "poly-ring-y-r",
+        "fixed-tape-model"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "These are the"
+        },
+        {
+          "source": "paper",
+          "quote": " synthetic polynomial transforms of Nussbaumer and Quandalle"
+        }
+      ]
+    },
+    {
+      "id": "signed-packing",
+      "name": "Signed coefficient packing (Kronecker substitution)",
+      "aliases": [],
+      "gloss": "Packs polynomial coefficients into one integer so polynomial products are done by an ordinary n log n integer multiplier.",
+      "requires": [
+        "polynomials",
+        "ss-hh-background"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "Signed coefficient"
+        }
+      ]
+    },
+    {
+      "id": "phase-twist-convolution",
+      "name": "Last-coordinate phase twist",
+      "aliases": [],
+      "gloss": "Twisting the last cyclic coordinate into a polynomial modulo y^r+1 whose negative wrap equals the original cyclic wrap after untwisting.",
+      "requires": [
+        "poly-ring-y-r",
+        "convolution",
+        "bluestein-chirp"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "A phase twist changes the last cyclic coordinate into a polynomial"
+        }
+      ]
+    },
+    {
+      "id": "ring-convolution-retained-order",
+      "name": "Convolution with retained transform order and cancelled permutations",
+      "aliases": [],
+      "gloss": "Two forward synthetic transforms keep the same frequency order through the pointwise product, and the opposite transform consumes it, so retained permutations cancel without separate sorts.",
+      "requires": [
+        "synthetic-transforms",
+        "signed-packing",
+        "gaussian-resampling",
+        "phase-twist-convolution"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The two forward synthetic transforms"
+        }
+      ]
+    },
+    {
+      "id": "address-fields",
+      "name": "Address fields and array layout on tapes",
+      "aliases": [
+        "fields",
+        "address rearrangements and signed shifts"
+      ],
+      "gloss": "Arrays stored in tape order with addresses forming a Cartesian product of digit fields; rearranging fields costs time.",
+      "requires": [
+        "fixed-tape-model"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "address rearrangements"
+        }
+      ]
+    },
+    {
+      "id": "linear-network-roles",
+      "name": "Finite linear network with roles and frames",
+      "aliases": [
+        "scalar network",
+        "source and sink nodes of a route"
+      ],
+      "gloss": "Fixed linear network exchanging two banks of values with prescribed signs and restoring auxiliary values; wires have roles, rows are distributed cyclically among roles, and invertible frame operators cancel along routes leaving an endpoint operator.",
+      "requires": [
+        "address-fields",
+        "polynomials"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "A wire's fixed place in the network is called its role."
+        }
+      ]
+    },
+    {
+      "id": "subset-intersection-construction",
+      "name": "Three-element subset intersection construction",
+      "aliases": [],
+      "gloss": "Gather/scatter with auxiliary wires cancelling unwanted coefficients, using indicator-vector orthogonality to assign subspaces; gives s<Wm smaller calls.",
+      "requires": [
+        "linear-network-roles",
+        "tensor-product-of-vector-spaces"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The construction uses"
+        },
+        {
+          "source": "paper",
+          "quote": "three-element subsets"
+        }
+      ]
+    },
+    {
+      "id": "recursive-power-saving",
+      "name": "Recursive power saving from s<Wm",
+      "aliases": [],
+      "gloss": "Recursive call at parameter mf uses s calls at parameter f on streams of volume V/W; since s/W<m the volume-normalized cost grows as a power, giving a fixed power saving.",
+      "requires": [
+        "subset-intersection-construction",
+        "big-o"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "This strict inequality"
+        },
+        {
+          "source": "paper",
+          "quote": "is the source of the power saving."
+        }
+      ]
+    },
+    {
+      "id": "address-shear-factorization",
+      "name": "Address shear and lower-triangular factorization",
+      "aliases": [],
+      "gloss": "Endpoint operator (H,D)->(H+D,D) over a residue ring, with rank reduction via a singular-matrix Bruhat factorization into lower-triangular factors.",
+      "requires": [
+        "linear-network-roles"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "that endpoint operator is an address shear"
+        }
+      ]
+    },
+    {
+      "id": "scratch-restoration",
+      "name": "Restoring auxiliary scratch values",
+      "aliases": [
+        "scratch (auxiliary) roles"
+      ],
+      "gloss": "Subtract initial register value, compute, add result, reverse, so the permutation is exact for arbitrary initial auxiliary values.",
+      "requires": [
+        "linear-network-roles"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The final permutation is exact for arbitrary initial auxiliary values."
+        }
+      ]
+    },
+    {
+      "id": "fast-address-interchange",
+      "name": "Fast interchange of address fields",
+      "aliases": [
+        "address interchange and numerical layer",
+        "interchange",
+        "address interchange"
+      ],
+      "gloss": "Interchange two disjoint contiguous u-bit address fields in an array in O(V u^τ) for fixed τ<1, via XOR combinations that end as an exact permutation.",
+      "requires": [
+        "address-shear-factorization",
+        "scratch-restoration",
+        "recursive-power-saving",
+        "address-fields"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The first procedure interchanges two disjoint contiguous address fields"
+        }
+      ]
+    },
+    {
+      "id": "fast-butterfly-layers",
+      "name": "Fast simultaneous butterfly layers",
+      "aliases": [],
+      "gloss": "Applies H0(u,v)=((u+v)/2,(u-v)/2) on selected address bits of polynomial-valued arrays with exact Gaussian dyadics in O(V d^λ') with λ'<1, one truncation at the end.",
+      "requires": [
+        "recursive-power-saving",
+        "fast-address-interchange",
+        "synthetic-transforms",
+        "fixed-point-precision"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "The second procedure applies"
+        }
+      ]
+    },
+    {
+      "id": "fixed-point-precision",
+      "name": "Fixed-point precision and exact recovery",
+      "aliases": [
+        "source scale 2^gamma"
+      ],
+      "gloss": "Complex fixed-point coefficients; bounding error below 1/2 so rounding recovers exact integer coefficients and carry propagation yields the product.",
+      "requires": [
+        "complex-numbers",
+        "radix-digit-reduction",
+        "dft-fft"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "proves that the recovered"
+        }
+      ]
+    },
+    {
+      "id": "main-theorem",
+      "name": "Integer multiplication in O(n(lg n)^{1-κ}) time",
+      "title": "Integer multiplication in $O(n(\\lg n)^{1-\\kappa})$ time",
+      "symbols": [
+        {
+          "symbol": "n",
+          "name": "input length",
+          "meaning": "The number of bits in each integer being multiplied.",
+          "relation": "count"
+        },
+        {
+          "symbol": "\\kappa",
+          "name": "saving exponent",
+          "meaning": "The fixed constant 2^{-182} giving the power saving in the logarithmic factor.",
+          "relation": "direct"
+        }
+      ],
+      "aliases": [],
+      "gloss": "Deterministic fixed-tape Turing machine multiplying n-bit integers in O(n(lg n)^{1-κ}), κ=2^{-182}, by reducing to ring convolution with fast address interchanges and simultaneous butterfly layers, disproving the n log n conjecture in this model.",
+      "requires": [
+        "fast-address-interchange",
+        "fast-butterfly-layers",
+        "ring-convolution-retained-order",
+        "fixed-point-precision",
+        "nlogn-conjecture",
+        "crt-address-map"
+      ],
+      "known": false,
+      "evidence": [
+        {
+          "source": "paper",
+          "quote": "There is one deterministic Turing machine $A$, with a fixed finite"
+        }
+      ]
+    },
+    {
+      "id": "binary-representation-and-bit-operations",
+      "name": "Binary representation and bit operations",
+      "aliases": [
+        "bits",
+        "XOR",
+        "bitwise operations",
+        "base 2"
+      ],
+      "gloss": "Integers written in base 2, with bitwise operations such as XOR acting on their digits.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "modular-arithmetic",
+      "name": "Modular arithmetic",
+      "aliases": [
+        "congruence",
+        "residues mod m",
+        "remainder arithmetic"
+      ],
+      "gloss": "Arithmetic on integers where values differing by a multiple of the modulus are identified.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "prime-numbers-and-coprimality",
+      "name": "Prime numbers and coprimality",
+      "aliases": [
+        "primes",
+        "relatively prime",
+        "gcd",
+        "distinct primes"
+      ],
+      "gloss": "Primes are integers greater than 1 with no proper divisors; two integers are coprime when their gcd is 1.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "logarithms-and-floor-ceiling",
+      "name": "Logarithms and floor/ceiling",
+      "aliases": [
+        "lg",
+        "log base 2",
+        "floor",
+        "ceiling",
+        "iterated logarithm"
+      ],
+      "gloss": "The base-2 logarithm and rounding down or up to integers, as used in size and depth bounds.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "vectors-matrices-and-inverses",
+      "name": "Vectors, matrices and inverses",
+      "aliases": [
+        "linear algebra",
+        "matrix multiplication",
+        "invertible matrix",
+        "dot product",
+        "orthogonality",
+        "linear map",
+        "norm"
+      ],
+      "gloss": "Finite-dimensional vectors, matrices acting as linear maps, invertibility, and orthogonality via dot products.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "schoolbook-and-karatsuba-multiplication",
+      "name": "Schoolbook and Karatsuba multiplication",
+      "aliases": [
+        "grade-school multiplication",
+        "long multiplication",
+        "Karatsuba"
+      ],
+      "gloss": "Quadratic digit-by-digit multiplication and the divide-and-conquer improvement using three half-size products.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "divide-and-conquer-recurrences",
+      "name": "Divide-and-conquer recurrences",
+      "aliases": [
+        "master theorem",
+        "recurrence relations",
+        "recursion tree"
+      ],
+      "gloss": "Solving cost recurrences such as T(n)=aT(n/b)+f(n) to obtain asymptotic bounds.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "limits-series-and-convergence",
+      "name": "Limits, series and convergence",
+      "aliases": [
+        "geometric series",
+        "summation",
+        "converging sum",
+        "epsilon bounds"
+      ],
+      "gloss": "Limits of sequences, convergence of series such as geometric sums, used to bound errors and total costs.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "cartesian-product-and-tuples",
+      "name": "Cartesian product and tuples",
+      "aliases": [
+        "product of sets",
+        "index tuples",
+        "mixed radix",
+        "multi-index"
+      ],
+      "gloss": "Ordered tuples of coordinates drawn from several index sets, used to index multidimensional arrays.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "permutations",
+      "name": "Permutations",
+      "aliases": [
+        "bijection",
+        "rearrangement",
+        "reordering",
+        "inverse permutation"
+      ],
+      "gloss": "A bijective rearrangement of positions in a list, composable and invertible.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "roots-of-unity",
+      "name": "Roots of unity",
+      "aliases": [
+        "nth roots of unity",
+        "primitive root of unity",
+        "e^{2 pi i/n}"
+      ],
+      "gloss": "Complex numbers w with w^n=1, evenly spaced on the unit circle.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "rings-and-basic-algebraic-structures",
+      "name": "Rings and basic algebraic structures",
+      "aliases": [
+        "ring",
+        "commutative ring",
+        "group",
+        "quotient ring",
+        "residue ring"
+      ],
+      "gloss": "Sets with addition and multiplication satisfying the standard laws, including integers modulo m and polynomials modulo a polynomial.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "fixed-point-and-rounding-arithmetic",
+      "name": "Fixed-point and rounding arithmetic",
+      "aliases": [
+        "rounding error",
+        "truncation",
+        "fixed-point numbers",
+        "absolute error"
+      ],
+      "gloss": "Representing reals by integers scaled by a power of 2, with bounded error from rounding or truncation.",
+      "requires": [],
+      "known": true,
+      "evidence": []
+    },
+    {
+      "id": "tensor-product-of-vector-spaces",
+      "name": "Tensor product of vector spaces",
+      "aliases": [
+        "tensor power"
+      ],
+      "gloss": "The space built from tuples of vectors whose dimension is the product of the factors' dimensions, so (Q^h)^{⊗3} has dimension h^3.",
+      "requires": [
+        "vectors-matrices-and-inverses",
+        "cartesian-product-and-tuples"
+      ],
+      "known": false,
+      "evidence": []
+    }
+  ],
+  "bindings": {
+    "address-fields": [
+      {
+        "symbol": "m",
+        "name": "tape position",
+        "meaning": "The position of an item in tape order, so the item sits in the m-th cell.",
+        "relation": "direct",
+        "quote": "Write $m$ for an item's position in tape order."
+      },
+      {
+        "symbol": "u",
+        "name": "field width",
+        "meaning": "The number of bits in one address field.",
+        "relation": "count",
+        "quote": "Write $u$ for the number of bits in one address field."
+      },
+      {
+        "symbol": "V",
+        "name": "stored bit volume",
+        "meaning": "The total number of bits the array holds.",
+        "relation": "count",
+        "quote": "Write $V$ for the stored bit volume, the total number of bits the array holds."
+      }
+    ],
+    "address-shear-factorization": [
+      {
+        "symbol": "q",
+        "name": "digit radix",
+        "meaning": "A fixed odd prime, the radix of the digits of each field.",
+        "relation": "direct",
+        "quote": "Here $q$ is a fixed odd prime, the radix of the digits, and $b$ is the number of radix-$q$ digits in each field, so a field holds a residue in $\\mathbb Z/q^b\\mathbb Z$."
+      },
+      {
+        "symbol": "b",
+        "name": "digits per field",
+        "meaning": "The number of radix-q digits in each field.",
+        "relation": "count",
+        "quote": "Here $q$ is a fixed odd prime, the radix of the digits, and $b$ is the number of radix-$q$ digits in each field, so a field holds a residue in $\\mathbb Z/q^b\\mathbb Z$."
+      },
+      {
+        "symbol": "R",
+        "name": "fields per vector",
+        "meaning": "The number of fields in each of the vectors H and D.",
+        "relation": "count",
+        "quote": "Let $R$ be the number of fields in each vector, and let $H=(H_1,\\ldots,H_R)$ and $D=(D_1,\\ldots,D_R)$ be two vectors of address fields."
+      },
+      {
+        "symbol": "H",
+        "name": "field vector H",
+        "meaning": "The vector $(H_1,\\ldots,H_R)$ of R address fields that a shear updates.",
+        "relation": "direct",
+        "quote": "Let $R$ be the number of fields in each vector, and let $H=(H_1,\\ldots,H_R)$ and $D=(D_1,\\ldots,D_R)$ be two vectors of address fields."
+      },
+      {
+        "symbol": "D",
+        "name": "field vector D",
+        "meaning": "The vector $(D_1,\\ldots,D_R)$ of R address fields that a shear reads and leaves unchanged.",
+        "relation": "direct",
+        "quote": "Let $R$ be the number of fields in each vector, and let $H=(H_1,\\ldots,H_R)$ and $D=(D_1,\\ldots,D_R)$ be two vectors of address fields."
+      },
+      {
+        "symbol": "M",
+        "name": "shear matrix",
+        "meaning": "A rational R-by-R matrix whose shear $(H,D)\\mapsto(H+MD,D)$ is performed.",
+        "relation": "direct",
+        "quote": "For a rational $R\\times R$ matrix $M$, the shear by $M$ is $(H,D)\\mapsto(H+MD,D)$."
+      },
+      {
+        "symbol": "\\mu",
+        "name": "numerator of an entry",
+        "meaning": "The integer numerator of a rational entry of M.",
+        "relation": "direct",
+        "quote": "A rational entry is written $\\mu/\\xi$, where $\\mu$ is its integer numerator and $\\xi$ its integer denominator, and $q$ must not divide $\\xi$."
+      },
+      {
+        "symbol": "\\xi",
+        "name": "denominator of an entry",
+        "meaning": "The integer denominator of a rational entry of M, which q must not divide.",
+        "relation": "direct",
+        "quote": "A rational entry is written $\\mu/\\xi$, where $\\mu$ is its integer numerator and $\\xi$ its integer denominator, and $q$ must not divide $\\xi$."
+      },
+      {
+        "symbol": "\\Pi",
+        "name": "partial permutation matrix",
+        "meaning": "A 0-1 matrix with at most one 1 in each row and column, whose ones give the interchanges.",
+        "relation": "direct",
+        "quote": "A partial permutation matrix $\\Pi$ is a 0-1 matrix with at most one 1 in each row and column, and it has $\\operatorname{rank}_{\\mathbb Q}M$ ones."
+      },
+      {
+        "symbol": "F_1",
+        "name": "left lower-triangular factor",
+        "meaning": "The invertible lower-triangular rational matrix on the left of the factorization $M=F_1\\Pi F_2$.",
+        "relation": "direct",
+        "quote": "Every rational $M$ factors as $M=F_1\\Pi F_2$, where $F_1$ and $F_2$ are invertible lower-triangular rational matrices."
+      },
+      {
+        "symbol": "F_2",
+        "name": "right lower-triangular factor",
+        "meaning": "The invertible lower-triangular rational matrix on the right of the factorization $M=F_1\\Pi F_2$.",
+        "relation": "direct",
+        "quote": "Every rational $M$ factors as $M=F_1\\Pi F_2$, where $F_1$ and $F_2$ are invertible lower-triangular rational matrices."
+      },
+      {
+        "symbol": "\\sigma",
+        "name": "row of a one",
+        "meaning": "The row of a 1 in Pi, which names the field H_sigma that the update changes.",
+        "relation": "direct",
+        "quote": "For each 1 in $\\Pi$, at row $\\sigma$ and column $\\tau$, update $H_\\sigma\\leftarrow H_\\sigma+D_\\tau$, using the transformed $D$."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "column of a one",
+        "meaning": "The column of a 1 in Pi, which names the field D_tau that the update reads.",
+        "relation": "direct",
+        "quote": "For each 1 in $\\Pi$, at row $\\sigma$ and column $\\tau$, update $H_\\sigma\\leftarrow H_\\sigma+D_\\tau$, using the transformed $D$."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "content of H_sigma",
+        "meaning": "The value held by the field H_sigma before one update.",
+        "relation": "direct",
+        "quote": "Let $\\eta$ be the content of $H_\\sigma$ and $\\zeta$ that of $D_\\tau$."
+      },
+      {
+        "symbol": "\\zeta",
+        "name": "content of D_tau",
+        "meaning": "The value held by the field D_tau before one update.",
+        "relation": "direct",
+        "quote": "Let $\\eta$ be the content of $H_\\sigma$ and $\\zeta$ that of $D_\\tau$."
+      },
+      {
+        "symbol": "W_{\\rm b}",
+        "name": "bit network wires",
+        "meaning": "The number of wires of the bit network.",
+        "relation": "count",
+        "quote": "where $W_{\\rm b}$ is the number of wires, $N$ the number of negative source projections, and $L_{\\rm b}$ the total dimension lost on decreasing edges."
+      },
+      {
+        "symbol": "N",
+        "name": "negative source projections",
+        "meaning": "The number of negative source projections of the bit network.",
+        "relation": "count",
+        "quote": "where $W_{\\rm b}$ is the number of wires, $N$ the number of negative source projections, and $L_{\\rm b}$ the total dimension lost on decreasing edges."
+      },
+      {
+        "symbol": "L_{\\rm b}",
+        "name": "lost dimension",
+        "meaning": "The total dimension lost over the decreasing edges of the bit network.",
+        "relation": "count",
+        "quote": "where $W_{\\rm b}$ is the number of wires, $N$ the number of negative source projections, and $L_{\\rm b}$ the total dimension lost on decreasing edges."
+      },
+      {
+        "symbol": "s_{\\rm b}",
+        "name": "network interchange total",
+        "meaning": "The total number of interchanges the bit network needs, the sum of the ranks of its edge matrices.",
+        "relation": "count",
+        "quote": "The interchange count of the network is $s_{\\rm b}$, the sum of their ranks."
+      }
+    ],
+    "bluestein-chirp": [
+      {
+        "symbol": "\\zeta",
+        "name": "primitive root of unity",
+        "meaning": "A primitive $2n$th root of unity whose square is $\\omega$.",
+        "relation": "direct",
+        "quote": "Let $\\zeta$ be a primitive $2n$th root of unity with $\\zeta^2=\\omega$."
+      },
+      {
+        "symbol": "j",
+        "name": "output index",
+        "meaning": "The index of an output entry $A_j$, ranging over $0$ to $n-1$; on the convolution page $j$ indexes the second list instead.",
+        "relation": "direct",
+        "quote": "Here $j$ indexes outputs and $k$ indexes inputs, both in $\\{0,\\dots,n-1\\}$; these letters mean something else on the convolution page, where $j$ indexes its second list and $k$ its output."
+      },
+      {
+        "symbol": "k",
+        "name": "input index",
+        "meaning": "The index of an input entry $a_k$, ranging over $0$ to $n-1$; on the convolution page $k$ indexes the output list instead.",
+        "relation": "direct",
+        "quote": "Here $j$ indexes outputs and $k$ indexes inputs, both in $\\{0,\\dots,n-1\\}$; these letters mean something else on the convolution page, where $j$ indexes its second list and $k$ its output."
+      },
+      {
+        "symbol": "c",
+        "name": "wrap count",
+        "meaning": "The number of wraps, 0 or 1, in the sum $k+l$ modulo $n$.",
+        "relation": "count",
+        "quote": "Since $k$, $l$ and $j$ lie in $\\{0,\\dots,n-1\\}$, $k+l-j$ lies between $-(n-1)$ and $2n-2$, whose only multiples of $n$ are $0$ and $n$, so $k+l=j+cn$ with $c\\in\\{0,1\\}$, where $c$ counts the wraps (on the convolution page $c$ names the output list)."
+      },
+      {
+        "symbol": "g",
+        "name": "scaled input",
+        "meaning": "The input entry $a_k\\zeta^{k^2}$ at index $k$, so $g_k=a_k\\zeta^{k^2}$.",
+        "relation": "direct",
+        "quote": "Define $g_k=a_k\\zeta^{k^2}$ and $z_e=\\zeta^{-e^2}$, the chirp at integer index $e$."
+      },
+      {
+        "symbol": "z",
+        "name": "chirp",
+        "meaning": "The chirp $z_e=\\zeta^{-e^2}$, with one entry for each integer index $e$.",
+        "relation": "direct",
+        "quote": "Define $g_k=a_k\\zeta^{k^2}$ and $z_e=\\zeta^{-e^2}$, the chirp at integer index $e$."
+      },
+      {
+        "symbol": "e",
+        "name": "chirp index",
+        "meaning": "An integer index of the chirp entry $z_e$.",
+        "relation": "direct",
+        "quote": "Define $g_k=a_k\\zeta^{k^2}$ and $z_e=\\zeta^{-e^2}$, the chirp at integer index $e$."
+      },
+      {
+        "symbol": "l",
+        "name": "twisted chirp index",
+        "meaning": "The index of the chirp entry $z_l$ in the twisted list, ranging over $0$ to $n-1$.",
+        "relation": "direct",
+        "quote": "Multiply each $g_k$ by $\\zeta^k$ and each $z_l$ by $\\zeta^l$, for $k,l\\in\\{0,\\dots,n-1\\}$."
+      },
+      {
+        "symbol": "w",
+        "name": "twisted convolution",
+        "meaning": "The cyclic convolution at output $j$ of the twisted lists $\\zeta^k g_k$ and $\\zeta^l z_l$.",
+        "relation": "direct",
+        "quote": "Let $w_j$ be the cyclic convolution of these twisted lists at output $j$, for $j\\in\\{0,\\dots,n-1\\}$:"
+      }
+    ],
+    "convolution": [
+      {
+        "symbol": "n",
+        "name": "list length",
+        "meaning": "The number of entries in each input and output coefficient list.",
+        "relation": "count",
+        "quote": "Let $n$ be the length of the lists, the number of entries in each coefficient list."
+      },
+      {
+        "symbol": "a",
+        "name": "input list a",
+        "meaning": "The first input coefficient list, with entries $a_0,\\dots,a_{n-1}$.",
+        "relation": "direct",
+        "quote": "Let $a=(a_0,\\dots,a_{n-1})$ and $b=(b_0,\\dots,b_{n-1})$ be the two input coefficient lists."
+      },
+      {
+        "symbol": "b",
+        "name": "input list b",
+        "meaning": "The second input coefficient list, with entries $b_0,\\dots,b_{n-1}$.",
+        "relation": "direct",
+        "quote": "Let $a=(a_0,\\dots,a_{n-1})$ and $b=(b_0,\\dots,b_{n-1})$ be the two input coefficient lists."
+      },
+      {
+        "symbol": "c",
+        "name": "output list",
+        "meaning": "The cyclic convolution of $a$ and $b$, a list of $n$ entries.",
+        "relation": "direct",
+        "quote": "The cyclic convolution of $a$ and $b$ is the list $c$ with entries"
+      },
+      {
+        "symbol": "i",
+        "name": "index i",
+        "meaning": "An index into the entries of the input list $a$.",
+        "relation": "direct",
+        "quote": "Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
+      },
+      {
+        "symbol": "j",
+        "name": "index j",
+        "meaning": "An index into the entries of the input list $b$.",
+        "relation": "direct",
+        "quote": "Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
+      },
+      {
+        "symbol": "k",
+        "name": "output index",
+        "meaning": "An index into the entries of the output list $c$.",
+        "relation": "direct",
+        "quote": "Here $i$ and $j$ index the entries of $a$ and $b$, and $k$ indexes the entries of $c$."
+      },
+      {
+        "symbol": "y",
+        "name": "indeterminate",
+        "meaning": "A symbol with no value, used as the variable of the polynomials whose coefficients are the lists.",
+        "relation": "direct",
+        "quote": "Equivalently, let $y$ be an indeterminate, a symbol with no value, and let $A(y)=\\sum_i a_i y^i$ and $B(y)=\\sum_j b_j y^j$."
+      }
+    ],
+    "crt-address-map": [
+      {
+        "symbol": "N",
+        "name": "list length",
+        "meaning": "The number of coefficients in the list, which equals the product of the T distinct primes.",
+        "relation": "count",
+        "quote": "Let $N$, the number of coefficients in the list, be written $N = P_1 P_2 \\cdots P_T$, where $T$ is the number of distinct primes and $P_\\nu$ is the $\\nu$-th of them, for $\\nu = 1,\\dots,T$."
+      },
+      {
+        "symbol": "T",
+        "name": "prime count",
+        "meaning": "The number of distinct primes whose product is N, and so the number of axes.",
+        "relation": "count",
+        "quote": "Let $N$, the number of coefficients in the list, be written $N = P_1 P_2 \\cdots P_T$, where $T$ is the number of distinct primes and $P_\\nu$ is the $\\nu$-th of them, for $\\nu = 1,\\dots,T$."
+      },
+      {
+        "symbol": "P_\\nu",
+        "name": "ν-th prime",
+        "meaning": "The ν-th of the distinct primes, which is also the length of the ν-th axis.",
+        "relation": "direct",
+        "quote": "Let $N$, the number of coefficients in the list, be written $N = P_1 P_2 \\cdots P_T$, where $T$ is the number of distinct primes and $P_\\nu$ is the $\\nu$-th of them, for $\\nu = 1,\\dots,T$."
+      },
+      {
+        "symbol": "\\nu",
+        "name": "axis index",
+        "meaning": "The index of one prime and of its axis, running from 1 to T.",
+        "relation": "direct",
+        "quote": "Let $N$, the number of coefficients in the list, be written $N = P_1 P_2 \\cdots P_T$, where $T$ is the number of distinct primes and $P_\\nu$ is the $\\nu$-th of them, for $\\nu = 1,\\dots,T$."
+      },
+      {
+        "symbol": "e",
+        "name": "list index",
+        "meaning": "An index of an entry of the list, an integer from 0 to N-1.",
+        "relation": "direct",
+        "quote": "Each index $e \\in \\{0,\\dots,N-1\\}$ is sent to the tuple of its residues $(e \\bmod P_1, \\dots, e \\bmod P_T)$."
+      }
+    ],
+    "dft-fft": [
+      {
+        "symbol": "\\omega",
+        "name": "primitive root of unity",
+        "meaning": "A primitive $n$-th root of unity, whose powers are the frequencies of the transform.",
+        "relation": "direct",
+        "quote": "Let $\\omega$ be a primitive $n$-th root of unity: $\\omega^n=1$ and $\\omega^m\\ne1$ for $0<m<n$."
+      },
+      {
+        "symbol": "m",
+        "name": "frequency index",
+        "meaning": "The index of an entry of the transform, with $0\\le m<n$; it means something else on the earlier address-fields page.",
+        "relation": "direct",
+        "quote": "For $0\\le m<n$, the letter $m$ is the frequency index (the letter $m$ changes meaning here, from the tape position on the earlier address-fields page)."
+      },
+      {
+        "symbol": "A",
+        "name": "transform of a",
+        "meaning": "The list of $n$ entries $A_0,\\dots,A_{n-1}$ obtained by transforming $a$.",
+        "relation": "direct",
+        "quote": "The transform of $a$ is the list $A=(A_0,\\dots,A_{n-1})$ with"
+      },
+      {
+        "symbol": "u",
+        "name": "first butterfly input",
+        "meaning": "The first of the two inputs of a butterfly; it means a field width on the earlier address-fields page.",
+        "relation": "direct",
+        "quote": "A butterfly is the two-point operation $(u,v)\\mapsto(u+\\omega^s v,\\;u-\\omega^s v)$, where $u$, $v$ are its inputs and $s$ its exponent (these letters change meaning here: on the earlier address-fields page, $u$ is a field width, and on the ring page, $s$ is a reduced exponent)."
+      },
+      {
+        "symbol": "v",
+        "name": "second butterfly input",
+        "meaning": "The second of the two inputs of a butterfly, multiplied by the twiddle power $\\omega^s$.",
+        "relation": "direct",
+        "quote": "A butterfly is the two-point operation $(u,v)\\mapsto(u+\\omega^s v,\\;u-\\omega^s v)$, where $u$, $v$ are its inputs and $s$ its exponent (these letters change meaning here: on the earlier address-fields page, $u$ is a field width, and on the ring page, $s$ is a reduced exponent)."
+      },
+      {
+        "symbol": "s",
+        "name": "butterfly exponent",
+        "meaning": "The exponent of the twiddle power $\\omega^s$ in a butterfly; it is a reduced exponent on the ring page.",
+        "relation": "direct",
+        "quote": "A butterfly is the two-point operation $(u,v)\\mapsto(u+\\omega^s v,\\;u-\\omega^s v)$, where $u$, $v$ are its inputs and $s$ its exponent (these letters change meaning here: on the earlier address-fields page, $u$ is a field width, and on the ring page, $s$ is a reduced exponent)."
+      },
+      {
+        "symbol": "h",
+        "name": "block size",
+        "meaning": "The number of entries in a block, a count of entries.",
+        "relation": "count",
+        "quote": "Let $h$ be the number of entries in a block, and $t$, $0\\le t<h/2$, an offset in it."
+      },
+      {
+        "symbol": "t",
+        "name": "block offset",
+        "meaning": "The position of an entry within a block, with $0\\le t<h/2$.",
+        "relation": "direct",
+        "quote": "Let $h$ be the number of entries in a block, and $t$, $0\\le t<h/2$, an offset in it."
+      },
+      {
+        "symbol": "E",
+        "name": "even sub-transform",
+        "meaning": "The transform, with root $\\omega^2$, of the even-indexed entries of $a$.",
+        "relation": "direct",
+        "quote": "Since $\\omega^{n/2}=-1$, splitting $a$ by the parity of $i$ gives $A_m=E_m+\\omega^mO_m$ and $A_{m+n/2}=E_m-\\omega^mO_m$ for $0\\le m<n/2$, where $E$ and $O$ are the transforms with root $\\omega^2$ of the even- and odd-indexed entries."
+      },
+      {
+        "symbol": "O",
+        "name": "odd sub-transform",
+        "meaning": "The transform, with root $\\omega^2$, of the odd-indexed entries of $a$.",
+        "relation": "direct",
+        "quote": "Since $\\omega^{n/2}=-1$, splitting $a$ by the parity of $i$ gives $A_m=E_m+\\omega^mO_m$ and $A_{m+n/2}=E_m-\\omega^mO_m$ for $0\\le m<n/2$, where $E$ and $O$ are the transforms with root $\\omega^2$ of the even- and odd-indexed entries."
+      },
+      {
+        "symbol": "B",
+        "name": "transform of b",
+        "meaning": "The transform of the list $b$.",
+        "relation": "direct",
+        "quote": "Let $c_k=\\sum_i a_i\\,b_{(k-i)\\bmod n}$ be the convolution, with transforms $B$ of $b$ and $C$ of $c$."
+      },
+      {
+        "symbol": "C",
+        "name": "transform of c",
+        "meaning": "The transform of the convolution list $c$.",
+        "relation": "direct",
+        "quote": "Let $c_k=\\sum_i a_i\\,b_{(k-i)\\bmod n}$ be the convolution, with transforms $B$ of $b$ and $C$ of $c$."
+      },
+      {
+        "symbol": "l",
+        "name": "paired index into b",
+        "meaning": "The index into $b$ paired with the index $i$ at output $k$.",
+        "relation": "direct",
+        "quote": "Let $l=(k-i)\\bmod n$ be the index into $b$ paired with $i$ at output $k$."
+      }
+    ],
+    "fast-address-interchange": [
+      {
+        "symbol": "\\tau",
+        "name": "cost exponent",
+        "meaning": "The fixed exponent below 1 in the cost $O(Vu^\\tau)$ of an address interchange of $u$-bit fields.",
+        "relation": "direct",
+        "quote": "Here $\\tau$, the fixed exponent below 1 in the cost, is the exponent in $O(Vu^\\tau)$"
+      },
+      {
+        "symbol": "Q_k",
+        "name": "level cost bound",
+        "meaning": "The bound on the time per unit of volume for interchanging fields of $m^k$ bits.",
+        "relation": "direct",
+        "quote": "Let $Q_k$ bound the time per unit of volume for interchanging fields of $m^k$ bits"
+      },
+      {
+        "symbol": "k",
+        "name": "recursion level",
+        "meaning": "The number of recursion levels, so that the fields have $m^k$ bits.",
+        "relation": "count",
+        "quote": "where $k$ is the recursion level."
+      }
+    ],
+    "fast-butterfly-layers": [
+      {
+        "symbol": "\\Delta",
+        "name": "selected chunk count",
+        "meaning": "The number of selected address chunks, which counts the chunks the layer acts on.",
+        "relation": "count",
+        "quote": "Let $\\Delta$ be the number of selected address chunks, and let $d$ be an upper bound on $\\Delta$, so $\\Delta\\le d$."
+      },
+      {
+        "symbol": "d",
+        "name": "chunk bound",
+        "meaning": "An upper bound on the number of selected address chunks, which counts the chunks.",
+        "relation": "count",
+        "quote": "Let $\\Delta$ be the number of selected address chunks, and let $d$ be an upper bound on $\\Delta$, so $\\Delta\\le d$."
+      },
+      {
+        "symbol": "\\chi",
+        "name": "chunk bit count",
+        "meaning": "The number of consecutive address bits in one chunk.",
+        "relation": "count",
+        "quote": "Each chunk consists of $\\chi$ consecutive address bits, and the selected bit sits at one common offset in every chunk."
+      },
+      {
+        "symbol": "\\lambda'",
+        "name": "layer exponent",
+        "meaning": "The fixed exponent below 1 in the layer cost $O(Vd^{\\lambda'})$.",
+        "relation": "direct",
+        "quote": "The layer costs $O(Vd^{\\lambda'})$ for a fixed exponent $\\lambda'<1$, where $V$ is the stored bit volume."
+      },
+      {
+        "symbol": "Y",
+        "name": "bit-flip matrix",
+        "meaning": "The $2\\times 2$ matrix that swaps the two basis states of one bit.",
+        "relation": "direct",
+        "quote": "Let $Y=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$ be the bit-flip matrix."
+      },
+      {
+        "symbol": "\\Upsilon",
+        "name": "phase matrix",
+        "meaning": "The diagonal matrix $\\operatorname{diag}(1,i)$ that multiplies the imaginary part by $i$.",
+        "relation": "direct",
+        "quote": "Let $\\Upsilon=\\operatorname{diag}(1,i)$ be the phase matrix."
+      },
+      {
+        "symbol": "\\Xi",
+        "name": "two-point kernel",
+        "meaning": "The $2\\times 2$ matrix $\\tfrac12((1+i)I+(1-i)Y)$, whose tensor powers the layer computes.",
+        "relation": "direct",
+        "quote": "Let $\\Xi=\\tfrac12\\bigl((1+i)I+(1-i)Y\\bigr)$ be the two-point kernel."
+      },
+      {
+        "symbol": "\\Psi",
+        "name": "child-call count",
+        "meaning": "The number of child calls into which one call on a group of $mf$ selected bits is reduced.",
+        "relation": "count",
+        "quote": "The phase identities for $\\Xi$ reduce this group to $\\Psi$ child calls, each computing $\\Xi^{\\otimes f}$ on one slot, with $\\Psi<Wm$."
+      },
+      {
+        "symbol": "\\sigma",
+        "name": "fixed exponent",
+        "meaning": "The fixed exponent $1-2^{-50}$ that bounds $\\Psi/W$ by a power of $m$.",
+        "relation": "direct",
+        "quote": "The fixed exponent $\\sigma=1-2^{-50}$ gives $\\Psi/W<m^{\\sigma}$, because $\\Psi/W$ is $m$ times one minus a tiny fraction."
+      },
+      {
+        "symbol": "T(f)",
+        "name": "normalized cost",
+        "meaning": "The time of a call on $f$ selected bits divided by the volume it works on.",
+        "relation": "direct",
+        "quote": "With $T(f)$ the normalized cost (time divided by volume), each child costs $(V/W)\\,T(f)$, and the node's outside work is $O(V\\chi^{\\tau})$ for its chunk exchanges, with $\\tau<1$, plus linear copying."
+      },
+      {
+        "symbol": "H_0",
+        "name": "butterfly map",
+        "meaning": "The map $H_0(u,v)=((u+v)/2,(u-v)/2)$ applied to a pair of records, coefficientwise.",
+        "relation": "direct",
+        "quote": "Fast simultaneous butterfly layers is a fixed-tape procedure that applies $H_0(u,v)=((u+v)/2,(u-v)/2)$ to one bit position in several address chunks at once."
+      }
+    ],
+    "fixed-point-precision": [
+      {
+        "symbol": "X",
+        "name": "integer numerator",
+        "meaning": "An integer numerator storing a complex coefficient; it represents the value X/2^p.",
+        "relation": "direct",
+        "quote": "Each complex coefficient is stored as a pair of integer numerators $X$ over $2^p$, where $p$ is the working precision in bits; a numerator $X$ represents $X/2^p$."
+      },
+      {
+        "symbol": "p",
+        "name": "working precision",
+        "meaning": "The number of bits of precision, the power of two 2^p in each numerator's denominator.",
+        "relation": "count",
+        "quote": "Each complex coefficient is stored as a pair of integer numerators $X$ over $2^p$, where $p$ is the working precision in bits; a numerator $X$ represents $X/2^p$."
+      },
+      {
+        "symbol": "T",
+        "name": "power-of-two length",
+        "meaning": "The power of two in [4n/b, 8n/b), the number of points in the power-of-two grid.",
+        "relation": "count",
+        "quote": "Let $T$ be the power of two in $[4n/b,8n/b)$, and $S$ the cyclic convolution length, with $T/2<S<T$."
+      },
+      {
+        "symbol": "S",
+        "name": "cyclic convolution length",
+        "meaning": "The length of the cyclic convolution, the number of entries in each transformed list, with T/2 < S < T.",
+        "relation": "count",
+        "quote": "Let $T$ be the power of two in $[4n/b,8n/b)$, and $S$ the cyclic convolution length, with $T/2<S<T$."
+      },
+      {
+        "symbol": "L",
+        "name": "log of T",
+        "meaning": "The base-2 logarithm of T, which bounds the number of levels in the error constants.",
+        "relation": "direct",
+        "quote": "Let $L=\\log_2 T$ (this letter changes meaning from the Gaussian resampling page), so $L<b$."
+      },
+      {
+        "symbol": "\\xi",
+        "name": "scaled digit list x",
+        "meaning": "The digit list of x divided by 2^{b+2}, with entries in [0,1/4).",
+        "relation": "direct",
+        "quote": "Let $\\xi_j=x_j/2^{b+2}$ and $\\psi_j=y_j/2^{b+2}$; each entry lies in $[0,1/4)$."
+      },
+      {
+        "symbol": "\\psi",
+        "name": "scaled digit list y",
+        "meaning": "The digit list of y divided by 2^{b+2}, with entries in [0,1/4).",
+        "relation": "direct",
+        "quote": "Let $\\xi_j=x_j/2^{b+2}$ and $\\psi_j=y_j/2^{b+2}$; each entry lies in $[0,1/4)$."
+      },
+      {
+        "symbol": "\\Phi",
+        "name": "forward transform",
+        "meaning": "The forward transform of length S, whose entries are the normalized sums (1/S) times the sum of xi_k omega^{mk}.",
+        "relation": "direct",
+        "quote": "Let $\\Phi$ be the forward transform of length $S$, with $(\\Phi\\xi)_m=\\frac1S\\sum_k\\xi_k\\omega^{mk}$, where $\\omega$ is a primitive $S$-th root of unity, and let $\\Phi^{+}$ be its opposite, with $\\omega^{-mk}$ in its place."
+      },
+      {
+        "symbol": "\\Phi^{+}",
+        "name": "opposite transform",
+        "meaning": "The opposite transform, the forward transform with omega^{-mk} in place of omega^{mk}.",
+        "relation": "direct",
+        "quote": "and let $\\Phi^{+}$ be its opposite, with $\\omega^{-mk}$ in its place."
+      },
+      {
+        "symbol": "E_s",
+        "name": "transform error constant",
+        "meaning": "The error constant: each computed transform, after the source scale, has error below E_s times 2^{-p}.",
+        "relation": "direct",
+        "quote": "Each computed transform, after the source scale $2^\\gamma$, has error below $E_s2^{-p}$ with $E_s=9\\cdot 2^\\gamma TL$"
+      },
+      {
+        "symbol": "\\gamma",
+        "name": "source scale exponent",
+        "meaning": "The exponent of the source scale 2^gamma applied to each computed transform.",
+        "relation": "direct",
+        "quote": "here $\\gamma$ is the exponent of that scale (this letter changes meaning from the scratch-restoration page)."
+      }
+    ],
+    "gaussian-resampling": [
+      {
+        "symbol": "P",
+        "name": "prime axis length",
+        "meaning": "The number of entries in a list on a prime-length axis.",
+        "relation": "count",
+        "quote": "Let $P$ be the length of a prime axis, the number of entries in a list on that axis, and let $Q$ be a power of two, the number of entries in the list that replaces it, chosen slightly above $P$."
+      },
+      {
+        "symbol": "Q",
+        "name": "replacing list length",
+        "meaning": "The number of entries in the power-of-two list that replaces a prime-length axis.",
+        "relation": "count",
+        "quote": "Let $P$ be the length of a prime axis, the number of entries in a list on that axis, and let $Q$ be a power of two, the number of entries in the list that replaces it, chosen slightly above $P$."
+      },
+      {
+        "symbol": "p",
+        "name": "precision bits",
+        "meaning": "The integer precision, counted in bits.",
+        "relation": "count",
+        "quote": "Let $p$ be the integer precision in bits."
+      },
+      {
+        "symbol": "\\lambda",
+        "name": "Gaussian width",
+        "meaning": "The width parameter of the Gaussian weights, an integer with $2\\le\\lambda<\\sqrt p$.",
+        "relation": "direct",
+        "quote": "where $U$ maps lists of length $P$ to lists of length $Q$, $K$ maps back, and $\\lambda$ is the width parameter of the Gaussian weights below."
+      },
+      {
+        "symbol": "\\vartheta",
+        "name": "relative excess of Q",
+        "meaning": "The excess $Q/P-1$ of the replacing length over the prime length.",
+        "relation": "direct",
+        "quote": "Put $\\vartheta=Q/P-1$, which is assumed to satisfy $\\vartheta>p/\\lambda^4$."
+      },
+      {
+        "symbol": "f",
+        "name": "input list",
+        "meaning": "A list whose entries are read modulo $P$, on which the transforms and sums act.",
+        "relation": "direct",
+        "quote": "Here $f$ is a list, not the network's bound logical array, and its entries are read modulo $P$."
+      },
+      {
+        "symbol": "\\pi_P",
+        "name": "reordering of length P",
+        "meaning": "The coordinate reordering of a list of length $P$, with $(\\pi_Pu)_j=u_{Qj}$.",
+        "relation": "direct",
+        "quote": "Let $\\pi_P$ and $\\pi_Q$ be the coordinate reorderings used in the paper's identity, $(\\pi_Pu)_j=u_{Qj}$ and $(\\pi_Qv)_k=v_{-Pk}$."
+      },
+      {
+        "symbol": "\\pi_Q",
+        "name": "reordering of length Q",
+        "meaning": "The coordinate reordering of a list of length $Q$, with $(\\pi_Qv)_k=v_{-Pk}$.",
+        "relation": "direct",
+        "quote": "Let $\\pi_P$ and $\\pi_Q$ be the coordinate reorderings used in the paper's identity, $(\\pi_Pu)_j=u_{Qj}$ and $(\\pi_Qv)_k=v_{-Pk}$."
+      },
+      {
+        "symbol": "F_P",
+        "name": "length-P transform",
+        "meaning": "The normalized discrete Fourier transform of a list of length $P$.",
+        "relation": "direct",
+        "quote": "Let $F_P$ and $F_Q$ be the normalized discrete Fourier transforms, $(F_P f)_k=\\frac1P\\sum_{j=0}^{P-1}f_j e^{-2\\pi i jk/P}$ and likewise $F_Q$."
+      },
+      {
+        "symbol": "F_Q",
+        "name": "length-Q transform",
+        "meaning": "The normalized discrete Fourier transform of a list of length $Q$.",
+        "relation": "direct",
+        "quote": "Let $F_P$ and $F_Q$ be the normalized discrete Fourier transforms, $(F_P f)_k=\\frac1P\\sum_{j=0}^{P-1}f_j e^{-2\\pi i jk/P}$ and likewise $F_Q$."
+      },
+      {
+        "symbol": "U",
+        "name": "analysis map",
+        "meaning": "The map from lists of length $P$ to lists of length $Q$, equal to $\\frac12\\mathsf S$.",
+        "relation": "direct",
+        "quote": "where $U$ maps lists of length $P$ to lists of length $Q$, $K$ maps back, and $\\lambda$ is the width parameter of the Gaussian weights below."
+      },
+      {
+        "symbol": "K",
+        "name": "synthesis map",
+        "meaning": "The map from lists of length $Q$ back to lists of length $P$, equal to $2^{1-2\\lambda^2}\\Lambda\\Phi^{-1}\\Gamma$.",
+        "relation": "direct",
+        "quote": "where $U$ maps lists of length $P$ to lists of length $Q$, $K$ maps back, and $\\lambda$ is the width parameter of the Gaussian weights below."
+      },
+      {
+        "symbol": "\\mathsf S",
+        "name": "Gaussian sum S",
+        "meaning": "The Gaussian-weighted sum from lists of length $P$ to lists of length $Q$, with weight $e^{-\\pi\\lambda^{-2}(j-Pk/Q)^2}$.",
+        "relation": "direct",
+        "quote": "Both $U$ and $K$ are built from two Gaussian-weighted sums $\\mathsf S$ and $\\mathsf T$, each mapping lists of length $P$ to lists of length $Q$:"
+      },
+      {
+        "symbol": "\\mathsf T",
+        "name": "Gaussian sum T",
+        "meaning": "The Gaussian-weighted sum from lists of length $P$ to lists of length $Q$, with weight $e^{-\\pi\\lambda^{2}(Qj/P-k)^2}$.",
+        "relation": "direct",
+        "quote": "Both $U$ and $K$ are built from two Gaussian-weighted sums $\\mathsf S$ and $\\mathsf T$, each mapping lists of length $P$ to lists of length $Q$:"
+      },
+      {
+        "symbol": "\\chi_j",
+        "name": "nearest integer",
+        "meaning": "The integer nearest $Qj/P$, for index $j$.",
+        "relation": "direct",
+        "quote": "Let $\\chi_j$ be the integer nearest $Qj/P$."
+      },
+      {
+        "symbol": "\\Gamma",
+        "name": "reading map",
+        "meaning": "The map that reads the entries $\\chi_j$ from a list of length $Q$.",
+        "relation": "direct",
+        "quote": "Let $\\Gamma$ read the entries $\\chi_j$ from a list of length $Q$, let $\\Lambda$ multiply entry $j$ by $e^{\\pi\\lambda^2(Qj/P-\\chi_j)^2}$, and set $\\Phi=\\Gamma\\mathsf T\\Lambda$, a map from length $P$ to length $P$."
+      },
+      {
+        "symbol": "\\Lambda",
+        "name": "diagonal multiplier",
+        "meaning": "The diagonal map that multiplies entry $j$ by $e^{\\pi\\lambda^2(Qj/P-\\chi_j)^2}$.",
+        "relation": "direct",
+        "quote": "Let $\\Gamma$ read the entries $\\chi_j$ from a list of length $Q$, let $\\Lambda$ multiply entry $j$ by $e^{\\pi\\lambda^2(Qj/P-\\chi_j)^2}$, and set $\\Phi=\\Gamma\\mathsf T\\Lambda$, a map from length $P$ to length $P$."
+      },
+      {
+        "symbol": "\\Phi",
+        "name": "compensated map",
+        "meaning": "The map $\\Gamma\\mathsf T\\Lambda$ from lists of length $P$ to lists of length $P$, which is invertible.",
+        "relation": "direct",
+        "quote": "Let $\\Gamma$ read the entries $\\chi_j$ from a list of length $Q$, let $\\Lambda$ multiply entry $j$ by $e^{\\pi\\lambda^2(Qj/P-\\chi_j)^2}$, and set $\\Phi=\\Gamma\\mathsf T\\Lambda$, a map from length $P$ to length $P$."
+      }
+    ],
+    "linear-network-roles": [
+      {
+        "symbol": "W",
+        "name": "number of roles",
+        "meaning": "The number of roles, the wires' fixed places in the network, over which rows are distributed.",
+        "relation": "count",
+        "quote": "Let $W$ be the number of roles."
+      },
+      {
+        "symbol": "\\rho",
+        "name": "role permutation",
+        "meaning": "The permutation of roles that the scalar network applies, sending input role w to output role rho(w).",
+        "relation": "direct",
+        "quote": "Let $\\rho$ be the permutation of roles that it applies: an input at role $w$ leaves at output role $\\rho(w)$ with sign $\\varepsilon_w \\in \\{+1,-1\\}$."
+      },
+      {
+        "symbol": "w",
+        "name": "input role",
+        "meaning": "An input role of the scalar network, whose value is moved to output role rho(w).",
+        "relation": "direct",
+        "quote": "Let $\\rho$ be the permutation of roles that it applies: an input at role $w$ leaves at output role $\\rho(w)$ with sign $\\varepsilon_w \\in \\{+1,-1\\}$."
+      },
+      {
+        "symbol": "\\varepsilon_w",
+        "name": "route sign",
+        "meaning": "The sign, +1 or -1, carried by the route from input role w to output role rho(w).",
+        "relation": "direct",
+        "quote": "Let $\\rho$ be the permutation of roles that it applies: an input at role $w$ leaves at output role $\\rho(w)$ with sign $\\varepsilon_w \\in \\{+1,-1\\}$."
+      },
+      {
+        "symbol": "\\nu",
+        "name": "network node",
+        "meaning": "A source, gate or sink of the network, which carries one frame.",
+        "relation": "direct",
+        "quote": "Each source, gate and sink $\\nu$ carries an invertible linear operator $D_\\nu$ on arrays indexed by the common address set, its *frame*."
+      },
+      {
+        "symbol": "D_\\nu",
+        "name": "frame",
+        "meaning": "The invertible linear operator carried by node nu, acting on arrays indexed by the common address set.",
+        "relation": "direct",
+        "quote": "Each source, gate and sink $\\nu$ carries an invertible linear operator $D_\\nu$ on arrays indexed by the common address set, its *frame*."
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "edge tail",
+        "meaning": "The node at which an edge starts.",
+        "relation": "direct",
+        "quote": "Along an edge from node $\\alpha$ to node $\\beta$ the stored array changes by $D_\\beta D_\\alpha^{-1}$."
+      },
+      {
+        "symbol": "\\beta",
+        "name": "edge head",
+        "meaning": "The node at which an edge ends.",
+        "relation": "direct",
+        "quote": "Along an edge from node $\\alpha$ to node $\\beta$ the stored array changes by $D_\\beta D_\\alpha^{-1}$."
+      },
+      {
+        "symbol": "f",
+        "name": "logical array",
+        "meaning": "The logical array that a node stores in the form D_nu f.",
+        "relation": "direct",
+        "quote": "The stored array at $\\nu$ is $D_\\nu f$ when the logical array is $f$."
+      },
+      {
+        "symbol": "G",
+        "name": "pointwise gate",
+        "meaning": "A pointwise linear gate, which combines its input arrays at each address with fixed scalar coefficients.",
+        "relation": "direct",
+        "quote": "A pointwise linear gate $G$ combines its $p$ input arrays $f_1,\\dots,f_p$ at each address with fixed scalar coefficients."
+      },
+      {
+        "symbol": "p",
+        "name": "gate input count",
+        "meaning": "The number of input arrays of a gate, counting the arrays it combines.",
+        "relation": "count",
+        "quote": "A pointwise linear gate $G$ combines its $p$ input arrays $f_1,\\dots,f_p$ at each address with fixed scalar coefficients."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "row index",
+        "meaning": "The index of a row at a fixed prefix, which selects the role that receives the row.",
+        "relation": "direct",
+        "quote": "Distribute the rows cyclically: row $\\ell$, the $\\ell$th row at a fixed prefix, goes to role $\\ell \\bmod W$, after the row count for each prefix is padded to a multiple of $W$."
+      },
+      {
+        "symbol": "I",
+        "name": "identity operator",
+        "meaning": "The identity operator, which leaves every array unchanged.",
+        "relation": "direct",
+        "quote": "Here $I$ is the identity operator, which leaves every array unchanged."
+      }
+    ],
+    "main-theorem": [
+      {
+        "symbol": "n",
+        "name": "input length",
+        "meaning": "The number of bits in each of the two integers being multiplied.",
+        "relation": "count",
+        "quote": "Here $n$ is the number of bits in each input and $\\kappa=2^{-182}$ is a fixed saving exponent."
+      },
+      {
+        "symbol": "\\kappa",
+        "name": "saving exponent",
+        "meaning": "The fixed constant 2^{-182} giving the power saving in the logarithmic factor.",
+        "relation": "direct",
+        "quote": "Here $n$ is the number of bits in each input and $\\kappa=2^{-182}$ is a fixed saving exponent."
+      }
+    ],
+    "nlogn-conjecture": [
+      {
+        "symbol": "n",
+        "name": "integer length",
+        "meaning": "The number of bits in each of the two integers being multiplied.",
+        "relation": "count",
+        "quote": "The $n\\log n$ optimality conjecture is Schönhage and Strassen's proposal that $n\\log n$ is the optimal order of cost for multiplying two integers, where $n$ is the number of bits in each integer."
+      },
+      {
+        "symbol": "A",
+        "name": "fixed-tape machine",
+        "meaning": "The paper's deterministic Turing machine with a fixed finite alphabet and a fixed finite number of one-dimensional tapes.",
+        "relation": "direct",
+        "quote": "Let $A$ be the deterministic Turing machine of the paper's main theorem, with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, so $A$ is one of the machines the conjecture quantifies over."
+      },
+      {
+        "symbol": "T_A",
+        "name": "running time of A",
+        "meaning": "The worst-case running time of machine A on pairs of n-bit inputs.",
+        "relation": "direct",
+        "quote": "Let $T_A(n)$ be its worst-case running time on pairs of $n$-bit inputs."
+      },
+      {
+        "symbol": "\\kappa",
+        "name": "logarithm exponent gap",
+        "meaning": "A fixed positive constant, equal to 2^{-182}.",
+        "relation": "direct",
+        "quote": "Let $\\kappa=2^{-182}$ be a fixed positive constant."
+      }
+    ],
+    "phase-twist-convolution": [
+      {
+        "symbol": "\\sigma",
+        "name": "last-axis exponent",
+        "meaning": "An exponent of $x$ on the last cyclic axis, ranging over $0\\le\\sigma<r$.",
+        "relation": "direct",
+        "quote": "Let $\\sigma$ and $\\tau$ be exponents on the last axis, with $0\\le \\sigma,\\tau<r$."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "second last-axis exponent",
+        "meaning": "A second exponent of $x$ on the last cyclic axis, ranging over $0\\le\\tau<r$.",
+        "relation": "direct",
+        "quote": "Let $\\sigma$ and $\\tau$ be exponents on the last axis, with $0\\le \\sigma,\\tau<r$."
+      },
+      {
+        "symbol": "\\xi_\\sigma",
+        "name": "last-axis coefficient",
+        "meaning": "The coefficient of $x^\\sigma$ in a polynomial on the last axis, indexed by the exponent $\\sigma$.",
+        "relation": "direct",
+        "quote": "Applied to a polynomial $\\sum_\\sigma \\xi_\\sigma x^\\sigma$ with coefficients $\\xi_\\sigma$, the twist gives $\\sum_\\sigma \\xi_\\sigma\\lambda^\\sigma y^\\sigma$: coefficient $\\sigma$ is multiplied by $\\lambda^\\sigma$, and untwisting multiplies it by $\\lambda^{-\\sigma}$."
+      },
+      {
+        "symbol": "x",
+        "name": "cyclic variable",
+        "meaning": "The variable of the cyclic ring $\\mathbb C[x]/(x^r-1)$ on the last axis, whose exponents wrap modulo $r$.",
+        "relation": "direct",
+        "quote": "Let $x$ be the variable of the cyclic ring $\\mathbb C[x]/(x^r-1)$, whose exponents wrap modulo $r$."
+      },
+      {
+        "symbol": "\\lambda",
+        "name": "twist root",
+        "meaning": "A complex number with $\\lambda^r=-1$, whose powers rescale the coefficients under the twist.",
+        "relation": "direct",
+        "quote": "Let $\\lambda=e^{\\pi \\mathrm i/r}$, where $\\mathrm i$ is the imaginary unit, so $\\lambda^r=-1$."
+      },
+      {
+        "symbol": "\\mu",
+        "name": "cyclic product index",
+        "meaning": "The exponent of the cyclic product, with $0\\le\\mu<r$, obtained by reducing $\\sigma+\\tau$ modulo $r$.",
+        "relation": "direct",
+        "quote": "Every sum $\\sigma+\\tau$ can be written $\\sigma+\\tau=\\mu+\\eta r$ with $0\\le\\mu<r$ and $\\eta\\in\\{0,1\\}$, where $\\mu$ is the cyclic index of the product and $\\eta$ records whether the exponent wrapped."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "wrap flag",
+        "meaning": "The flag, 0 or 1, recording whether the sum $\\sigma+\\tau$ wrapped past $r$.",
+        "relation": "direct",
+        "quote": "Every sum $\\sigma+\\tau$ can be written $\\sigma+\\tau=\\mu+\\eta r$ with $0\\le\\mu<r$ and $\\eta\\in\\{0,1\\}$, where $\\mu$ is the cyclic index of the product and $\\eta$ records whether the exponent wrapped."
+      },
+      {
+        "symbol": "X",
+        "name": "first entry",
+        "meaning": "An entry on the remaining axes, an element of $\\mathbb C[y]/(y^r+1)$ with untwisted coefficients $X_\\sigma$.",
+        "relation": "direct",
+        "quote": "Let $X$ and $Y$ be two entries, with untwisted coefficients $X_\\sigma$ and $Y_\\tau$, so $X=\\sum_\\sigma X_\\sigma\\lambda^\\sigma y^\\sigma$ and $Y=\\sum_\\tau Y_\\tau\\lambda^\\tau y^\\tau$."
+      },
+      {
+        "symbol": "Y",
+        "name": "second entry",
+        "meaning": "A second entry on the remaining axes, an element of $\\mathbb C[y]/(y^r+1)$ with untwisted coefficients $Y_\\tau$.",
+        "relation": "direct",
+        "quote": "Let $X$ and $Y$ be two entries, with untwisted coefficients $X_\\sigma$ and $Y_\\tau$, so $X=\\sum_\\sigma X_\\sigma\\lambda^\\sigma y^\\sigma$ and $Y=\\sum_\\tau Y_\\tau\\lambda^\\tau y^\\tau$."
+      }
+    ],
+    "poly-ring-y-r": [
+      {
+        "symbol": "y",
+        "name": "ring variable",
+        "meaning": "The polynomial variable of the ring, whose powers act as roots of unity.",
+        "relation": "direct",
+        "quote": "Here $y$ is the ring variable, the polynomial variable whose powers act as roots of unity."
+      },
+      {
+        "symbol": "r",
+        "name": "ring degree",
+        "meaning": "The number of complex coefficients in each element of the ring, a power of two.",
+        "relation": "count",
+        "quote": "The ring degree $r$ is the number of complex coefficients in each element, a power of two."
+      },
+      {
+        "symbol": "j",
+        "name": "rule exponent",
+        "meaning": "The exponent left after removing $y^r$ from $y^{r+j}$, with $0\\le j<r$.",
+        "relation": "direct",
+        "quote": "Multiplication takes the ordinary product, then replaces each power $y^{r+j}$ by $-y^j$, where $j$ is the exponent left after removing $y^r$ and $0\\le j<r$; this holds because $y^{r+j}=y^r y^j=-y^j$."
+      },
+      {
+        "symbol": "s",
+        "name": "reduced exponent",
+        "meaning": "The exponent of the power $y^s$ that equals a given power of $y$, with $0\\le s<2r$.",
+        "relation": "direct",
+        "quote": "Since $y^r=-1$, $y^{2r}=(y^r)^2=1$, so every power of $y$ equals $y^s$ for an exponent $s$ with $0\\le s<2r$, where $s$ is the exponent reduced modulo $2r$."
+      }
+    ],
+    "radix-digit-reduction": [
+      {
+        "symbol": "x",
+        "name": "first integer",
+        "meaning": "One of the two integers being multiplied.",
+        "relation": "direct",
+        "quote": "Let the two integers being multiplied be $x$ and $y$."
+      },
+      {
+        "symbol": "y",
+        "name": "second integer",
+        "meaning": "The other of the two integers being multiplied, an integer and not the indeterminate of the convolution page.",
+        "relation": "direct",
+        "quote": "Here $y$ is an integer, not the indeterminate of the convolution page."
+      },
+      {
+        "symbol": "b",
+        "name": "digit width",
+        "meaning": "The number of bits in each radix digit.",
+        "relation": "count",
+        "quote": "Fix a digit width $b$, the number of bits in each radix digit, and let $q=\\lceil n/b\\rceil$, the number of radix digits of each input."
+      },
+      {
+        "symbol": "q",
+        "name": "digit count",
+        "meaning": "The number of radix digits of each input, equal to the ceiling of n divided by b.",
+        "relation": "count",
+        "quote": "Fix a digit width $b$, the number of bits in each radix digit, and let $q=\\lceil n/b\\rceil$, the number of radix digits of each input."
+      },
+      {
+        "symbol": "x_j",
+        "name": "digit of x",
+        "meaning": "The jth radix digit of x, with value at least 0 and below 2^b.",
+        "relation": "direct",
+        "quote": "Here $x_j$ is the $j$th radix digit of $x$, and $y_j$ is the $j$th radix digit of $y$, with $0\\le x_j,y_j<2^b$."
+      },
+      {
+        "symbol": "y_j",
+        "name": "digit of y",
+        "meaning": "The jth radix digit of y, with value at least 0 and below 2^b.",
+        "relation": "direct",
+        "quote": "Here $x_j$ is the $j$th radix digit of $x$, and $y_j$ is the $j$th radix digit of $y$, with $0\\le x_j,y_j<2^b$."
+      },
+      {
+        "symbol": "c_k",
+        "name": "digit convolution coefficient",
+        "meaning": "The sum of the products x_i y_j over all pairs with i+j=k, the kth entry of the digit convolution.",
+        "relation": "direct",
+        "quote": "Multiplying the two expansions and collecting powers of $2^b$ writes $xy$ as $\\sum_k c_k2^{bk}$, where $c_k$ is the sum of $x_i\\,y_j$ over all $0\\le i,j\\le q-1$ with $i+j=k$:"
+      },
+      {
+        "symbol": "h_k",
+        "name": "carry",
+        "meaning": "The carry into position k during carry propagation.",
+        "relation": "direct",
+        "quote": "Let $h_k$ be the carry into position $k$, with $h_0=0$, and let $d_k$ be the output digit at position $k$."
+      },
+      {
+        "symbol": "d_k",
+        "name": "output digit",
+        "meaning": "The radix-2^b digit of the product at position k.",
+        "relation": "direct",
+        "quote": "Let $h_k$ be the carry into position $k$, with $h_0=0$, and let $d_k$ be the output digit at position $k$."
+      }
+    ],
+    "recursive-power-saving": [
+      {
+        "symbol": "\\lambda",
+        "name": "power exponent",
+        "meaning": "The fixed exponent, below 1, of the power of the parameter that bounds the cost per bit.",
+        "relation": "direct",
+        "quote": "Recursive power saving is the argument that a recursion's cost per bit can grow as a fixed power of its parameter, with exponent $\\lambda<1$ (this letter changes meaning here: on the tensor-product page $\\lambda$ is a scalar), which the main theorem needs."
+      },
+      {
+        "symbol": "f",
+        "name": "call parameter",
+        "meaning": "The parameter of a call: the number of field digits for an address interchange, or the number of selected axes for a numerical layer.",
+        "relation": "direct",
+        "quote": "Let $f$ be the parameter of a call (this letter changes meaning here: on the linear-network page $f$ is the logical array): the number of field digits for an address interchange (exchanging two disjoint address fields of $u$ bits), or the number of selected axes for a numerical layer (a butterfly layer on chosen axes of a polynomial-valued array)."
+      },
+      {
+        "symbol": "m",
+        "name": "growth factor",
+        "meaning": "The factor by which the parameter of a call grows between a call and its recursive subcalls.",
+        "relation": "direct",
+        "quote": "Here $m$ is the factor by which the parameter grows; this letter changes meaning from the subspace dimension of the prerequisite and from the tape position on the address-fields page."
+      },
+      {
+        "symbol": "C",
+        "name": "outside-work constant",
+        "meaning": "A constant bounding the outside work of a call by a constant times the power of its parameter.",
+        "relation": "direct",
+        "quote": "Let $C$ be a constant such that the call's own outside work is at most $C(mf)^\\lambda$, so"
+      },
+      {
+        "symbol": "s",
+        "name": "subcall count",
+        "meaning": "The number of subcalls of one call, a count of the smaller calls it makes.",
+        "relation": "count",
+        "quote": "Let $s$ be the number of subcalls of one call."
+      },
+      {
+        "symbol": "\\Omega",
+        "name": "chunk bit count",
+        "meaning": "The number of bits in one axis chunk.",
+        "relation": "count",
+        "quote": "Here $\\Omega$ is the bit count of one axis chunk, $d$ is the paper's axis-count parameter (this letter changes meaning from the DFT page), and $\\eta>0$ is fixed, with $\\Omega\\le d^\\eta$."
+      },
+      {
+        "symbol": "d",
+        "name": "axis-count parameter",
+        "meaning": "The paper's parameter counting the axes of the numerical layer.",
+        "relation": "count",
+        "quote": "Here $\\Omega$ is the bit count of one axis chunk, $d$ is the paper's axis-count parameter (this letter changes meaning from the DFT page), and $\\eta>0$ is fixed, with $\\Omega\\le d^\\eta$."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "chunk exponent",
+        "meaning": "A fixed positive constant bounding the chunk bit count by a power of d.",
+        "relation": "direct",
+        "quote": "Here $\\Omega$ is the bit count of one axis chunk, $d$ is the paper's axis-count parameter (this letter changes meaning from the DFT page), and $\\eta>0$ is fixed, with $\\Omega\\le d^\\eta$."
+      },
+      {
+        "symbol": "\\vartheta",
+        "name": "threshold exponent",
+        "meaning": "The fixed exponent, one half, such that recursion stops below the threshold d raised to this power.",
+        "relation": "direct",
+        "quote": "Since $\\vartheta=\\tfrac12$ is a fixed exponent and $f\\ge d^\\vartheta$ at an internal node, $d\\le f^{1/\\vartheta}$, so the outside work divided by $V$ is $O((f\\Omega)^\\tau+1)\\le O(f^{\\tau(1+\\eta/\\vartheta)}+1)$, which is $O(f^\\lambda)$ when $\\lambda>\\tau(1+\\eta/\\vartheta)$."
+      },
+      {
+        "symbol": "\\nu",
+        "name": "unrolling level",
+        "meaning": "The number of levels of unrolling the recursion before its leaves.",
+        "relation": "count",
+        "quote": "Let $\\nu$ count the levels of unrolling (this letter changes meaning here: on the linear-network page $\\nu$ is a network node, and on the tensor-product page a field dimension), which stop once $f/m^\\nu<d^\\vartheta$."
+      },
+      {
+        "symbol": "\\sigma",
+        "name": "leaf exponent",
+        "meaning": "The exponent, below lambda, used to bound the weight of the leaves by a power of their parameter.",
+        "relation": "direct",
+        "quote": "Choose $\\sigma$ with $\\max\\{0,\\log_m(s/W)\\}\\le\\sigma<\\lambda$."
+      }
+    ],
+    "ring-convolution-retained-order": [
+      {
+        "symbol": "\\phi",
+        "name": "input array phi",
+        "meaning": "The first of the two input arrays being convolved.",
+        "relation": "direct",
+        "quote": "Let $\\phi$ and $\\psi$ be the two input arrays."
+      },
+      {
+        "symbol": "\\psi",
+        "name": "input array psi",
+        "meaning": "The second of the two input arrays being convolved.",
+        "relation": "direct",
+        "quote": "Let $\\phi$ and $\\psi$ be the two input arrays."
+      },
+      {
+        "symbol": "\\ast",
+        "name": "cyclic convolution",
+        "meaning": "The cyclic convolution of two arrays on one axis of length t, with products taken in the ring.",
+        "relation": "direct",
+        "quote": "Let $\\ast$ denote their cyclic convolution on one axis of length $t$, with products taken in the ring:"
+      },
+      {
+        "symbol": "\\mathcal{D}",
+        "name": "forward transform",
+        "meaning": "The forward transform, which sends an array to its list of frequency entries indexed by m.",
+        "relation": "direct",
+        "quote": "The forward transform $\\mathcal D$ sends an array to $(\\mathcal D\\phi)_m=\\sum_i\\omega^{mi}\\phi_i$, where $\\omega$ is the primitive $t$th root of unity of the ring and $m$ is the frequency index."
+      },
+      {
+        "symbol": "\\mathcal{D}^{+}",
+        "name": "opposite transform",
+        "meaning": "The opposite transform, which inverts the forward transform up to the normalization factor.",
+        "relation": "direct",
+        "quote": "Let $\\mathcal D^{+}$ be the opposite transform."
+      },
+      {
+        "symbol": "M",
+        "name": "normalization scalar",
+        "meaning": "The known scalar fixed by the normalization of the transforms.",
+        "relation": "direct",
+        "quote": "Let $M$ be the known scalar fixed by the normalization of the transforms."
+      },
+      {
+        "symbol": "\\odot",
+        "name": "entrywise product",
+        "meaning": "The product of ring elements at the same address, applied entry by entry.",
+        "relation": "direct",
+        "quote": "Let $\\odot$ be the entrywise product of ring elements at the same address."
+      },
+      {
+        "symbol": "\\chi",
+        "name": "layout permutation",
+        "meaning": "The permutation of addresses fixed by the layout of the forward transforms, which stores the entry for frequency m at address chi(m).",
+        "relation": "direct",
+        "quote": "Let $\\chi$ be the permutation of addresses that the layout of the forward transforms fixes: the entry for frequency $m$ is stored at address $\\chi(m)$, so the stored arrays are $\\chi\\mathcal{D}\\phi$ and $\\chi\\mathcal{D}\\psi$."
+      }
+    ],
+    "scratch-restoration": [
+      {
+        "symbol": "\\theta",
+        "name": "scratch starting value",
+        "meaning": "The starting value of a scratch wire, which may be any value.",
+        "relation": "direct",
+        "quote": "Let $\\theta$ denote the starting value of a scratch wire, which may be any value."
+      },
+      {
+        "symbol": "\\gamma",
+        "name": "written update value",
+        "meaning": "A value computed from the data and added to the scratch wire, then subtracted again on undo.",
+        "relation": "direct",
+        "quote": "The computation adds a value $\\gamma$ to the wire, where $\\gamma$ is computed from data, so the wire holds $\\theta+\\gamma$."
+      }
+    ],
+    "signed-packing": [
+      {
+        "symbol": "\\Theta",
+        "name": "block base",
+        "meaning": "The base $2^{4p}$ in which the coefficients of a packed polynomial are placed.",
+        "relation": "direct",
+        "quote": "Let $\\Theta=2^{4p}$ be the block base."
+      },
+      {
+        "symbol": "o",
+        "name": "first coefficient position",
+        "meaning": "The index of a coefficient of $J$, ranging over $0\\le o<r$.",
+        "relation": "direct",
+        "quote": "Here $o$ and $\\tau$ are coefficient positions, with $0\\le o,\\tau<r$."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "second coefficient position",
+        "meaning": "The index of a coefficient of $\\Delta$, ranging over $0\\le\\tau<r$.",
+        "relation": "direct",
+        "quote": "Here $o$ and $\\tau$ are coefficient positions, with $0\\le o,\\tau<r$."
+      },
+      {
+        "symbol": "J",
+        "name": "first packed polynomial",
+        "meaning": "A polynomial in $\\mathbb Z[y]$ whose coefficients $J_o$ are integers of absolute value at most $2^p$.",
+        "relation": "direct",
+        "quote": "Let $J=\\sum_{o=0}^{r-1}J_o y^o$ denote a polynomial in $\\mathbb Z[y]$ with $|J_o|\\le 2^p$"
+      },
+      {
+        "symbol": "\\Delta",
+        "name": "second packed polynomial",
+        "meaning": "A polynomial in $\\mathbb Z[y]$ whose coefficients $\\Delta_\\tau$ are integers of absolute value at most $2^p$.",
+        "relation": "direct",
+        "quote": "Let $\\Delta=\\sum_{\\tau=0}^{r-1}\\Delta_\\tau y^\\tau$ denote a second input polynomial with $|\\Delta_\\tau|\\le 2^p$."
+      },
+      {
+        "symbol": "\\Upsilon",
+        "name": "product polynomial",
+        "meaning": "The ordinary product $J\\Delta$ in $\\mathbb Z[y]$, whose coefficients $\\Upsilon_\\eta$ are recovered from one packed integer product.",
+        "relation": "direct",
+        "quote": "Write $\\Upsilon=J\\Delta$, and $\\Upsilon_\\eta$ for its coefficient of $y^\\eta$, with $\\eta$ running over $0,\\dots,2r-2$."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "product coefficient position",
+        "meaning": "The index of a coefficient of $\\Upsilon$, ranging over $0\\le\\eta\\le 2r-2$.",
+        "relation": "direct",
+        "quote": "Write $\\Upsilon=J\\Delta$, and $\\Upsilon_\\eta$ for its coefficient of $y^\\eta$, with $\\eta$ running over $0,\\dots,2r-2$."
+      },
+      {
+        "symbol": "\\Xi",
+        "name": "first record",
+        "meaning": "A record, a polynomial of degree less than $r$ with complex fixed-point coefficients, whose real and imaginary numerators are $a_r$ and $b_i$.",
+        "relation": "direct",
+        "quote": "A record $\\Xi=2^{-p}(a_r+\\sqrt{-1}\\,b_i)$ has real and imaginary components $a_r,b_i\\in\\mathbb Z[y]$."
+      },
+      {
+        "symbol": "a_r",
+        "name": "real numerator",
+        "meaning": "The polynomial in $\\mathbb Z[y]$ holding the numerators of the real part of the first record.",
+        "relation": "direct",
+        "quote": "A record $\\Xi=2^{-p}(a_r+\\sqrt{-1}\\,b_i)$ has real and imaginary components $a_r,b_i\\in\\mathbb Z[y]$."
+      },
+      {
+        "symbol": "b_i",
+        "name": "imaginary numerator",
+        "meaning": "The polynomial in $\\mathbb Z[y]$ holding the numerators of the imaginary part of the first record.",
+        "relation": "direct",
+        "quote": "A record $\\Xi=2^{-p}(a_r+\\sqrt{-1}\\,b_i)$ has real and imaginary components $a_r,b_i\\in\\mathbb Z[y]$."
+      },
+      {
+        "symbol": "\\Gamma",
+        "name": "second record",
+        "meaning": "The second record, $2^{-p}(c_r+\\sqrt{-1}\\,c_i)$, multiplied with the first record.",
+        "relation": "direct",
+        "quote": "The second record $\\Gamma=2^{-p}(c_r+\\sqrt{-1}\\,c_i)$ has components $c_r,c_i\\in\\mathbb Z[y]$, and the product is"
+      },
+      {
+        "symbol": "c_r",
+        "name": "second real numerator",
+        "meaning": "The polynomial in $\\mathbb Z[y]$ holding the numerators of the real part of the second record.",
+        "relation": "direct",
+        "quote": "The second record $\\Gamma=2^{-p}(c_r+\\sqrt{-1}\\,c_i)$ has components $c_r,c_i\\in\\mathbb Z[y]$, and the product is"
+      },
+      {
+        "symbol": "c_i",
+        "name": "second imaginary numerator",
+        "meaning": "The polynomial in $\\mathbb Z[y]$ holding the numerators of the imaginary part of the second record.",
+        "relation": "direct",
+        "quote": "The second record $\\Gamma=2^{-p}(c_r+\\sqrt{-1}\\,c_i)$ has components $c_r,c_i\\in\\mathbb Z[y]$, and the product is"
+      }
+    ],
+    "ss-hh-background": [
+      {
+        "symbol": "S",
+        "name": "padded length",
+        "meaning": "The number of entries in each zero-padded list, a power of two at least $2q-1$.",
+        "relation": "count",
+        "quote": "Pad both lists with zeros to a power of two length $S \\ge 2q-1$, so that $S$ is the number of entries in each padded list."
+      }
+    ],
+    "subset-intersection-construction": [
+      {
+        "symbol": "h",
+        "name": "ground set size",
+        "meaning": "The number of elements of the ground set $[h]$, which is $100$.",
+        "relation": "count",
+        "quote": "Let $[h]=\\{1,\\dots,h\\}$ be the ground set, where $h=100$ is its number of elements."
+      },
+      {
+        "symbol": "T",
+        "name": "triple",
+        "meaning": "A three-element subset of $[h]$, called a triple.",
+        "relation": "direct",
+        "quote": "For a three-element subset $T$ of $[h]$, called a triple, $t_T$ is its indicator vector, and $\\mathcal T$ is the set of all triples."
+      },
+      {
+        "symbol": "\\mathcal T",
+        "name": "set of triples",
+        "meaning": "The set of all triples.",
+        "relation": "direct",
+        "quote": "For a three-element subset $T$ of $[h]$, called a triple, $t_T$ is its indicator vector, and $\\mathcal T$ is the set of all triples."
+      },
+      {
+        "symbol": "g_T",
+        "name": "triple value",
+        "meaning": "The value carried by the triple $T$.",
+        "relation": "direct",
+        "quote": "Each triple $T$ carries a value $g_T$."
+      },
+      {
+        "symbol": "C_i",
+        "name": "central wire",
+        "meaning": "The central wire that gathers the values of the triples containing element $i$.",
+        "relation": "direct",
+        "quote": "Over $\\mathbb F_2$, gather adds the sum of $g_T$ over the triples $T\\ni i$ to a central wire $C_i$, for each $i\\in[h]$."
+      },
+      {
+        "symbol": "A_{ST}",
+        "name": "copy wire",
+        "meaning": "The auxiliary wire carrying a copy of $g_T$ into $S$, for a neighbor pair $S,T$.",
+        "relation": "direct",
+        "quote": "For each neighbor pair, an auxiliary wire $A_{ST}$ carries a copy of $g_T$ into $S$, which adds $1$ exactly when $|S\\cap T|=1$."
+      },
+      {
+        "symbol": "J",
+        "name": "all-ones matrix",
+        "meaning": "The matrix with every entry equal to 1.",
+        "relation": "direct",
+        "quote": "Over $\\mathbb Q$, let $J$ be the all-ones matrix (the letter $J$ changes meaning here), and the bilinear form with matrix $I-J/9$ gives $\\langle t_T,t_S\\rangle=|T\\cap S|-1$, so neighbors are orthogonal."
+      },
+      {
+        "symbol": "m",
+        "name": "space dimension",
+        "meaning": "The dimension of $\\mathcal F$, which is $h^3$.",
+        "relation": "count",
+        "quote": "Let $\\mathcal F=(\\mathbb Q^h)^{\\otimes 3}$, a space built from the [Tensor product of vector spaces](tensor-product-of-vector-spaces.md) of three copies of $\\mathbb Q^h$, and let $m=h^3$ be its dimension (the letter $m$ changes meaning here)."
+      },
+      {
+        "symbol": "\\mathcal F",
+        "name": "label space",
+        "meaning": "The tensor cube $(\\mathbb Q^h)^{\\otimes 3}$, in which labels live.",
+        "relation": "direct",
+        "quote": "Let $\\mathcal F=(\\mathbb Q^h)^{\\otimes 3}$, a space built from the [Tensor product of vector spaces](tensor-product-of-vector-spaces.md) of three copies of $\\mathbb Q^h$, and let $m=h^3$ be its dimension (the letter $m$ changes meaning here)."
+      },
+      {
+        "symbol": "U",
+        "name": "label",
+        "meaning": "A nondegenerate subspace of $\\mathcal F$.",
+        "relation": "direct",
+        "quote": "A *label* $U$ is a nondegenerate subspace of $\\mathcal F$, so $\\mathcal F=U\\oplus U^\\perp$ and the projection $P_U$ onto $U$ along $U^\\perp$ is defined."
+      },
+      {
+        "symbol": "P_U",
+        "name": "label projection",
+        "meaning": "The projection onto the label $U$ along $U^\\perp$.",
+        "relation": "direct",
+        "quote": "A *label* $U$ is a nondegenerate subspace of $\\mathcal F$, so $\\mathcal F=U\\oplus U^\\perp$ and the projection $P_U$ onto $U$ along $U^\\perp$ is defined."
+      },
+      {
+        "symbol": "\\iota",
+        "name": "index",
+        "meaning": "A triple of triples $(T_1,T_2,T_3)$ indexing a source.",
+        "relation": "direct",
+        "quote": "For an index $\\iota=(T_1,T_2,T_3)\\in\\mathcal T^3$, the label $U_\\iota$ is the line spanned by $t_{T_1}\\otimes t_{T_2}\\otimes t_{T_3}$."
+      },
+      {
+        "symbol": "V",
+        "name": "second label",
+        "meaning": "A second label, containing or contained in $U$ in the comparison.",
+        "relation": "direct",
+        "quote": "If $U\\subseteq V$ for labels $U,V$, then $P_V-P_U$ is the identity on $V\\cap U^\\perp$ and zero on $U\\oplus V^\\perp$, so an edge between nested labels has rank equal to its absolute change of label dimension."
+      },
+      {
+        "symbol": "s",
+        "name": "total rank",
+        "meaning": "The total rank over all edges, which is the number of smaller calls.",
+        "relation": "direct",
+        "quote": "Let $s=\\sum_e\\operatorname{rank}A_e$ be the total rank over all edges $e$, where $A_e$ is the difference of the matrices at the two ends of $e$ (the letter $s$ changes meaning here)."
+      },
+      {
+        "symbol": "A_e",
+        "name": "edge matrix",
+        "meaning": "The matrix of the edge $e$, the difference of the matrices at its two ends.",
+        "relation": "direct",
+        "quote": "Let $s=\\sum_e\\operatorname{rank}A_e$ be the total rank over all edges $e$, where $A_e$ is the difference of the matrices at the two ends of $e$ (the letter $s$ changes meaning here)."
+      },
+      {
+        "symbol": "L",
+        "name": "lost dimension",
+        "meaning": "The total dimension lost on decreasing edges.",
+        "relation": "direct",
+        "quote": "Summing gives $2L$, where $L$ is the total dimension lost on decreasing edges (the letter $L$ changes meaning here)."
+      },
+      {
+        "symbol": "v",
+        "name": "triple count",
+        "meaning": "The number of triples, $\\binom h3$.",
+        "relation": "count",
+        "quote": "Let $v=\\binom h3$ be the number of triples."
+      },
+      {
+        "symbol": "N",
+        "name": "index count",
+        "meaning": "The number of indices $\\iota$, which is $v^3$.",
+        "relation": "count",
+        "quote": "Let $N=v^3$ be the number of indices $\\iota$ (the letter $N$ changes meaning here), so there are $N$ sources."
+      }
+    ],
+    "synthetic-transforms": [
+      {
+        "symbol": "L",
+        "name": "transform axis length",
+        "meaning": "The number of entries along the transform axis, a power of two dividing $2r$.",
+        "relation": "count",
+        "quote": "Let $L$ be the number of entries along the transform axis, a power of two dividing $2r$, and let $z_0,\\dots,z_{L-1}$ be the input list of ring elements."
+      },
+      {
+        "symbol": "z",
+        "name": "input list",
+        "meaning": "The list of ring elements that the transform acts on, with entries $z_0,\\dots,z_{L-1}$.",
+        "relation": "direct",
+        "quote": "Let $L$ be the number of entries along the transform axis, a power of two dividing $2r$, and let $z_0,\\dots,z_{L-1}$ be the input list of ring elements."
+      },
+      {
+        "symbol": "Z",
+        "name": "transformed list",
+        "meaning": "The list of $L$ ring elements that the transform produces from the input list $z$.",
+        "relation": "direct",
+        "quote": "The transform maps it to the transformed list $Z_0,\\dots,Z_{L-1}$, given by"
+      },
+      {
+        "symbol": "p",
+        "name": "input index",
+        "meaning": "The index of an entry of the input list $z$, running from $0$ to $L-1$.",
+        "relation": "direct",
+        "quote": "Here $p$ is the input index and $g$ the output index, both running from $0$ to $L-1$."
+      },
+      {
+        "symbol": "g",
+        "name": "output index",
+        "meaning": "The index of an entry of the transformed list $Z$, running from $0$ to $L-1$.",
+        "relation": "direct",
+        "quote": "Here $p$ is the input index and $g$ the output index, both running from $0$ to $L-1$."
+      },
+      {
+        "symbol": "e",
+        "name": "power exponent",
+        "meaning": "An integer with $0\\le e<2r$, the exponent of the power $y^e$ that multiplies a coefficient list.",
+        "relation": "direct",
+        "quote": "Multiplying by $y^e$, where the exponent $e$ is an integer with $0\\le e<2r$, moves each coefficient up $e$ places, and each wrap past the last place negates it."
+      }
+    ],
+    "tensor-product-of-vector-spaces": [
+      {
+        "symbol": "F",
+        "name": "vector space",
+        "meaning": "The vector space whose tensor powers are formed, here Q^h in the bit network.",
+        "relation": "direct",
+        "quote": "Let $F$ be a vector space of dimension $\\nu$, the number of vectors in a basis of $F$, and let $K\\ge1$ be the number of factors."
+      },
+      {
+        "symbol": "\\nu",
+        "name": "field dimension",
+        "meaning": "The number of vectors in a basis of F, which counts the coordinates of each factor.",
+        "relation": "count",
+        "quote": "Let $F$ be a vector space of dimension $\\nu$, the number of vectors in a basis of $F$, and let $K\\ge1$ be the number of factors."
+      },
+      {
+        "symbol": "K",
+        "name": "number of factors",
+        "meaning": "The number of factors in the tensor power F^{\\otimes K}, a count of how many vectors each pure tensor has.",
+        "relation": "count",
+        "quote": "Let $F$ be a vector space of dimension $\\nu$, the number of vectors in a basis of $F$, and let $K\\ge1$ be the number of factors."
+      },
+      {
+        "symbol": "\\xi",
+        "name": "factor vector",
+        "meaning": "A vector of F, one tensor factor of a pure tensor.",
+        "relation": "direct",
+        "quote": "The tensor power $F^{\\otimes K}$ is the vector space spanned by the pure tensors $\\xi_1\\otimes\\cdots\\otimes\\xi_K$, one for each choice of vectors $\\xi_1,\\dots,\\xi_K\\in F$."
+      },
+      {
+        "symbol": "\\lambda",
+        "name": "scalar",
+        "meaning": "A scalar of the field over which F is a vector space.",
+        "relation": "direct",
+        "quote": "and likewise in every other slot, for scalars $\\lambda$."
+      },
+      {
+        "symbol": "\\phi",
+        "name": "basis vector",
+        "meaning": "A basis vector of F, indexed by position in the basis.",
+        "relation": "direct",
+        "quote": "If $\\phi_1,\\dots,\\phi_\\nu$ is a basis of $F$, the $\\nu^K$ products $\\phi_{\\mu_1}\\otimes\\cdots\\otimes\\phi_{\\mu_K}$, one for each tuple $(\\mu_1,\\dots,\\mu_K)$ with $1\\le\\mu_s\\le\\nu$, form a basis of $F^{\\otimes K}$."
+      },
+      {
+        "symbol": "\\mu",
+        "name": "basis position",
+        "meaning": "The position of a basis vector in the basis of F, running from 1 to nu, one for each factor of a basis product.",
+        "relation": "count",
+        "quote": "If $\\phi_1,\\dots,\\phi_\\nu$ is a basis of $F$, the $\\nu^K$ products $\\phi_{\\mu_1}\\otimes\\cdots\\otimes\\phi_{\\mu_K}$, one for each tuple $(\\mu_1,\\dots,\\mu_K)$ with $1\\le\\mu_s\\le\\nu$, form a basis of $F^{\\otimes K}$."
+      },
+      {
+        "symbol": "t_T",
+        "name": "triple indicator",
+        "meaning": "The vector of F that has entry 1 on the three elements of the triple T and 0 elsewhere.",
+        "relation": "direct",
+        "quote": "For each three-element subset $T$ of the ground set, its indicator vector $t_T$ is the vector of $F$ with entry 1 on $T$ and 0 elsewhere."
+      }
+    ]
+  },
+  "relations": {
+    "address-fields": [
+      {
+        "prerequisite": "fixed-tape-model",
+        "predicate": "is measured in",
+        "quote": "A layout's cost is measured in the [Fixed-tape machine model and stream operations](fixed-tape-model.md), where each step touches one cell per tape, so moving data is the cost to minimize."
+      }
+    ],
+    "address-shear-factorization": [
+      {
+        "prerequisite": "linear-network-roles",
+        "predicate": "is the endpoint operator of",
+        "quote": "The address shear is the endpoint operator of the bit network, a [Finite linear network with roles and frames](linear-network-roles.md)."
+      }
+    ],
+    "bluestein-chirp": [
+      {
+        "prerequisite": "dft-fft",
+        "predicate": "rewrites",
+        "quote": "Bluestein's chirp identity rewrites a [discrete Fourier transform](dft-fft.md) as a cyclic [Convolution](convolution.md), so that later convolution machinery can compute it."
+      },
+      {
+        "prerequisite": "convolution",
+        "predicate": "computes its transform by",
+        "quote": "So the identity computes its transform by a cyclic [Convolution](convolution.md), with the phase $\\zeta^{j^2-j}$ applied to each output."
+      }
+    ],
+    "crt-address-map": [
+      {
+        "prerequisite": "convolution",
+        "predicate": "preserves",
+        "quote": "This map preserves [convolution](convolution.md) on the axes, so a cyclic product of two lists on $\\mathbb{Z}_N$ becomes a product on the prime axes: the cyclic convolution is carried out along every axis at once."
+      },
+      {
+        "prerequisite": "radix-digit-reduction",
+        "predicate": "is applied to",
+        "quote": "The map is applied to the radix-digit coefficient list produced by [reduction of integer product to digit convolution](radix-digit-reduction.md)."
+      },
+      {
+        "prerequisite": "fixed-tape-model",
+        "predicate": "is costed in",
+        "quote": "The map's axis moves are costed in the [fixed-tape machine model and stream operations](fixed-tape-model.md), which counts each such step as data movement, since each step touches one cell per tape."
+      }
+    ],
+    "dft-fft": [
+      {
+        "prerequisite": "convolution",
+        "predicate": "reduces",
+        "quote": "The discrete Fourier transform (DFT) evaluates a coefficient list at powers of a root of unity, reducing [Convolution](convolution.md) to a pointwise product."
+      },
+      {
+        "prerequisite": "address-fields",
+        "predicate": "is built from",
+        "quote": "On tapes, the transform is built from butterflies and the address rearrangements of [Address fields and array layout on tapes](address-fields.md)."
+      }
+    ],
+    "fast-address-interchange": [
+      {
+        "prerequisite": "address-shear-factorization",
+        "predicate": "is built from",
+        "quote": "The procedure is built from the [Address shear and lower-triangular factorization](address-shear-factorization.md): the network's endpoint operator is the shear $(H,D)\\mapsto(H+D,D)$ over $\\mathbb F_2$, with rank reduced by a lower-triangular factorization."
+      },
+      {
+        "prerequisite": "scratch-restoration",
+        "predicate": "is secured by",
+        "quote": "Exactness is secured by the [Restoring auxiliary scratch values](scratch-restoration.md) schedule, which subtracts the initial register value, computes, adds the result back, and reverses; the initial contents cancel, so the final permutation does not depend on them."
+      },
+      {
+        "prerequisite": "recursive-power-saving",
+        "predicate": "follows from",
+        "quote": "The cost bound follows from [Recursive power saving from s<Wm](recursive-power-saving.md)."
+      },
+      {
+        "prerequisite": "address-fields",
+        "predicate": "acts on arrays laid out",
+        "quote": "The procedure acts on arrays laid out as in [Address fields and array layout on tapes](address-fields.md), so each field is a block of $u$ contiguous bits."
+      }
+    ],
+    "fast-butterfly-layers": [
+      {
+        "prerequisite": "synthetic-transforms",
+        "predicate": "performs the butterfly rounds of",
+        "quote": "The layer performs the butterfly rounds of [Synthetic polynomial transforms](synthetic-transforms.md), which otherwise needs one whole-array pass per butterfly."
+      },
+      {
+        "prerequisite": "recursive-power-saving",
+        "predicate": "gets its exponent from",
+        "quote": "The layer gets its exponent from [Recursive power saving from s<Wm](recursive-power-saving.md), which turns such a recursion into a power saving."
+      },
+      {
+        "prerequisite": "fast-address-interchange",
+        "predicate": "moves whole chunks by",
+        "quote": "The layer moves whole chunks by [Fast interchange of address fields](fast-address-interchange.md) to realize its binary basis changes."
+      },
+      {
+        "prerequisite": "fixed-point-precision",
+        "predicate": "keeps error within the bound of",
+        "quote": "This single truncation keeps error within the bound of [Fixed-point precision and exact recovery](fixed-point-precision.md), which needs error below $1/2$."
+      }
+    ],
+    "fixed-point-precision": [
+      {
+        "prerequisite": "radix-digit-reduction",
+        "predicate": "recovers the integer coefficients produced by",
+        "quote": "It recovers the integer coefficients produced by the [Reduction of integer product to digit convolution](radix-digit-reduction.md)."
+      },
+      {
+        "prerequisite": "dft-fft",
+        "predicate": "computes its transforms by",
+        "quote": "It computes its transforms by the [forward transform of length $S$](dft-fft.md) and its opposite, which run in finite precision."
+      }
+    ],
+    "gaussian-resampling": [
+      {
+        "prerequisite": "crt-address-map",
+        "predicate": "acts on the axes placed by",
+        "quote": "Gaussian resampling acts on the axes placed by the [Chinese-remainder map to prime cyclic axes](crt-address-map.md)."
+      },
+      {
+        "prerequisite": "dft-fft",
+        "predicate": "computes its transforms by",
+        "quote": "Gaussian resampling thus computes its transforms by the butterfly layers of [Discrete Fourier transform and butterflies](dft-fft.md), since a transform of length $Q$ has $\\lg Q$ layers, each linear in the array size."
+      }
+    ],
+    "linear-network-roles": [
+      {
+        "prerequisite": "address-fields",
+        "predicate": "acts on rows indexed by",
+        "quote": "These rows are the suffixes of [Address fields and array layout on tapes](address-fields.md), so the network acts on rows indexed by those fields."
+      }
+    ],
+    "main-theorem": [
+      {
+        "prerequisite": "fast-address-interchange",
+        "predicate": "performs its address moves by",
+        "quote": "The machine performs its address moves by [Fast interchange of address fields](fast-address-interchange.md)."
+      },
+      {
+        "prerequisite": "fast-butterfly-layers",
+        "predicate": "performs its butterfly layers by",
+        "quote": "It performs its butterfly layers by [Fast simultaneous butterfly layers](fast-butterfly-layers.md)."
+      },
+      {
+        "prerequisite": "ring-convolution-retained-order",
+        "predicate": "computes its convolution by",
+        "quote": "The machine computes its convolution by [Convolution with retained transform order and cancelled permutations](ring-convolution-retained-order.md)."
+      },
+      {
+        "prerequisite": "fixed-point-precision",
+        "predicate": "recovers its coefficients by",
+        "quote": "The machine recovers its coefficients by [Fixed-point precision and exact recovery](fixed-point-precision.md)."
+      },
+      {
+        "prerequisite": "nlogn-conjecture",
+        "predicate": "disproves",
+        "quote": "It disproves the [n log n optimality conjecture](nlogn-conjecture.md) for this model."
+      },
+      {
+        "prerequisite": "crt-address-map",
+        "predicate": "places its coefficient list by",
+        "quote": "The machine places its coefficient list by the [Chinese-remainder map to prime cyclic axes](crt-address-map.md)."
+      }
+    ],
+    "phase-twist-convolution": [
+      {
+        "prerequisite": "poly-ring-y-r",
+        "predicate": "turns the last cyclic coordinate into",
+        "quote": "The twist turns the last cyclic coordinate into the [Polynomial ring modulo $y^r+1$](poly-ring-y-r.md)."
+      },
+      {
+        "prerequisite": "convolution",
+        "predicate": "rescales the coefficients of",
+        "quote": "The twist rescales the coefficients of a [Convolution](convolution.md) so that its cyclic wrap on the last axis becomes a negative wrap in $\\mathbb C[y]/(y^r+1)$."
+      },
+      {
+        "prerequisite": "bluestein-chirp",
+        "predicate": "is applied after",
+        "quote": "It is applied after [Bluestein's chirp identity](bluestein-chirp.md) has turned the middle transform into a cyclic convolution."
+      }
+    ],
+    "radix-digit-reduction": [
+      {
+        "prerequisite": "convolution",
+        "predicate": "reduces the integer product to",
+        "quote": "Splitting the inputs into radix digits reduces the integer product to a [convolution](convolution.md) of short integer coefficients."
+      }
+    ],
+    "recursive-power-saving": [
+      {
+        "prerequisite": "subset-intersection-construction",
+        "predicate": "is built on",
+        "quote": "The recursion is built on the [Three-element subset intersection construction](subset-intersection-construction.md), which gives $s<Wm$ smaller calls."
+      }
+    ],
+    "ring-convolution-retained-order": [
+      {
+        "prerequisite": "synthetic-transforms",
+        "predicate": "computes its transforms by",
+        "quote": "This convolution computes its transforms by [Synthetic polynomial transforms](synthetic-transforms.md), which need only signed shifts, address rearrangements and butterflies."
+      },
+      {
+        "prerequisite": "signed-packing",
+        "predicate": "computes its products through",
+        "quote": "This convolution computes its products through [Signed coefficient packing (Kronecker substitution)](signed-packing.md): polynomial products are packed into integers and multiplied by the ordinary $O(n\\log n)$ multiplier as a subroutine."
+      },
+      {
+        "prerequisite": "gaussian-resampling",
+        "predicate": "is applied after",
+        "quote": "This convolution is applied after [Gaussian resampling](gaussian-resampling.md), which writes each source transform through a power-of-two tensor transform."
+      },
+      {
+        "prerequisite": "phase-twist-convolution",
+        "predicate": "is taken over the ring from",
+        "quote": "This convolution is taken over the ring from the [Last-coordinate phase twist](phase-twist-convolution.md), in which the negative wrap gives the original cyclic wrap."
+      }
+    ],
+    "scratch-restoration": [
+      {
+        "prerequisite": "linear-network-roles",
+        "predicate": "is applied to",
+        "quote": "The procedure is applied to a [Finite linear network with roles and frames](linear-network-roles.md), whose wires include the auxiliary registers."
+      }
+    ],
+    "signed-packing": [
+      {
+        "prerequisite": "ss-hh-background",
+        "predicate": "computes its integer products by",
+        "quote": "Signed coefficient packing computes its integer products by the [Schönhage–Strassen to Harvey–van der Hoeven multiplication](ss-hh-background.md), an ordinary subroutine call that costs $O(n\\log n)$."
+      }
+    ],
+    "ss-hh-background": [
+      {
+        "prerequisite": "dft-fft",
+        "predicate": "computes its transforms by",
+        "quote": "Each algorithm in the chain computes its transforms by the [Discrete Fourier transform and butterflies](dft-fft.md), evaluating its coefficient lists at roots of unity in a suitable ring."
+      },
+      {
+        "prerequisite": "nlogn-conjecture",
+        "predicate": "is measured against",
+        "quote": "The chain's cost is measured against the [The n log n optimality conjecture](nlogn-conjecture.md)."
+      }
+    ],
+    "subset-intersection-construction": [
+      {
+        "prerequisite": "linear-network-roles",
+        "predicate": "is built inside",
+        "quote": "It is built inside a [Finite linear network with roles and frames](linear-network-roles.md)."
+      },
+      {
+        "prerequisite": "tensor-product-of-vector-spaces",
+        "predicate": "is built from",
+        "quote": "Let $\\mathcal F=(\\mathbb Q^h)^{\\otimes 3}$, a space built from the [Tensor product of vector spaces](tensor-product-of-vector-spaces.md) of three copies of $\\mathbb Q^h$, and let $m=h^3$ be its dimension (the letter $m$ changes meaning here)."
+      }
+    ],
+    "synthetic-transforms": [
+      {
+        "prerequisite": "poly-ring-y-r",
+        "predicate": "are defined over",
+        "quote": "Synthetic polynomial transforms are defined over the [Polynomial ring modulo $y^r+1$](poly-ring-y-r.md), where every root of unity is a power of $y$, so the transform avoids general complex multiplications."
+      },
+      {
+        "prerequisite": "dft-fft",
+        "predicate": "follow the butterfly scheme of",
+        "quote": "Synthetic transforms follow the butterfly scheme of the [Discrete Fourier transform and butterflies](dft-fft.md)."
+      },
+      {
+        "prerequisite": "fixed-tape-model",
+        "predicate": "are costed on",
+        "quote": "Synthetic transforms are costed on a [fixed-tape machine](fixed-tape-model.md), where the cost is data movement."
+      }
+    ]
+  },
+  "added": {
+    "address-fields": [
+      {
+        "sentence": "Why levels rearrange fields.",
+        "depth": 1
+      },
+      {
+        "sentence": "Rearranging is not free.",
+        "depth": 1
+      },
+      {
+        "sentence": "The transform is the discrete Fourier transform, which evaluates a coefficient list at roots of unity.",
+        "depth": 2
+      },
+      {
+        "sentence": "It is computed in levels, each a layer of two-point butterflies that replace a pair of entries by their sum and difference, up to a scale factor.",
+        "depth": 2
+      }
+    ],
+    "address-shear-factorization": [
+      {
+        "sentence": "An address shear is a linear update of two vectors of address fields, and a lower-triangular factorization reduces it to interchanges and linear-cost updates.",
+        "depth": 1
+      },
+      {
+        "sentence": "So the shear needs $\\operatorname{rank}_{\\mathbb Q}M$ interchanges plus $O(V)$ further work.",
+        "depth": 1
+      },
+      {
+        "sentence": "Here $q$ is a fixed odd prime, the radix of the digits, and $b$ is the number of radix-$q$ digits in each field, so a field holds a residue in $\\mathbb Z/q^b\\mathbb Z$.",
+        "depth": 2
+      },
+      {
+        "sentence": "A matrix is lower triangular when all its entries above the diagonal are zero.",
+        "depth": 2
+      },
+      {
+        "sentence": "Elimination proves this: pivot on the topmost nonzero row's rightmost entry, clear its left and lower entries by lower-triangular operations, and repeat on what remains.",
+        "depth": 2
+      },
+      {
+        "sentence": "Update coordinates from last to first, so each becomes a fixed combination of earlier, still unchanged, coordinates.",
+        "depth": 2
+      }
+    ],
+    "bluestein-chirp": [
+      {
+        "sentence": "The transform of $a_0,\\dots,a_{n-1}$ is",
+        "depth": 1
+      },
+      {
+        "sentence": "md) as a cyclic [Convolution](convolution.",
+        "depth": 2
+      },
+      {
+        "sentence": "$$A_j=\\sum_{k=0}^{n-1}a_k\\,\\omega^{jk}.",
+        "depth": 2
+      },
+      {
+        "sentence": "Then",
+        "depth": 2
+      },
+      {
+        "sentence": "$$A_j=\\zeta^{j^2}\\sum_{k=0}^{n-1}g_k\\,z_{j-k}.",
+        "depth": 2
+      },
+      {
+        "sentence": "Either way it contributes $\\zeta^j g_k z_{j-k}$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Then $A_1=i\\,(-i\\,a_0+i\\,a_1)=a_0-a_1$.",
+        "depth": 2
+      }
+    ],
+    "crt-address-map": [
+      {
+        "sentence": "For example, take $N = 15$ with $P_1 = 3$ and $P_2 = 5$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The $P_\\nu$ are pairwise coprime, since distinct primes share no factor.",
+        "depth": 1
+      },
+      {
+        "sentence": "Moreover, two indices agree modulo $N$ exactly when they agree modulo every $P_\\nu$: the forward direction holds because each $P_\\nu$ divides $N$, and the reverse is the uniqueness part of the theorem.",
+        "depth": 1
+      },
+      {
+        "sentence": "Let $a$ and $b$ be lists of length $N$, and let $c_k=\\sum_{i+j\\equiv k \\pmod N} a_i b_j$ be their cyclic [convolution](convolution.",
+        "depth": 1
+      },
+      {
+        "sentence": "Under the map, a pair of indices contributes to $c_k$ exactly when, in every coordinate, the residues add to the residue of $k$.",
+        "depth": 1
+      },
+      {
+        "sentence": "So the sum is cyclic along each axis separately.",
+        "depth": 1
+      },
+      {
+        "sentence": "md) on the axes, so a cyclic product of two lists on $\\mathbb{Z}_N$ becomes a product on the prime axes: the cyclic convolution is carried out along every axis at once.",
+        "depth": 1
+      },
+      {
+        "sentence": "The paper's map targets a product of (cited).",
+        "depth": 1
+      },
+      {
+        "sentence": "[Gaussian resampling](gaussian-resampling.",
+        "depth": 1
+      },
+      {
+        "sentence": "md) expresses the Fourier transform on each prime-length axis through a multidimensional transform with power-of-two axis lengths, so the placement on prime axes is what lets it apply.",
+        "depth": 1
+      }
+    ],
+    "dft-fft": [
+      {
+        "sentence": "md) to a pointwise product.",
+        "depth": 1
+      },
+      {
+        "sentence": "Let $a=(a_0,\\dots,a_{n-1})$ have $n$ entries, a power of two.",
+        "depth": 1
+      },
+      {
+        "sentence": "md).",
+        "depth": 1
+      },
+      {
+        "sentence": "$$A_m=\\sum_{i=0}^{n-1} a_i\\,\\omega^{im}.",
+        "depth": 2
+      },
+      {
+        "sentence": "Here the letter $A$ changes meaning from the machine $A$ of the earlier pages.",
+        "depth": 2
+      },
+      {
+        "sentence": "Since $\\omega^{n/2}=-1$, splitting $a$ by the parity of $i$ gives $A_m=E_m+\\omega^mO_m$ and $A_{m+n/2}=E_m-\\omega^mO_m$ for $0\\le m<n/2$, where $E$ and $O$ are the transforms with root $\\omega^2$ of the even- and odd-indexed entries.",
+        "depth": 2
+      },
+      {
+        "sentence": "With bit-reversed input, a block of size $h$ computes a transform with root $\\omega^{n/h}$ from two halves that are transforms with root $\\omega^{2n/h}$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The split above, with $\\omega^{n/h}$ in place of $\\omega$, pairs offsets $t$ and $t+h/2$ into a butterfly with exponent $s=tn/h$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The levels $h=2,4,\\dots,n$ leave $A_0,\\dots,A_{n-1}$ in order.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each level is one rearrangement that makes partners $t$ and $t+h/2$ adjacent, then one scan of butterflies.",
+        "depth": 2
+      },
+      {
+        "sentence": "The paper's tape-level transform uses the same kinds of operation (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $c_k=\\sum_i a_i\\,b_{(k-i)\\bmod n}$ be the convolution, with transforms $B$ of $b$ and $C$ of $c$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Since $\\omega^{km}=\\omega^{(i+l)m}$ and $l$ runs over all indices for fixed $i$, $C_m=\\sum_i a_i\\omega^{im}\\sum_l b_l\\omega^{lm}=A_mB_m$.",
+        "depth": 2
+      }
+    ],
+    "fast-address-interchange": [
+      {
+        "sentence": "md), so each field is a block of $u$ contiguous bits.",
+        "depth": 1
+      },
+      {
+        "sentence": "Write $H$ and $D$ for the two fields, each viewed as a vector of entries over a common residue ring; for the bit procedure this ring is $\\mathbb F_2$, where subtraction and addition coincide.",
+        "depth": 1
+      },
+      {
+        "sentence": "Starting from $(H,D)$ they give $(H,D-H)$, then $(D,D-H)$, then $(D,H)$, since $H+(D-H)=D$ and $D-(D-H)=H$.",
+        "depth": 1
+      },
+      {
+        "sentence": "For example, with $(H,D)=(1,0)$ over $\\mathbb F_2$ the states are $(1,1)$, $(0,1)$, $(0,1)$, which is $(D,H)$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Over $\\mathbb F_2$ each update is a pointwise XOR, since addition and subtraction are the same operation; after the first update $D$ holds the XOR of $D$ and $H$.",
+        "depth": 1
+      },
+      {
+        "sentence": "md) schedule, which subtracts the initial register value, computes, adds the result back, and reverses; the initial contents cancel, so the final permutation does not depend on them.",
+        "depth": 1
+      },
+      {
+        "sentence": "For the bit network, $s<Wm$ (cited); the paper's proof computes $s$ as $Wm$ minus a positive constant fixed by the construction.",
+        "depth": 2
+      },
+      {
+        "sentence": "Hence $s/W<m$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Since $m^\\tau\\to m$ as $\\tau\\to1$, fix $\\tau<1$ with $s/W<m^\\tau$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $Q_k$ bound the time per unit of volume for interchanging fields of $m^k$ bits, where $k$ is the recursion level.",
+        "depth": 2
+      },
+      {
+        "sentence": "A level-$k$ call makes $s$ calls at level $k-1$, each on volume $V/W$, plus $O(V)$ outside work whose normalized cost is at most $C$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Hence",
+        "depth": 2
+      },
+      {
+        "sentence": "$$Q_0=O(1),\\qquad Q_k\\le \\frac{s}{W}\\,Q_{k-1}+C.",
+        "depth": 2
+      },
+      {
+        "sentence": "Unrolling gives $Q_k\\le (s/W)^k Q_0+C\\sum_{j<k}(s/W)^j$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The first term is $O(m^{k\\tau})$ because $s/W<m^\\tau$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The geometric sum is also $O(m^{k\\tau})$: if $s/W\\le1$ it is at most $k$, and if $s/W>1$ it is $O((s/W)^k)$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Both are $O(m^{k\\tau})$, since $m\\ge2$.",
+        "depth": 2
+      },
+      {
+        "sentence": "A field of $u=m^k$ bits therefore has $Q_k=O(u^\\tau)$, and the interchange costs $O(Vu^\\tau)$.",
+        "depth": 2
+      }
+    ],
+    "fast-butterfly-layers": [
+      {
+        "sentence": "The layer performs the butterfly rounds of [Synthetic polynomial transforms](synthetic-transforms.",
+        "depth": 1
+      },
+      {
+        "sentence": "md) to realize its binary basis changes.",
+        "depth": 1
+      },
+      {
+        "sentence": "Here $u$ and $v$ are the paired records.",
+        "depth": 2
+      },
+      {
+        "sentence": "md), which otherwise needs one whole-array pass per butterfly.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each record has complex fixed-point coefficients with $O(p)$ bits per component, where $p$ is the working precision.",
+        "depth": 2
+      },
+      {
+        "sentence": "The layer costs $O(Vd^{\\lambda'})$ for a fixed exponent $\\lambda'<1$, where $V$ is the stored bit volume.",
+        "depth": 2
+      },
+      {
+        "sentence": "The data sits on $W$ roles (wires) of a [Finite linear network with roles and frames](linear-network-roles.",
+        "depth": 2
+      },
+      {
+        "sentence": "Dividing by $V$,",
+        "depth": 2
+      },
+      {
+        "sentence": "Since $m<2^{20}$ gives $\\log m<20$,",
+        "depth": 2
+      },
+      {
+        "sentence": "Unroll it over $\\lceil\\log_m d\\rceil$ levels, stopping at groups of fewer than $\\sqrt d$ bits, which apply their kernels one at a time.",
+        "depth": 2
+      },
+      {
+        "sentence": "Internal overheads form a geometric series, summing to $O(d^{\\lambda})$ with $\\lambda<1$.",
+        "depth": 2
+      },
+      {
+        "sentence": "These fit the $O(p)$ widths (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "The layer evaluates exactly and truncates once, toward zero to multiples of $2^{-p}$, with error below $\\sqrt2\\,2^{-p}$ in maximum norm.",
+        "depth": 2
+      },
+      {
+        "sentence": "md), which needs error below $1/2$.",
+        "depth": 2
+      }
+    ],
+    "fixed-point-precision": [
+      {
+        "sentence": "Carry propagation then gives the digits.",
+        "depth": 1
+      },
+      {
+        "sentence": "Let $h_0=0$ and, for $0\\le j<S$,",
+        "depth": 1
+      },
+      {
+        "sentence": "Since $c_j+h_j=d_j+2^bh_{j+1}$, induction gives $\\sum_{i<j}c_i2^{bi}=\\sum_{i<j}d_i2^{bi}+h_j2^{bj}$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Example, radix $10$ for $2^b$ and $c=(12,15,3)$: $d_0=2$, $h_1=1$; $d_1=6$, $h_2=1$; $d_2=4$, $h_3=0$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The digits $4,6,2$ give $462=12+15\\cdot10+3\\cdot100$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The source sets $p=6b$ (cited), where $b=\\lceil\\log_2 n\\rceil$ (cited), so $n\\le 2^b$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Since $T<8n/b<2^b$ for $b>8$, we have $S<2^b$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $L=\\log_2 T$ (this letter changes meaning from the Gaussian resampling page), so $L<b$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The digit lists have degree below $T/2<S$, so cyclic convolution has no wraparound.",
+        "depth": 2
+      },
+      {
+        "sentence": "It computes its transforms by the [forward transform of length $S$](dft-fft.",
+        "depth": 2
+      },
+      {
+        "sentence": "md) and its opposite, which run in finite precision.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $\\xi_j=x_j/2^{b+2}$ and $\\psi_j=y_j/2^{b+2}$; each entry lies in $[0,1/4)$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $\\Phi$ be the forward transform of length $S$, with $(\\Phi\\xi)_m=\\frac1S\\sum_k\\xi_k\\omega^{mk}$, where $\\omega$ is a primitive $S$-th root of unity, and let $\\Phi^{+}$ be its opposite, with $\\omega^{-mk}$ in its place.",
+        "depth": 2
+      },
+      {
+        "sentence": "Two identities hold: $\\Phi(\\xi*\\psi)=S\\,\\Phi\\xi\\cdot\\Phi\\psi$, since powers of $\\omega$ multiply by adding exponents mod $S$; and $\\Phi^{+}\\Phi=I/S$, since $\\sum_m\\omega^{m(k-k')}$ is $S$ for $k=k'$ and $0$ otherwise.",
+        "depth": 2
+      },
+      {
+        "sentence": "Hence",
+        "depth": 2
+      },
+      {
+        "sentence": "$$\\Phi^{+}(\\Phi\\xi\\cdot\\Phi\\psi)=\\frac1S\\,\\Phi^{+}\\Phi(\\xi*\\psi)=\\frac{\\xi*\\psi}{S^2}.",
+        "depth": 2
+      },
+      {
+        "sentence": "The source's transforms also carry a coordinate permutation, which cancels from this product (cited), so the identity holds for the transforms written here.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each computed transform, after the source scale $2^\\gamma$, has error below $E_s2^{-p}$ with $E_s=9\\cdot 2^\\gamma TL$ (cited); here $\\gamma$ is the exponent of that scale (this letter changes meaning from the scratch-restoration page).",
+        "depth": 2
+      },
+      {
+        "sentence": "Each factor of the pointwise product contributes $E_s2^{-p}$ and truncation adds $2\\cdot2^{-p}$, and the opposite transform adds $E_s2^{-p}$ more, so the computed $\\Phi^{+}$ result is within $(3E_s+2)2^{-p}$ of $(\\xi*\\psi)/S^2$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Multiplying by $S$ multiplies this error by $S$: it is below $S(3E_s+2)2^{-p}<28\\cdot2^\\gamma T^2L\\cdot2^{-p}$, since $3E_s+2=27\\cdot2^\\gamma TL+2<28\\cdot2^\\gamma TL$.",
+        "depth": 2
+      },
+      {
+        "sentence": "$$2^{2b+4}S\\cdot 28\\cdot2^\\gamma T^2L\\cdot2^{-6b}<448\\,b\\,2^{-b+\\gamma}\\le 448\\,b\\,2^{-3b/4},$$",
+        "depth": 2
+      },
+      {
+        "sentence": "using $S<T<2^b$, $L<b$, and $\\gamma\\le b/4$ for large $b$ (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "With $j=S$, $xy=\\sum_{i<S}c_i2^{bi}<2^{2n}\\le 2^{bS}$, because $S>T/2\\ge2n/b$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The digit sum also lies below $2^{bS}$, so $h_S=0$, and $d_0,\\dots,d_{S-1}$ are the radix-$2^b$ digits of $xy$.",
+        "depth": 2
+      }
+    ],
+    "fixed-tape-model": [
+      {
+        "sentence": "(cited)",
+        "depth": 1
+      },
+      {
+        "sentence": "A track is a parallel row of cells on one tape.",
+        "depth": 2
+      },
+      {
+        "sentence": "(cited) A fixed number of tracks is a larger fixed alphabet, and a finite number of extra tapes can be interleaved into one tape, so each step of the original machine becomes a bounded number of steps on the enlarged one.",
+        "depth": 2
+      },
+      {
+        "sentence": "A field is a contiguous block of digit positions within each address, so interchanging two equal-width fields swaps their contents in every address.",
+        "depth": 2
+      },
+      {
+        "sentence": "Interchanging whole fields moves blocks across long distances, which is expensive because each step moves a head by one cell.",
+        "depth": 2
+      },
+      {
+        "sentence": "The paper instead realizes the interchange by (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "No temporary copy of either value is needed.",
+        "depth": 2
+      }
+    ],
+    "gaussian-resampling": [
+      {
+        "sentence": "Gaussian resampling thus computes its transforms by the butterfly layers of [Discrete Fourier transform and butterflies](dft-fft.",
+        "depth": 1
+      },
+      {
+        "sentence": "Each normalized transform is a contraction (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "Each weight is a Gaussian centred on a point of the other grid.",
+        "depth": 2
+      },
+      {
+        "sentence": "(their Theorem 4.",
+        "depth": 2
+      },
+      {
+        "sentence": "$\\mathsf T$ alone is not invertible, so we compensate.",
+        "depth": 2
+      },
+      {
+        "sentence": "The paper's Lemma 4.",
+        "depth": 2
+      },
+      {
+        "sentence": "The paper's Proposition 4.",
+        "depth": 2
+      },
+      {
+        "sentence": "Contractions keep composed approximation errors from growing.",
+        "depth": 2
+      },
+      {
+        "sentence": "md).",
+        "depth": 2
+      },
+      {
+        "sentence": "The speedups of [Fast simultaneous butterfly layers](fast-butterfly-layers.",
+        "depth": 2
+      },
+      {
+        "sentence": "md) and [Fast interchange of address fields](fast-address-interchange.",
+        "depth": 2
+      }
+    ],
+    "linear-network-roles": [
+      {
+        "sentence": "Let $W$ be the number of roles.",
+        "depth": 1
+      },
+      {
+        "sentence": "A frame acts on addresses within one wire's array and never mixes wires.",
+        "depth": 1
+      },
+      {
+        "sentence": "Undoing the exchange moves each output back to its input role, and multiplying by $\\varepsilon_w$ again removes the sign.",
+        "depth": 1
+      },
+      {
+        "sentence": "Every role keeps the endpoint operator (cited), auxiliary roles included.",
+        "depth": 1
+      },
+      {
+        "sentence": "A *scratch* (auxiliary) role carries working values whose initial contents are arbitrary; the other roles carry the exchanged values.",
+        "depth": 2
+      },
+      {
+        "sentence": "The *scalar network* is the same wiring with each gate applied pointwise to matching addresses, so it acts on roles alone.",
+        "depth": 2
+      },
+      {
+        "sentence": "The frame $D_\\nu$ of the gate is linear and the coefficients are scalars, so $$G(D_\\nu f_1,\\ldots,D_\\nu f_p)=D_\\nu G(f_1,\\ldots,f_p).",
+        "depth": 2
+      },
+      {
+        "sentence": "Along a route $\\alpha_0,\\alpha_1,\\dots,\\alpha_k$ of edges, the operators telescope: $(D_{\\alpha_k}D_{\\alpha_{k-1}}^{-1})\\cdots(D_{\\alpha_1}D_{\\alpha_0}^{-1})=D_{\\alpha_k}D_{\\alpha_0}^{-1}$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The intermediate frames cancel and the route applies only its endpoint operator.",
+        "depth": 2
+      },
+      {
+        "sentence": "By the telescoping, the route applies $\\varepsilon_w D_{\\mathrm{sink}(\\rho(w))}D_{\\mathrm{source}(w)}^{-1}$, where $\\mathrm{source}(w)$ and $\\mathrm{sink}(\\rho(w))$ are the first and last nodes of that route.",
+        "depth": 2
+      },
+      {
+        "sentence": "Here $I$ is the identity operator, which leaves every array unchanged.",
+        "depth": 2
+      }
+    ],
+    "main-theorem": [
+      {
+        "sentence": "md) for this model.",
+        "depth": 1
+      },
+      {
+        "sentence": "md) turns the product into a convolution of short coefficients.",
+        "depth": 1
+      },
+      {
+        "sentence": "The machine uses a fixed finite alphabet and a fixed number of one-dimensional tapes, and computes the exact product for every $n\\ge1$ (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "These cost $O(Vu^\\tau)$ and $O(Vd^{\\lambda'})$, where $V$ is the stored bit volume, $u$ the field width, $d$ the number of selected chunks, and $\\tau,\\lambda'<1$ fixed exponents.",
+        "depth": 2
+      },
+      {
+        "sentence": "Here $u$ and $d$ are powers of $\\lg n$ with exponents below one.",
+        "depth": 2
+      },
+      {
+        "sentence": "The logarithmic factor drops by the fixed power $\\kappa$ because $\\kappa$ is set by the smallest margin in the sources' cost table.",
+        "depth": 2
+      },
+      {
+        "sentence": "Both procedures come from one fixed linear network with $W$ roles and $s$ child calls.",
+        "depth": 2
+      },
+      {
+        "sentence": "For the bit network, $s$ equals $Wm$ minus $N$, the number of negative source projections, plus twice the lost label dimension $L$ (cited), so $s<Wm$ needs $N>2L$.",
+        "depth": 2
+      },
+      {
+        "sentence": "A negative source projection is a source operator $-P_U$, where $P_U$ projects onto a label subspace along its orthogonal complement.",
+        "depth": 2
+      },
+      {
+        "sentence": "Smaller nodes, the small-level leaves, cost $O(d^{\\sigma+(1-\\sigma)/2})$ with $\\sigma=1-2^{-50}$.",
+        "depth": 2
+      },
+      {
+        "sentence": "So $\\lambda'$ must exceed $\\lambda$ and $\\sigma+(1-\\sigma)/2$, and $\\lambda'=1-2^{-54}$ does.",
+        "depth": 2
+      }
+    ],
+    "nlogn-conjecture": [
+      {
+        "sentence": "The $n\\log n$ optimality conjecture is Schönhage and Strassen's proposal that $n\\log n$ is the optimal order of cost for multiplying two integers, where $n$ is the number of bits in each integer.",
+        "depth": 1
+      },
+      {
+        "sentence": "Their algorithm also runs on a multitape machine, so $O(n\\log n)$ is achievable in the model the conjecture is stated for, and the conjecture asks whether that cost can be beaten.",
+        "depth": 2
+      },
+      {
+        "sentence": "The conjecture is posed against the chain of upper bounds traced in [Schönhage-Strassen to Harvey-van der Hoeven multiplication](ss-hh-background.",
+        "depth": 2
+      },
+      {
+        "sentence": "md).",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $A$ be the deterministic Turing machine of the paper's main theorem, with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, so $A$ is one of the machines the conjecture quantifies over.",
+        "depth": 2
+      },
+      {
+        "sentence": "(cited).",
+        "depth": 2
+      }
+    ],
+    "phase-twist-convolution": [
+      {
+        "sentence": "The negative wrap is therefore the original cyclic wrap once the twist is removed (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "The twist rescales the coefficients of a [Convolution](convolution.",
+        "depth": 2
+      }
+    ],
+    "poly-ring-y-r": [
+      {
+        "sentence": "Powers of $y$ (cited).",
+        "depth": 1
+      },
+      {
+        "sentence": "Addition is coefficientwise.",
+        "depth": 2
+      },
+      {
+        "sentence": "Multiplication takes the ordinary product, then replaces each power $y^{r+j}$ by $-y^j$, where $j$ is the exponent left after removing $y^r$ and $0\\le j<r$; this holds because $y^{r+j}=y^r y^j=-y^j$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The letter $j$ denotes an index into the list $b$ on the convolution page, so here it changes meaning.",
+        "depth": 2
+      },
+      {
+        "sentence": "Equivalently, the ring is the quotient of $\\mathbb{C}[y]$ by the ideal $(y^r+1)$, the set of all polynomial multiples of $y^r+1$; the rule gives the representative of degree below $r$.",
+        "depth": 2
+      },
+      {
+        "sentence": "This is a signed shift by $s$.",
+        "depth": 2
+      },
+      {
+        "sentence": "If $r\\le s<2r$, then $y^s=-y^{s-r}$, so multiplying by $y^s$ is minus a signed shift by $s-r$.",
+        "depth": 2
+      },
+      {
+        "sentence": "A transform along one axis combines the entries that differ only in that coordinate, using roots of unity of the axis's length.",
+        "depth": 2
+      },
+      {
+        "sentence": "By the two cases above, every root multiplication on such an axis is a signed shift, possibly negated.",
+        "depth": 2
+      },
+      {
+        "sentence": "A fast transform along an axis is built from butterflies: each butterfly takes two entries, multiplies one by a root, and replaces the pair with their sum and their difference.",
+        "depth": 2
+      },
+      {
+        "sentence": "Address rearrangements move entries between butterfly layers.",
+        "depth": 2
+      }
+    ],
+    "radix-digit-reduction": [
+      {
+        "sentence": "Choose $b$ with $n\\le 2^b$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Since $(2^b-1)^2<2^{2b}$ and $q\\le 2^b$, this is below $2^{3b}$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The bound on $c_k$ keeps the carries from growing.",
+        "depth": 1
+      },
+      {
+        "sentence": "If $h_k<2^{2b+1}$, then $h_{k+1}\\le(c_k+h_k)/2^b<2^{2b}+2^{b+1}\\le 2^{2b+1}$, so by induction every carry is below $2^{2b+1}$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The carries also vanish.",
+        "depth": 1
+      },
+      {
+        "sentence": "Since $c_k=0$ for $k>2q-2$, we have $h_{k+1}=\\lfloor h_k/2^b\\rfloor$ for $k\\ge 2q-1$.",
+        "depth": 1
+      },
+      {
+        "sentence": "This is smaller than $h_k$ whenever $h_k>0$, so the carries reach $0$ after finitely many steps and stay $0$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Multiply the $k$th equation by $2^{bk}$ and sum over all $k$.",
+        "depth": 1
+      },
+      {
+        "sentence": "$$\\sum_{k} c_k2^{bk}=\\sum_{k} d_k2^{bk}.",
+        "depth": 1
+      },
+      {
+        "sentence": "The carries are $h_1=0$, $h_2=2$, $h_3=1$, $h_4=0$, giving digits $(d_0,d_1,d_2,d_3)=(3,2,1,1)$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The condition $q\\le 2^b$ holds because $q=\\lceil n/b\\rceil\\le n\\le 2^b$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each carry term $h_{k}2^{bk}$ appears once on each side, except $h_0=0$, so the carries cancel and only finitely many terms are nonzero, leaving",
+        "depth": 2
+      },
+      {
+        "sentence": "For example, take $b=2$, $x=13=1101_2$ and $y=7=0111_2$ written with the same $4$ bits, so $n=4$ and $q=2$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Then $x_0=01_2=1$, $x_1=11_2=3$, $y_0=3$, $y_1=1$, and $(c_0,c_1,c_2)=(3,10,3)$.",
+        "depth": 2
+      }
+    ],
+    "recursive-power-saving": [
+      {
+        "sentence": "585$.",
+        "depth": 1
+      },
+      {
+        "sentence": "8}}\\approx0.",
+        "depth": 1
+      },
+      {
+        "sentence": "86$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Let $C$ be a constant such that the call's own outside work is at most $C(mf)^\\lambda$, so",
+        "depth": 2
+      },
+      {
+        "sentence": "$$\\Phi(mf)\\le\\frac{s}{W}\\Phi(f)+C(mf)^\\lambda.",
+        "depth": 2
+      },
+      {
+        "sentence": "The outside work is a fixed number of address-field row additions.",
+        "depth": 2
+      },
+      {
+        "sentence": "An address interchange of $u$-bit fields costs $O(Vu^\\tau)$, where $\\tau<1$ is fixed.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each leaf is handled by one kernel per chunk, at cost $O(f/m^\\nu)$.",
+        "depth": 2
+      },
+      {
+        "sentence": "After $\\nu$ levels the weight is $(s/W)^\\nu$, so the internal costs sum to",
+        "depth": 2
+      },
+      {
+        "sentence": "$$C f^\\lambda\\sum_{\\nu\\ge0}\\Big(\\frac{s/W}{m^\\lambda}\\Big)^\\nu.",
+        "depth": 2
+      },
+      {
+        "sentence": "(cited) Taking $\\lambda$ with $\\log_m(s/W)<\\lambda<1$ makes the ratio below 1, so the internal sum is at most a constant times $f^\\lambda$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Choose $\\sigma$ with $\\max\\{0,\\log_m(s/W)\\}\\le\\sigma<\\lambda$.",
+        "depth": 2
+      },
+      {
+        "sentence": "For example, with $m=2$, $s=3$, $W=2$, we have $s/W=\\tfrac32$ and $\\log_2(3/2)\\approx0.",
+        "depth": 2
+      },
+      {
+        "sentence": "For $\\lambda=0.",
+        "depth": 2
+      },
+      {
+        "sentence": "8$ the ratio is $\\tfrac{3/2}{2^{0.",
+        "depth": 2
+      }
+    ],
+    "ring-convolution-retained-order": [
+      {
+        "sentence": "It is the convolution that the fast tape layouts of the main result run on the remaining axes.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $\\phi$ and $\\psi$ be the two input arrays.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $\\ast$ denote their cyclic convolution on one axis of length $t$, with products taken in the ring:",
+        "depth": 2
+      },
+      {
+        "sentence": "$$(\\phi\\ast\\psi)_k=\\sum_{i+j\\equiv k \\pmod t}\\phi_i\\psi_j.",
+        "depth": 2
+      },
+      {
+        "sentence": "The forward transform $\\mathcal D$ sends an array to $(\\mathcal D\\phi)_m=\\sum_i\\omega^{mi}\\phi_i$, where $\\omega$ is the primitive $t$th root of unity of the ring and $m$ is the frequency index.",
+        "depth": 2
+      },
+      {
+        "sentence": "Expanding the sums gives the first identity up to the normalization: $\\sum_k\\omega^{mk}(\\phi\\ast\\psi)_k=\\sum_{i,j}\\omega^{m(i+j)}\\phi_i\\psi_j=(\\mathcal D\\phi)_m(\\mathcal D\\psi)_m$, because $\\omega^{mk}$ depends only on $k$ mod $t$.",
+        "depth": 2
+      },
+      {
+        "sentence": "With the normalization of the source,",
+        "depth": 2
+      },
+      {
+        "sentence": "The second identity is the inverse relation that the normalization fixes, and the source checks it by expanding the finite sums (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "This is the step the source describes as the (cited):",
+        "depth": 2
+      },
+      {
+        "sentence": "By the first identity and the second, the right side is $\\frac{1}{M^{2}}\\,(\\phi\\ast\\psi)$, a known scalar multiple of the convolution.",
+        "depth": 2
+      }
+    ],
+    "scratch-restoration": [
+      {
+        "sentence": "A scratch wire may be overwritten along the way, but its starting value is arbitrary.",
+        "depth": 2
+      },
+      {
+        "sentence": "The basic move is a pair of writes.",
+        "depth": 2
+      },
+      {
+        "sentence": "This works because $\\gamma$ is computed from data that the write leaves unchanged.",
+        "depth": 2
+      }
+    ],
+    "signed-packing": [
+      {
+        "sentence": "Gaussian products.",
+        "depth": 1
+      },
+      {
+        "sentence": "Let $p$ be the working precision of the fixed-point page, so each coefficient of an input polynomial is an integer of absolute value at most $2^p$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Records have norm at most one, so their parts lie in $[-1,1]$ (cited).",
+        "depth": 2
+      },
+      {
+        "sentence": "Truncation puts each part on the grid $2^{-p}\\mathbb Z$, so $2^p$ times each part is an integer, and its coefficients are at most $2^p$ in absolute value (cited).",
+        "depth": 2
+      }
+    ],
+    "ss-hh-background": [
+      {
+        "sentence": "md), evaluating its coefficient lists at roots of unity in a suitable ring.",
+        "depth": 1
+      },
+      {
+        "sentence": "The method splits each integer into $q$ digits of $b$ bits, so the product is a convolution of two digit lists with $q$ entries each.",
+        "depth": 1
+      },
+      {
+        "sentence": "That linear convolution has $2q-1$ coefficients.",
+        "depth": 1
+      },
+      {
+        "sentence": "Transform both padded lists, multiply the transforms entry by entry, and invert the transform.",
+        "depth": 1
+      },
+      {
+        "sentence": "Later algorithms keep this scheme and change the ring.",
+        "depth": 1
+      },
+      {
+        "sentence": "Later improvements reduced the exponential factor to $8^{\\log^* n}$ and then $4^{\\log^* n}$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Pad both lists with zeros to a power of two length $S \\ge 2q-1$, so that $S$ is the number of entries in each padded list.",
+        "depth": 2
+      },
+      {
+        "sentence": "The nonzero coefficients of the product then sit at indices $0$ to $2q-2<S$, so the cyclic convolution of length $S$ equals the linear one.",
+        "depth": 2
+      },
+      {
+        "sentence": "The entrywise products are multiplied by the same method, recursively, and Schönhage and Strassen's paper proves the resulting bound.",
+        "depth": 2
+      },
+      {
+        "sentence": "Fürer's 2007 bound replaces the factor $\\log\\log n$ by $2^{O(\\log^* n)}$, where $\\log^* n$ is the number of iterated logarithms needed to reach a constant.",
+        "depth": 2
+      },
+      {
+        "sentence": "The later stages use the ring modulo $y^r+1$, whose elements are polynomials of degree below $r$ with complex coefficients.",
+        "depth": 2
+      },
+      {
+        "sentence": "No smaller positive power of $y$ is $1$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The powers $y^1,\\dots,y^{r-1}$ are distinct basis monomials, $y^r=-1\\neq 1$, and each of $y^{r+1},\\dots,y^{2r-1}$ is minus one of $y^1,\\dots,y^{r-1}$, so it is not $1$.",
+        "depth": 2
+      }
+    ],
+    "subset-intersection-construction": [
+      {
+        "sentence": "Each triple $T$ carries a value $g_T$.",
+        "depth": 1
+      },
+      {
+        "sentence": "**Coefficients.",
+        "depth": 1
+      },
+      {
+        "sentence": "**Labels.",
+        "depth": 1
+      },
+      {
+        "sentence": "**Counting.",
+        "depth": 1
+      },
+      {
+        "sentence": "So",
+        "depth": 1
+      },
+      {
+        "sentence": "For a three-element subset $T$ of $[h]$, called a triple, $t_T$ is its indicator vector, and $\\mathcal T$ is the set of all triples.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $[h]=\\{1,\\dots,h\\}$ be the ground set, where $h=100$ is its number of elements.",
+        "depth": 3
+      },
+      {
+        "sentence": "Distinct triples share at most two elements, so the net coefficient of $g_T$ at $S$ is $|S\\cap T|+[|S\\cap T|=1]$ mod $2$.",
+        "depth": 3
+      },
+      {
+        "sentence": "This is $0$ for $T\\ne S$ and $1$ for $T=S$, so only $g_S$ remains.",
+        "depth": 3
+      },
+      {
+        "sentence": "md) of three copies of $\\mathbb Q^h$, and let $m=h^3$ be its dimension (the letter $m$ changes meaning here).",
+        "depth": 3
+      },
+      {
+        "sentence": "A *label* $U$ is a nondegenerate subspace of $\\mathcal F$, so $\\mathcal F=U\\oplus U^\\perp$ and the projection $P_U$ onto $U$ along $U^\\perp$ is defined.",
+        "depth": 3
+      },
+      {
+        "sentence": "Let $v=\\binom h3$ be the number of triples.",
+        "depth": 3
+      },
+      {
+        "sentence": "Let $s=\\sum_e\\operatorname{rank}A_e$ be the total rank over all edges $e$, where $A_e$ is the difference of the matrices at the two ends of $e$ (the letter $s$ changes meaning here).",
+        "depth": 3
+      },
+      {
+        "sentence": "If $U\\subseteq V$ for labels $U,V$, then $P_V-P_U$ is the identity on $V\\cap U^\\perp$ and zero on $U\\oplus V^\\perp$, so an edge between nested labels has rank equal to its absolute change of label dimension.",
+        "depth": 3
+      },
+      {
+        "sentence": "A *smaller call* is one call of the same interchange on one role's stream, a $1/W$ share of the data.",
+        "depth": 3
+      },
+      {
+        "sentence": "The signed change on an edge is the dimension at its head minus that at its tail, so along each wire the signed changes telescope to the sink's dimension minus the source's.",
+        "depth": 3
+      },
+      {
+        "sentence": "Summed over wires, they total $Wm-2N$ (cited)",
+        "depth": 3
+      },
+      {
+        "sentence": "A decreasing edge has a negative signed change, so taking absolute values adds twice its loss there.",
+        "depth": 3
+      },
+      {
+        "sentence": "The network has $3v^2$ invocations: each of its three stages fixes two coordinates of the index and operates on the $v$ values obtained by varying the third.",
+        "depth": 3
+      },
+      {
+        "sentence": "Each invocation has $h$ central wires, each with one decreasing edge of loss $h$ (cited), so $L=3v^2h^2$.",
+        "depth": 3
+      },
+      {
+        "sentence": "(cited).",
+        "depth": 3
+      },
+      {
+        "sentence": "Hence",
+        "depth": 3
+      },
+      {
+        "sentence": "$$s=(Wm-2N+2L)+N=Wm-N+2L.",
+        "depth": 3
+      },
+      {
+        "sentence": "Since $L/N=3h^2/v=100/539$ (cited), we have $2L<N$, so $s<Wm$.",
+        "depth": 3
+      },
+      {
+        "sentence": "So each recursive call, making $s$ calls on streams of $1/W$ of the data, saves a fixed power.",
+        "depth": 3
+      }
+    ],
+    "synthetic-transforms": [
+      {
+        "sentence": "Synthetic transforms follow the butterfly scheme of the [Discrete Fourier transform and butterflies](dft-fft.",
+        "depth": 1
+      },
+      {
+        "sentence": "Synthetic transforms are costed on a [fixed-tape machine](fixed-tape-model.",
+        "depth": 1
+      },
+      {
+        "sentence": "md), where the cost is data movement.",
+        "depth": 1
+      },
+      {
+        "sentence": "md), where every root of unity is a power of $y$, so the transform avoids general complex multiplications.",
+        "depth": 1
+      },
+      {
+        "sentence": "They serve the remaining axes of the convolution.",
+        "depth": 1
+      },
+      {
+        "sentence": "**Signed shifts.",
+        "depth": 1
+      },
+      {
+        "sentence": "** In this ring $y^r=-1$.",
+        "depth": 1
+      },
+      {
+        "sentence": "Multiplying by $y^e$, where the exponent $e$ is an integer with $0\\le e<2r$, moves each coefficient up $e$ places, and each wrap past the last place negates it.",
+        "depth": 1
+      },
+      {
+        "sentence": "For $r=4$, multiplying $1+2y+3y^2+4y^3$ by $y^2$ gives $-3-4y+y^2+2y^3$, so the coefficient list $(1,2,3,4)$ becomes $(-3,-4,1,2)$.",
+        "depth": 1
+      },
+      {
+        "sentence": "**The transform.",
+        "depth": 1
+      },
+      {
+        "sentence": "The transform maps it to the transformed list $Z_0,\\dots,Z_{L-1}$, given by",
+        "depth": 1
+      },
+      {
+        "sentence": "$$Z_g=\\frac1L\\sum_{p=0}^{L-1} y^{2rgp/L}\\,z_p,\\qquad 0\\le g<L.",
+        "depth": 1
+      },
+      {
+        "sentence": "** Since $y^r=-1$, we get $y^{2r}=(y^r)^2=1$, so $y^{2r/L}$ is an $L$-th root of unity, and $y^{2rgp/L}$ is its power $gp$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The root has order exactly $L$: for $0<m<L$, the exponent $e=2rm/L$ lies strictly between $0$ and $2r$, so $y^e$ is never $1$: it is a monomial other than $1$ when $e<r$, and $-y^{e-r}$ when $e\\ge r$.",
+        "depth": 1
+      },
+      {
+        "sentence": "**Butterflies.",
+        "depth": 1
+      },
+      {
+        "sentence": "md).",
+        "depth": 1
+      },
+      {
+        "sentence": "Each level replaces a pair $(u,v)$ by $(u+y^{e}v,\\;u-y^{e}v)$ for a suitable exponent $e$.",
+        "depth": 1
+      },
+      {
+        "sentence": "**The factor $1/L$.",
+        "depth": 1
+      },
+      {
+        "sentence": "** This factor is not a power of $y$.",
+        "depth": 1
+      },
+      {
+        "sentence": "The formula is linear, so it can be pulled out of the levels and applied once to the output.",
+        "depth": 1
+      },
+      {
+        "sentence": "It is a division by a power of two, which can round; see [Fixed-point precision and exact recovery](fixed-point-precision.",
+        "depth": 1
+      }
+    ]
+  },
+  "background": {
+    "summary": "The reader has finished an undergraduate computer science degree: asymptotic analysis, discrete mathematics (modular arithmetic, primes, binary representation, induction), introductory linear algebra (vectors, matrices, inverses, dot products), and the calculus the degree requires (limits, convergence of sequences and series, basic integrals). They know basic Turing machines with several tapes and standard algorithm analysis, including recurrences and schoolbook multiplication. They have not studied the FFT-based multiplication literature, abstract algebra beyond basics, or tape-level data-movement algorithms.",
+    "added": [
+      "binary-representation-and-bit-operations",
+      "modular-arithmetic",
+      "prime-numbers-and-coprimality",
+      "logarithms-and-floor-ceiling",
+      "vectors-matrices-and-inverses",
+      "schoolbook-and-karatsuba-multiplication",
+      "divide-and-conquer-recurrences",
+      "limits-series-and-convergence",
+      "cartesian-product-and-tuples",
+      "permutations",
+      "roots-of-unity",
+      "rings-and-basic-algebraic-structures",
+      "fixed-point-and-rounding-arithmetic"
+    ]
+  }
+}

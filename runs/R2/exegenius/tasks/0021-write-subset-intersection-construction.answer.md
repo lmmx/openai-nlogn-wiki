@@ -1,0 +1,9 @@
+The three-element subset intersection construction is a fixed finite network, built from gather, scatter and auxiliary wires, whose number of smaller calls is small enough for the recursion to save a power.
+
+The construction is built inside a [Finite linear network with roles and frames](linear-network-roles.md). It uses three-element subsets of a fixed finite set. Gather and scatter operations, which combine several wires into one or spread one wire over several, create coefficients that depend on the size of the intersection of two such subsets. Auxiliary wires, which hold temporary values, cancel the coefficients that are not wanted.
+
+The subsets also determine where subspaces go. Index the positions by the elements of the set. The indicator vector of a subset $A$ has entry $1$ at each element of $A$ and entry $0$ elsewhere. The dot product of two indicator vectors is the size of the intersection of their subsets, so the vectors for disjoint subsets are orthogonal. For example, $\{1,2,3\}$ and $\{4,5,6\}$ give orthogonal vectors, while $\{1,2,3\}$ and $\{3,4,5\}$ do not, since they share one element. Orthogonality of these vectors permits the assignment of subspaces to the gates and terminals.
+
+Let $s$ be the total number of smaller calls, found by adding, over the edges of the network, the rank of the difference between the matrices assigned to the two ends of each edge. Let $W$ be the number of wires of the network, and let $m$ be the dimension of the fixed space that the subspaces lie in.
+
+The network meets the count needed for the recursion. <cite data-source="paper">The decisive property is that the total number $s$ of smaller calls satisfies $s<Wm$.</cite> The recursion in [Recursive power saving from s<Wm](recursive-power-saving.md) uses this inequality to save a fixed power.

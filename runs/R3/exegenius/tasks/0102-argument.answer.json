@@ -1,0 +1,317 @@
+{
+ "root": {
+  "id": "S0",
+  "intention": "show",
+  "claim": "An $n$-bit integer product is computed by a fixed-tape machine in $O(n(\\lg n)^{1-\\kappa})$ time, $\\kappa=2^{-182}$.",
+  "from": [
+   "nlogn-conjecture",
+   "ss-hh-background",
+   "fixed-tape-model",
+   "big-o",
+   "turing-machine-tapes"
+  ],
+  "method": "reduce multiplication to ring convolution and speed up its address moves and butterfly layers",
+  "motivation": {
+   "text": "The n log n cost comes from moving data and applying butterflies at every transform level, so faster versions of exactly these operations lower the whole bound.",
+   "source": "recoverable"
+  },
+  "salient": "The logarithmic factor drops by a fixed power $\\kappa$, strictly below the conjectured $n\\log n$.",
+  "page": "main-theorem",
+  "children": [
+   {
+    "id": "S2",
+    "intention": "infer",
+    "claim": "Splitting the inputs into radix digits reduces the integer product to a convolution of short integer coefficients.",
+    "from": [
+     "convolution"
+    ],
+    "page": "radix-digit-reduction",
+    "quote": {
+     "source": "paper",
+     "quote": "Splitting the inputs into radix digits reduces multiplication to"
+    }
+   },
+   {
+    "id": "S1",
+    "intention": "show",
+    "claim": "Two fixed-tape procedures, an address interchange and a simultaneous butterfly layer, cost $O(Vu^\\tau)$ and $O(Vd^{\\lambda'})$ for fixed exponents below 1, where $V$ is the stored bit volume.",
+    "from": [],
+    "method": "build both procedures from one finite linear network and a recursion that saves a power",
+    "motivation": {
+     "text": "Scanning the array at each of the logarithmically many transform levels already costs n log n, so both data movement and arithmetic must be sped up.",
+     "source": "explicit",
+     "quote": {
+      "source": "paper",
+      "quote": "We therefore need savings in both movement and arithmetic."
+     }
+    },
+    "adds": [
+     {
+      "symbol": "V",
+      "name": "stored volume",
+      "meaning": "The number of stored bits in the array being processed.",
+      "relation": "count"
+     },
+     {
+      "symbol": "W",
+      "name": "role count",
+      "meaning": "The number of roles among which rows are distributed.",
+      "relation": "count"
+     },
+     {
+      "symbol": "m",
+      "name": "space dimension",
+      "meaning": "The dimension of the fixed space whose subspaces label the network.",
+      "relation": "count"
+     },
+     {
+      "symbol": "s",
+      "name": "smaller calls",
+      "meaning": "The number of smaller calls the network uses.",
+      "relation": "count"
+     }
+    ],
+    "children": [
+     {
+      "id": "S1.1",
+      "intention": "infer",
+      "claim": "Each procedure comes from a fixed linear network that exchanges two banks of values with prescribed signs and restores every auxiliary value; rows are distributed among $W$ roles and frames cancel along routes.",
+      "from": [
+       "fixed-tape-model",
+       "address-fields",
+       "vectors-matrices-and-inverses"
+      ],
+      "page": "linear-network-roles",
+      "quote": {
+       "source": "paper",
+       "quote": "Each procedure arises from its own fixed linear network that exchanges two"
+      }
+     },
+     {
+      "id": "S1.2",
+      "intention": "show",
+      "claim": "Two disjoint contiguous $u$-bit address fields can be interchanged in $O(Vu^\\tau)$ for a fixed $\\tau<1$, although the intermediate steps are XOR combinations.",
+      "from": [
+       "scratch-restoration",
+       "address-fields",
+       "linear-network-roles",
+       "recursive-power-saving"
+      ],
+      "method": "take the network's endpoint operator to be an address shear and finish with two linear-cost updates",
+      "motivation": {
+       "text": "The network only yields the shear (H,D)->(H+D,D); to get a true interchange of fields that shear must be completed by cheap updates.",
+       "source": "recoverable"
+      },
+      "salient": "Its final effect is an exact permutation, even though intermediate steps form XOR combinations of data, and exact for arbitrary initial auxiliary values.",
+      "page": "fast-address-interchange",
+      "children": [
+       {
+        "id": "S1.2.1",
+        "intention": "infer",
+        "claim": "The endpoint operator of the bit network is the address shear $(H,D)\\mapsto(H+D,D)$ over a residue ring, with rank reduced by a lower-triangular factorization.",
+        "from": [
+         "modular-arithmetic",
+         "vectors-matrices-and-inverses",
+         "linear-network-roles"
+        ],
+        "page": "address-shear-factorization",
+        "quote": {
+         "source": "paper",
+         "quote": "For the bit procedure, that endpoint operator is an address shear:"
+        }
+       },
+       {
+        "id": "S1.2.2",
+        "intention": "infer",
+        "claim": "Two further linear-cost address updates complete the interchange.",
+        "from": [],
+        "quote": {
+         "source": "paper",
+         "quote": "updated by $(H,D)\\mapsto(H+D,D)$. Two further linear-cost address"
+        }
+       }
+      ]
+     },
+     {
+      "id": "S1.3",
+      "intention": "infer",
+      "claim": "A simultaneous layer of $H_0(u,v)=((u+v)/2,(u-v)/2)$ on selected address bits of polynomial-valued arrays costs $O(Vd^{\\lambda'})$ with $\\lambda'<1$, with a single truncation at the end.",
+      "from": [
+       "poly-ring-y-r",
+       "dft-fft",
+       "fixed-point-and-rounding-arithmetic",
+       "fast-address-interchange",
+       "recursive-power-saving",
+       "linear-network-roles"
+      ],
+      "page": "fast-butterfly-layers",
+      "quote": {
+       "source": "paper",
+       "quote": "endpoint operator becomes the simultaneous $H_0$ layer after diagonal"
+      }
+     },
+     {
+      "id": "S1.4",
+      "intention": "infer",
+      "claim": "The network is built from three-element subsets with gather, scatter and cancelling auxiliary wires, so that the total number $s$ of smaller calls satisfies $s<Wm$.",
+      "from": [
+       "linear-network-roles",
+       "scratch-restoration",
+       "tensor-product-of-vector-spaces"
+      ],
+      "salient": "The number of smaller calls is strictly below the trivial count, $s<Wm$.",
+      "page": "subset-intersection-construction",
+      "quote": {
+       "source": "paper",
+       "quote": "number $s$ of smaller calls satisfies $s<Wm$."
+      }
+     },
+     {
+      "id": "S1.5",
+      "intention": "infer",
+      "claim": "A recursive call at parameter $mf$ uses $s$ calls at parameter $f$ on streams of volume $V/W$, so the volume-normalized cost grows as a power, giving a fixed power saving.",
+      "from": [
+       "subset-intersection-construction",
+       "divide-and-conquer-recurrences"
+      ],
+      "salient": "The strict inequality $s/W<m$ is the source of the power saving.",
+      "page": "recursive-power-saving",
+      "quote": {
+       "source": "paper",
+       "quote": "increases the recursive contribution by $s/W<m$. This strict inequality"
+      }
+     }
+    ]
+   },
+   {
+    "id": "S3",
+    "intention": "infer",
+    "claim": "The radix-digit coefficient list is placed on a product of distinct prime cyclic axes by a convolution-preserving Chinese-remainder map.",
+    "from": [
+     "address-fields",
+     "convolution",
+     "prime-numbers-and-coprimality",
+     "modular-arithmetic"
+    ],
+    "page": "crt-address-map",
+    "quote": {
+     "source": "paper",
+     "quote": "distinct prime cyclic axes by a Chinese-remainder map that preserves"
+    }
+   },
+   {
+    "id": "S4",
+    "intention": "infer",
+    "claim": "Gaussian resampling expresses each source Fourier transform through a power-of-two tensor transform.",
+    "from": [
+     "dft-fft",
+     "crt-address-map"
+    ],
+    "page": "gaussian-resampling",
+    "quote": {
+     "source": "paper",
+     "quote": "resampling then expresses each source Fourier transform through a"
+    }
+   },
+   {
+    "id": "S5",
+    "intention": "infer",
+    "claim": "Bluestein's chirp identity converts the middle transform into normalized cyclic convolution.",
+    "from": [
+     "dft-fft",
+     "convolution"
+    ],
+    "page": "bluestein-chirp",
+    "quote": {
+     "source": "paper",
+     "quote": "Next, Bluestein's chirp identity converts the middle transform,"
+    }
+   },
+   {
+    "id": "S6",
+    "intention": "infer",
+    "claim": "A phase twist turns the last cyclic coordinate into a polynomial modulo $y^r+1$, whose negative wrap gives the original cyclic wrap after untwisting.",
+    "from": [
+     "poly-ring-y-r",
+     "convolution"
+    ],
+    "page": "phase-twist-convolution",
+    "quote": {
+     "source": "paper",
+     "quote": "A phase twist changes the last cyclic coordinate into a polynomial"
+    }
+   },
+   {
+    "id": "S7",
+    "intention": "show",
+    "claim": "Convolution over $\\mathbb C[y]/(y^r+1)$ on the remaining axes is computed by synthetic transforms and packed polynomial products.",
+    "from": [
+     "dft-fft",
+     "poly-ring-y-r",
+     "convolution"
+    ],
+    "method": "use two forward transforms, a pointwise product and the opposite transform, with retained frequency order",
+    "motivation": {
+     "text": "Convolution becomes pointwise product after transform; keeping the same frequency order means no separate sorts are needed.",
+     "source": "recoverable"
+    },
+    "page": "ring-convolution-retained-order",
+    "children": [
+     {
+      "id": "S7.1",
+      "intention": "infer",
+      "claim": "Synthetic transforms over the polynomial ring need only signed shifts, address rearrangements and butterflies.",
+      "from": [
+       "poly-ring-y-r",
+       "dft-fft",
+       "convolution"
+      ],
+      "page": "synthetic-transforms",
+      "quote": {
+       "source": "paper",
+       "quote": "and~\\ref{sec:exact-ring-products} compute convolution on the remaining"
+      }
+     },
+     {
+      "id": "S7.2",
+      "intention": "infer",
+      "claim": "The two forward transforms keep the same frequency order through the pointwise product, and the opposite transform consumes it.",
+      "from": [],
+      "quote": {
+       "source": "paper",
+       "quote": "retain the same frequency order through their pointwise product, and"
+      }
+     },
+     {
+      "id": "S7.3",
+      "intention": "infer",
+      "claim": "Polynomial products use signed packing and the ordinary $O(n\\log n)$ multiplier as a subroutine.",
+      "from": [
+       "convolution",
+       "polynomials"
+      ],
+      "page": "signed-packing",
+      "quote": {
+       "source": "paper",
+       "quote": "use signed packing and the established $O(n\\log n)$ multiplier as an"
+      }
+     }
+    ]
+   },
+   {
+    "id": "S8",
+    "intention": "infer",
+    "claim": "Known rescalings and rounding recover the coefficients since the error is below $1/2$, and carry propagation gives the exact product.",
+    "from": [
+     "fixed-point-and-rounding-arithmetic",
+     "radix-digit-reduction"
+    ],
+    "page": "fixed-point-precision",
+    "quote": {
+     "source": "paper",
+     "quote": "coefficient error is strictly below $1/2$, and propagates carries to"
+    }
+   }
+  ]
+ }
+}
