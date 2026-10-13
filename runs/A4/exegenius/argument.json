@@ -1,0 +1,379 @@
+{
+  "planned": [
+    "address-interchange",
+    "address-shear",
+    "bluestein-chirp",
+    "butterfly-h0",
+    "convolution-dft",
+    "crt-prime-axes",
+    "elementary-scans",
+    "fast-butterfly-layers",
+    "fast-multiplication",
+    "fixed-point-precision",
+    "gaussian-resampling",
+    "known-nlogn",
+    "kronecker-packing",
+    "linear-network-frames",
+    "multidim-transform",
+    "multitape-model",
+    "phase-twist",
+    "radix-digit-reduction",
+    "recursive-saving",
+    "ring-mod-yr",
+    "ring-products",
+    "subset-finite-network",
+    "synthetic-layout",
+    "synthetic-transforms"
+  ],
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "Integer multiplication of $n$-bit integers takes $O(n(\\lg n)^{1-\\kappa})$ time with $\\kappa=2^{-182}$ on a fixed multitape Turing machine.",
+    "from": [
+      "multitape-model",
+      "known-nlogn",
+      "big-o",
+      "turing-tapes",
+      "convolution-dft"
+    ],
+    "method": "reduce to digit convolution, supply two fast tape procedures, chain reductions, then total the cost",
+    "motivation": {
+      "text": "The known O(n log n) algorithm already spends a log factor on transform levels, so beating it needs a cheaper transform in movement and arithmetic, placed inside the standard convolution reduction.",
+      "source": "recoverable"
+    },
+    "page": "fast-multiplication",
+    "children": [
+      {
+        "id": "S1",
+        "intention": "infer",
+        "claim": "Splitting inputs into radix digits reduces multiplication to convolution of short integer coefficients.",
+        "from": [
+          "convolution-dft"
+        ],
+        "page": "radix-digit-reduction",
+        "quote": {
+          "source": "paper",
+          "quote": "Splitting the inputs into radix digits reduces multiplication to"
+        }
+      },
+      {
+        "id": "S2",
+        "intention": "show",
+        "claim": "Two tape procedures, a fast address interchange and fast simultaneous butterfly layers, save over one scan per transform level.",
+        "from": [],
+        "method": "give two tape procedures, each from a linear network with recursive saving",
+        "motivation": {
+          "text": "Scanning the array at each of the log n levels already costs n log n, so savings are needed in both data movement and arithmetic.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "We therefore need savings in both movement and arithmetic."
+          }
+        },
+        "children": [
+          {
+            "id": "S2.1",
+            "intention": "infer",
+            "claim": "Two disjoint address fields of $u$ bits can be interchanged at cost $O(Vu^\\tau)$ with $\\tau<1$.",
+            "from": [
+              "linear-network-frames",
+              "address-shear",
+              "subset-finite-network",
+              "recursive-saving",
+              "elementary-scans"
+            ],
+            "page": "address-interchange",
+            "quote": {
+              "source": "paper",
+              "quote": "Its cost is $O(Vu^\\tau)$ for a fixed $\\tau<1$."
+            }
+          },
+          {
+            "id": "S2.2",
+            "intention": "infer",
+            "claim": "$H_0$ can be applied simultaneously on one bit in each of $d$ address chunks at cost $O(Vd^{\\lambda'})$ with $\\lambda'<1$.",
+            "from": [
+              "linear-network-frames",
+              "address-shear",
+              "subset-finite-network",
+              "recursive-saving",
+              "address-interchange",
+              "butterfly-h0",
+              "elementary-scans",
+              "fixed-point-precision",
+              "ring-mod-yr"
+            ],
+            "page": "fast-butterfly-layers",
+            "quote": {
+              "source": "paper",
+              "quote": "and the cost is $O(Vd^{\\lambda'})$ for a"
+            }
+          },
+          {
+            "id": "S2.3",
+            "intention": "show",
+            "claim": "Both tape procedures come from a fixed linear network of gates with frames, whose endpoint operator is the desired update and whose smaller calls satisfy $s<Wm$.",
+            "from": [
+              "permutations-and-bijections"
+            ],
+            "method": "build a linear network with frames, then count smaller calls recursively",
+            "motivation": {
+              "text": "Each procedure must beat the scan cost of one pass per level; a network whose frames cancel lets the work be done by fewer smaller calls of the same procedure, so a recursion gives a power saving.",
+              "source": "reconstructed"
+            },
+            "page": "linear-network-frames",
+            "children": [
+              {
+                "id": "S2.3.1",
+                "intention": "infer",
+                "claim": "Intermediate frames cancel, so a route through the network applies only the endpoint operator.",
+                "from": [
+                  "finite-sets-and-elementary-combinatorics",
+                  "linear-algebra-over-fields"
+                ],
+                "quote": {
+                  "source": "paper",
+                  "quote": "Thus the intermediate frames cancel, and a route from input role $w$ to output"
+                }
+              },
+              {
+                "id": "S2.3.2",
+                "intention": "infer",
+                "claim": "For the bit procedure the endpoint operator is an address shear, with scratch values restored.",
+                "from": [
+                  "linear-network-frames",
+                  "modular-arithmetic-and-congruences",
+                  "linear-algebra-over-fields"
+                ],
+                "page": "address-shear",
+                "quote": {
+                  "source": "paper",
+                  "quote": "For the bit procedure, that endpoint operator is an address shear:"
+                }
+              },
+              {
+                "id": "S2.3.3",
+                "intention": "infer",
+                "claim": "A finite network built from 3-element subsets has total number $s$ of smaller calls with $s<Wm$.",
+                "from": [
+                  "linear-network-frames",
+                  "address-shear",
+                  "finite-sets-and-elementary-combinatorics"
+                ],
+                "page": "subset-finite-network",
+                "quote": {
+                  "source": "paper",
+                  "quote": "number $s$ of smaller calls satisfies $s<Wm$."
+                }
+              },
+              {
+                "id": "S2.3.4",
+                "intention": "infer",
+                "claim": "Since $s/W<m$, the per-volume cost grows slower than the parameter, giving a power saving.",
+                "from": [
+                  "subset-finite-network",
+                  "recurrences-and-divide-and-conquer-analysis"
+                ],
+                "salient": "The strict inequality s<Wm is the whole source of the power saving; the page should explain why the network can use fewer than Wm smaller calls.",
+                "page": "recursive-saving",
+                "quote": {
+                  "source": "paper",
+                  "quote": "increases the recursive contribution by $s/W<m$."
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "S3",
+        "intention": "show",
+        "claim": "The digit convolution is carried through four reductions down to convolution over $\\mathbb C[y]/(y^r+1)$, then rescaled, rounded and carried.",
+        "from": [],
+        "method": "chain of reductions of problem and representation",
+        "motivation": {
+          "text": "Each reduction moves the problem toward axes of power-of-two length and a polynomial ring, where synthetic transforms and the fast tape procedures apply.",
+          "source": "recoverable"
+        },
+        "children": [
+          {
+            "id": "S3.1",
+            "intention": "infer",
+            "claim": "The digit list is placed on a product of distinct prime cyclic axes by a Chinese-remainder map preserving convolution.",
+            "from": [
+              "primes-and-divisibility",
+              "modular-arithmetic-and-congruences",
+              "permutations-and-bijections",
+              "radix-digit-reduction"
+            ],
+            "page": "crt-prime-axes",
+            "quote": {
+              "source": "paper",
+              "quote": "distinct prime cyclic axes by a Chinese-remainder map that preserves"
+            }
+          },
+          {
+            "id": "S3.2",
+            "intention": "infer",
+            "claim": "Gaussian resampling expresses each source Fourier transform through a power-of-two tensor transform.",
+            "from": [
+              "multidim-transform",
+              "convolution-dft",
+              "crt-prime-axes"
+            ],
+            "page": "gaussian-resampling",
+            "quote": {
+              "source": "paper",
+              "quote": "resampling then expresses each source Fourier transform through a"
+            }
+          },
+          {
+            "id": "S3.3",
+            "intention": "infer",
+            "claim": "Bluestein's chirp identity converts the middle transform with its target permutation into normalized cyclic convolution.",
+            "from": [
+              "gaussian-resampling",
+              "convolution-dft"
+            ],
+            "page": "bluestein-chirp",
+            "quote": {
+              "source": "paper",
+              "quote": "Next, Bluestein's chirp identity converts the middle transform,"
+            }
+          },
+          {
+            "id": "S3.4",
+            "intention": "infer",
+            "claim": "A phase twist turns the last cyclic coordinate into a polynomial modulo $y^r+1$ whose negative wrap equals the original cyclic wrap after untwisting.",
+            "from": [
+              "ring-mod-yr",
+              "complex-numbers"
+            ],
+            "page": "phase-twist",
+            "quote": {
+              "source": "paper",
+              "quote": "A phase twist changes the last cyclic coordinate into a polynomial"
+            }
+          },
+          {
+            "id": "S3.5",
+            "intention": "show",
+            "claim": "Convolution on the remaining axes over the polynomial ring is computed by synthetic transforms and ring products.",
+            "from": [
+              "synthetic-transforms",
+              "multidim-transform",
+              "fast-butterfly-layers",
+              "ring-mod-yr",
+              "butterfly-h0"
+            ],
+            "method": "forward synthetic transforms, pointwise product, opposite transform",
+            "motivation": {
+              "text": "Powers of y act as roots of unity, so transforms over the ring need only signed shifts and butterflies, and the fast tape procedures apply.",
+              "source": "recoverable"
+            },
+            "page": "synthetic-layout",
+            "children": [
+              {
+                "id": "S3.5.1",
+                "intention": "infer",
+                "claim": "The two forward synthetic transforms keep the same frequency order through the pointwise product and the opposite transform consumes it.",
+                "from": [
+                  "synthetic-transforms"
+                ],
+                "quote": {
+                  "source": "paper",
+                  "quote": "retain the same frequency order through their pointwise product, and"
+                }
+              },
+              {
+                "id": "S3.5.2",
+                "intention": "show",
+                "claim": "Products in the ring modulo $y^r+1$ are computed exactly by signed packing and the established $O(n\\log n)$ multiplier.",
+                "from": [
+                  "kronecker-packing",
+                  "known-nlogn"
+                ],
+                "method": "pack polynomials into integers and call the known multiplier",
+                "motivation": {
+                  "text": "Pointwise products of synthetic-transform records are ring products; Kronecker packing turns them into integer products the known O(n log n) multiplier handles.",
+                  "source": "recoverable"
+                },
+                "page": "ring-products",
+                "children": [
+                  {
+                    "id": "S3.5.2.1",
+                    "intention": "infer",
+                    "claim": "Signed coefficient packing (Kronecker substitution) turns a polynomial product into an integer product.",
+                    "from": [
+                      "binary-representation-and-bit-operations",
+                      "polynomials"
+                    ],
+                    "page": "kronecker-packing",
+                    "quote": {
+                      "source": "paper",
+                      "quote": "Signed coefficient packing is a form of Kronecker substitution"
+                    },
+                    "deferred": true
+                  },
+                  {
+                    "id": "S3.5.2.2",
+                    "intention": "infer",
+                    "claim": "The polynomial products use signed packing and the established multiplier as an ordinary subroutine.",
+                    "from": [
+                      "kronecker-packing",
+                      "known-nlogn"
+                    ],
+                    "quote": {
+                      "source": "paper",
+                      "quote": "use signed packing and the established $O(n\\log n)$ multiplier as an"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "S3.6",
+            "intention": "infer",
+            "claim": "The source permutation retained during resampling cancels across the two forward transforms, their product and the opposite transform.",
+            "from": [
+              "gaussian-resampling"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "Finally, the source permutation retained during resampling cancels"
+            }
+          },
+          {
+            "id": "S3.7",
+            "intention": "infer",
+            "claim": "Known normalizations are removed, the coefficient error is below $1/2$, so rounding and carries give the exact binary product.",
+            "from": [
+              "floating-and-fixed-point-approximation-and-rounding",
+              "radix-digit-reduction"
+            ],
+            "page": "fixed-point-precision",
+            "quote": {
+              "source": "paper",
+              "quote": "coefficient error is strictly below $1/2$, and propagates carries to"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S4",
+        "intention": "infer",
+        "claim": "A compatible choice of rational parameters makes all terms of the cost table fit the bound $O(n(\\lg n)^{1-\\kappa})$.",
+        "from": [
+          "big-o",
+          "logarithms-and-exponentials"
+        ],
+        "salient": "kappa=2^-182 is astronomically small yet a strict power saving over the log factor.",
+        "quote": {
+          "source": "paper",
+          "quote": "parameters makes all terms in its cost table fit Theorem~\\ref{thm:main}."
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,274 @@
+{
+ "root": {
+  "id": "S0",
+  "intention": "show",
+  "claim": "A multitape Turing machine multiplies $n$-bit integers in $O(n(\\lg n)^{1-\\kappa})$ time with $\\kappa=2^{-182}$.",
+  "method": "chain reductions from the integer product to a convolution over $\\mathbb C[y]/(y^r+1)$, compute it with accelerated synthetic transforms, then recover the exact product",
+  "motivation": {
+   "text": "Each stage changes the problem into one whose transform uses only shifts, address rearrangements and butterflies, which the two fast tape procedures speed up; precision analysis then gives exactness.",
+   "source": "recoverable",
+   "quote": null
+  },
+  "page": "main-result",
+  "from": [
+   "multitape-model",
+   "nlogn-conjecture-history",
+   "big-o",
+   "logarithms-and-powers-of-two"
+  ],
+  "salient": "The logarithmic factor has the strict power (lg n)^{1-kappa} with a tiny fixed kappa, below the conjectured n log n.",
+  "children": [
+   {
+    "id": "S1",
+    "intention": "infer",
+    "claim": "Splitting both integers into radix digits turns the product into a convolution of short digit lists followed by carry propagation.",
+    "quote": {
+     "source": "paper",
+     "quote": "Splitting the inputs into radix digits reduces multiplication to"
+    },
+    "page": "convolution-reduction",
+    "from": [
+     "binary-representation-and-radix-digits",
+     "schoolbook-multiplication-and-convolution-of-sequences"
+    ]
+   },
+   {
+    "id": "S2",
+    "intention": "infer",
+    "claim": "A Chinese-remainder address map places the digit list on distinct prime cyclic axes, preserving convolution.",
+    "quote": {
+     "source": "paper",
+     "quote": "First, the radix-digit coefficient list is placed on a product of"
+    },
+    "page": "crt-prime-axes",
+    "from": [
+     "convolution-reduction",
+     "prime-numbers-and-coprimality",
+     "modular-arithmetic-and-congruences",
+     "cyclic-groups-and-z-mz"
+    ]
+   },
+   {
+    "id": "S3",
+    "intention": "infer",
+    "claim": "Gaussian resampling expresses each Fourier transform of arbitrary axis length through a power-of-two tensor transform, keeping permutations in the identity.",
+    "quote": {
+     "source": "paper",
+     "quote": "resampling then expresses each source Fourier transform through a"
+    },
+    "page": "gaussian-resampling",
+    "from": [
+     "fourier-transform-butterflies",
+     "crt-prime-axes",
+     "permutations-and-bijections"
+    ]
+   },
+   {
+    "id": "S4",
+    "intention": "infer",
+    "claim": "Bluestein's chirp identity converts the middle transform with its target permutation into normalized cyclic convolution.",
+    "quote": {
+     "source": "paper",
+     "quote": "Next, Bluestein's chirp identity converts the middle transform,"
+    },
+    "page": "bluestein-chirp",
+    "from": [
+     "gaussian-resampling",
+     "fourier-transform-butterflies"
+    ]
+   },
+   {
+    "id": "S5",
+    "intention": "infer",
+    "claim": "A phase twist makes the last cyclic coordinate a polynomial modulo $y^r+1$ whose negative wrap restores the cyclic wrap after untwisting.",
+    "quote": {
+     "source": "paper",
+     "quote": "A phase twist changes the last cyclic coordinate into a polynomial"
+    },
+    "page": "phase-twist",
+    "from": [
+     "poly-ring-mod",
+     "bluestein-chirp"
+    ]
+   },
+   {
+    "id": "S6",
+    "intention": "show",
+    "claim": "Convolution over $\\mathbb C[y]/(y^r+1)$ on the remaining axes is computed exactly and fast.",
+    "method": "use synthetic transforms whose twiddles are signed shifts, accelerated by the fast tape procedures, with polynomial products by signed packing",
+    "motivation": {
+     "text": "In the ring, powers of y act as roots of unity and multiplying by them is a signed shift, leaving only rearrangements, shifts and butterflies, which the fast procedures speed up.",
+     "source": "explicit",
+     "quote": {
+      "source": "paper",
+      "quote": "Powers of $y$ then"
+     }
+    },
+    "page": "synthetic-transforms",
+    "from": [
+     "poly-ring-mod",
+     "fourier-transform-butterflies"
+    ],
+    "children": [
+     {
+      "id": "S6.1",
+      "intention": "infer",
+      "claim": "Two forward synthetic transforms keep the same frequency order through the pointwise product, and the opposite transform consumes it.",
+      "quote": {
+       "source": "paper",
+       "quote": "The two forward synthetic transforms"
+      },
+      "page": null,
+      "from": [
+       "poly-ring-mod",
+       "fourier-transform-butterflies"
+      ]
+     },
+     {
+      "id": "T",
+      "intention": "show",
+      "claim": "The synthetic-transform address rearrangements and butterfly layers can be done faster than by scanning the whole array at each of $\\Theta(\\log n)$ levels.",
+      "method": "build two tape procedures from linear networks and a recursive power saving",
+      "motivation": {
+       "text": "Plain scans at each of Theta(log n) levels cost Theta(n log n), so both movement and arithmetic need a saving; the network recursion supplies a strict power saving.",
+       "source": "explicit",
+       "quote": {
+        "source": "paper",
+        "quote": "We therefore need savings in both movement and arithmetic."
+       }
+      },
+      "page": null,
+      "from": [],
+      "children": [
+       {
+        "id": "T1",
+        "intention": "infer",
+        "claim": "Elementary tape operations (scans in address order, stream operations, controlled shifts) cost linear time.",
+        "quote": {
+         "source": "paper",
+         "quote": "Those changes are implemented by whole-chunk moves and"
+        },
+        "page": "tape-streams",
+        "from": [
+         "multitape-model",
+         "turing-tapes"
+        ],
+        "deferred": true
+       },
+       {
+        "id": "T3",
+        "intention": "infer",
+        "claim": "A fixed linear network with roles and frames exchanges two banks of values, so intermediate frames cancel and a call reduces to smaller calls.",
+        "quote": {
+         "source": "paper",
+         "quote": "Each procedure arises from its own fixed linear network that exchanges two"
+        },
+        "page": "linear-network-frames",
+        "from": [
+         "tape-streams",
+         "direct-product-of-sets-and-multidimensional-arrays",
+         "linear-algebra-over-the-reals-and-complex-numbers"
+        ],
+        "deferred": true
+       },
+       {
+        "id": "T4",
+        "intention": "infer",
+        "claim": "Three-element subsets give a finite network whose total number of smaller calls s satisfies $s<Wm$.",
+        "quote": {
+         "source": "paper",
+         "quote": "The finite construction in Section~\\ref{sec:finite-networks} attaches"
+        },
+        "page": "subset-intersection-network",
+        "from": [
+         "linear-network-frames",
+         "basic-counting-and-combinatorics"
+        ],
+        "deferred": true,
+        "salient": "The count s of smaller calls is strictly below W m, which is what later gives a power saving."
+       },
+       {
+        "id": "T5",
+        "intention": "infer",
+        "claim": "A call at parameter $mf$ uses $s$ calls at parameter $f$ on volume $V/W$ streams, so cost per volume grows like a power less than 1 of the parameter.",
+        "quote": {
+         "source": "paper",
+         "quote": "A recursive call at parameter $mf$ therefore uses $s$ calls at parameter"
+        },
+        "page": "recursive-power-saving",
+        "from": [
+         "subset-intersection-network",
+         "induction-and-recurrences"
+        ],
+        "deferred": true,
+        "salient": "Cost per volume is a power of the parameter with exponent below 1, not linear, because s/W<m strictly."
+       },
+       {
+        "id": "T6",
+        "intention": "infer",
+        "claim": "Two disjoint address fields of $u$ bits can be interchanged in an array in $O(Vu^\\tau)$ time with $\\tau<1$.",
+        "quote": {
+         "source": "paper",
+         "quote": "The first procedure interchanges two disjoint contiguous address fields"
+        },
+        "page": "address-interchange",
+        "from": [
+         "recursive-power-saving",
+         "binary-xor-and-bitwise-operations",
+         "permutations-and-bijections"
+        ],
+        "deferred": true,
+        "salient": "The intermediate steps are XOR combinations of data, yet the final result is an exact permutation for arbitrary auxiliary values."
+       },
+       {
+        "id": "T7",
+        "intention": "infer",
+        "claim": "The layer $H_0(u,v)=((u+v)/2,(u-v)/2)$ on the same bit of at most $d$ address chunks costs $O(Vd^{\\lambda'})$ with $\\lambda'<1$.",
+        "quote": {
+         "source": "paper",
+         "quote": "The second procedure applies"
+        },
+        "page": "simultaneous-butterfly",
+        "from": [
+         "recursive-power-saving",
+         "address-interchange",
+         "fixed-point-and-rounding-arithmetic"
+        ],
+        "deferred": true
+       }
+      ]
+     },
+     {
+      "id": "S6.2",
+      "intention": "infer",
+      "claim": "Pointwise polynomial products use Kronecker-style signed packing and the established $O(n\\log n)$ multiplier as a subroutine.",
+      "quote": {
+       "source": "paper",
+       "quote": "use signed packing and the established $O(n\\log n)$ multiplier as an"
+      },
+      "page": "signed-packing",
+      "from": [
+       "poly-ring-mod",
+       "karatsuba-and-divide-and-conquer-multiplication"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "S7",
+    "intention": "infer",
+    "claim": "Fixed-point error of the recovered coefficients is below $1/2$, so rounding, rescaling and carry propagation give the exact product.",
+    "quote": {
+     "source": "paper",
+     "quote": "the known normalizations and digit scales, proves that the recovered"
+    },
+    "page": "precision-exact-recovery",
+    "from": [
+     "fixed-point-and-rounding-arithmetic",
+     "error-bounds-and-the-triangle-inequality",
+     "convolution-reduction"
+    ]
+   }
+  ]
+ }
+}

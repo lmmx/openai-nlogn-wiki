@@ -1,0 +1,438 @@
+{
+ "root": {
+  "id": "S0",
+  "intention": "show",
+  "claim": "There is a deterministic fixed multitape Turing machine multiplying $n$-bit integers in $O(n(\\lg n)^{1-\\kappa})$ time with $\\kappa=2^{-182}$.",
+  "method": "build two fast tape procedures, use them for synthetic and resampled transforms, and assemble the exact product through convolution",
+  "motivation": {
+   "text": "The Schoenhage-Strassen style product is a convolution, and fast transforms cost n log n only because of movement and butterflies, so power savings on those two operations give a power saving overall.",
+   "source": "recoverable",
+   "quote": null
+  },
+  "page": "main-theorem",
+  "from": [
+   "multitape-model",
+   "nlogn-conjecture",
+   "big-o",
+   "logarithms-and-exponentials"
+  ],
+  "salient": "The saving is a power $(\\lg n)^{-\\kappa}$ of the logarithm, not just a factor of $\\log\\log n$, with $\\kappa=2^{-182}$ tiny.",
+  "children": [
+   {
+    "id": "S1",
+    "intention": "show",
+    "claim": "Two tape procedures, an address interchange of cost $O(Vu^\\tau)$ and a simultaneous butterfly layer of cost $O(Vd^{\\lambda'})$, exist for volume $V$ with fixed $\\tau,\\lambda'<1$.",
+    "method": "build both from fixed linear networks with a rank saving, applied recursively",
+    "motivation": {
+     "text": "Scanning the whole array at each of the log n transform levels already costs n log n, so movement and arithmetic must both be made cheaper than a scan per level; a recursion whose normalized cost grows by a factor below the parameter gives a power saving.",
+     "source": "reconstructed",
+     "quote": null
+    },
+    "salient": "The recursion multiplies cost by s/W strictly below m per level, giving a power saving with exponent strictly below 1.",
+    "adds": [
+     {
+      "symbol": "V",
+      "name": "bit volume",
+      "meaning": "the number of stored bits of the array being processed",
+      "relation": "count"
+     }
+    ],
+    "children": [
+     {
+      "id": "S1.1",
+      "intention": "infer",
+      "claim": "Arrays are stored in address order and elementary scans, controlled shifts and affine updates take linear time.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Elementary stream operations]"
+      },
+      "page": "stream-operations",
+      "from": [
+       "multitape-model"
+      ],
+      "salient": null
+     },
+     {
+      "id": "S1.2",
+      "intention": "infer",
+      "claim": "A fixed linear network with roles can be applied to arrays by giving each wire an invertible frame so intermediate frames cancel and only an endpoint operator remains.",
+      "quote": {
+       "source": "paper",
+       "quote": "assign an invertible $R$-linear operator"
+      },
+      "page": "linear-network-frames",
+      "from": [
+       "stream-operations"
+      ],
+      "salient": null
+     },
+     {
+      "id": "S1.3",
+      "intention": "infer",
+      "claim": "Nested subspace labels from three-element subsets give a network whose total edge rank $s$ is less than $Wm$.",
+      "quote": {
+       "source": "paper",
+       "quote": "The saving will come from keeping the total dimension lost on decreasing"
+      },
+      "page": "subset-intersection-labels",
+      "from": [
+       "linear-network-frames"
+      ],
+      "salient": "The total rank $s$ is strictly less than $Wm$, the strict deficit behind the power saving."
+     },
+     {
+      "id": "S1.4",
+      "intention": "infer",
+      "claim": "A call at parameter $mf$ uses $s<Wm$ calls at parameter $f$ on volume $V/W$, giving cost $V\\cdot(\\text{parameter})^{\\tau}$ with $\\tau<1$.",
+      "quote": {
+       "source": "paper",
+       "quote": "For both recurrences we may use the fixed rational exponent"
+      },
+      "page": "recursive-saving",
+      "from": [
+       "subset-intersection-labels"
+      ],
+      "salient": "The exponent $\\tau$ is strictly below 1 because the rank deficit $s<Wm$ is strict."
+     },
+     {
+      "id": "S1.5",
+      "intention": "show",
+      "claim": "Two address fields of $u$ bits can be interchanged at cost $O(Vu^\\tau)$.",
+      "method": "express each edge matrix of the network by shears, factor them, and recurse on smaller interchanges",
+      "motivation": {
+       "text": "An edge matrix of rank a requires only a smaller interchanges once it is factored, so the rank saving of the network turns into a recurrence saving a power of the chunk width.",
+       "source": "recoverable",
+       "quote": null
+      },
+      "page": "fast-address-interchange",
+      "from": [
+       "recursive-saving",
+       "stream-operations"
+      ],
+      "children": [
+       {
+        "id": "S1.5.1",
+        "intention": "infer",
+        "claim": "Every rational matrix of rank $a$ factors as $E_1\\Pi E_2$ with lower triangular $E_i$ so a shear costs $a$ interchanges plus linear-time updates.",
+        "quote": {
+         "source": "paper",
+         "quote": "\\begin{lemma}[Lower triangular factorization]"
+        },
+        "page": "lower-triangular-factorization",
+        "from": [
+         "linear-algebra-basics",
+         "stream-operations"
+        ],
+        "salient": null
+       },
+       {
+        "id": "S1.5.2",
+        "intention": "infer",
+        "claim": "Chunks of power-of-two width can be interchanged, with rows, in time $O(Vu^\\tau)$.",
+        "quote": {
+         "source": "paper",
+         "quote": "\\begin{proposition}[Power-width interchange with rows]"
+        },
+        "page": null,
+        "from": [],
+        "salient": null
+       },
+       {
+        "id": "S1.5.3",
+        "intention": "infer",
+        "claim": "The restrictions on width and rows are removed for arbitrary chunk width.",
+        "quote": {
+         "source": "paper",
+         "quote": "\\begin{lemma}[Arbitrary-width interchange]"
+        },
+        "page": null,
+        "from": [],
+        "salient": null
+       }
+      ]
+     },
+     {
+      "id": "S1.6",
+      "intention": "infer",
+      "claim": "A butterfly layer $H_0$ on the same bit of up to $d$ address chunks at once costs $O(Vd^{\\lambda'})$ on records of complex fixed-point polynomials.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{proposition}[Simultaneous normalized butterfly layer]"
+      },
+      "page": "simultaneous-butterfly-layer",
+      "from": [
+       "fast-address-interchange",
+       "recursive-saving",
+       "butterfly-h0"
+      ],
+      "salient": "The exponent $\\lambda'$ is below 1, so applying $d$ layers together beats $d$ separate passes."
+     }
+    ]
+   },
+   {
+    "id": "S2",
+    "intention": "show",
+    "claim": "Normalized synthetic transforms over $\\mathbb C[y]/(y^r+1)$ can be computed and inverted with the frequency order retained, using the parallel layers.",
+    "method": "use powers of $y$ as roots of unity and compute with radix-two butterflies on a layout fitting the parallel layers",
+    "motivation": {
+     "text": "Multiplication by a root of unity becomes a signed shift, so only butterflies cost arithmetic, and those are exactly what the simultaneous layer accelerates.",
+     "source": "recoverable",
+     "quote": null
+    },
+    "page": "synthetic-transform",
+    "from": [
+     "polynomial-ring",
+     "butterfly-h0"
+    ],
+    "children": [
+     {
+      "id": "S2.1",
+      "intention": "infer",
+      "claim": "Sums of powers of the synthetic roots of unity cancel, so the transform and its opposite invert each other up to a scale.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Synthetic character cancellation]"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     },
+     {
+      "id": "S2.2",
+      "intention": "infer",
+      "claim": "A layout places the selected bits in common chunks so each round is one parallel layer, with total transform cost within the budget.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Transform layout and cost]"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     }
+    ]
+   },
+   {
+    "id": "S3",
+    "intention": "show",
+    "claim": "Cyclic convolution over the polynomial ring is computed exactly from forward transforms, pointwise ring products and the opposite transform.",
+    "method": "transform both operands, multiply pointwise with signed packing and invert in the same frequency order",
+    "motivation": {
+     "text": "Pointwise products correspond to convolution after a DFT-style transform, and ring products are short enough to be given to an ordinary integer multiplier.",
+     "source": "recoverable",
+     "quote": null
+    },
+    "page": "ring-convolution",
+    "from": [
+     "synthetic-transform",
+     "dft-convolution"
+    ],
+    "children": [
+     {
+      "id": "S3.1",
+      "intention": "infer",
+      "claim": "Ring polynomials with negative integer coefficients are multiplied exactly by Kronecker packing and one call of the integer multiplier.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Signed packing and normalized ring multiplication]"
+      },
+      "page": "signed-packing",
+      "from": [
+       "hvdh-multiplier",
+       "polynomial-ring"
+      ],
+      "salient": null
+     },
+     {
+      "id": "S3.2",
+      "intention": "infer",
+      "claim": "The normalized convolution has an approximation with small error computed from the retained transform layout.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{proposition}[Convolution from the retained transform layout]"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     }
+    ]
+   },
+   {
+    "id": "S4",
+    "intention": "show",
+    "claim": "Fourier transforms of pairwise coprime lengths reduce to power-of-two transforms without executing the resampling permutations.",
+    "method": "keep the source and target permutations inside the transform identity so they cancel",
+    "motivation": {
+     "text": "Gaussian resampling normally sorts twice on each coordinate, which is too costly, so the permutations are left in the formula and cancel between forward and inverse transforms.",
+     "source": "explicit",
+     "quote": {
+      "source": "paper",
+      "quote": "Its usual implementation sorts twice on each"
+     }
+    },
+    "page": "resampling-keep-permutations",
+    "from": [
+     "gaussian-resampling",
+     "bluestein",
+     "dft-convolution"
+    ],
+    "children": [
+     {
+      "id": "S4.1",
+      "intention": "infer",
+      "claim": "One-dimensional resampling maps give the transform without executing the two permutations.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Resampling without executing the two permutations]"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     },
+     {
+      "id": "S4.2",
+      "intention": "infer",
+      "claim": "The one-dimensional maps combine into a tensor interface for growing dimension.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Tensor interface]"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     },
+     {
+      "id": "S4.3",
+      "intention": "infer",
+      "claim": "A chirp identity computes the middle transform and the retained source permutation cancels in a convolution.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\begin{lemma}[Chirp and permutation cancellation]"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     }
+    ]
+   },
+   {
+    "id": "S5",
+    "intention": "show",
+    "claim": "The full algorithm turns the integer product into digit convolution, runs the transforms, and recovers the exact product in $O(n(\\lg n)^{1-\\kappa})$ time.",
+    "method": "digits, then CRT address map, transforms and pointwise product, then rescale, round and carry, with error and cost accounting",
+    "motivation": {
+     "text": "Each reduction maps one convolution problem to the next, and the exact product is recovered only after bounding the final coefficient error below 1/2.",
+     "source": "recoverable",
+     "quote": null
+    },
+    "page": "multiplication-algorithm",
+    "from": [
+     "ring-convolution",
+     "resampling-keep-permutations",
+     "synthetic-transform",
+     "parameter-choice"
+    ],
+    "children": [
+     {
+      "id": "S5.1",
+      "intention": "infer",
+      "claim": "Rational parameters $\\tau,\\lambda,\\lambda',\\epsilon,\\delta,\\kappa=2^{-182}$ are chosen compatibly.",
+      "quote": {
+       "source": "paper",
+       "quote": "These constants are deliberately conservative; no optimization is claimed."
+      },
+      "page": "parameter-choice",
+      "from": [
+       "recursive-saving",
+       "simultaneous-butterfly-layer"
+      ],
+      "salient": "The value $\\kappa=2^{-182}$ is extremely small but positive, giving a genuine power saving."
+     },
+     {
+      "id": "S5.2",
+      "intention": "infer",
+      "claim": "Splitting the operands into radix-$2^b$ digits makes the product a convolution with no wraparound.",
+      "quote": {
+       "source": "paper",
+       "quote": "Write the two inputs as polynomials in $2^b$, each with"
+      },
+      "page": "radix-digit-reduction",
+      "from": [
+       "binary-representation-and-radix-expansion",
+       "schoolbook-multiplication-and-carries"
+      ],
+      "salient": null
+     },
+     {
+      "id": "S5.3",
+      "intention": "infer",
+      "claim": "A Chinese-remainder address map places the digit list on distinct prime cyclic axes preserving convolution.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\subsection{An explicit cyclic-convolution layout}"
+      },
+      "page": "cyclic-crt",
+      "from": [
+       "prime-numbers-and-coprimality",
+       "modular-arithmetic",
+       "cartesian-product-and-mixed-radix-indexing"
+      ],
+      "salient": null
+     },
+     {
+      "id": "S5.4",
+      "intention": "infer",
+      "claim": "Multiplying coefficient $k$ by $\\zeta^k$ turns cyclic convolution into multiplication modulo $y^r+1$.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\subsection{Complex convolution by a coefficient twist}"
+      },
+      "page": "coefficient-twist",
+      "from": [
+       "polynomial-ring"
+      ],
+      "salient": "The negative wrap sign cancels exactly against the twist factor."
+     },
+     {
+      "id": "S5.5",
+      "intention": "infer",
+      "claim": "The algorithm applies the address map, two forward transforms, a pointwise product, the inverse transform, scaling, rounding and carries.",
+      "quote": {
+       "source": "paper",
+       "quote": "With these streams prepared, perform the following operations."
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     },
+     {
+      "id": "S5.6",
+      "intention": "infer",
+      "claim": "The recovered coefficient error is strictly below $1/2$ with truncation errors tracked through contractions.",
+      "quote": {
+       "source": "paper",
+       "quote": "\\subsection{Precision and exact recovery}"
+      },
+      "page": "fixed-point-precision",
+      "from": [
+       "fixed-point-and-rounding-arithmetic",
+       "euclidean-norm-and-unit-disk"
+      ],
+      "salient": null
+     },
+     {
+      "id": "S5.7",
+      "intention": "infer",
+      "claim": "All terms in the cost table fit the bound $O(n(\\lg n)^{1-\\kappa})$.",
+      "quote": {
+       "source": "paper",
+       "quote": "The complete large-input bound is consequently"
+      },
+      "page": null,
+      "from": [],
+      "salient": null
+     }
+    ]
+   }
+  ]
+ }
+}

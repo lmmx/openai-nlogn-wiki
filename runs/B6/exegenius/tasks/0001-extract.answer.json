@@ -1,0 +1,544 @@
+{
+ "target": "main-theorem",
+ "concepts": [
+  {
+   "id": "big-o",
+   "name": "Big-O notation",
+   "aliases": [],
+   "gloss": "Asymptotic upper bound on growth.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "polynomials",
+   "name": "Polynomials",
+   "aliases": [],
+   "gloss": "Sums of powers of a variable with coefficients.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "complex-numbers",
+   "name": "Complex numbers",
+   "aliases": [],
+   "gloss": "Numbers a+bi, including roots of unity.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "multitape-turing-machine",
+   "name": "Multitape Turing machine",
+   "aliases": [],
+   "gloss": "Deterministic machine with a fixed finite alphabet and a fixed number of one-dimensional tapes; running time counts bit steps.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "multiplication-history",
+   "name": "Sch\u00f6nhage\u2013Strassen conjecture and prior bounds",
+   "aliases": [
+    "n log n conjecture"
+   ],
+   "gloss": "Multiplication of n-bit integers was known in O(n log n log log n), then n log n 2^O(log* n), then O(n log n) (Harvey\u2013van der Hoeven); Sch\u00f6nhage and Strassen conjectured n log n is optimal.",
+   "requires": [
+    "multitape-turing-machine",
+    "big-o"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Sch\\\"onhage and Strassen proved in 1971 that two $n$-bit integers can\nbe multiplied in $O(n\\log n\\log\\log n)$ time on a multitape Turing\nmachine"
+    }
+   ]
+  },
+  {
+   "id": "convolution-dft",
+   "name": "Convolution and the discrete Fourier transform",
+   "aliases": [],
+   "gloss": "Convolution of coefficient lists is computed by transforming, multiplying pointwise, and inverse transforming with the normalized DFT.",
+   "requires": [
+    "polynomials",
+    "complex-numbers"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Each normalized Fourier transform above is a contraction"
+    }
+   ]
+  },
+  {
+   "id": "integer-to-convolution",
+   "name": "Radix-digit reduction of integer multiplication to convolution",
+   "aliases": [],
+   "gloss": "Splitting integers into radix digits turns the product into a convolution of short integer coefficient lists, followed by carry propagation.",
+   "requires": [
+    "convolution-dft"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Splitting the inputs into radix digits reduces multiplication to\nconvolution of short integer coefficients."
+    }
+   ]
+  },
+  {
+   "id": "kronecker-signed-packing",
+   "name": "Signed Kronecker packing",
+   "aliases": [],
+   "gloss": "Packing polynomial coefficients, including negative ones, into one integer so that a single integer product yields the polynomial product.",
+   "requires": [
+    "integer-to-convolution",
+    "polynomials"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The reduction is a signed form of Kronecker substitution"
+    }
+   ]
+  },
+  {
+   "id": "hh-subroutine",
+   "name": "Harvey\u2013van der Hoeven O(n log n) multiplier as subroutine",
+   "aliases": [],
+   "gloss": "The established O(N log N) fixed-tape integer multiplier, used as an ordinary subroutine on small inputs, not recursively.",
+   "requires": [
+    "multiplication-history",
+    "kronecker-signed-packing"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Calls to the established $O(n\\log n)$ multiplier are ordinary subroutine\ncalls; they do not invoke the improved theorem recursively."
+    }
+   ]
+  },
+  {
+   "id": "negacyclic-ring",
+   "name": "Polynomial ring modulo y^r + 1",
+   "aliases": [],
+   "gloss": "Complex polynomials of degree < r with y^r = -1; powers of y act as roots of unity and multiplying by one is a signed cyclic shift of the coefficient list.",
+   "requires": [
+    "polynomials",
+    "complex-numbers"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "one coordinate\nis stored as the coefficient list of a polynomial modulo $y^r+1$, with $r$ a power of two"
+    }
+   ],
+   "title": "Polynomial ring modulo $y^r + 1$",
+   "symbols": [
+    {
+     "symbol": "y",
+     "name": "ring variable",
+     "meaning": "The formal variable of the polynomials, whose powers serve as roots of unity.",
+     "relation": "direct"
+    },
+    {
+     "symbol": "r",
+     "name": "coefficient count",
+     "meaning": "The number of complex coefficients of a polynomial record, a power of two.",
+     "relation": "count"
+    }
+   ]
+  },
+  {
+   "id": "synthetic-transforms",
+   "name": "Synthetic polynomial transforms",
+   "aliases": [],
+   "gloss": "Nussbaumer-style Fourier transforms over the negacyclic ring where roots of unity are powers of y, so the work is address rearrangement, signed shifts and two-point butterflies.",
+   "requires": [
+    "negacyclic-ring",
+    "convolution-dft"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "These are the\nsynthetic polynomial transforms of Nussbaumer and Quandalle and\nNussbaumer"
+    }
+   ]
+  },
+  {
+   "id": "coefficient-twist",
+   "name": "Coefficient twist to negacyclic convolution",
+   "aliases": [],
+   "gloss": "Mapping x to \u03b6y with \u03b6=e^{\u03c0i/r} turns cyclic convolution of length r into negacyclic ring convolution, multiplying coefficient k by \u03b6^k.",
+   "requires": [
+    "negacyclic-ring"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "A phase twist changes the last cyclic coordinate into a polynomial\nmodulo $y^r+1$"
+    }
+   ]
+  },
+  {
+   "id": "bluestein-chirp",
+   "name": "Bluestein chirp identity",
+   "aliases": [],
+   "gloss": "Rewrites a Fourier transform of arbitrary length as a convolution multiplied by chirp phases.",
+   "requires": [
+    "convolution-dft"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Bluestein's chirp identity converts the middle transform,\nincluding its target permutation, into normalized cyclic convolution."
+    }
+   ]
+  },
+  {
+   "id": "crt-prime-axes",
+   "name": "Chinese-remainder map to prime cyclic axes",
+   "aliases": [],
+   "gloss": "Places the digit coefficient list on a product of distinct prime-length cyclic axes in a way preserving convolution.",
+   "requires": [
+    "integer-to-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "the radix-digit coefficient list is placed on a product of\ndistinct prime cyclic axes by a Chinese-remainder map that preserves\nconvolution"
+    }
+   ]
+  },
+  {
+   "id": "gaussian-resampling",
+   "name": "Gaussian resampling",
+   "aliases": [],
+   "gloss": "Harvey\u2013van der Hoeven technique expressing a Fourier transform of coprime-length axes through a multidimensional power-of-two tensor transform, with source and target permutations.",
+   "requires": [
+    "crt-prime-axes",
+    "convolution-dft",
+    "synthetic-transforms"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Gaussian\nresampling then expresses each source Fourier transform through a\npower-of-two tensor transform."
+    }
+   ]
+  },
+  {
+   "id": "fixed-point-gaussian-dyadics",
+   "name": "Fixed-point Gaussian dyadic numerics",
+   "aliases": [],
+   "gloss": "Numbers 2^{-p}(a+ib) in a disk, stored as two's-complement records; intermediate values are exact and a single truncation follows a contractive layer.",
+   "requires": [
+    "complex-numbers",
+    "multitape-turing-machine"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Intermediate values are exact Gaussian dyadics,\nwhose real and imaginary parts have power-of-two denominators."
+    }
+   ]
+  },
+  {
+   "id": "tape-streams",
+   "name": "Array order and elementary tape scans",
+   "aliases": [],
+   "gloss": "Arrays stored in address order on tape; linear-time scans, pointwise operations and field updates.",
+   "requires": [
+    "multitape-turing-machine"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "\\section{The machine model and elementary streams}"
+    }
+   ]
+  },
+  {
+   "id": "bank-exchange-network",
+   "name": "Fixed linear network exchanging two banks with restored auxiliaries",
+   "aliases": [],
+   "gloss": "A fixed network of linear gates on role wires that swaps two data banks with signs and restores every auxiliary value.",
+   "requires": [
+    "tape-streams"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We construct two fixed linear networks that exchange two banks of values\nwhile restoring every auxiliary value."
+    }
+   ]
+  },
+  {
+   "id": "subset-intersection-labels",
+   "name": "Three-element subset construction with nested subspaces",
+   "aliases": [],
+   "gloss": "Gather/scatter on three-element subsets with intersection-count pairings, plus side wires, give nested subspace labels with total rank deficit s < Wm.",
+   "requires": [
+    "bank-exchange-network"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The construction uses\nthree-element subsets: gather and scatter create coefficients depending\non intersection size, and auxiliary wires cancel the unwanted\ncoefficients."
+    }
+   ]
+  },
+  {
+   "id": "frames",
+   "name": "Frames and pointwise gates on arrays",
+   "aliases": [],
+   "gloss": "Invertible linear operators D_v giving the stored representation of each wire array; pointwise gates commute with a common frame so intermediate frames cancel.",
+   "requires": [
+    "bank-exchange-network",
+    "tape-streams"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We call $D_v$ its frame: the stored\narray is $D_vg$ when the logical array is $g$."
+    }
+   ]
+  },
+  {
+   "id": "recursive-power-saving",
+   "name": "Recursive rank saving",
+   "aliases": [],
+   "gloss": "Edge operators of rank a need a smaller calls; since the total s of calls satisfies s<Wm, parameter growth by m raises cost per volume by s/W<m, giving a power saving.",
+   "requires": [
+    "frames",
+    "subset-intersection-labels"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "This strict inequality\nis the source of the power saving."
+    }
+   ]
+  },
+  {
+   "id": "address-shear",
+   "name": "Address shear and Bruhat factorization",
+   "aliases": [],
+   "gloss": "Updating fields (H,D) to (H+D,D) over a residue ring and factoring matrices into triangular pieces that can be applied in tape order.",
+   "requires": [
+    "tape-streams"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The required factorization\nis the Bruhat factorization for arbitrary matrices, with coordinate order\nreversed"
+    }
+   ]
+  },
+  {
+   "id": "fast-address-interchange",
+   "name": "Fast interchange of address chunks",
+   "aliases": [],
+   "gloss": "Interchanges two disjoint contiguous u-bit address fields of an array of volume V in O(V u^\u03c4), \u03c4<1, using XOR combinations that cancel to an exact permutation.",
+   "requires": [
+    "recursive-power-saving",
+    "address-shear"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Its cost is $O(Vu^\\tau)$ for a fixed $\\tau<1$."
+    }
+   ],
+   "title": "Fast interchange of address chunks in time $O(Vu^\\tau)$",
+   "symbols": [
+    {
+     "symbol": "V",
+     "name": "stored bit volume",
+     "meaning": "The number of stored bits in the array.",
+     "relation": "count"
+    },
+    {
+     "symbol": "u",
+     "name": "field width",
+     "meaning": "The number of bits in each interchanged address field.",
+     "relation": "count"
+    },
+    {
+     "symbol": "\\tau",
+     "name": "saving exponent",
+     "meaning": "A fixed constant less than 1 giving the power saving.",
+     "relation": "direct"
+    }
+   ]
+  },
+  {
+   "id": "simultaneous-butterfly-layers",
+   "name": "Simultaneous butterfly layers",
+   "aliases": [],
+   "gloss": "Apply H_0(u,v)=((u+v)/2,(u-v)/2) coefficientwise on the same selected bit in each of d address chunks in O(V d^\u03bb'), \u03bb'<1, with phase frames and a single truncation.",
+   "requires": [
+    "recursive-power-saving",
+    "synthetic-transforms",
+    "fixed-point-gaussian-dyadics",
+    "fast-address-interchange"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "the cost is $O(Vd^{\\lambda'})$ for a\nfixed $\\lambda'<1$"
+    }
+   ],
+   "title": "Simultaneous butterfly layers in time $O(Vd^{\\lambda'})$",
+   "symbols": [
+    {
+     "symbol": "V",
+     "name": "stored bit volume",
+     "meaning": "The number of stored bits of the numerical array.",
+     "relation": "count"
+    },
+    {
+     "symbol": "d",
+     "name": "chunk count",
+     "meaning": "The number of equal-width address chunks in which one bit position is selected.",
+     "relation": "count"
+    },
+    {
+     "symbol": "\\lambda'",
+     "name": "saving exponent",
+     "meaning": "A fixed constant less than 1.",
+     "relation": "direct"
+    }
+   ]
+  },
+  {
+   "id": "synthetic-layout",
+   "name": "Synthetic transform tape layout",
+   "aliases": [],
+   "gloss": "Layout of roots, butterflies and stored frequency order on tape so the parallel layers apply and the same frequency order persists through the pointwise product.",
+   "requires": [
+    "synthetic-transforms",
+    "simultaneous-butterfly-layers"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The two forward synthetic transforms\nretain the same frequency order through their pointwise product"
+    }
+   ]
+  },
+  {
+   "id": "normalized-polynomial-products",
+   "name": "Exact normalized ring products",
+   "aliases": [],
+   "gloss": "Pointwise product of ring elements by signed packing and the O(n log n) multiplier, returning rounded results.",
+   "requires": [
+    "kronecker-signed-packing",
+    "hh-subroutine",
+    "negacyclic-ring",
+    "fixed-point-gaussian-dyadics"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "\\begin{lemma}[Signed packing and normalized ring multiplication]"
+    }
+   ]
+  },
+  {
+   "id": "resampling-permutations-in-transform",
+   "name": "Resampling with permutations left in the transform",
+   "aliases": [],
+   "gloss": "Keeps source and target coordinate permutations inside the transform identity so they cancel and avoid full sorts.",
+   "requires": [
+    "gaussian-resampling",
+    "bluestein-chirp",
+    "coefficient-twist",
+    "fast-address-interchange"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We retain both permutations in the transform formula and\ncompute that formula directly."
+    }
+   ]
+  },
+  {
+   "id": "exact-recovery",
+   "name": "Precision and exact recovery",
+   "aliases": [],
+   "gloss": "Removing normalizations, showing coefficient error is below 1/2, rounding and propagating carries to get the exact binary product.",
+   "requires": [
+    "fixed-point-gaussian-dyadics",
+    "integer-to-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "proves that the recovered\ncoefficient error is strictly below $1/2$"
+    }
+   ]
+  },
+  {
+   "id": "main-theorem",
+   "name": "Sub-n log n integer multiplication algorithm",
+   "aliases": [],
+   "gloss": "Deterministic multitape Turing machine multiplying n-bit integers in O(n (lg n)^{1-\u03ba}), \u03ba=2^{-182}, by reducing to convolution, resampling, chirps and synthetic transforms accelerated by fast address interchange and butterfly layers.",
+   "requires": [
+    "multiplication-history",
+    "resampling-permutations-in-transform",
+    "synthetic-layout",
+    "normalized-polynomial-products",
+    "exact-recovery",
+    "coefficient-twist",
+    "big-o"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We give a deterministic algorithm that multiplies two $n$-bit integers\nin $O(n(\\lg n)^{1-\\kappa})$ worst-case time"
+    }
+   ],
+   "title": "Integer multiplication in $O(n(\\lg n)^{1-\\kappa})$ time",
+   "symbols": [
+    {
+     "symbol": "n",
+     "name": "input length",
+     "meaning": "The number of bits in each multiplied integer.",
+     "relation": "count"
+    },
+    {
+     "symbol": "\\kappa",
+     "name": "saving exponent",
+     "meaning": "The constant 2^{-182} giving the power saving in the log factor.",
+     "relation": "direct"
+    }
+   ]
+  }
+ ]
+}
