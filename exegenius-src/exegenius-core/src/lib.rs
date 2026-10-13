@@ -1,0 +1,56 @@
+//! Core library for exegenius.
+//!
+//! exegenius turns source documents into a wiki of linked explanatory pages for a stated
+//! reader. It makes no model calls itself: it holds the state (concept graph, plan, pages,
+//! audit results) and hands out tasks, and an agent such as Claude Code does the reading
+//! and writing those tasks ask for. Every answer is checked by code before it is applied.
+//!
+//! The task kinds, in the order they are handed out:
+//!
+//! 1. [`extract`]: decompose the sources into a concept graph (and later resolve the
+//!    candidate concepts audits find).
+//! 2. [`background`]: say what the reader profile covers, for these sources.
+//! 3. [`argument`]: reconstruct the plan of the sources' argument, saying what each page is
+//!    for.
+//! 4. [`write`]: write each page body, in the reading order from [`plan`], with the symbols
+//!    it binds (see [`symbols`]).
+//! 5. [`audit`]: list what the reader cannot follow on each page, given exactly what the
+//!    reader knows at that point, and account for every symbol on it.
+//! 6. [`outline`] and [`notation`]: once the pages are final, group them into parts (folding
+//!    minor pages into a glossary) and write the front page, and judge letters that pages
+//!    bind to two meanings.
+//!
+//! [`task`] decides what to hand out next and applies submitted answers; [`build`] writes
+//! the docs tree and `zensical.toml` once no task is left; [`convergence`] summarises
+//! whether the audit rounds are reducing gaps; [`runlog`] records each task handed out and
+//! each submit; [`coverage`] reports where planning answers' quotes fall in the sources.
+
+pub mod aha;
+pub mod argument;
+pub mod audit;
+pub mod autolink;
+pub mod background;
+pub mod build;
+pub mod cite;
+pub mod config;
+pub mod convergence;
+pub mod coverage;
+pub mod error;
+pub mod extract;
+pub mod grade;
+pub mod graph;
+pub mod notation;
+pub mod outline;
+pub mod plan;
+pub mod project;
+pub mod relations;
+pub mod report;
+pub mod runlog;
+pub mod simulate;
+pub mod support;
+pub mod symbols;
+pub mod task;
+pub mod text;
+pub mod write;
+
+pub use error::{Error, Result};

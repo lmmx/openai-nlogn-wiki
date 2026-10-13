@@ -23,12 +23,16 @@ that part, record exactly what happened, and go on to the report.
 1. **Check the planner definition loaded.** This session must offer `exegenius-planner` as a
    subagent type (it loads from `.claude/agents/` at the repository root when the session
    starts). If it does not, stop: push nothing, and report that as the blocker (step 6).
-2. **Build exegenius** from lmmx/exegenius at commit `1d90c28` (branch
-   `timing-and-parallelism`): clone it to `~/exegenius` (if the clone is refused, add the
-   repository to the session for read access and clone again), `cargo build --release`, and
-   put `target/release/exegenius` on PATH (for example copy it to `/usr/local/bin`). Check
-   `exegenius --version` prints 0.6.0 and `git -C ~/exegenius rev-parse --short HEAD` prints
-   `1d90c28`.
+2. **Build exegenius** from `exegenius-src/` in this repository: a copy of lmmx/exegenius at
+   commit `1d90c28` (branch `timing-and-parallelism`; its `Cargo.toml`, `Cargo.lock`,
+   `exegenius-cli/`, `exegenius-core/`, `README.md` and `LICENSE`, without the journal).
+   It is copied here so that the experiment builds from its own repository at a pinned
+   commit. Run `cargo build --release --manifest-path exegenius-src/Cargo.toml` and put
+   `exegenius-src/target/release/exegenius` on PATH (for example copy it to
+   `/usr/local/bin`). Check that `exegenius --version` prints 0.6.0, and that
+   `exegenius status` in a run directory set up in step 3 prints "no concept graph yet".
+   (A first attempt, which cloned lmmx/exegenius instead, was refused by the session's
+   permission classifier as code from outside the session: `results-attempt-1.md`.)
 3. **Set up the runs:** `./setup-run.sh A1 report`, `./setup-run.sh A2 report`,
    `./setup-run.sh B1 reject`, `./setup-run.sh B2 reject`.
 4. **Run each to the end of planning.** In each run directory, run the exegenius loop as
@@ -47,7 +51,7 @@ that part, record exactly what happened, and go on to the report.
 5. **Collect:** `./collect.sh` (copies the transcripts into `results/transcripts/`, each
    run's `exegenius status` into `runs/RUN/status.txt`, and versions into `results/`).
 6. **Report** in `RESULTS.md`, facts only:
-   - versions (exegenius commit, Claude Code version, the model this session runs on);
+   - versions (exegenius source commit, Claude Code version, the model this session runs on);
    - whether `exegenius-planner` was offered as a subagent type, and which subagent types the
      planning tasks actually went to;
    - for each run: its tasks, and for each task its submits in order with their outcomes and
