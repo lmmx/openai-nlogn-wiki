@@ -1,0 +1,773 @@
+=== 1347,1400
+ \section{Faster interchange of address chunks}
+\label{sec:tape-interchange}
+
+We use the bit network to interchange two equal address chunks on tape.
+An edge matrix of rank $a$ will require $a$ smaller interchanges.
+Because the sum of these ranks is less than the number of wires times
+$m$, the resulting recurrence saves a power of the chunk width.
+
+\subsection{A matrix decomposition adapted to tape order}
+
+Lemma~\ref{lem:ordered-affine-streams} updates a later field using
+earlier fields in linear time.  Lower triangular changes of coordinates
+can be performed entirely in this direction. The required factorization
+is the Bruhat factorization for arbitrary matrices, with coordinate order
+reversed; see Grigor'ev~\cite[Appendix~A.2, Proposition~14(c)]{Grigoriev1982}.
+We give its elementary elimination proof in this order.
+
+\begin{lemma}[Lower triangular factorization]
+\label{lem:lower-lower}
+Every rational $m\times m$ matrix $A$ of rank $a$ has a factorization
+\[
+ A=E_1\Pi E_2,
+\]
+where $E_1,E_2$ are invertible lower triangular rational matrices and
+$\Pi$ has exactly $a$ entries equal to one, with at most one in each row
+and column, and all remaining entries zero.
+\end{lemma}
+
+\begin{proof}
+If $A=0$, take $E_1=E_2=I$ and $\Pi=0$.  Otherwise choose the topmost
+nonzero row and its rightmost nonzero entry.  Use that pivot column to
+clear entries to its left by right multiplication by lower triangular
+elementary matrices.  There are no nonzero entries to its right in the
+pivot row.  Clear entries below the pivot by left multiplication by
+lower triangular elementary matrices, and scale the pivot to one.
+All rows above the chosen row were zero in the still active columns.
+
+Delete the pivot row and column from the active index sets, retaining
+their original orders, and repeat.  Elementary operations on the active
+indices are still lower triangular in the original order.  They do not
+change any earlier pivot row or column, whose other entries have already
+been cleared.  Each step isolates a rank-one block and leaves the
+remaining rank in the active submatrix.  Thus the final partial
+permutation matrix has exactly $a$ ones.  If $LAR=\Pi$ is the resulting
+identity, then $E_1=L^{-1}$ and $E_2=R^{-1}$ have the required form.
+\end{proof}
+
+\begin{lemma}[The cost of a rational matrix shear]
+\label{lem:matrix-shear}
+Let $\mathcal A$ be a fixed finite collection of rational $m\times m$
+matrices.  There is a fixed odd prime $q$ such that the following holds.
+Let $H=(H_1,\ldots,H_m)$ and $D=(D_1,\ldots,D_m)$ be two ordered
+groups of fields, every field ranging over $[q^b]$, with every $H_i$
+before every $D_j$.  For $A\in\mathcal A$ of rational rank $a$, the
+=== 1449,1500
+\subsection{Transferring a finite circuit to address permutations}
+
+Fix integers $m,W\ge2$.  The circuit has $W$ wires, including its
+scratch wires, with separate input and output terminals.  Its fixed,
+pointwise bit gates induce a permutation $\rho$ of the $W$ scalar inputs
+at completion: the input value at role $w$ appears at output role
+$\rho(w)$.  Assign a
+rational $m\times m$ matrix to each terminal and to each gate, the latter
+assignment being common to every wire at that gate.  A wire segment
+between consecutive assigned vertices is called an edge.  For an edge
+$e$ put
+\[
+ A_e=M_{\mathrm{head}(e)}-M_{\mathrm{tail}(e)},
+ \qquad s=\sum_e\operatorname{rank}_{\mathbb Q}A_e.
+\]
+The required conditions are
+\begin{equation}
+\label{eq:finite-shear-contract}
+ M_{\mathrm{out}(\rho(w))}-M_{\mathrm{in}(w)}=I_m
+ \quad(1\le w\le W),\qquad s<Wm.
+\end{equation}
+All these data are finite and fixed. Proposition~\ref{prop:bit-motif-interface}
+supplies these conditions with $W=W_{\rm b}$ and $s=s_{\rm b}$.
+Its negative source projection is essential to the endpoint identity and
+has already been included in the rank sum.
+
+\begin{proposition}[Power-width interchange with rows]
+\label{prop:power-interchange}
+Assume the fixed circuit data satisfy
+\eqref{eq:finite-shear-contract}, and let $q$ be a prime as in
+Lemma~\ref{lem:matrix-shear} for its edge matrices, also avoiding the
+denominators of every assigned terminal and gate matrix $M$.
+Choose a rational number $\tau\in(0,1)$ with $s/W<m^\tau$.
+For every $e=m^k$, $k\ge0$, consider two disjoint contiguous address
+chunks of $e$ radix-$q$ digits each.  Suppose a row field preceding both
+chunks has length divisible by $W^k$.  There may be additional fields
+before and after the row field, between the chunks, and after them.
+The chunks can be interchanged in $O(Ve^\tau)$ time, preserving every
+other address field, on a fixed number of finite-alphabet tapes.
+The constant is independent of all field lengths and of the data.
+\end{proposition}
+
+\begin{proof}
+For $k=0$ apply the single-digit operation of
+Lemma~\ref{lem:elementary-streams}.  For $k>0$, write each chunk as $m$
+consecutive $b=e/m$ digit fields, giving vectors $H,D$ over
+$\mathbb Z/q^b\mathbb Z$.  We first construct the shear $H\leftarrow H+D$.
+
+Split whole rows cyclically into $W$ role streams within each prefix
+preceding the row field.  Write the original row number as
+$r=Wg+(w-1)$ with $1\le w\le W$; stream $w$ has row number $g$.
+These streams have exactly the same remaining shape, including the
+=== 1625,1650
+\subsection{Removing width and row restrictions}
+
+We have proved the fast operation for power widths with enough rows.
+Rows for a general array can be supplied by a few of its own high digits.
+Their movement will cost less than the final bound.
+
+\begin{lemma}[Arbitrary-width interchange]
+\label{lem:chunk-swap}
+There exist fixed $0<\tau<1$ and one fixed finite-alphabet multitape
+procedure with the following property.  For positive integers $P,G,B$
+and $u\ge1$, it transforms an arbitrary bit array on
+\[
+ [P]\times[2^u]\times[G]\times[2^u]\times[B]
+\]
+by the address permutation
+\[
+ (p,h,g,d,z)\longmapsto(p,d,g,h,z)
+\]
+in $O(Vu^\tau)$ steps, where $V=PG B\,2^{2u}$.
+The integers specifying the shape are part of the input.  The time
+includes their processing, all padding and unpadding, and fixed-tape
+workspace cleanup.  In particular, $B=1$ is allowed.
+\end{lemma}
+
+\begin{proof}
+First suppose the two ranges are $[q^e]$, where $q$ is the fixed prime
+=== 1763,1830
+ \section{Fast simultaneous synthetic butterfly layers}
+\label{sec:fast-butterfly-layers}
+
+We now apply the complex network to a common butterfly layer on several
+axes. The array has complete address set
+\[
+ [P]\times[2^K]^D\times[S],\qquad 1\le D\le d,
+\]
+with $P,S\ge1$, in lexicographic order. Its $D$ consecutive $K$-bit
+chunks each select the bit at one common offset $0\le\rho<K$, counted
+from the least significant
+end. Each address carries a polynomial record with $r$ complex
+coefficients, initially in the unit disk on the grid
+$2^{-p}\mathbb Z[i]$, with $\Theta(p)$ bits per real or imaginary
+component. The intended operation is the tensor product
+of $H_0(u,v)=((u+v)/2,(u-v)/2)$ on the $D$ selected bits, acting
+coefficientwise and preserving all other address fields.
+
+The parameters will satisfy
+\[
+ d=\Theta(p^\epsilon),\qquad K=\lfloor d^c\rfloor,
+ \qquad r=2^{\Theta(p/d)},\qquad c>0,\quad 0<\epsilon<1.
+\]
+The exponents and comparison constants are fixed, and we impose their
+further restrictions in Proposition~\ref{prop:simultaneous-layer}.
+Two consequences explain the layout. The polynomial length $r$ grows
+faster than every fixed power of $p$, so a scan of a record pays for
+polynomial work on its address. Also $K/\log p\to\infty$, which will
+make the exceptional set in a packed change of address bits small enough
+to repair by sorting. We will obtain cost $O(Vd^{\lambda'})$, with
+$\lambda'<1$ and $V$ the logical bit volume, whereas separate butterfly
+factors would require $D$ whole-array passes.
+
+We first construct tensor products of the auxiliary two-point kernel
+$C$ from Proposition~\ref{prop:complex-motif-interface}. Its phase
+frames express a $C$ tensor product using smaller groups of
+selected bits, separated by binary changes of basis. We implement those
+changes by moving whole address chunks. Splitting complete rows among
+the network's wire roles then reduces the volume of each recursive
+call. Finally, we bound the intermediate dyadic values and convert the
+completed $C$ layer to the normalized $H_0$ layer. The entire layer is
+evaluated exactly before one final truncation.
+
+\subsection{Phase frames for a simultaneous butterfly layer}
+\label{subsec:phase-frames}
+
+Hold the unselected address bits fixed and regard the stored complex
+values on one wire role as a function of the selected bits.  The phase
+identities below express an edge's residual operator as a product of
+two-point kernels on selected directions.
+
+Put
+\[
+ H_0=\frac12\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
+ H=\sqrt2 H_0,\qquad \mathsf S=\operatorname{diag}(1,i),\qquad
+ Z=\operatorname{diag}(1,-1).
+\]
+For the bit-flip matrix $X=\bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)$,
+define
+\begin{equation}\label{eq:phase-C}
+ C=H\mathsf SH=aI+bX,\qquad a=\frac{1+i}{2},\quad b=\frac{1-i}{2}.
+\end{equation}
+Direct multiplication gives
+\begin{equation}\label{eq:phase-basic-identities}
+ H_0=b\mathsf SC\mathsf S,\qquad C^2=X,\qquad C^4=I,\qquad
+ C^{-1}=bI+aX=-iZCZ.
+\end{equation}
+In particular, $C=iZC^{-1}Z$.  These identities use only Gaussian dyadic
+=== 2588,2600
+\begin{proposition}[Simultaneous normalized butterfly layer]
+\label{prop:simultaneous-layer}
+Fix
+\[
+ \tau=\sigma=1-2^{-50},\qquad \beta=\frac12,\qquad C_1=20.
+\]
+Let $c,\epsilon,\lambda,\lambda'$ be fixed positive rational numbers
+satisfying
+\[
+ \max\{\tau,\sigma\}<\lambda<1,\qquad
+ \tau(1+c/\beta)<\lambda,\qquad
+ \max\{\lambda,\sigma+\beta(1-\sigma)\}<\lambda'<1,
+ \qquad \epsilon C_1<1.
+=== 2759,2830
+ \section{Synthetic transforms and their tape layout}
+\label{sec:synthetic-layouts}
+
+We now implement the normalized Fourier transforms needed for
+convolution.  Their entries will be short polynomials in a quotient
+where the required roots of unity act by exact signed permutations
+of coefficient lists.  We also specify where each frequency entry
+is stored, because the opposite transform consumes that same order
+after a pointwise product.
+
+The polynomial roots and radix-two butterflies belong to the fast
+polynomial-transform method of Nussbaumer and
+Quandalle~\cite{NussbaumerQuandalle1978,Nussbaumer1980}; we use the
+form developed in~\cite[Section~2.4 and Lemma~3.2]{HarveyHoeven2021}.
+The work here is to apply the simultaneous layers on a suitable tape
+layout and retain the resulting frequency order through convolution.
+
+For an integer $r\geq 2$ that is a power of two, put
+\[
+ \mathcal R_r=\mathbb C[y]/(y^r+1),\qquad
+ \left\|\sum_{k=0}^{r-1}z_k y^k\right\|_\infty
+       =\max_{0\leq k<r}|z_k|.
+\]
+We always use representatives of degree less than $r$.  Multiplication
+by $y^a$, for any integer $a$, permutes the coefficients and changes
+some signs; consequently it is an isometry for this norm.  For arrays
+over $\mathcal R_r$, the same notation denotes the maximum over all
+coefficients in all entries.  A disk array has norm at most one.  A
+$p$-bit grid array has real and imaginary coefficient parts in
+$2^{-p}\mathbb Z$.  For any array, let $Q_p$ truncate each real and
+imaginary coefficient part toward zero to this grid.  Then
+\begin{equation}
+ \|Q_p z-z\|_\infty<\sqrt2\,2^{-p},\qquad
+ \|Q_p z\|_\infty\leq\|z\|_\infty.
+ \label{eq:transform-truncate}
+\end{equation}
+
+\subsection{Roots, butterflies, and stored frequency order}
+
+For a power of two $t$ dividing $2r$, define $\omega_t=y^{2r/t}$.
+For $z\in\mathcal R_r^t$ and $0\leq j<t$, set
+\[
+ (F_t^-z)_j=\frac1t\sum_{k=0}^{t-1}\omega_t^{-jk}z_k,
+ \qquad
+ (F_t^+z)_j=\frac1t\sum_{k=0}^{t-1}\omega_t^{jk}z_k.
+\]
+Every power of $\omega_t$ is an isometry, and each transform entry is
+an average of $t$ such images.  Thus both transforms are contractions.
+The ring has zero divisors, so we verify character cancellation
+directly instead of dividing by $\omega_t^j-1$.
+
+\begin{lemma}[Synthetic character cancellation]
+\label{lem:synthetic-characters}
+If $j$ is an integer, then
+\[
+ \sum_{k=0}^{t-1}\omega_t^{jk}
+ =\begin{cases}t,&t\mid j,\\0,&t\nmid j.\end{cases}
+ \qquad F_t^+F_t^-=t^{-1}I.
+\]
+\end{lemma}
+\begin{proof}
+Only the second case needs proof.  Write $j=2^v j_0$ with $j_0$ odd
+and $0\leq v<\log_2t$.  Replacing $k$ by $k+t/2^{v+1}$ modulo $t$ permutes
+the summands and multiplies their sum by
+$y^{rj_0}=-1$.  Hence the sum is zero, since the additive group of
+$\mathcal R_r$ has no two-torsion.  Expanding the composite transforms
+and applying this identity proves the final formula.
+\end{proof}
+
+Write
+\[
+ H_0=\frac12\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+=== 2916,2945
+\subsection{A layout on which the parallel layers apply}
+
+To apply Proposition~\ref{prop:simultaneous-layer} in a transform round,
+we must place the selected bits of the participating axes at a common
+offset in consecutive $K$-bit chunks. We now construct that layout,
+keeping each polynomial's coefficients in a contiguous suffix. The
+layout uses the single-bit moves of
+Lemma~\ref{lem:elementary-streams} and the chunk interchanges of
+Lemma~\ref{lem:chunk-swap}; each movement is included in the transform
+cost. The layer then supplies one truncated contraction per round,
+and its temporary rows and work streams are removed before the next
+round begins.
+
+\begin{lemma}[Transform layout and cost]
+\label{lem:synthetic-transform-cost}
+Fix the rational parameters and positive comparison constants
+$a_d\leq b_d$, $a_r\leq b_r$ of
+Proposition~\ref{prop:simultaneous-layer}. Fix constants $C_\ell>0$
+and $C_w>1$, and choose the layer constants once as
+\[
+ C_M=C_\ell+1,\qquad
+ C_{\rm desc}=32(C_\ell+C_w+1).
+\]
+Use these constants and $C_w$ in
+Proposition~\ref{prop:simultaneous-layer}. These fixed choices determine
+a cutoff $p_1$, one fixed-tape procedure, and an implicit time constant
+with the following guarantee. For every choice of positive integers
+$p,d,r$ with $p\geq p_1$ and
+\[
+ a_dp^\epsilon\leq d\leq b_dp^\epsilon,\qquad
+=== 3208,3245
+\section{Exact normalized polynomial products}
+\label{sec:exact-ring-products}
+
+To multiply the polynomial records, we use the fixed-tape integer
+multiplier of Harvey and van der
+Hoeven~\cite[Theorem~1.1]{HarveyHoeven2021}, with cost
+$O(N\log(2N))$ on $N$-bit inputs.  This is an independent subroutine.
+Its inputs below have $O(rp)$ bits, and we include the conversions
+between coefficient streams and signed integers in the cost. The
+reduction is a signed form of Kronecker substitution; compare
+\cite[Lemma~2.5]{HarveyHoeven2021}. We specify the packing and recovery
+of coefficients to include negative values and the required tape format.
+
+\begin{lemma}[Signed packing and normalized ring multiplication]
+\label{lem:signed-ring-product}
+Let $r=2^\ell<2^p$ with integers $\ell\geq1$ and $p\geq2$, and fix $C_w>1$.
+Let $w$ be an integer with $p+2\leq w\leq C_wp$.
+The input supplies $\Gamma(p)\Gamma(r)\Gamma(w)$ and two disk grid
+polynomials $f,g\in\mathcal R_r$ in the component format of
+Proposition~\ref{prop:simultaneous-layer} with width $w$.
+One can compute the exact Gaussian integer
+numerators of $fg$, and then return $Q_p(fg/r)$ in that same format, in time
+$O(rp\log(rp))$ on a fixed number of tapes.  The output is a disk
+grid polynomial with error less than $\sqrt2\,2^{-p}$ from $fg/r$.
+\end{lemma}
+\begin{proof}
+The supplied power of two $r$ determines $\ell=\log_2r$.
+Write
+\[
+ f=2^{-p}(a+ib),\qquad g=2^{-p}(c+ie),
+\]
+where $a,b,c,e\in\mathbb Z[y]$ have degree less than $r$ and
+coefficients of absolute value at most $2^p$.  Set $B_0=2^{4p}$
+and, for $u\in\{a,b,c,e\}$, define the signed evaluation integer
+\[
+       A_u=u(B_0)=\sum_{j=0}^{r-1}u_jB_0^j.
+\]
+The bound
+=== 3370,3425
+\subsection{The normalized convolution interface}
+
+For arrays on $\prod_i\mathbb Z/t_i\mathbb Z$ with values in
+$\mathcal R_r$, let $*$ denote cyclic convolution in the displayed
+axes and define
+\[
+       \mathcal M_r(f,g)=\frac{f*g}{rM}=\frac{f*g}{T}.
+\]
+For a fixed output coefficient, each of the $M$ first cyclic
+addresses determines one second address, and each of the $r$ first
+polynomial indices determines one second index modulo $r$.  The
+negacyclic wrap supplies the sign.  Thus that coefficient averages
+$rM$ signed scalar products, and $\mathcal M_r$ is a bilinear
+contraction:
+\[
+ \|\mathcal M_r(f,g)\|_\infty
+       \leq\|f\|_\infty\|g\|_\infty.
+\]
+If the other operand is a disk array, replacing one operand changes
+the output by at most the norm distance between its two values.
+
+\begin{proposition}[Convolution from the retained transform layout]
+\label{prop:synthetic-convolution}
+Under the hypotheses of Lemma~\ref{lem:synthetic-transform-cost},
+$\mathcal M_r$ on disk grid operands has an approximation with error
+less than
+\begin{equation}
+       \sqrt2\,M(3\ell+1)2^{-p}
+ \label{eq:synthetic-convolution-error}
+\end{equation}
+and cost
+\[
+O\left(Tp\left[dK+pK^{\tau-1}+\ell d^{\lambda'}
+                    +\log(rp)\right]\right).
+\]
+Put $m_M=\log_2M$ and $w_M=w+m_M$. The returned grid array is in the
+original array and coefficient order, with the same two's-complement
+component format at width $w_M$. The procedure supplies
+$\Gamma(w_M)$ on the output descriptor tape, so the caller knows every
+component boundary from this width and the retained shape parameters.
+If one operand has norm at most $\rho<1$ and the bound in
+\eqref{eq:synthetic-convolution-error} is at most $1-\rho$, the
+returned grid array is a disk array.
+\end{proposition}
+\begin{proof}
+Perform both forward transforms and retain their common $LB$ order.
+Pass the supplied $p,r,w$ to
+Lemma~\ref{lem:signed-ring-product} for corresponding polynomial records.
+Its output keeps that record order and uses the component format
+required by the opposite procedure. Apply the opposite procedure
+to that order, and multiply its result exactly by $M=T/r$.
+
+To check normalization, expansion of the finite sums gives
+\[
+ F_{\boldsymbol t}^-(f*g)
+       =M(F_{\boldsymbol t}^-f)(F_{\boldsymbol t}^-g).
+=== 3496,3590
+ \section{Resampling with the permutations left in the transform}
+\label{sec:resampling}
+
+The transform lengths needed for the integer product are pairwise coprime,
+whereas the synthetic transforms use powers of two. Gaussian resampling
+connects these two shapes. Its usual implementation sorts twice on each
+coordinate. We retain both permutations in the transform formula and
+compute that formula directly. This section proves the resulting interface,
+including its tape cost when the number of coordinates grows.
+
+For an integer $q\geq 1$, write
+\[
+ (F_q u)_k=\frac1q\sum_{j=0}^{q-1}u_j e^{-2\pi i jk/q},
+ \qquad
+ (F_q^+ u)_k=\frac1q\sum_{j=0}^{q-1}u_j e^{2\pi i jk/q}.
+\]
+All subscripts on a vector of length $q$ are taken modulo $q$.
+The vector norm is the maximum modulus of its coordinates. All operator
+norms are induced by this norm: $\|L\|=\sup_{\|u\|\leq1}\|Lu\|$.
+Each normalized Fourier transform above is a contraction, since each
+output averages inputs multiplied by complex numbers of modulus one. Coordinate
+permutations preserve the norm.
+For an integer precision $p\geq1$, put
+\[
+ \mathbb D_p=\{2^{-p}(a+ib):a,b\in\mathbb Z,\ a^2+b^2\leq 2^{2p}\}.
+\]
+For storage between completed scalar routines, put $w_{\rm c}=p+2$.
+Represent $2^{-p}(a+ib)\in\mathbb D_p$ by a signed $w_{\rm c}$-bit
+two's-complement word for $a$, followed by one for $b$, with each word
+written most significant bit first. A coordinate list is the
+concatenation of these fixed-length records in its stated order. Since
+$|a|,|b|\leq2^p<2^{w_{\rm c}-1}$, this format includes both signs of
+every permitted numerator, including $-2^p$ and $2^p$.
+An approximation $\widetilde L:\mathbb D_p^a\to\mathbb D_p^b$
+to a linear contraction $L:\mathbb C^a\to\mathbb C^b$ has error $E$
+if $2^p\|\widetilde L u-Lu\|<E$ for every input in $\mathbb D_p^a$.
+The approximation itself need not be linear. Composing such algorithms
+adds their errors: at each step, insert the exact map at the computed
+input and use its contraction bound on the accumulated input error.
+
+We use the established $O(N\log N)$ integer multiplier of
+Harvey and van der Hoeven~\cite[Theorem~1.1]{HarveyHoeven2021}
+for the shorter integer records that occur below. We also use their
+Lemma~2.12: for integer precision $p>100$ and integers $k>1$, $0\leq j<k$,
+one can compute $\widetilde\zeta\in\mathbb D_p$ with
+$2^p|\widetilde\zeta-e^{2\pi i j/k}|<2$ in time
+$O(\max(p,\log k)^{1+\delta})$, for every fixed $0<\delta<1/8$.
+Throughout this section, numbered citations to that paper refer to its
+author-hosted 45-page manuscript.
+
+\subsection{The one-dimensional interface}
+
+\begin{lemma}[Resampling without executing the two permutations]
+\label{lem:no-sort-resampling}
+Fix $0<\delta<1/8$. Let $p>100$, $2\leq s<t<2^p$ and $2\leq\alpha<\sqrt p$
+be integers, with $\gcd(s,t)=1$ and
+\[
+ \theta:=t/s-1>p/\alpha^4.
+\]
+Define coordinate permutations by
+\[
+ (P_su)_j=u_{tj},\qquad (P_tv)_k=v_{-sk}.
+\]
+There are linear contractions $A:\mathbb C^s\to\mathbb C^t$ and
+$B_0:\mathbb C^t\to\mathbb C^s$ satisfying
+\begin{equation}
+ P_sF_s=2^{2\alpha^2}B_0P_tF_tA.
+ \label{eq:no-sort-one-dimensional}
+\end{equation}
+There are fixed multitape algorithms for approximations
+$\widetilde A:\mathbb D_p^s\to\mathbb D_p^t$ and
+$\widetilde B_0:\mathbb D_p^t\to\mathbb D_p^s$, each with error less
+than $p^2$ and time
+\[
+ O(tp^{3/2+\delta}\alpha).
+\]
+The constant is uniform in $p,s,t,\alpha$. Inputs and outputs use the
+scalar component format above and occur in increasing coordinate order.
+\end{lemma}
+
+\begin{proof}
+The Gaussian resampling argument uses two maps
+$\mathsf S,\mathsf T:\mathbb C^s\to\mathbb C^t$. For $0\leq k<t$, they are
+\[
+ (\mathsf S u)_k=\frac1\alpha\sum_{j\in\mathbb Z}
+ e^{-\pi\alpha^{-2}(j-sk/t)^2}u_j,
+ \qquad
+ (\mathsf T u)_k=\sum_{j\in\mathbb Z}
+ e^{-\pi\alpha^2(tj/s-k)^2}u_j.
+\]
+Both sums converge absolutely. For $0\leq j<s$, define
+\[
+ q_j=\left\lfloor\frac{tj}{s}+\frac12\right\rfloor,
+ \qquad \beta_j=\frac{tj}{s}-q_j.
+\]
+=== 3794,3840
+\subsection{Growing dimension and the padded array}
+
+For the tensor product, apply the one-dimensional maps to one coordinate
+line at a time. The chunk-swap algorithm supplies the movement of the
+physical axis fields, including its cost when the number of axes grows.
+
+\begin{lemma}[Tensor interface]
+\label{lem:tensor-resampling}
+Suppose every pair $(s_i,t_i)$, $1\leq i\leq d$, satisfies
+Lemma~\ref{lem:no-sort-resampling} with the same $p,\alpha,\delta$.
+Put $T=\prod_i t_i$, $\gamma=2d\alpha^2$, and
+\[
+ R=\bigotimes_iP_{s_i},\quad Q=\bigotimes_iP_{t_i},\quad
+ \mathcal A=\bigotimes_i A_i,\quad
+ \mathcal B_0=\bigotimes_i B_{0,i}.
+\]
+Then
+\begin{equation}
+ RF_{\boldsymbol s}
+   =2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A,
+ \qquad F_{\boldsymbol q}:=\bigotimes_iF_{q_i}.
+ \label{eq:no-sort-tensor}
+\end{equation}
+Also write $F_{\boldsymbol q}^+=\bigotimes_iF_{q_i}^+$.
+Both $\mathcal A$ and $\mathcal B_0$ are contractions. The linewise
+implementations of $\mathcal A$ and $\mathcal B_0$ each have error
+less than $dp^2$. The total time spent in the
+one-dimensional algorithms for both maps is
+$O(dTp^{3/2+\delta}\alpha)$, with a constant independent of $d$.
+
+If each $t_i\in\{r/2,r\}$ with $r=2^\ell$, the array is kept in the
+full padded box of $T$ entries, and each entry occupies $O(p)$ bits,
+then exposing and restoring all the lines costs
+\[
+ O\bigl(Tp\,d^2(1+\ell^\tau)\bigr)
+\]
+using the equal-width chunk-swap bound $O(Vu^\tau)$ and the fixed-digit
+movement primitive. Any fixed polynomial in $p$ of setup per line is
+negligible compared with $Tp$ when $r$ grows faster than every such
+polynomial and $d$ is polynomially bounded in $p$.
+\end{lemma}
+
+\begin{proof}
+Tensoring \eqref{eq:no-sort-one-dimensional} proves
+\eqref{eq:no-sort-tensor}. To implement $\mathcal A$, first embed its
+input in the padded box by writing zero outside
+$\prod_i[0,s_i)$. Expand the axes one at a time. After the axes in a set
+=== 3899,3945
+\subsection{The middle transform and the final permutation}
+
+The factor $QF_{\boldsymbol t}$ in \eqref{eq:no-sort-tensor} can be
+computed from a cyclic convolution and two pointwise phase
+multiplications. The chirp identity below performs the frequency change
+in $Q$ without applying $Q$ as a separate permutation of the array.
+The second identity shows how the
+retained source permutation $R$ cancels when computing a convolution.
+Here $*$ denotes
+cyclic convolution on the product of the coordinate groups and a dot
+denotes coordinatewise multiplication.
+
+\begin{lemma}[Chirp and permutation cancellation]
+\label{lem:chirp-permutation}
+With $R,Q,s_i,t_i$ as in Lemma~\ref{lem:tensor-resampling},
+assume every $t_i$ is even. For $\boldsymbol j\in\mathbb Z^d$, define
+\[
+ a_{\boldsymbol j}
+ =\exp\left(-\pi i\sum_{i=1}^d\frac{s_i j_i^2}{t_i}\right).
+\]
+Then $a$ has period $t_i$ in coordinate $i$, and
+\begin{equation}
+ QF_{\boldsymbol t}u
+ =\overline a\mathbin{\cdot}
+       \frac{a*(\overline a\mathbin{\cdot}u)}{T}.
+ \label{eq:permuted-chirp}
+\end{equation}
+If $S=\prod_i s_i$, then
+\begin{equation}
+ (RF_{\boldsymbol s}^+)
+   \bigl[(RF_{\boldsymbol s}u)\mathbin{\cdot}
+         (RF_{\boldsymbol s}v)\bigr]
+ =\frac{u*v}{S^2}.
+ \label{eq:source-permutation-cancel}
+\end{equation}
+Complex conjugation of the input and output of an algorithm for
+$RF_{\boldsymbol s}$ gives an algorithm for $RF_{\boldsymbol s}^+$.
+\end{lemma}
+
+\begin{proof}
+Replacing $j_i$ by $j_i+t_i$ changes the exponent defining $a$ by
+$-\pi i s_i(2j_i+t_i)$, an integral multiple of $2\pi i$.
+The coefficient of $u_{\boldsymbol k}$ in the right side of
+\eqref{eq:permuted-chirp} is
+\[
+ \frac1T\overline a_{\boldsymbol j}
+               a_{\boldsymbol j-\boldsymbol k}
+=== 3989,4040
+ \section{Exact integer multiplication and its cost}
+\label{sec:assembly}
+
+We now use the preceding algorithms to multiply two $n$-bit integers.
+An equal-width address swap on logical bit volume $V$ costs
+$O(Vu^\tau)$ for width $u$.  A completed parallel normalized butterfly
+layer costs $O(Vd^{\lambda'})$ and has coefficient error less than
+$\sqrt2\,2^{-p}$.  The ordered Gaussian resampling maps are
+contractions; their disk-grid approximations have error less than
+$p^2 2^{-p}$ and cost $O(tp^{3/2+\delta}\alpha)$ on a line of length
+$t$.  Address permutations and intermediate dyadic arithmetic are
+exact.  We choose compatible parameters for these procedures, recover
+the integer coefficients from their approximations, and account for the
+remaining tape operations.
+
+\subsection{A fixed rational choice}
+
+The two motif exponents were fixed in \eqref{eq:explicit-motif-exponents}.
+Take the following fixed rational numbers:
+\begin{equation}\label{eq:fixed-parameters}
+\begin{gathered}
+ \tau=\sigma=1-2^{-50},\qquad \beta=\frac12,\qquad \delta=\frac1{16},\\
+ \lambda=1-2^{-52},\qquad c=2^{-56},\qquad
+ \lambda'=1-2^{-54},\\
+ C_1=20,\qquad \epsilon=2^{-75},\qquad \kappa=2^{-182}.
+\end{gathered}
+\end{equation}
+These constants are deliberately conservative; no optimization is claimed.
+
+The layer conditions hold with room to spare:
+\[
+ \max\{\tau,\sigma\}<\lambda<1,\qquad
+ \tau(1+c/\beta)<1-31\cdot2^{-55}<\lambda,
+\]
+and
+\[
+ \sigma+\beta(1-\sigma)=1-2^{-51}<\lambda<\lambda'<1.
+\]
+The strict final inequality absorbs the logarithmic number of groups in
+a base-$m$ partition.  The dimension exponent also satisfies
+\[
+\begin{gathered}
+ \epsilon<\frac1{12},\quad \epsilon C_1<1,\quad
+ \epsilon(2-\tau)<1-\tau,\quad
+ \frac34+\delta+\frac32\epsilon<1,\\
+ \epsilon(1+c)<1,\qquad \epsilon+\delta<1.
+\end{gathered}
+\]
+
+\subsection{Input and transform sizes}
+
+The input is the promised string $x\#y$, with both operands written
+=== 4486,4560
+\subsection{The multiplication algorithm}
+
+The source-transform procedures now supply the three transforms needed
+for the radix-digit convolution. Read each stored operand backward from
+its least significant end in groups of $b$ bits. This produces the radix-$2^b$ digits
+$a_0,\ldots,a_{q-1}$ in increasing coefficient order.  Buffer each
+group on a fixed work tape and read it back most significant bit first,
+reversing its least-significant-first input order; pad the final short
+group with leading zeroes.
+For digit $a_j$, write the exact grid numerator
+$a_j2^{p-b-2}$ in a signed $w_{\rm c}$-bit real word, followed by a zero
+$w_{\rm c}$-bit imaginary word. This exponent is nonnegative
+because $p=6b$, and the represented value is exactly $a_j2^{-b-2}$.
+Append $S-q$ zero coefficient records.  Buffering and ordering the
+groups costs $O(n)$, including the one partial group's padding, and
+writing the $S$ records costs $O(Sp)$.
+Together with the initial count and copies, this input conversion
+costs $O(n+Sp)=O(Tp)$; all $n$ input bits, including leading zeroes,
+are retained before the final group is padded.
+
+With these streams prepared, perform the following operations.
+\begin{enumerate}
+\item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain
+source arrays $u,v$.  Their coefficients are exact $p$-bit grid
+values of norm less than $1/4$.
+\item Compute $\widetilde{\mathscr F}(u)$ and
+$\widetilde{\mathscr F}(v)$.
+\item Multiply corresponding complex coefficients exactly and truncate
+each real and imaginary part toward zero to $p$ fractional bits, writing
+the result in the common $w_{\rm c}$-bit component format.
+Denote the resulting source array by $z$.
+\item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid
+numerators exactly by $S$, retaining the denominator $2^p$ and writing
+each component in signed width $w_{\rm c}+b$. Denote the represented
+dyadic array by $\widetilde w$.
+\item Multiply the grid numerators of $\widetilde w$ exactly by
+$2^{2b+4}S$, again retaining the denominator $2^p$, and write each
+component in signed width $w_{\rm c}+4b+4$. Round the represented real
+values to the nearest integers. At each valid address, write the rounded
+coefficient in one signed $(3b+1)$-bit word, most significant bit first;
+at every padded address,
+write a zero word of that width. Supply this local payload width to
+$\Phi^{-1}$ and apply it, including removal of the address padding, to
+restore the ordinary coefficient order.
+\item Propagate radix-$2^b$ carries in increasing coefficient order.
+Write the resulting bits from least to most significant on a work tape,
+then reverse that stream and output exactly $2n$ bits in
+most-significant-first order.
+\end{enumerate}
+
+The two occurrences of $S$ in this algorithm undo different
+normalizations.  By \eqref{eq:source-permutation-cancel}, the exact
+counterpart after the three transforms is $(u*v)/S^2$, so after the
+first scale it is $w=(u*v)/S$.  The second scale gives
+$2^{2b+4}(u*v)$, whose inverse image under $\Phi$ is the original
+integer coefficient convolution.  The next subsection verifies the
+disk bounds needed by every call and proves that the final error is
+less than $1/2$; it also justifies the rounding, carries, and output
+length.
+
+\subsection{Precision and exact recovery}
+
+Proposition~\ref{prop:simultaneous-layer} uses
+$C_1=20$, so $\epsilon C_1<1$ makes its coefficient width $O(p)$.
+Lemma~\ref{lem:synthetic-transform-cost} therefore applies to every
+synthetic transform here, with error less than
+$\sqrt2\ell\,2^{-p}<L2^{-p}$, where $L=\log_2T$, for all
+sufficiently large $n$.
+
+\subsubsection{Scales and disk margins}
+
+Put $h_p=2^{-p}$, and use the coefficient sup norm throughout this
+subsection.  An error of $a$ will mean absolute error less than $ah_p$.
+A linear contraction propagates an input error without increasing it.
+For a bilinear contraction $\mathcal M$, replacing its operands gives
+=== 4808,4840
+\subsection{The complete time bound}
+
+For the cost calculation put $V=Tp=\Theta(n)$. The fixed-width coefficient
+formats use $\Theta(p)$ bits per coefficient, so a full padded array has
+$\Theta(V)$ stored bits. Table~\ref{tab:costs} lists costs after division
+by $V$; a fixed number of repeated transforms and convolutions is
+included in its constants.
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.40\linewidth}ll@{}}
+\toprule
+Operation & Normalized cost & Power of $p$\\
+\midrule
+Prefix-slot moves and individual butterfly rounds & $dK$ & $\epsilon(1+c)$\\
+Chunk exchanges for transform layout & $pK^{\tau-1}$ & $1-\epsilon c(1-\tau)$\\
+Simultaneous butterfly rounds & $\ell d^{\lambda'}$ & $1-\epsilon(1-\lambda')$\\
+CRT and axis layouts & $d^2(1+\ell^\tau)$ & $\tau+\epsilon(2-\tau)$\\
+Gaussian line maps & $dp^{1/2+\delta}\alpha$ & $3/4+\delta+3\epsilon/2$\\
+Chirps, twists and scalar products & $dp^\delta$ & $\epsilon+\delta$\\
+Packed polynomial products & $\log(rp)$ & $1-\epsilon$\\
+Final scaling and rounding & $p^\delta$ & absorbed above\\
+Input, padding, carries and output & $1$ & absorbed above\\
+\bottomrule
+\end{tabular}
+\caption{Costs divided by $Tp$; each coefficient
+representation has $O(p)$ bits.}\label{tab:costs}
+\end{table}
+
+The seven dominant powers in Table~\ref{tab:costs} have the following
+margins below one:
+\begin{equation}\label{eq:margin-list}
+\begin{split}
