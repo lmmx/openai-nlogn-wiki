@@ -1,0 +1,63 @@
+import json
+P="paper"
+def E(*q): return [{"source":P,"quote":x} for x in q]
+def C(id,name,gloss,req,ev,known=False,title=None,symbols=None,aliases=None):
+    d={"id":id,"name":name,"aliases":aliases or [],"gloss":gloss,"requires":req,"known":known,"evidence":ev}
+    if title: d["title"]=title; d["symbols"]=symbols
+    return d
+def S(sym,name,meaning,rel="direct"): return {"symbol":sym,"name":name,"meaning":meaning,"relation":rel}
+cs=[
+C("big-o","Big-O notation","Asymptotic upper bounds on running time.",[],[],True),
+C("polynomials","Polynomials","Sums of coefficients times powers of a variable, with addition and multiplication.",[],[],True),
+C("complex-numbers","Complex numbers","Numbers a+bi with i²=-1, including roots of unity.",[],[],True),
+C("multitape-tm","Multitape Turing machine","A Turing machine with finitely many tapes, a fixed alphabet, and one cell read/written per tape per step.",["big-o"],[],True),
+C("dft-convolution","Discrete Fourier transform and cyclic convolution","The DFT maps a length-q sequence to averages weighted by roots of unity; it turns cyclic convolution into pointwise multiplication.",["polynomials","complex-numbers"],
+  E("(F_q u)_k=\\frac1q\\sum_{j=0}^{q-1}u_j e^{-2\\pi i jk/q}","Here $*$ denotes\ncyclic convolution on the product of the coordinate groups")),
+C("nlogn-conjecture","The n log n conjecture and prior multiplication algorithms","Schönhage–Strassen proposed n log n as optimal multiplication time; Harvey and van der Hoeven reached O(n log n).",["big-o","multitape-tm"],
+  E("Harvey and van der Hoeven reached the unconditional $O(n\\log n)$ upper\nbound","proposed $n\\log n$ as the optimal order of growth")),
+C("hh-multiplier","O(n log n) multiplier as a subroutine","The established Harvey–van der Hoeven fixed-tape integer multiplier, called as an ordinary subroutine on short inputs.",["nlogn-conjecture"],
+  E("Calls to the established $O(n\\log n)$ multiplier are ordinary subroutine\ncalls","This is an independent subroutine.")),
+C("radix-convolution","Multiplication as convolution of radix digits","Splitting inputs into radix digits turns integer multiplication into convolution of short integer coefficient lists, later carried back to the binary product by carries.",["dft-convolution","polynomials"],
+  E("Splitting the inputs into radix digits reduces multiplication to\nconvolution of short integer coefficients.","propagates carries to\nobtain the exact binary product")),
+C("crt-prime-axes","Chinese-remainder map to prime cyclic axes","The coefficient list is placed on a product of distinct prime cyclic axes by a Chinese-remainder map preserving convolution.",["radix-convolution"],
+  E("placed on a product of\ndistinct prime cyclic axes by a Chinese-remainder map that preserves\nconvolution")),
+C("gaussian-resampling","Gaussian resampling","Harvey–van der Hoeven technique expressing a Fourier transform of coprime length through a power-of-two transform, here keeping the two coordinate permutations inside the transform formula.",["dft-convolution","hh-multiplier","crt-prime-axes"],
+  E("Gaussian\nresampling connects these two shapes.","We retain both permutations in the transform formula and\ncompute that formula directly.")),
+C("bluestein-chirp","Bluestein chirp identity","Converts a Fourier transform, including its target permutation, into a cyclic convolution with pointwise phase multiplications.",["dft-convolution"],
+  E("Bluestein's chirp identity converts the middle transform,\nincluding its target permutation, into normalized cyclic convolution.")),
+C("ring-ymr","Polynomial ring modulo y^r + 1","Complex polynomials modulo y^r+1 with r a power of two, in which multiplying by a power of y is a signed shift of the coefficient list.",["polynomials","complex-numbers"],
+  E("\\mathcal R_r=\\mathbb C[y]/(y^r+1)","multiplication\nby such a root is a signed shift of the coefficient list"),
+  title="Polynomial ring modulo $y^r + 1$",symbols=[S("y","ring variable","The formal variable of the polynomials; its powers act as roots of unity."),S("r","coefficient count","The number of complex coefficients in a polynomial record, a power of two.","count")]),
+C("butterfly","Two-point butterfly","The map (u,v)↦((u+v)/2,(u−v)/2) applied to a pair of values; the building block of fast transforms.",["complex-numbers"],
+  E("H_0(u,v)=\\bigl((u+v)/2,(u-v)/2\\bigr)"),
+  title="Two-point butterfly $H_0$",symbols=[S("H_0","butterfly map","The map sending a pair (u,v) to ((u+v)/2,(u−v)/2).")] ),
+C("synthetic-transforms","Synthetic polynomial transforms","Fourier transforms over the ring modulo y^r+1 using powers of y as roots of unity, so root multiplications are signed shifts, evaluated by butterfly layers with a retained frequency order.",["ring-ymr","butterfly","dft-convolution"],
+  E("Powers of $y$ then\nserve as roots of unity in the remaining axes","These are the\nsynthetic polynomial transforms of Nussbaumer and Quandalle")),
+C("signed-packing","Signed packing (Kronecker substitution)","Multiplying ring polynomials exactly by packing signed coefficients into one integer, calling the integer multiplier, and unpacking.",["ring-ymr","hh-multiplier"],
+  E("Their polynomial products\nuse signed packing and the established $O(n\\log n)$ multiplier as an\nordinary subroutine.","The\nreduction is a signed form of Kronecker substitution")),
+C("fixed-point-exactness","Fixed-point precision, exact dyadics and error control","Values are complex numbers on a 2^-p grid; intermediate arithmetic is exact over Gaussian dyadics, with a single truncation, and total error is kept below 1/2 so rounding recovers integers.",["complex-numbers"],
+  E("Intermediate values are exact Gaussian dyadics","proves that the recovered\ncoefficient error is strictly below $1/2$")),
+C("array-streams","Arrays on tape, address fields and volume","Arrays are stored in lexicographic order with implicit addresses split into fields; volume V is the number of stored data bits; permutations are realized by scans.",["multitape-tm"],
+  E("An array with address set $[a_1]\\times\\cdots\\times[a_t]$ is stored in\nlexicographic order","The \\emph{logical volume} $V$ is the number of stored data bits.")),
+C("linear-networks-frames","Linear networks, roles and frames","A fixed linear network of gates exchanges two banks of values with signs and restores auxiliary values; roles are wire places and frames are invertible operators giving the stored representation, cancelling so the endpoint operator is the desired one.",["array-streams"],
+  E("A wire's fixed place in the network\nis called its role.","We call $D_v$ its frame: the stored\narray is $D_vg$ when the logical array is $g$.")),
+C("subset-networks","Finite networks from three-element subsets","Construction using three-element subsets, gather, scatter and scratch wires, with nested subspaces at vertices so that the total number of smaller calls is below the number of roles times m.",["linear-networks-frames"],
+  E("The construction uses\nthree-element subsets: gather and scatter create coefficients depending\non intersection size, and auxiliary wires cancel the unwanted\ncoefficients.","Let $\\mathcal T$ be the set of three-element subsets of $[h]$.")),
+C("recursive-saving","Recursive power saving s < Wm","Using s calls at parameter f on volume V/W each, with s<Wm, makes the cost per volume grow by a factor below m when the parameter is multiplied by m, giving a power rather than linear growth.",["subset-networks","big-o"],
+  E("The decisive property is that the total\nnumber $s$ of smaller calls satisfies $s<Wm$.","This strict inequality\nis the source of the power saving."),
+  title="Recursive saving $s<Wm$",symbols=[S("s","smaller call count","The total number of smaller recursive calls used by the network.","count"),S("W","role count","The number of wire roles among which rows are distributed.","count"),S("m","parameter multiplier","The factor by which the recursion parameter grows in one level, the dimension of the fixed space.")]),
+C("lower-triangular-shear","Lower triangular factorization and address shear","Any rational matrix factors as lower-triangular times partial permutation times lower-triangular, so edge operators and address shears (H,D)↦(H+D,D) can be done in tape order at cost scaling with rank.",["array-streams"],
+  E("Every rational $m\\times m$ matrix $A$ of rank $a$ has a factorization","updated by $(H,D)\\mapsto(H+D,D)$")),
+C("address-interchange","Fast address-chunk interchange","Interchanging two disjoint address fields of u bits in an array of volume V in time O(V u^τ) with τ<1, via XOR combinations of intermediate data that finally give an exact permutation.",["recursive-saving","lower-triangular-shear"],
+  E("Its cost is $O(Vu^\\tau)$ for a fixed $\\tau<1$.","intermediate\nsteps form pointwise XOR combinations of data"),
+  title="Address-chunk interchange in time $O(Vu^\\tau)$",symbols=[S("V","stored bit volume","The number of data bits stored in the array.","count"),S("u","field width","The number of bits in each address field being interchanged.","count"),S("\\tau","cost exponent","A fixed constant less than 1.")]),
+C("fast-butterfly-layers","Fast simultaneous butterfly layers","Applying the butterfly on the same bit position of up to d address chunks at once, on complex polynomial records, in time O(V d^λ') with λ'<1, instead of d whole-array passes.",["recursive-saving","butterfly","ring-ymr","fixed-point-exactness","address-interchange"],
+  E("the cost is $O(Vd^{\\lambda'})$ for a\nfixed $\\lambda'<1$","whereas separate butterfly\nfactors would require $D$ whole-array passes"),
+  title="Simultaneous butterfly layer in time $O(Vd^{\\lambda'})$",symbols=[S("V","stored bit volume","The number of data bits stored in the array.","count"),S("d","chunk count","The number of equal-width address chunks whose selected bit is butterflied.","count"),S("\\lambda'","layer exponent","A fixed constant less than 1.")]),
+C("multiplication-algorithm","Assembly of the integer multiplication algorithm","The pipeline: digits, Chinese-remainder prime axes, Gaussian resampling, chirp convolution, phase twist to the ring modulo y^r+1, synthetic transforms with fast layers, then rescaling, rounding and carries.",["radix-convolution","crt-prime-axes","gaussian-resampling","bluestein-chirp","synthetic-transforms","signed-packing","fast-butterfly-layers","address-interchange","fixed-point-exactness"],
+  E("Figure~\\ref{fig:multiplication-flow} summarizes these reductions.","A compatible choice of rational\nparameters makes all terms in its cost table fit Theorem~\\ref{thm:main}.")),
+C("main-result","Integer multiplication in O(n (lg n)^(1−κ)) time","A deterministic multitape Turing machine multiplies n-bit integers in O(n(lg n)^(1−κ)) time with κ=2^-182, refuting the n log n optimality conjecture in this model.",["multiplication-algorithm","nlogn-conjecture"],
+  E("Its worst-case running time satisfies","disproves the $n\\log n$ optimality conjecture\nof Sch\\\"onhage and Strassen in this model"),
+  title="Integer multiplication in time $O(n(\\lg n)^{1-\\kappa})$",symbols=[S("n","input bit length","The number of bits of each integer operand.","count"),S("\\kappa","saving exponent","The fixed constant 2^{-182} giving the power saving in the logarithmic factor.")]),
+]
+json.dump({"target":"main-result","concepts":cs},open("exegenius/tasks/0001-extract.answer.json","w"),indent=1)

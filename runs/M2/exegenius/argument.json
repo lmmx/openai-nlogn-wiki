@@ -1,0 +1,338 @@
+{
+  "planned": [
+    "address-interchange",
+    "bluestein",
+    "convolution",
+    "crt-map",
+    "dft",
+    "fixed-point-precision",
+    "gaussian-resampling",
+    "linear-network-frames",
+    "main-theorem",
+    "multiplication-assembly",
+    "nlogn-conjecture",
+    "poly-ring",
+    "recursive-saving",
+    "ring-convolution",
+    "signed-packing",
+    "simultaneous-butterfly",
+    "subset-network",
+    "synthetic-transform",
+    "tape-streams",
+    "tensor-transform"
+  ],
+  "root": {
+    "id": "S0",
+    "intention": "show",
+    "claim": "A deterministic multitape Turing machine multiplies two $n$-bit integers exactly in time $O(n(\\lg n)^{1-\\kappa})$ with $\\kappa=2^{-182}$.",
+    "from": [
+      "multitape-tm",
+      "big-o",
+      "nlogn-conjecture"
+    ],
+    "method": "speed up the tape operations of the transform-based multiplication by a power of the logarithm, then assemble the multiplication",
+    "motivation": {
+      "text": "The O(n log n) bound is limited by scanning n bits at each of log n transform levels, so a power saving needs cheaper address rearrangement and butterfly layers, which must then be placed inside the exact multiplication.",
+      "source": "explicit",
+      "quote": {
+        "source": "paper",
+        "quote": "We therefore need savings in both movement and arithmetic. Two tape"
+      }
+    },
+    "salient": "The saving is a genuine power of the logarithm, yet the exponent kappa=2^{-182} is astronomically small because the nested parameter choices are deliberately conservative.",
+    "page": "main-theorem",
+    "children": [
+      {
+        "id": "S1",
+        "intention": "show",
+        "claim": "Two tape procedures cost $O(Vu^\\tau)$ for interchanging address fields of $u$ bits and $O(Vd^{\\lambda'})$ for a butterfly layer on $d$ chunks, with $\\tau,\\lambda'<1$, on bit volume $V$.",
+        "from": [],
+        "method": "build fixed linear exchange networks with frames and subspaces, then recurse so that the number of smaller calls gives a power saving",
+        "motivation": {
+          "text": "Plain scans at each transform level cost n log n; the networks let each procedure be done by smaller calls on shorter streams with strictly less total work than naive passes.",
+          "source": "explicit",
+          "quote": {
+            "source": "paper",
+            "quote": "We therefore need savings in both movement and arithmetic. Two tape"
+          }
+        },
+        "adds": [
+          {
+            "symbol": "V",
+            "name": "bit volume",
+            "meaning": "the number of stored bits of the array being processed",
+            "relation": "count"
+          },
+          {
+            "symbol": "u",
+            "name": "field width",
+            "meaning": "the number of bits in each interchanged address field",
+            "relation": "count"
+          },
+          {
+            "symbol": "d",
+            "name": "chunk count",
+            "meaning": "the number of address chunks that a butterfly layer touches at once",
+            "relation": "count"
+          }
+        ],
+        "children": [
+          {
+            "id": "S1.1",
+            "intention": "infer",
+            "claim": "A fixed linear network exchanging two banks of values and restoring auxiliary values acts pointwise on arrays via invertible frame operators that cancel along routes.",
+            "from": [
+              "tape-streams",
+              "vectors-matrices-and-linear-maps"
+            ],
+            "page": "linear-network-frames",
+            "quote": {
+              "source": "paper",
+              "quote": "The representation of a role's array may change along the network."
+            }
+          },
+          {
+            "id": "S1.2",
+            "intention": "infer",
+            "claim": "Networks from three-element subsets with nested subspaces at gates and terminals have total number $s$ of smaller calls less than $Wm$.",
+            "from": [
+              "linear-network-frames",
+              "subspaces-dimension-and-rank"
+            ],
+            "page": "subset-network",
+            "quote": {
+              "source": "paper",
+              "quote": "The finite construction in Section~\\ref{sec:finite-networks} attaches"
+            }
+          },
+          {
+            "id": "S1.3",
+            "intention": "infer",
+            "claim": "Recursion with $s$ calls at parameter $f$ on volume $V/W$, with $s/W<m$, yields a power saving over naive passes.",
+            "from": [
+              "subset-network",
+              "divide-and-conquer-recurrences"
+            ],
+            "salient": "The saving is strict because s<Wm: multiplying the parameter by m multiplies the recursive contribution by only s/W<m, so a power of the parameter is saved uniformly at every recursion level.",
+            "page": "recursive-saving",
+            "quote": {
+              "source": "paper",
+              "quote": "A recursive call at parameter $mf$ therefore uses $s$ calls at parameter"
+            }
+          },
+          {
+            "id": "S1.4",
+            "intention": "infer",
+            "claim": "Interchanging two disjoint address fields of $u$ bits on volume $V$ takes time $O(Vu^\\tau)$ with exact final permutation.",
+            "from": [
+              "recursive-saving",
+              "tape-streams",
+              "binary-representation-and-bit-operations",
+              "permutations-and-bijections",
+              "multidimensional-arrays-and-index-tuples"
+            ],
+            "page": "address-interchange",
+            "quote": {
+              "source": "paper",
+              "quote": "We use the bit network to interchange two equal address chunks on tape."
+            }
+          },
+          {
+            "id": "S1.5",
+            "intention": "infer",
+            "claim": "Applying $H_0(u,v)=((u+v)/2,(u-v)/2)$ on the same bit in up to $d$ address chunks takes time $O(Vd^{\\lambda'})$ using exact Gaussian dyadics and one final truncation.",
+            "from": [
+              "recursive-saving",
+              "address-interchange",
+              "fixed-point-precision",
+              "poly-ring",
+              "dyadic-rationals",
+              "tape-streams"
+            ],
+            "page": "simultaneous-butterfly",
+            "quote": {
+              "source": "paper",
+              "quote": "We now apply the complex network to a common butterfly layer on several"
+            }
+          }
+        ]
+      },
+      {
+        "id": "S2",
+        "intention": "show",
+        "claim": "Exact multiplication of $n$-bit integers reduces, by a chain of changes of representation with parameters chosen consistently, to ring convolution, and the total cost is $O(n(\\lg n)^{1-\\kappa})$.",
+        "from": [
+          "nlogn-conjecture",
+          "dft",
+          "tensor-transform",
+          "tape-streams",
+          "poly-ring"
+        ],
+        "method": "chain reductions from the product to convolution over the polynomial ring, then recover the exact integer and sum the cost table",
+        "motivation": {
+          "text": "Only the ring convolution can use the fast tape procedures, so the product must be turned into it exactly; each step changes the problem or representation and its error and cost must be accounted for.",
+          "source": "recoverable"
+        },
+        "page": "multiplication-assembly",
+        "children": [
+          {
+            "id": "S2.1",
+            "intention": "infer",
+            "claim": "Splitting the inputs into radix digits turns the integer product into a convolution of short integer coefficient lists.",
+            "from": [
+              "radix-b-representation-of-integers",
+              "schoolbook-carry-addition-and-multiplication"
+            ],
+            "page": "convolution",
+            "quote": {
+              "source": "paper",
+              "quote": "Splitting the inputs into radix digits reduces multiplication to"
+            },
+            "deferred": true
+          },
+          {
+            "id": "S2.2",
+            "intention": "infer",
+            "claim": "The radix-digit coefficient list is placed on a product of distinct prime cyclic axes by a Chinese-remainder map preserving convolution.",
+            "from": [
+              "convolution",
+              "chinese-remainder-theorem",
+              "prime-numbers",
+              "cyclic-and-negacyclic-indexing"
+            ],
+            "page": "crt-map",
+            "quote": {
+              "source": "paper",
+              "quote": "First, the radix-digit coefficient list is placed on a product of"
+            },
+            "deferred": true
+          },
+          {
+            "id": "S2.3",
+            "intention": "show",
+            "claim": "Normalized convolution over $\\mathbb C[y]/(y^r+1)$ is computed with two forward synthetic transforms, a pointwise product by packed integer products, and the opposite transform in the same frequency order.",
+            "from": [
+              "dft",
+              "poly-ring",
+              "tape-streams"
+            ],
+            "method": "compute the ring convolution by the convolution theorem, using synthetic transforms and signed packing",
+            "motivation": {
+              "text": "In the polynomial ring, roots of unity are powers of y, so transforms need only signed shifts and butterflies, and the remaining pointwise ring products reduce to integer multiplication by the known O(n log n) multiplier.",
+              "source": "recoverable"
+            },
+            "page": "ring-convolution",
+            "children": [
+              {
+                "id": "S2.3.1",
+                "intention": "infer",
+                "claim": "Synthetic polynomial transforms over the ring are computed by simultaneous butterfly layers on a suitable tape layout, keeping frequency order.",
+                "from": [
+                  "poly-ring",
+                  "dft",
+                  "tensor-transform",
+                  "simultaneous-butterfly",
+                  "address-interchange",
+                  "tape-streams"
+                ],
+                "page": "synthetic-transform",
+                "quote": {
+                  "source": "paper",
+                  "quote": "We now implement the normalized Fourier transforms needed for"
+                }
+              },
+              {
+                "id": "S2.3.2",
+                "intention": "infer",
+                "claim": "Products of ring elements reduce to integer products by signed packing (Kronecker substitution).",
+                "from": [
+                  "poly-ring",
+                  "nlogn-conjecture"
+                ],
+                "page": "signed-packing",
+                "quote": {
+                  "source": "paper",
+                  "quote": "To multiply the polynomial records, we use the fixed-tape integer"
+                }
+              },
+              {
+                "id": "S2.3.3",
+                "intention": "infer",
+                "claim": "Convolution follows from the retained transform layout: the same frequency order is used through the pointwise product and the opposite transform.",
+                "from": [
+                  "synthetic-transform",
+                  "signed-packing",
+                  "dft"
+                ],
+                "quote": {
+                  "source": "paper",
+                  "quote": "\\begin{proposition}[Convolution from the retained transform layout]"
+                }
+              }
+            ]
+          },
+          {
+            "id": "S2.4",
+            "intention": "infer",
+            "claim": "Gaussian resampling expresses each prime-length Fourier transform through a power-of-two tensor transform, keeping the source and target permutations inside the formula.",
+            "from": [
+              "dft",
+              "tensor-transform",
+              "fixed-point-precision",
+              "crt-map",
+              "ring-convolution"
+            ],
+            "page": "gaussian-resampling",
+            "quote": {
+              "source": "paper",
+              "quote": "The transform lengths needed for the integer product are pairwise coprime,"
+            }
+          },
+          {
+            "id": "S2.5",
+            "intention": "infer",
+            "claim": "Bluestein's chirp identity turns the middle transform into a cyclic convolution, which a twist moves to the polynomial ring.",
+            "from": [
+              "dft",
+              "euler-s-formula-and-roots-of-unity"
+            ],
+            "page": "bluestein",
+            "quote": {
+              "source": "paper",
+              "quote": "computed from a cyclic convolution and two pointwise phase"
+            }
+          },
+          {
+            "id": "S2.6",
+            "intention": "infer",
+            "claim": "Fixed-point errors accumulate through contractive maps and remain below $1/2$, so rounding recovers the integer coefficients.",
+            "from": [
+              "floating-and-fixed-point-approximation-and-rounding",
+              "vector-norms-and-the-max-norm",
+              "floor-ceiling-and-rounding-functions"
+            ],
+            "page": "fixed-point-precision",
+            "quote": {
+              "source": "paper",
+              "quote": "Lemma~\\ref{lem:synthetic-transform-cost} therefore applies to every"
+            }
+          },
+          {
+            "id": "S2.7",
+            "intention": "infer",
+            "claim": "The cost table with the chosen rational parameters gives a total of $O(n(\\lg n)^{1-\\kappa})$ with $\\kappa=2^{-182}$.",
+            "from": [
+              "big-o",
+              "logarithms-and-exponentials",
+              "real-analysis-basics-inequalities-and-exponential-decay"
+            ],
+            "quote": {
+              "source": "paper",
+              "quote": "The complete large-input bound is consequently"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

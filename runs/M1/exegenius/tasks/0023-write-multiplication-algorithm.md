@@ -1,0 +1,318 @@
+# exegenius task 0023-write-multiplication-algorithm
+
+Project directory: `/home/user/openai-nlogn-wiki/runs/M1` (paths below are relative to it)
+
+Write one page of an explanatory wiki. The wiki explains a target result from source documents to a specific reader, one concept per page, in reading order.
+
+- Write for this reader's next uncertainty: at each point, give what they need to follow, and no more. The task lists the step of the argument this page presents, its motivations, and the pages around it. They are material for deciding what to say, not a list to cover: explain the transitions this reader would find hard, and leave familiar ones to ordinary sentences.
+- Open with a sentence that says what the concept is and what it is for on the way to the target.
+- If the page presents a step of the argument, say how its method shows its claim, and give its main motivation in a sentence. Add another motivation only if the reader would be stuck without it.
+- Explain the page's concept so that this reader can follow it using only what they already understand (listed below), what this page itself explains, and the linked prerequisite pages.
+- Define any other technical term on this page, where it is first used.
+- Say what each symbol denotes where you introduce it: what it stands for, and for a size or count, what it counts ("$r$, the number of complex coefficients in a record", not "a power of two $r$"). A use in an example ("take $r = 4$") does not say what $r$ denotes. Symbols listed as already bound can be used without restating them: the page shows the reader their meanings. Using one of those letters with another meaning confuses readers: pick another letter, or say on the page that the letter changes meaning here.
+- Link each prerequisite page the first time you rely on it, using the exact markdown link given. You may also link the other pages listed. Submit rejects links to anything else in the wiki; external URLs are allowed.
+- For each prerequisite page, give a relation: the prerequisite's id, a predicate, and the sentence that links or names it, copied exactly. Use the sentence where the page relies on it; do not add a sentence for the purpose. The page shows the relation as "<this page's concept> *<predicate>* <prerequisite>", so pick a predicate that makes that a true sentence, with this page's concept as subject: "is reduced to", "computes its transforms by", "is based on", "follows from", "bounds the cost of". Build the predicate from the sentence's own words (other forms of a word count: "reduces" for "reduced"), and pick one that says what the prerequisite does for this page: "uses" says little.
+- Stay accurate to the sources. The paragraphs around the evidence are given below; read further in the sources only if they are not enough. State only what the sources support or what is standard background; do not invent results, constants or attributions.
+- Cite the results and constants a reader may want to check, right after the claim: `<cite data-source="id">text copied word for word from that source</cite>`. Readers see these as "(see p. 5)"-style references, hidden until they ask for them, so the sentence must read complete without the quoted words: write "the cost is $O(n \log n)$ <cite …>…</cite>", not "the paper states the cost as <cite …>…</cite>". Submit rejects a citation right after "that", "as", "states", "says", "is", "gives", "reads" or a colon, and text not found in the named source. Do not cite common background.
+- A citation says where a claim comes from; it does not explain it. If the page's concept is an identity, a construction or a definition, state it. Explain how the concept works and how it shows its claim. For a result the page uses from prior work, say what the result states and why it applies here, and cite the source for its proof: the page need not reproduce it.
+- Keep the page short. The task gives its word limit, counted without mathematics and citations, and submit rejects a longer page. Give a small worked example where it makes the idea clearer. No filler, no rhetorical flourishes, no announcing what the page will do.
+- Write mathematics in LaTeX: $...$ inline, $$...$$ on its own lines for display.
+- Do not write a title heading, a prerequisites list or a sources section: those are added automatically. Use ## subheadings only if the page is long.
+
+## Reader
+
+Undergraduate computer science: big-O notation, polynomials, complex numbers, basic Turing machines and tapes
+
+For these sources: The reader has completed undergraduate computer science: asymptotic analysis, discrete mathematics (modular arithmetic, primes, basic number theory, finite sets, permutations), linear algebra over the reals and complex numbers (matrices, rank, invertibility, linear maps), and basic algorithm design including recursion, divide and conquer, recurrences, and the standard school and Karatsuba multiplication. They know Turing machines and tapes and probably the FFT as an algorithm, but not abstract algebra beyond basics, finite fields in depth, or any research-level multiplication algorithm.
+
+The reader already understands these concepts:
+
+- Big-O notation
+- Polynomials
+- Complex numbers
+- Multitape Turing machine
+- Discrete Fourier transform and cyclic convolution
+- The n log n conjecture and prior multiplication algorithms
+- O(n log n) multiplier as a subroutine
+- Multiplication as convolution of radix digits
+- Chinese-remainder map to prime cyclic axes
+- Gaussian resampling
+- Bluestein chirp identity
+- Polynomial ring modulo y^r + 1
+  - $y$ (ring variable): The formal variable of the polynomials; its powers act as roots of unity.
+  - $r$ (coefficient count): The number of complex coefficients in a polynomial record, a power of two.
+- Two-point butterfly
+  - $H_0$ (butterfly map): The map sending a pair (u,v) to ((u+v)/2,(u−v)/2).
+- Synthetic polynomial transforms
+- Signed packing (Kronecker substitution)
+- Fixed-point precision, exact dyadics and error control
+- Arrays on tape, address fields and volume
+- Linear networks, roles and frames
+- Finite networks from three-element subsets
+- Recursive power saving s < Wm
+  - $s$ (smaller call count): The total number of smaller recursive calls used by the network.
+  - $W$ (role count): The number of wire roles among which rows are distributed.
+  - $m$ (parameter multiplier): The factor by which the recursion parameter grows in one level, the dimension of the fixed space.
+- Lower triangular factorization and address shear
+- Fast address-chunk interchange
+  - $V$ (stored bit volume): The number of data bits stored in the array.
+  - $u$ (field width): The number of bits in each address field being interchanged.
+  - $\tau$ (cost exponent): A fixed constant less than 1.
+- Fast simultaneous butterfly layers
+  - $V$ (stored bit volume): The number of data bits stored in the array.
+  - $d$ (chunk count): The number of equal-width address chunks whose selected bit is butterflied.
+  - $\lambda'$ (layer exponent): A fixed constant less than 1.
+- Modular arithmetic and residue rings (also: congruences, Z/mZ, integers mod m, residues)
+- Prime numbers and coprimality (also: coprime, relatively prime, gcd, distinct primes)
+- Binary representation of integers (also: bits, base 2, radix representation, binary expansion)
+- Matrices, linear maps and rank (also: linear transformation, invertible matrix, matrix rank, vector space)
+- Permutations (also: bijections, reordering of indices, permutation matrix)
+- Logarithms and exponents (also: lg, log base 2, powers of two)
+- Recurrences and divide and conquer (also: recursion, recurrence relation, master theorem)
+- Fast Fourier transform (also: FFT, Cooley-Tukey, radix-2 FFT)
+- Karatsuba and schoolbook multiplication (also: grade-school multiplication, O(n^2) multiplication, Karatsuba)
+- Floating-point and rounding errors (also: rounding, truncation error, error bound, triangle inequality)
+- Sets, products and tuples (also: Cartesian product, index sets, subsets, lexicographic order)
+- Linear-time scanning of tapes (also: tape scan, sequential pass, copying on a tape)
+- Asymptotic constants and small epsilon exponents (also: fixed constant, polylogarithmic factors, O(n^(1+eps)))
+
+## This page
+
+Concept: Assembly of the integer multiplication algorithm
+Gloss: The pipeline: digits, Chinese-remainder prime axes, Gaussian resampling, chirp convolution, phase twist to the ring modulo y^r+1, synthetic transforms with fast layers, then rescaling, rounding and carries.
+
+## This page in the argument
+
+The step: The integer product is obtained from the convolution over the ring by a pipeline of reductions with controlled error.
+How: Chain radix-digit convolution, prime axes, Gaussian resampling, chirp convolution and phase twist, then rescale, round and carry
+Why: Each reduction changes the problem into one nearer to power-of-two axes where synthetic transforms apply. (the sources leave this for the reader to work out: spell it out)
+
+Its sub-steps, in order:
+
+- Splitting into radix digits turns integer multiplication into convolution of short integer coefficient lists. (on [Multiplication as convolution of radix digits](radix-convolution.md))
+- A Chinese-remainder map places the coefficient list on distinct prime cyclic axes, preserving convolution. (on [Chinese-remainder map to prime cyclic axes](crt-prime-axes.md))
+- Gaussian resampling expresses each Fourier transform through a power-of-two transform, keeping the two permutations in the formula. (on [Gaussian resampling](gaussian-resampling.md))
+- Bluestein's chirp identity converts the middle transform with its permutation into cyclic convolution, and the retained permutations cancel. (on [Bluestein chirp identity](bluestein-chirp.md))
+- Error stays below $1/2$ so rounding recovers the coefficients exactly.
+- With compatible parameters every term of the cost table is within $O(n(\lg n)^{1-\kappa})$.
+
+It serves these steps, from the main result down:
+
+- A deterministic multitape Turing machine multiplies $n$-bit integers in $O(n(\lg n)^{1-\kappa})$ time, $\kappa=2^{-182}$.; how: Reduce multiplication to convolution over $\mathbb C[y]/(y^r+1)$ evaluated by synthetic transforms, and speed up the two bottleneck tape operations (address interchange, butterfly layers) by a recursive power saving (on [Integer multiplication in O(n (lg n)^(1−κ)) time](main-result.md))
+
+## Steps this page derives
+
+The argument gives this page these sub-steps of its step (S4.5, S4.6). Derive each here, so the reader can check how it follows from what comes before: stating its result, or citing the source for it, does not derive it. The passages report each step in the source; they ground the derivation and are not to be copied onto the page. In `derivations`, give each step's id and the passage on the page that derives it, copied exactly: submit checks that the passage is on the page, and the audit judges whether it is enough.
+
+**S4.5**: Error stays below $1/2$ so rounding recovers the coefficients exactly.
+Source: "\subsection{Precision and exact recovery}" (paper)
+> \subsection{Precision and exact recovery}
+
+**S4.6**: With compatible parameters every term of the cost table is within $O(n(\lg n)^{1-\kappa})$.
+Source: "For the cost calculation put $V=Tp=\Theta(n)$." (paper)
+> For the cost calculation put $V=Tp=\Theta(n)$. The fixed-width coefficient formats use $\Theta(p)$ bits per coefficient, so a full padded array has $\Theta(V)$ stored bits. Table~\ref{tab:costs} lists costs after division by $V$; a fixed number of repeated transforms and convolutions is included in its constants. \begin{table}[ht] \centering \small \begin{tabular}{@{}>{\raggedright\arraybackslash}p{.40\linewidth}ll@{}} \toprule Operation & Normalized cost & Power of $p$\\ \midrule Prefix-slot moves and individual butterfly rounds & $dK$ & $\epsilon(1+c)$\\ Chunk exchanges for transform layout & $pK^{\tau-1}$ & $1-\epsilon c(1-\tau)$\\ Simultaneous butterfly rounds & $\ell d^{\lambda'}$ & $1-\epsilon(1-\lambda')$\\ CRT and axis layouts & $d^2(1+\ell^\tau)$ & $\tau+\epsilon(2-\tau)$\\ Gaussian line maps & $dp^{1/2+\delta}\alpha$ & $3/4+\delta+3\epsilon/2$\\ Chirps, twists and scalar products & $dp^\delta$ & $\epsilon+\delta$\\ Packed polynomial products & $\log(rp)$ & $1-\epsilon$\\ Final scaling and rounding & $p^\delta$ & absorbed above\\ Input, padding, carries and output & $1$ & absorbed above\\ \bottomrule \end{tabular} \caption{Costs divided by $Tp$; each coefficient representation has $O(p)$ bits.}\label{tab:costs} \end{table}
+
+### Steps derived on other pages
+
+Where this page uses one, state its result and link the page that derives it. Do not derive it here, even where a passage above proves it.
+
+- S4.1 (on [Multiplication as convolution of radix digits](radix-convolution.md)): Splitting into radix digits turns integer multiplication into convolution of short integer coefficient lists.
+- S4.2 (on [Chinese-remainder map to prime cyclic axes](crt-prime-axes.md)): A Chinese-remainder map places the coefficient list on distinct prime cyclic axes, preserving convolution.
+- S4.3 (on [Gaussian resampling](gaussian-resampling.md)): Gaussian resampling expresses each Fourier transform through a power-of-two transform, keeping the two permutations in the formula.
+- S4.4 (on [Bluestein chirp identity](bluestein-chirp.md)): Bluestein's chirp identity converts the middle transform with its permutation into cyclic convolution, and the retained permutations cancel.
+
+## Prerequisite pages (link each on first use, exactly as written, and give a relation for each)
+
+- [Multiplication as convolution of radix digits](radix-convolution.md): Splitting inputs into radix digits turns integer multiplication into convolution of short integer coefficient lists, later carried back to the binary product by carries.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Multiplication as convolution of radix digits
+- [Chinese-remainder map to prime cyclic axes](crt-prime-axes.md): The coefficient list is placed on a product of distinct prime cyclic axes by a Chinese-remainder map preserving convolution.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Chinese-remainder map to prime cyclic axes
+- [Gaussian resampling](gaussian-resampling.md): Harvey–van der Hoeven technique expressing a Fourier transform of coprime length through a power-of-two transform, here keeping the two coordinate permutations inside the transform formula.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Gaussian resampling
+- [Bluestein chirp identity](bluestein-chirp.md): Converts a Fourier transform, including its target permutation, into a cyclic convolution with pointwise phase multiplications.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Bluestein chirp identity
+- [Synthetic polynomial transforms](synthetic-transforms.md): Fourier transforms over the ring modulo y^r+1 using powers of y as roots of unity, so root multiplications are signed shifts, evaluated by butterfly layers with a retained frequency order.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Synthetic polynomial transforms
+- [Signed packing (Kronecker substitution)](signed-packing.md): Multiplying ring polynomials exactly by packing signed coefficients into one integer, calling the integer multiplier, and unpacking.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Signed packing (Kronecker substitution)
+- [Fast simultaneous butterfly layers](fast-butterfly-layers.md): Applying the butterfly on the same bit position of up to d address chunks at once, on complex polynomial records, in time O(V d^λ') with λ'<1, instead of d whole-array passes.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Fast simultaneous butterfly layers
+- [Fast address-chunk interchange](address-interchange.md): Interchanging two disjoint address fields of u bits in an array of volume V in time O(V u^τ) with τ<1, via XOR combinations of intermediate data that finally give an exact permutation.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Fast address-chunk interchange
+- [Fixed-point precision, exact dyadics and error control](fixed-point-exactness.md): Values are complex numbers on a 2^-p grid; intermediate arithmetic is exact over Gaussian dyadics, with a single truncation, and total error is kept below 1/2 so rounding recovers integers.
+  Shown as: Assembly of the integer multiplication algorithm *<predicate>* Fixed-point precision, exact dyadics and error control
+
+## Pages that build on this one
+
+- Integer multiplication in O(n (lg n)^(1−κ)) time: A deterministic multitape Turing machine multiplies n-bit integers in O(n(lg n)^(1−κ)) time with κ=2^-182, refuting the n log n optimality conjecture in this model.
+
+## Other pages you may link to
+
+- [The n log n conjecture and prior multiplication algorithms](nlogn-conjecture.md)
+- [Polynomial ring modulo y^r + 1](ring-ymr.md)
+- [Two-point butterfly](butterfly.md)
+- [O(n log n) multiplier as a subroutine](hh-multiplier.md)
+- [Arrays on tape, address fields and volume](array-streams.md)
+- [Linear networks, roles and frames](linear-networks-frames.md)
+- [Lower triangular factorization and address shear](lower-triangular-shear.md)
+- [Finite networks from three-element subsets](subset-networks.md)
+- [Recursive power saving s < Wm](recursive-saving.md)
+- [Discrete Fourier transform and cyclic convolution](dft-convolution.md)
+- [Integer multiplication in O(n (lg n)^(1−κ)) time](main-result.md)
+
+## Evidence from the sources, with the paragraph around each quote
+
+- "Figure~\ref{fig:multiplication-flow} summarizes these reductions." (paper)
+
+  > Finally, the source permutation retained during resampling cancels across the two forward source transforms, their pointwise product, and the opposite-sign transform. Section~\ref{sec:assembly} removes the known normalizations and digit scales, proves that the recovered coefficient error is strictly below $1/2$, and propagates carries to obtain the exact binary product. A compatible choice of rational parameters makes all terms in its cost table fit Theorem~\ref{thm:main}. Figure~\ref{fig:multiplication-flow} summarizes these reductions.
+
+- "A compatible choice of rational
+parameters makes all terms in its cost table fit Theorem~\ref{thm:main}." (paper)
+
+  > Finally, the source permutation retained during resampling cancels across the two forward source transforms, their pointwise product, and the opposite-sign transform. Section~\ref{sec:assembly} removes the known normalizations and digit scales, proves that the recovered coefficient error is strictly below $1/2$, and propagates carries to obtain the exact binary product. A compatible choice of rational parameters makes all terms in its cost table fit Theorem~\ref{thm:main}. Figure~\ref{fig:multiplication-flow} summarizes these reductions.
+
+
+## Sources (read from disk as needed)
+
+- `sources/paper.tex`: source id `paper`, "Integer multiplication below n log n (OpenAI, 2026)"
+
+## Length
+
+At most 350 words, not counting mathematics and citations: submit rejects a longer page.
+
+## Answer
+
+The answer is two files: the page body as markdown (not JSON), and a JSON object with the symbols the page binds and its relations to its prerequisite pages. In JSON strings, write each backslash of LaTeX twice (`"\\kappa"`). The JSON follows this schema:
+
+```json
+{
+  "$defs": {
+    "Derivation": {
+      "additionalProperties": false,
+      "description": "Where the page derives one of the steps the argument gives it.",
+      "properties": {
+        "quote": {
+          "description": "The passage on this page that derives the step, copied exactly: a sentence or more,\noutside citations.",
+          "type": "string"
+        },
+        "step": {
+          "description": "The step's id, as listed under \"Steps this page derives\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Edge": {
+      "additionalProperties": false,
+      "description": "What this page uses one prerequisite page for.",
+      "properties": {
+        "predicate": {
+          "description": "A short predicate built from the sentence's own words, such that \"<this page's\nconcept> <predicate> <prerequisite>\" is a true sentence: \"is reduced to\", \"computes\nits transforms by\", \"is based on\".",
+          "type": "string"
+        },
+        "prerequisite": {
+          "description": "Id of the prerequisite page.",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The sentence on this page that states it, copied exactly. It must link or name the\nprerequisite and contain the predicate's words.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "prerequisite",
+        "predicate",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "PageBinding": {
+      "additionalProperties": false,
+      "description": "What a symbol a page introduces denotes, and where the page says so.",
+      "properties": {
+        "meaning": {
+          "description": "One sentence saying what the symbol denotes; for a count, what it counts.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display name of one to four words, e.g. \"record length\".",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The sentence on the page that says what the symbol denotes, copied exactly. A use\nin an example (\"take $r = 4$\") does not say what a symbol denotes.",
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/$defs/Relation"
+        },
+        "symbol": {
+          "description": "The symbol in LaTeX, as it appears in the page's mathematics, without dollar signs,\ne.g. `r` or `\\kappa`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "name",
+        "meaning",
+        "relation",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Relation": {
+      "oneOf": [
+        {
+          "const": "direct",
+          "description": "The symbol denotes a thing: \"ω, a primitive root of unity\".",
+          "type": "string"
+        },
+        {
+          "const": "count",
+          "description": "The symbol is the number of instances of something: \"r, the number of complex\ncoefficients in a record\".",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "description": "The structured part of a write answer; the body is the markdown answer file.",
+  "properties": {
+    "derivations": {
+      "default": [],
+      "description": "For each step listed under \"Steps this page derives\", the passage on the page that\nderives it. Empty if the task lists none.",
+      "items": {
+        "$ref": "#/$defs/Derivation"
+      },
+      "type": "array"
+    },
+    "relations": {
+      "description": "One relation for each prerequisite page: what this page uses it for. Empty if the\npage has no prerequisite pages.",
+      "items": {
+        "$ref": "#/$defs/Edge"
+      },
+      "type": "array"
+    },
+    "symbols": {
+      "description": "Every symbol the page binds: each symbol it introduces and says what it denotes.\nLeave out symbols listed as already bound, unless the page gives them a new meaning.\nEmpty if the page introduces no symbols.",
+      "items": {
+        "$ref": "#/$defs/PageBinding"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "symbols",
+    "relations"
+  ],
+  "title": "WriteAnswer",
+  "type": "object"
+}
+```
+
+Write the body to `exegenius/tasks/0023-write-multiplication-algorithm.answer.md` and the JSON to `exegenius/tasks/0023-write-multiplication-algorithm.answer.json`, then run `exegenius submit 0023-write-multiplication-algorithm` in the project directory. If submit rejects the answer, fix the answer and submit again.
+
+Keep any other files you make, such as scripts, in `exegenius/tasks/0023-write-multiplication-algorithm`. Other tasks run at the same time on this machine, and files elsewhere (in /tmp, for example) can be overwritten or run by them. For the same reason, never stop processes by name or pattern (`pkill`, `killall`), which would stop other tasks' commands too: stop a command of your own by its process id.

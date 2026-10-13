@@ -1,0 +1,549 @@
+  5361  34032 252968 sources/paper.tex
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,mathtools,booktabs,array,longtable}
+\usepackage[margin=1in]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,pdftitle={Integer multiplication below n log n},pdfauthor={OpenAI}}
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\norm}[1]{\lVert#1\rVert_\infty}
+\title{Integer multiplication below \texorpdfstring{$n\log n$}{n log n}}
+\author{OpenAI}
+\date{September 23, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We give a deterministic algorithm that multiplies two $n$-bit integers
+in $O(n(\lg n)^{1-\kappa})$ worst-case time, with
+$\kappa=2^{-182}$, on one fixed finite-alphabet Turing machine with a
+fixed finite number of one-dimensional tapes. The algorithm is exact
+for every input length and disproves the $n\log n$ optimality conjecture
+of Sch\"onhage and Strassen in this model.
+\end{abstract}
+\tableofcontents
+\clearpage
+\section{Introduction}
+
+Sch\"onhage and Strassen proved in 1971 that two $n$-bit integers can
+be multiplied in $O(n\log n\log\log n)$ time on a multitape Turing
+machine, and proposed $n\log n$ as the optimal order of growth
+\cite[Section~1]{SchonhageStrassen1971}. After a sequence of improvements,
+Harvey and van der Hoeven reached the unconditional $O(n\log n)$ upper
+bound~\cite{HarveyHoeven2021}. We obtain a strict power saving in the
+logarithmic factor, in the same fixed finite-tape model. The algorithm
+uses linear combinations of intermediate data to reduce the cost of
+both address rearrangement and Fourier-transform layers.
+
+For a binary string $x$ of length $n$, let $\operatorname{val}(x)$ be
+its nonnegative integer value, with the leftmost bit most significant.
+For $0\le z<2^k$, let $\operatorname{bin}_k(z)$ denote its binary
+representation padded on the left to length $k$. We consider exact
+multiplication: on input $x\#y$, with $x,y\in\{0,1\}^n$, the output
+must be $\operatorname{bin}_{2n}(\operatorname{val}(x)\operatorname{val}(y))$.
+Write $\lg n=\max\{\lceil\log_2 n\rceil,1\}$.
+
+\begin{theorem}\label{thm:main}
+There is one deterministic Turing machine $A$, with a fixed finite
+alphabet and a fixed finite number of one-dimensional tapes, that
+computes this exact product for every $n\ge1$ and every pair of $n$-bit
+inputs. Its worst-case running time satisfies
+\[
+ T_A(n)=O\!\left(n(\lg n)^{1-\kappa}\right),
+ \qquad \kappa=2^{-182}.
+\]
+\end{theorem}
+
+The bound is asymptotic through all input lengths. The constants and
+thresholds in the construction are extremely large; the algorithm is
+intended to establish a bit-complexity bound. The theorem refutes an
+eventual $\Omega(n\log n)$ lower bound for every fixed multiplication
+machine in this model.
+
+\subsection{The two tape operations}
+
+Splitting the inputs into radix digits reduces multiplication to
+convolution of short integer coefficients. Our starting point is the
+Gaussian-resampling reduction of Harvey and van der Hoeven
+\cite{HarveyHoeven2021}: it replaces the Fourier transforms needed for
+this convolution by multidimensional transforms whose axis lengths are
+powers of two. After a further conversion to convolution, one coordinate
+is stored as the coefficient list of a polynomial modulo $y^r+1$, with $r$ a power of two. Powers of $y$ then
+serve as roots of unity in the remaining axes, and multiplication by
+such a root is a signed shift of the coefficient list. These are the
+synthetic polynomial transforms of Nussbaumer and Quandalle and
+Nussbaumer~\cite{NussbaumerQuandalle1978,Nussbaumer1980}.
+
+In this representation, the transform calculation consists of address
+rearrangements, signed shifts, and two-point butterfly operations.
+Scanning an array of $\Theta(n)$ stored bits at each of
+$\Theta(\log n)$ transform levels already costs $\Theta(n\log n)$.
+We therefore need savings in both movement and arithmetic. Two tape
+procedures supply them; in both bounds, $V$ denotes the stored bit volume.
+
+The first procedure interchanges two disjoint contiguous address fields
+of $u$ bits in an array whose addresses form a complete Cartesian
+product. Its cost is $O(Vu^\tau)$ for a fixed $\tau<1$.
+Although its final effect is an exact permutation, its intermediate
+steps form pointwise XOR combinations of data. The final permutation is
+exact for arbitrary initial auxiliary values.
+
+The second procedure applies
+\[
+ H_0(u,v)=\bigl((u+v)/2,(u-v)/2\bigr)
+\]
+simultaneously on selected coordinate bits of the numerical arrays.
+Each record is a polynomial with complex fixed-point coefficients, and
+$H_0$ acts coefficientwise. On the layouts used in the multiplication
+algorithm, one selects the same bit position in each of at most $d$
+equal-width address chunks, and the cost is $O(Vd^{\lambda'})$ for a
+fixed $\lambda'<1$. Intermediate values are exact Gaussian dyadics,
+whose real and imaginary parts have power-of-two denominators. A single
+truncation follows the completed contractive layer.
+Section~\ref{sec:tape-interchange} proves the address bound, and
+Section~\ref{sec:fast-butterfly-layers} gives the numerical layout,
+precision hypotheses, and layer bound.
+
+\subsection{Linear networks and the recursive saving}
+
+Each procedure arises from its own fixed linear network that exchanges two
+banks of values, with prescribed signs, and restores every auxiliary
+value. A wire's fixed place in the network is called its role. To use
+the network on an array, regard a row as the complete ordered suffix,
+including all active address fields, at a fixed prefix and row index.
+Distribute rows cyclically among the $W$ roles, padding the row count
+for each prefix to a multiple of $W$. Let $V$ now denote the node volume
+after padding. All role streams have the same local address set and each
+contains $V/W$ bits. A scalar gate is then applied
+pointwise to matching addresses on the roles that it touches.
+
+The representation of a role's array may change along the network.
+At a source, gate, or sink $v$, choose an invertible linear operator
+$D_v$ on the space of arrays indexed by the common address set. We call $D_v$ its frame: the stored
+array is $D_vg$ when the logical array is $g$. All incidences of one
+gate have the same frame. Along an edge from $u$ to $v$, the operator
+$D_vD_u^{-1}$ changes the stored array from $D_ug$ to $D_vg$.
+At a pointwise linear gate $G$, the common frame commutes with the gate:
+\[
+ G(D_vg_1,\ldots,D_vg_t)=D_vG(g_1,\ldots,g_t).
+\]
+The supplied input needs no preliminary change of frame: its logical
+interpretation is defined by applying the inverse input frame. Thus the
+intermediate frames cancel, and a route from input role $w$ to output
+role $\rho(w)$ applies
+$D_{\mathrm{sink}(\rho(w))}D_{\mathrm{source}(w)}^{-1}$, together with
+its prescribed scalar sign. Undoing the role exchange and those signs
+leaves the endpoint operator on every role array, including the roles
+that carried auxiliary scalar values.
+
+For the bit procedure, that endpoint operator is an address shear:
+two fields, written as vectors $H,D$ over a common residue ring, are
+updated by $(H,D)\mapsto(H+D,D)$. Two further linear-cost address
+updates complete their interchange. For the numerical procedure, the
+endpoint operator becomes the simultaneous $H_0$ layer after diagonal
+phase operations and a dyadic scale. The intermediate frames are chosen
+so that every edge can be implemented by smaller calls to the same
+procedure.
+
+The finite construction in Section~\ref{sec:finite-networks} attaches
+subspaces of a fixed $m$-dimensional space to its gates and terminals.
+The subspaces at adjacent vertices are nested. Their dimension changes
+count the smaller operations needed on an edge, with an additional
+source contribution in the bit construction. The construction uses
+three-element subsets: gather and scatter create coefficients depending
+on intersection size, and auxiliary wires cancel the unwanted
+coefficients. Orthogonality of the corresponding indicator vectors permits
+the subspace assignments. The decisive property is that the total
+number $s$ of smaller calls satisfies $s<Wm$.
+
+A recursive call at parameter $mf$ therefore uses $s$ calls at parameter
+$f$, each on a stream of volume $V/W$. The parameter counts field
+digits for address interchange and selected axes for a numerical layer.
+After dividing cost by volume, multiplying the parameter by $m$
+increases the recursive contribution by $s/W<m$. This strict inequality
+is the source of the power saving. The later tape and arithmetic
+estimates preserve it, including the work of changing numerical address
+coordinates. Those changes are implemented by whole-chunk moves and
+controlled shifts, followed by a deterministic correction of the
+explicitly identified exceptional addresses.
+
+\subsection{From transforms to the exact product}
+
+The remaining proof places these procedures inside the multiplication
+reduction and accounts for every change of representation.
+First, the radix-digit coefficient list is placed on a product of
+distinct prime cyclic axes by a Chinese-remainder map that preserves
+convolution. Section~\ref{sec:assembly} implements this map through
+triangular controlled shifts and charged axis moves. Gaussian
+resampling then expresses each source Fourier transform through a
+power-of-two tensor transform. Section~\ref{sec:resampling} retains the
+source and target coordinate permutations in the transform identity,
+so they need not be executed as separate full sorts.
+
+Next, Bluestein's chirp identity converts the middle transform,
+including its target permutation, into normalized cyclic convolution.
+A phase twist changes the last cyclic coordinate into a polynomial
+modulo $y^r+1$; its negative wrap gives precisely the original cyclic
+wrap after the twist is removed. Sections~\ref{sec:synthetic-layouts}
+and~\ref{sec:exact-ring-products} compute convolution on the remaining
+axes over this polynomial ring. The two forward synthetic transforms
+retain the same frequency order through their pointwise product, and
+the opposite transform consumes that order. Their polynomial products
+use signed packing and the established $O(n\log n)$ multiplier as an
+ordinary subroutine.
+
+Finally, the source permutation retained during resampling cancels
+across the two forward source transforms, their pointwise product,
+and the opposite-sign transform. Section~\ref{sec:assembly} removes
+the known normalizations and digit scales, proves that the recovered
+coefficient error is strictly below $1/2$, and propagates carries to
+obtain the exact binary product. A compatible choice of rational
+parameters makes all terms in its cost table fit Theorem~\ref{thm:main}.
+Figure~\ref{fig:multiplication-flow} summarizes these reductions.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+ node distance=10mm,
+ every node/.style={font=\small},
+ box/.style={draw,rounded corners=2pt,align=center,text width=9.6cm,inner sep=5pt},
+ >=Stealth]
+\node[box] (digits) {Integer product\\radix-digit convolution};
+\node[box,below=of digits] (prime) {Cyclic convolution on distinct prime axes};
+\node[box,below=of prime] (power) {Normalized convolution on power-of-two axes};
+\node[box,below=of power] (ring) {Convolution over $\mathbb C[y]/(y^r+1)$\\
+synthetic transforms and packed polynomial products};
+\draw[->] (digits)--node[right,font=\scriptsize,align=left]
+ {Chinese-remainder\\address map}(prime);
+\draw[->] (prime)--node[right,font=\scriptsize,align=left]
+ {Gaussian resampling\\and chirps}(power);
+\draw[->] (power)--node[right,font=\scriptsize,align=left]
+ {last-coordinate\\phase twist}(ring);
+\end{tikzpicture}
+ \caption{The reductions connecting the tape procedures to multiplication.
+The arrows describe changes of problem and representation. Fast address
+interchanges organize the layouts, and simultaneous butterfly layers
+accelerate the synthetic transforms. Solving the final polynomial-ring
+convolution evaluates the transforms needed in the preceding stages.
+Known rescalings, rounding, and carry propagation then recover the exact
+integer product.}
+\label{fig:multiplication-flow}
+\end{figure}
+
+\subsection{Other arithmetic operations}
+
+\begin{corollary}[Exact division and integer square root]
+\label{cor:exact-arithmetic}
+There are deterministic machines with fixed finite alphabets and fixed
+finite numbers of one-dimensional tapes performing the following tasks
+in $O(n(\lg n)^{1-\kappa})$ worst-case time, for every $n\ge1$. For
+$x,y\in\{0,1\}^n$, put $a=\operatorname{val}(x)$ and
+$b=\operatorname{val}(y)$. If $b>0$, the division machine takes $x\#y$
+and returns $\operatorname{bin}_n(q)\#\operatorname{bin}_n(r)$, where
+$q=\lfloor a/b\rfloor$ and $r=a-bq$. The square-root machine takes $x$
+and returns $\operatorname{bin}_n(\lfloor\sqrt a\rfloor)$.
+Leading zeroes are allowed, and $\kappa$ is as in
+Theorem~\ref{thm:main}.
+\end{corollary}
+
+The classical Newton reductions described by
+Brent~\cite[Lemmas 2.1--2.4]{Brent1976} compute reciprocal and
+square-root approximations at geometrically increasing precisions.
+Their multiplication costs are bounded by a geometric sum controlled by
+the last precision, and exact remainder and square tests recover the
+required integer answers. Section~\ref{sec:exact-arithmetic-proof}
+gives the complete fixed-tape implementation.
+
+
+\subsection{Historical context and inherited methods}
+
+Karatsuba's recursive construction, published jointly
+with Ofman in 1962, gave a binary multiplication circuit of size
+$O(n^{\log_2 3})$~\cite{KaratsubaOfman1962}. Toom's subsequent use of polynomial
+evaluation and interpolation gave circuit size
+$n\exp(O(\sqrt{\log n}))$, and hence $O(n^{1+\eta})$ for every fixed
+$\eta>0$~\cite{Toom1963}. These early results were formulated in terms of
+automata and logical networks. Cook adapted Toom's method to the
+Turing-machine setting; the contemporary account of Sch\"onhage and
+Strassen credits this adaptation explicitly
+\cite[Section~1, p.~282]{SchonhageStrassen1971}.
+
+In the multitape Turing model,
+Sch\"onhage and Strassen proved the bound
+$O(n\log n\log\log n)$ in 1971~\cite{SchonhageStrassen1971}.
+F\"urer improved it to $n\log n\,2^{O(\log^* n)}$ in 2007, with a full
+journal account in 2009~\cite{Furer2007,Furer2009}; here $\log^* n$ counts
+iterated logarithms until a constant threshold is reached.
+De, Kurur, Saha and Saptharishi developed a modular-arithmetic route to
+the same scale~\cite{DeKururSahaSaptharishi2013}.
+Later improvements made the exponential factor $8^{\log^* n}$ and then
+$4^{\log^* n}$~\cite{HarveyHoevenLecerf2016,HarveyHoeven2019Lattice}.
+Harvey and van der Hoeven proved the unconditional
+$O(n\log n)$ bound~\cite{HarveyHoeven2021}.
+
+The multitape bounds just cited concern that fixed model. Sch\"onhage obtained
+linear-time multiplication on storage-modification machines~\cite{Schonhage1980}.
+Groff later gave a smaller-than-$\log n$ factor in a unit-cost RAM model
+with constant-time arbitrary memory access, after polynomial preprocessing
+whose cost is excluded from that bound~\cite[Sections~2 and~4]{Groff2019}.
+Neither result establishes the bound in the fixed finite-tape model of
+Theorem~\ref{thm:main}.
+
+The transform methods behind these bounds also underlie the present
+construction. Sch\"onhage--Strassen multiplication uses roots of unity in
+Fermat-type residue rings, where certain multiplications become shifts.
+F\"urer combines cheap polynomial roots of unity with more general roots,
+reducing the frequency of expensive multiplications. Harvey and van der
+Hoeven use Gaussian resampling to pass to multidimensional transforms with
+power-of-two dimensions, then evaluate them using polynomial transforms
+developed by Nussbaumer and Quandalle and subsequently by
+Nussbaumer~\cite{NussbaumerQuandalle1978,Nussbaumer1980,HarveyHoeven2021}.
+The Gaussian-gridding work of Dutt and Rokhlin is an earlier conceptual
+precursor~\cite{DuttRokhlin1993}; Harvey and van der Hoeven discuss the
+connection in~\cite[Section~4.4.3]{HarveyHoeven2021}. The quantitative
+resampling and bit-cost estimates used here are those of the latter paper.
+
+More specifically, the proof adapts Harvey and van der Hoeven's
+Gaussian-resampling identity, contraction bounds, and short-convolution
+procedures~\cite[Theorem~4.2, Proposition~4.7 and Lemmas~4.8--4.12]{HarveyHoeven2021}.
+Their framework already permits arbitrary dimension. Here the source and
+target permutations remain in the transform identity, while the faster tape
+procedures perform the required axis movements. Bluestein's conversion to
+convolution~\cite{Bluestein1970} and the synthetic-root convolution algorithm
+are retained; the latter follows the polynomial-transform construction
+in~\cite[Section~2.4 and Section~3]{HarveyHoeven2021}. Signed coefficient
+packing is a form of Kronecker substitution, with the fixed-tape version
+of~\cite[Lemma~2.5]{HarveyHoeven2021} as a direct antecedent.
+Calls to the established $O(n\log n)$ multiplier are ordinary subroutine
+calls; they do not invoke the improved theorem recursively.
+
+\subsection{The finite-network ingredients}
+
+The subset-intersection construction in Section~\ref{sec:finite-networks}
+has an earlier source outside multiplication. Alon's presentation of the
+Frankl--Wilson construction~\cite{FranklWilson1981} gives low-degree
+representations of complementary intersection graphs over different fields
+\cite[Section~3, remark after the proof of Theorem~1.1]{Alon1998}.
+At the prime $p=2$, its subsets have size three and the two polynomial evaluations
+are the intersection count modulo two and the intersection count minus one.
+These are the two pairing formulas used here. We change the ground-set
+size and express the second pairing through a rational bilinear form.
+
+The gather and scatter operations, together with the side wires, have the
+form of linear index-code decoding: a low-rank linear summary gives the
+wanted coordinate plus contributions from known neighboring coordinates,
+and those contributions are subtracted. Bar-Yossef, Birk, Jayram and Kol
+establish the fitting-matrix formulation and this decoder
+\cite[Section~3, proof of Theorem~5]{BarYossefBirkJayramKol2006}.
+Lubetzky and Stav treat decoding over other fields and use related
+intersection representations to separate their possible ranks
+\cite[Proposition~2.1 and Section~2.3]{LubetzkyStav2009}.
+These comparisons explain the algebraic role of the two fields here;
+they do not supply the subspace labels on the subsequent network.
+
+Restoring scratch registers with arbitrary initial contents also has a
+precise precedent. The transparent-computation construction of Buhrman,
+Cleve, Kouck\'y, Loff and Speelman subtracts an initial register value,
+performs a computation, adds the resulting value, and reverses the
+computation~\cite[Section~3]{BuhrmanCleveKouckyLoffSpeelman2014}.
+Our scratch schedule is the linear-readout version of that construction.
+The rank reduction used for address shears is a singular-matrix Bruhat
+factorization: after reversing the coordinate order, Grigor'ev's
+upper-triangular factors become the two lower-triangular factors needed
+here~\cite[Appendix~A.2, Proposition~14(c)]{Grigoriev1982}.
+
+The finite networks and their labels are proved directly in
+Section~\ref{sec:finite-networks}. The additional requirements are the
+three-stage bank exchange, nested subspaces with a strict total rank or
+dimension deficit, and endpoint frames acting on every role. The tape
+implementations then turn that deficit into the volume-normalized
+recurrences of Sections~\ref{sec:tape-interchange}
+and~\ref{sec:fast-butterfly-layers}, including the costs of addressing,
+padding, coefficient growth, and finite precision. The cited decoding,
+restoration, and factorization results provide ingredients; these further
+properties are established in the present proof.
+
+\subsection{Lower-bound scope and matrix transposition}
+
+Sch\"onhage and Strassen conjectured $n\log n$ as the optimal order of
+multiplication cost~\cite[Section~1]{SchonhageStrassen1971}. In the present
+fixed-tape model, an eventual lower bound for every multiplication machine means that, for
+each fixed machine $A$, there are constants $c_A>0$ and $N_A$ such that
+$T_A(n)\ge c_A n\lg n$ whenever $n\ge N_A$.
+Its negation requires one machine satisfying
+$\liminf_{n\to\infty}T_A(n)/(n\lg n)=0$.
+The power saving proved here gives a limit of zero through all input lengths,
+which is a stronger conclusion.
+
+Harvey and van der Hoeven consider a binary transposition machine
+supplied an integer $m\ge1$ and a $k\times k$ binary matrix, where
+$k=\lfloor\sqrt m\rfloor$. They proved that if every fixed such machine
+has worst-case cost $\Omega(m\lg m)$ through all sufficiently large
+supplied values of $m$, then every fixed multiplication machine has the
+corresponding eventual lower bound~\cite[Theorem~1.2]{HarveyHoeven2025}.
+Combining their quantitative reduction~\cite[Corollary~6.2]{HarveyHoeven2025}
+with Theorem~\ref{thm:main} gives a deterministic fixed-tape algorithm
+that transposes a row-major $k\times k$ binary matrix in
+$O(k^2(\lg k)^{1-\kappa})$ time, with $\kappa$ as in
+Theorem~\ref{thm:main}. Section~\ref{sec:transposition} proves the more
+general rectangular-matrix bound.
+
+This comparison concerns unrestricted computation on a fixed number of
+one-dimensional tapes. Our address procedure forms XOR combinations of
+intermediate data, even though its final effect is a permutation.
+It therefore lies outside models restricted to moving data without such
+computations; see~\cite[Section~1.4]{HarveyHoeven2025} for the distinction.
+
+\subsection{Companion application to exact Fourier transforms}
+
+The complex phase network of Proposition~\ref{prop:complex-motif-interface}
+is also used in the companion manuscript~\cite[Section~1.1, Theorem~1.1
+and Corollary~1.2]{OpenAIExactDFT2026}. That manuscript gives a single
+algorithm for the exact discrete Fourier transform at every positive
+transform length $n$. As $n\to\infty$, its cost is
+$O(n(\log n)^{1-10^{-13}})=o(n\log n)$.
+
+The cost is measured in an exact complex-register model that assigns unit
+cost to exact complex field operations. The algorithm accepts every
+$x\in\mathbb C^n$, with no bound on its entries or on intermediate complex
+magnitudes. Its computation on the input uses only addition, subtraction,
+and multiplication by prepared input-independent scalars. The magnitudes
+of those scalar coefficients are unrestricted as well.
+
+Integer operations and random access on $O(\log(n+2))$-bit words have unit
+cost, with a fixed number of words for each address or integer. The model
+supplies one specified Fourier root $\zeta_{D_*}$ of explicitly computable
+order $D_*<1024n^3$. Scalar preparation, schedule construction, and index
+work are charged. This is a separate application of the finite network,
+with its own uniform array implementation. It is neither a bit-complexity
+consequence nor a stable floating-point FFT consequence of the fixed-tape
+multiplication theorem, Theorem~\ref{thm:main}.
+  \section{The machine model and elementary streams}
+\label{sec:streams}
+
+A machine has one fixed finite alphabet and one fixed finite number of
+one-dimensional tapes. A step reads and writes at most one cell on each
+tape and moves each head by at most one cell. Fixed tracks and finitely
+many work tapes change time by a fixed factor. We distinguish moving one
+digit in a fixed radix, which needs a bounded number of scans, from
+interchanging fields whose numbers of digits grow. The latter permutation
+will be realized in Section~\ref{sec:tape-interchange} by computing XOR
+combinations of intermediate data streams. The present section supplies
+the elementary scans it uses. Every scan includes its counters and the
+return of its tape heads.
+
+\subsection{Array order and elementary scans}
+
+For a positive integer $a$ write $[a]=\{0,\ldots,a-1\}$.
+An array with address set $[a_1]\times\cdots\times[a_t]$ is stored in
+lexicographic order, with the first coordinate most significant.  Its
+entries are bits unless a record width is specified.  A trailing record
+of $B$ bits can equivalently be regarded as a final address field $[B]$.
+An address is implicit in an entry's position in this ordered stream; it
+is not stored beside every data bit.
+The \emph{logical volume} $V$ is the number of stored data bits.  Work
+tapes and duplicate streams are charged in time but do not increase $V$
+in recurrences.  All the fields discussed below are nonempty.  A call
+with an empty array is handled directly.
+
+An address permutation $f$ moves the entry at $x$ to $f(x)$.  Thus its
+action on an array $A$ is $(fA)(f(x))=A(x)$.  Adjacent fields which are
+irrelevant to an operation may be replaced by a single field whose length
+is their product.  In particular, the elementary procedures below have a
+fixed number of formal address fields even when a surrounding algorithm
+has a growing list of coordinates.  Lengths and positions are supplied in
+canonical binary on descriptor tapes; no additional tape head is attached to an
+address coordinate. Each elementary call receives a fixed number of
+collapsed canonical lengths. Constructing them from a longer surrounding
+list is work of the caller; recursive calls below construct their own
+collapsed descriptors within their stated bounds.
+
+When one address field is designated as a row field, collapse the fields
+before it to a prefix $[P]$ and those after it to a suffix $[B]$.  If the
+row field has range $[R]$, a \emph{row} at prefix $p$ and row index $r$
+is the complete consecutive block $\{p\}\times\{r\}\times[B]$.
+Every row therefore contains $B$ bits in the same suffix order.
+
+For headers that concatenate a list of positive integer parameters, we use
+the self-delimiting code
+\begin{equation}
+ b_v=\lfloor\log_2v\rfloor+1,\qquad
+ \Gamma(v)=0^{b_v-1}\operatorname{bin}_{b_v}(v),\qquad
+ |\Gamma(v)|=2b_v-1\quad(v\ge1).
+ \label{eq:integer-descriptor-code}
+\end{equation}
+The initial zeroes specify how many further bits follow the first one,
+so concatenated codes can be read in order. We use this code when an
+interface specifies a header; elementary calls still receive the fixed
+number of canonical binary lengths described above.
+
+\begin{lemma}[Elementary stream operations]
+\label{lem:elementary-streams}
+Fix a radix $q\ge2$.  Each of the following operations on an array of
+volume $V$ takes $O(V)$ steps on a fixed number of one-dimensional tapes:
+\begin{enumerate}
+\item any fixed permutation of the pair of digit values at two specified
+radix-$q$ positions, whether or not the positions are adjacent;
+\item moving one specified radix-$q$ digit to another position, preserving
+the order of the intervening positions;
+\item splitting on a specified radix-$q$ digit, applying a fixed
+pointwise map to aligned streams, and merging them back;
+\item for positive integers $P,R,B$, within each prefix of an array on
+$[P]\times[R]\times[B]$, splitting
+whole rows cyclically into a fixed number $W$ of streams, and, when $W$
+divides $R$, merging those streams in any fixed order of the row classes.
+\end{enumerate}
+The bounds include shape preparation, counter initialization and resets,
+and returning or clearing the visited portions of work tapes.  Their
+constants may depend on the fixed radix, the fixed pointwise map, and the
+fixed number of row classes.
+\end{lemma}
+
+\begin{proof}
+For the first operation split into $q^2$ streams according to the two
+specified digits.  With these digits fixed, the order of all remaining
+digits is unchanged by the permutation.  Enumerate output addresses in
+their required order and read the stream prescribed by the two preimage
+digits.  For a digit move use $q$ streams instead.  The same observation
+shows that splitting on one digit gives streams with the same remaining
+address set in the same order.  Scan their aligned entries, apply the
+fixed pointwise map, and merge according to the output digit; this proves
+the third operation.  For the fourth, write $r=Wg+w$, where
+$0\le w<W$, and send the whole row to stream $w$.  If $W$ divides $R$,
+each stream has address set $[P]\times[R/W]\times[B]$, indexed by the
+prefix, $g$, and the unchanged suffix.  Thus the streams have the same
+shape and each has volume $V/W$.  The inverse merge, with any fixed
+permutation of the classes, reads them in the specified cyclic order.
+
+Here are the counter details used in these scans and later ones.  A
+binary counter is stored with its head at the least significant end.
+For a counter of width $w$, incrementing or decrementing and returning
+this head over $L$ consecutive counts costs $O(L+w)$: the number of
+visits to position $j$ is $O(1+L/2^j)$. The width term is paid when
+initializing the counter and is absorbed by its complete range scan.  A countdown of
+length $L$ can be initialized, reset, and tested for underflow in
+$O(\log(2L))=O(L)$ time.  Keep a local copy of its length on a dedicated
+track, so a reset does not search a larger descriptor.  For a nested scan
+of a fixed number of nonempty ranges, the reset of a range is charged to
+the scan of that range.  Induction on the number of ranges therefore gives
+linear total counting cost.  A fixed number of empty pieces in a split
+can be charged to the adjacent nonempty combined range.
+
+Only a fixed number of collapsed lengths are needed.  Computing these
+lengths and the initial counter values by ordinary binary arithmetic
+takes $O((\log(2V))^C)$ steps for a fixed $C$.  This is $O(V)$ uniformly
+in $V\ge1$, after increasing a fixed constant.  Each stream is scanned a
+fixed number of times, and every rewind, copy, or erasure is over a
+region whose 
