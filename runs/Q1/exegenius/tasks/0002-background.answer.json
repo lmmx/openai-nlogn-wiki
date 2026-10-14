@@ -1,0 +1,320 @@
+{
+ "summary": "The reader has an undergraduate computer science education: discrete mathematics (sets, binomial counting, permutations, induction, graphs, the union bound, and elementary number theory with gcd, primes, modular inverses and the Chinese remainder theorem), an algorithms course (asymptotic notation, recurrences and geometric sums, divide and conquer including Karatsuba, sorting including radix sort, stacks, amortized counters, the RAM model and worst-case running time), and an introductory theory course with Turing machines and multitape tapes. From computer organization they know binary and two's-complement encodings, bit order, XOR and binary arithmetic; from calculus and a first linear-algebra course they know logarithms, exponentials, Newton's method, simple inequalities, complex numbers with conjugates, polynomials, matrices, Gaussian elimination, rank, dot products, projections and eigenvalues over the real or rational numbers. They have not studied abstract algebra (rings, quotient rings, finite fields, tensor products, bilinear forms over 𝔽₂), Fourier analysis, numerical error analysis, or the research literature on fast integer multiplication, so the FFT machinery, resampling and all of the paper's constructions are new to them.",
+ "known": [
+  {
+   "name": "Binary representation of integers",
+   "aliases": [
+    "base-2 representation",
+    "bin_k",
+    "val",
+    "positional notation",
+    "radix-2^b digits"
+   ],
+   "gloss": "Writing a nonnegative integer as a string of bits (or digits in base 2^b) whose positions carry powers of the base, so a k-bit string encodes a value in [0, 2^k)."
+  },
+  {
+   "name": "Two's-complement representation",
+   "aliases": [
+    "two's complement",
+    "signed w-bit word",
+    "sign extension"
+   ],
+   "gloss": "The fixed-width encoding of a signed integer N in w bits as N mod 2^w, so the range is [−2^{w−1}, 2^{w−1}), negation is complement-and-increment, and widening copies the sign bit."
+  },
+  {
+   "name": "Bit order and endianness",
+   "aliases": [
+    "most significant bit first",
+    "least significant bit first",
+    "MSB first",
+    "LSB first"
+   ],
+   "gloss": "The convention fixing whether a stored binary word lists its most significant or least significant bit first, so that reversing a word converts one order into the other."
+  },
+  {
+   "name": "Bitwise exclusive or",
+   "aliases": [
+    "XOR",
+    "⊕",
+    "bitwise operations"
+   ],
+   "gloss": "The bitwise operation that outputs 1 exactly where its two input bits differ, so x ⊕ y ⊕ y = x and XOR is its own inverse."
+  },
+  {
+   "name": "Hamming weight",
+   "aliases": [
+    "wt",
+    "popcount",
+    "number of ones"
+   ],
+   "gloss": "The number of nonzero entries (ones) in a binary vector or string."
+  },
+  {
+   "name": "Logarithms and exponent rules",
+   "aliases": [
+    "log",
+    "log₂",
+    "lg",
+    "natural logarithm"
+   ],
+   "gloss": "The inverse of exponentiation, with log(ab) = log a + log b, change of base log_m x = log x / log m, and the conventions lg for base two and log for base e."
+  },
+  {
+   "name": "Floor, ceiling and rounding",
+   "aliases": [
+    "⌊x⌋",
+    "⌈x⌉",
+    "nearest integer",
+    "truncation toward zero"
+   ],
+   "gloss": "The maps sending a real number to the greatest integer below it, the least integer above it, the nearest integer, or the integer obtained by dropping its fractional part."
+  },
+  {
+   "name": "Worst-case running time",
+   "aliases": [
+    "time complexity",
+    "T_A(n)",
+    "worst-case cost"
+   ],
+   "gloss": "The maximum number of steps an algorithm takes over all inputs of a given length, viewed as a function of that length."
+  },
+  {
+   "name": "RAM model of computation",
+   "aliases": [
+    "unit-cost RAM",
+    "random-access machine",
+    "word RAM"
+   ],
+   "gloss": "The machine model in which each memory word can be read or written at any address in one step, used for most algorithm analysis in contrast to sequential-access tapes."
+  },
+  {
+   "name": "Recurrences and recursion trees",
+   "aliases": [
+    "recurrence relation",
+    "divide and conquer",
+    "master theorem",
+    "unrolling a recurrence"
+   ],
+   "gloss": "Bounding the cost of a recursive algorithm by an inequality such as F(e) ≤ a·F(e/m) + overhead and summing the work level by level over the recursion tree."
+  },
+  {
+   "name": "Geometric series",
+   "aliases": [
+    "geometric sum",
+    "Σ a^j"
+   ],
+   "gloss": "The sum 1 + a + … + a^k = (a^{k+1} − 1)/(a − 1), which is dominated by its largest term up to a constant factor when a is bounded away from 1."
+  },
+  {
+   "name": "Telescoping sums",
+   "aliases": [
+    "telescoping"
+   ],
+   "gloss": "A sum of consecutive differences Σ (x_{j+1} − x_j) that collapses to its last term minus its first."
+  },
+  {
+   "name": "Karatsuba multiplication",
+   "aliases": [
+    "Karatsuba–Ofman algorithm",
+    "n^{log₂ 3} multiplication"
+   ],
+   "gloss": "The divide-and-conquer integer multiplication that replaces four half-size products by three, giving O(n^{log₂3}) time."
+  },
+  {
+   "name": "Stacks",
+   "aliases": [
+    "LIFO",
+    "push and pop",
+    "call stack"
+   ],
+   "gloss": "A last-in first-out store whose items are removed in reverse order of insertion, as used to save and restore state around recursive calls."
+  },
+  {
+   "name": "Binary counter and amortized increment cost",
+   "aliases": [
+    "binary counter",
+    "amortized analysis",
+    "ripple counting"
+   ],
+   "gloss": "Incrementing a binary counter L times costs O(L) bit flips in total, because bit j flips only about L/2^j times."
+  },
+  {
+   "name": "Radix sort and stable sorting",
+   "aliases": [
+    "stable sort",
+    "LSD radix sort",
+    "binary radix sort"
+   ],
+   "gloss": "Sorting records by integer keys one digit at a time from least significant to most significant, using a stable pass that preserves the order of equal digits, in time linear in the records times the number of key digits."
+  },
+  {
+   "name": "Row-major order and matrix transposition",
+   "aliases": [
+    "row-major layout",
+    "transpose"
+   ],
+   "gloss": "Storing a matrix row by row so entry (i, j) of an n₁×n₂ matrix sits at position n₂i + j; transposition moves it to position n₁j + i."
+  },
+  {
+   "name": "Directed graphs",
+   "aliases": [
+    "vertices and edges",
+    "head and tail of an edge",
+    "path"
+   ],
+   "gloss": "Sets of vertices joined by ordered edges, each edge running from its tail to its head."
+  },
+  {
+   "name": "Sets, Cartesian products and indicator vectors",
+   "aliases": [
+    "[a] = {0,…,a−1}",
+    "Cartesian product",
+    "characteristic vector",
+    "indicator vector",
+    "subset intersection"
+   ],
+   "gloss": "Basic set notation, including the product A × B of ordered pairs and the 0/1 vector of a subset of a ground set marking which elements it contains."
+  },
+  {
+   "name": "Binomial coefficients",
+   "aliases": [
+    "n choose k",
+    "C(n,k)"
+   ],
+   "gloss": "The number of k-element subsets of an n-element set, n!/(k!(n−k)!)."
+  },
+  {
+   "name": "Permutations and cycle notation",
+   "aliases": [
+    "bijection",
+    "involution",
+    "cycle (a b c)",
+    "inverse permutation"
+   ],
+   "gloss": "Bijections of a finite set to itself, composed as functions, written as products of cycles, with an involution being a permutation equal to its own inverse."
+  },
+  {
+   "name": "Union bound",
+   "aliases": [
+    "Boole's inequality",
+    "counting bad cases"
+   ],
+   "gloss": "The size (or probability) of a union of sets is at most the sum of their sizes (or probabilities)."
+  },
+  {
+   "name": "Greatest common divisor and Euclid's algorithm",
+   "aliases": [
+    "gcd",
+    "coprime",
+    "relatively prime",
+    "extended Euclidean algorithm",
+    "modular inverse"
+   ],
+   "gloss": "The largest common divisor of two integers, computed by repeated division, whose extended form also yields Bézout coefficients and hence inverses modulo a coprime modulus."
+  },
+  {
+   "name": "Prime numbers and trial division",
+   "aliases": [
+    "primes",
+    "primality testing by trial division",
+    "odd prime"
+   ],
+   "gloss": "Integers greater than 1 with no divisors other than 1 and themselves, testable by checking for divisors up to the square root."
+  },
+  {
+   "name": "Chinese remainder theorem",
+   "aliases": [
+    "CRT"
+   ],
+   "gloss": "For pairwise coprime moduli s₁,…,s_d, an integer modulo their product is determined uniquely by its residues modulo each sᵢ, and every choice of residues occurs."
+  },
+  {
+   "name": "Matrix operations",
+   "aliases": [
+    "identity matrix",
+    "diagonal matrix",
+    "permutation matrix",
+    "triangular matrix",
+    "lower triangular",
+    "block diagonal",
+    "direct sum of maps"
+   ],
+   "gloss": "Products and inverses of matrices together with their special shapes: identity, diagonal, permutation, upper or lower triangular, and block-diagonal combinations of maps on separate coordinates."
+  },
+  {
+   "name": "Gaussian elimination",
+   "aliases": [
+    "row reduction",
+    "elementary row operations",
+    "row addition",
+    "row swap",
+    "pivot"
+   ],
+   "gloss": "Reducing a matrix by adding multiples of one row to another, swapping rows and scaling, which factors any invertible matrix into elementary matrices and computes rank."
+  },
+  {
+   "name": "Dot product and orthogonality",
+   "aliases": [
+    "inner product",
+    "x·y",
+    "orthogonal vectors"
+   ],
+   "gloss": "The sum Σ xᵢyᵢ of coordinatewise products, with two vectors called orthogonal when it vanishes."
+  },
+  {
+   "name": "Projection onto a subspace",
+   "aliases": [
+    "projection matrix",
+    "P_U"
+   ],
+   "gloss": "The linear map that is the identity on a subspace U and zero on a chosen complementary subspace, so P² = P and its rank is dim U."
+  },
+  {
+   "name": "Eigenvalues of a matrix",
+   "aliases": [
+    "eigenvalue",
+    "eigenvector"
+   ],
+   "gloss": "Scalars λ for which Av = λv has a nonzero solution v; a symmetric matrix is invertible exactly when no eigenvalue is zero."
+  },
+  {
+   "name": "Complex conjugate",
+   "aliases": [
+    "conjugation",
+    "z̄"
+   ],
+   "gloss": "The map a + bi ↦ a − bi, which preserves modulus and turns e^{iθ} into e^{−iθ}."
+  },
+  {
+   "name": "Triangle inequality",
+   "aliases": [
+    "|a + b| ≤ |a| + |b|"
+   ],
+   "gloss": "The modulus (or norm) of a sum is at most the sum of the moduli."
+  },
+  {
+   "name": "Bernoulli's inequality",
+   "aliases": [
+    "(1 + x)^n ≥ 1 + nx"
+   ],
+   "gloss": "For x ≥ −1 and integer n ≥ 1, (1 + x)^n ≥ 1 + nx, with strict inequality when x ≠ 0 and n ≥ 2."
+  },
+  {
+   "name": "Newton's method",
+   "aliases": [
+    "Newton iteration",
+    "Newton–Raphson"
+   ],
+   "gloss": "Solving f(x) = 0 by iterating x ↦ x − f(x)/f′(x), whose error roughly squares at each step near a simple root, giving the reciprocal update x(2 − cx) and the square-root update (x + c/x)/2."
+  },
+  {
+   "name": "Proof by induction",
+   "aliases": [
+    "induction",
+    "inductive invariant",
+    "loop invariant"
+   ],
+   "gloss": "Proving a statement for all n by checking a base case and showing each case implies the next, as with invariants maintained by every step of a loop."
+  }
+ ]
+}

@@ -1,0 +1,413 @@
+{
+ "summary": "The reader has an undergraduate computer science education: discrete mathematics (sets, induction, modular arithmetic, gcd, primes, the Chinese remainder theorem, binary representation and XOR), a first linear algebra course (vector spaces, matrices, rank, Gaussian elimination, eigenvalues, mostly over the reals but with arithmetic mod 2 seen in discrete math), single-variable calculus (limits, exponentials and logarithms, geometric series, simple inequalities, Newton's method), and an algorithms and theory sequence (asymptotic notation, recurrences, sorting, binary search, Turing machines and time complexity, schoolbook multiplication with carries). They have not studied fast Fourier transform based multiplication, the Schönhage–Strassen/Harvey–van der Hoeven line of work, polynomial transforms over quotient rings, tensor products, bilinear forms over finite fields, or the extremal set-theory constructions the paper borrows; those are what the wiki explains.",
+ "known": [
+  {
+   "name": "Binary representation of integers",
+   "aliases": [
+    "base-2 representation",
+    "bit string",
+    "most significant bit",
+    "leading zeroes",
+    "n-bit integer"
+   ],
+   "gloss": "Writing a nonnegative integer as a string of bits b_{k-1}...b_0 with value Σ b_i 2^i, the leftmost bit most significant, possibly padded with leading zeroes to a fixed length."
+  },
+  {
+   "name": "Positional (radix) number systems",
+   "aliases": [
+    "radix",
+    "base b digits",
+    "radix-2^b digits",
+    "mixed-radix representation",
+    "digit"
+   ],
+   "gloss": "Representing an integer by digits in a base (or a sequence of bases, for mixed radix) so that its value is the sum of each digit times the product of the lower bases."
+  },
+  {
+   "name": "Schoolbook multiplication and carries",
+   "aliases": [
+    "grade-school multiplication",
+    "long multiplication",
+    "carry propagation",
+    "quadratic multiplication"
+   ],
+   "gloss": "The standard O(n^2) method that multiplies digit by digit, sums the shifted partial products and propagates carries to obtain the base-b digits of the product."
+  },
+  {
+   "name": "Two's complement and signed integers",
+   "aliases": [
+    "signed binary integer",
+    "sign bit",
+    "sign-magnitude",
+    "signed word"
+   ],
+   "gloss": "Ways of storing negative integers in a fixed number of bits, such as two's complement or a separate sign bit with a magnitude."
+  },
+  {
+   "name": "Floor, ceiling and rounding",
+   "aliases": [
+    "floor function",
+    "ceiling function",
+    "⌊x⌋",
+    "⌈x⌉",
+    "round to nearest integer",
+    "truncation toward zero"
+   ],
+   "gloss": "The floor ⌊x⌋ and ceiling ⌈x⌉ are the nearest integers below and above x, and rounding or truncation maps a real number to a nearby integer by a fixed rule."
+  },
+  {
+   "name": "Integer division with remainder",
+   "aliases": [
+    "division algorithm",
+    "quotient and remainder",
+    "a div b",
+    "a mod b"
+   ],
+   "gloss": "For integers a and b > 0 there are unique q = ⌊a/b⌋ and r with a = bq + r and 0 ≤ r < b."
+  },
+  {
+   "name": "Logarithms and exponentials",
+   "aliases": [
+    "log",
+    "log_2",
+    "lg",
+    "natural logarithm",
+    "exp",
+    "exponential function",
+    "powers of two"
+   ],
+   "gloss": "The exponential function and its inverse the logarithm, with the rules log(xy) = log x + log y and change of base, used here mainly as log_2 n."
+  },
+  {
+   "name": "Theta, Omega and little-o notation",
+   "aliases": [
+    "Θ",
+    "Ω",
+    "o(f)",
+    "little-o",
+    "asymptotically tight bound",
+    "lower bound notation"
+   ],
+   "gloss": "Asymptotic notations complementing big-O: Ω(f) is a lower bound up to constants, Θ(f) both an upper and lower bound, and o(f) means the ratio to f tends to zero."
+  },
+  {
+   "name": "Limits of sequences, lim inf",
+   "aliases": [
+    "limit",
+    "liminf",
+    "limit inferior",
+    "tends to infinity",
+    "eventually",
+    "for sufficiently large n"
+   ],
+   "gloss": "A sequence has limit L if its terms eventually stay within any given distance of L, and lim inf is the smallest limit point of a sequence."
+  },
+  {
+   "name": "Geometric series",
+   "aliases": [
+    "geometric sum",
+    "sum of a geometric progression",
+    "geometrically increasing"
+   ],
+   "gloss": "The sum Σ_{k=0}^{K} a^k = (a^{K+1} − 1)/(a − 1), which for a > 1 is within a constant factor of its largest term and for a < 1 is bounded by 1/(1 − a)."
+  },
+  {
+   "name": "Bernoulli's inequality",
+   "aliases": [
+    "(1+x)^n ≥ 1+nx"
+   ],
+   "gloss": "For real x ≥ −1 and integer n ≥ 1, (1 + x)^n ≥ 1 + nx, with strict inequality when x ≠ 0 and n ≥ 2."
+  },
+  {
+   "name": "Triangle inequality and absolute value",
+   "aliases": [
+    "|a + b| ≤ |a| + |b|",
+    "modulus",
+    "absolute error"
+   ],
+   "gloss": "The absolute value (or complex modulus) satisfies |a + b| ≤ |a| + |b|, so errors in a sum are bounded by the sum of the errors."
+  },
+  {
+   "name": "Gaussian function",
+   "aliases": [
+    "Gaussian",
+    "bell curve",
+    "e^{-x^2}",
+    "Gaussian kernel"
+   ],
+   "gloss": "The function x ↦ e^{−c x^2} for a constant c > 0, positive, symmetric and decaying faster than any polynomial away from zero."
+  },
+  {
+   "name": "Newton's method",
+   "aliases": [
+    "Newton iteration",
+    "Newton–Raphson"
+   ],
+   "gloss": "The iteration x ← x − f(x)/f′(x) for approximating a root of f, which roughly doubles the number of correct digits at each step near a simple root."
+  },
+  {
+   "name": "Roots of unity",
+   "aliases": [
+    "n-th root of unity",
+    "primitive root of unity",
+    "e^{2πi/n}",
+    "ω"
+   ],
+   "gloss": "Complex numbers ω with ω^n = 1, namely e^{2πik/n}; ω = e^{2πi/n} is primitive and its powers give all n of them."
+  },
+  {
+   "name": "Modular arithmetic",
+   "aliases": [
+    "congruence",
+    "residues modulo q",
+    "mod",
+    "≡ (mod q)",
+    "Z/qZ",
+    "residue ring",
+    "reduction modulo q"
+   ],
+   "gloss": "Arithmetic on integers where a ≡ b (mod q) when q divides a − b, so sums and products may be reduced to residues in {0, …, q−1}."
+  },
+  {
+   "name": "Greatest common divisor and modular inverses",
+   "aliases": [
+    "gcd",
+    "coprime",
+    "relatively prime",
+    "pairwise coprime",
+    "unit modulo q",
+    "modular inverse",
+    "extended Euclidean algorithm"
+   ],
+   "gloss": "The gcd is the largest common divisor of two integers; when gcd(a, q) = 1 the extended Euclidean algorithm finds the inverse a^{-1} with a a^{-1} ≡ 1 (mod q)."
+  },
+  {
+   "name": "Prime numbers and trial division",
+   "aliases": [
+    "prime",
+    "odd prime",
+    "primality test by trial division"
+   ],
+   "gloss": "An integer p > 1 with no divisors other than 1 and p, which can be recognized by checking divisibility by every integer up to √p."
+  },
+  {
+   "name": "Chinese remainder theorem",
+   "aliases": [
+    "CRT",
+    "Chinese remainder"
+   ],
+   "gloss": "If s_1, …, s_d are pairwise coprime with product S, then x ↦ (x mod s_1, …, x mod s_d) is a bijection, preserving sums and products, from residues mod S to tuples of residues."
+  },
+  {
+   "name": "XOR and arithmetic modulo 2",
+   "aliases": [
+    "exclusive or",
+    "⊕",
+    "bitwise XOR",
+    "parity",
+    "addition in F_2",
+    "the field with two elements",
+    "GF(2)",
+    "F_2"
+   ],
+   "gloss": "Addition of bits modulo 2 (1 ⊕ 1 = 0), which together with AND as multiplication makes {0, 1} the two-element field F_2."
+  },
+  {
+   "name": "Hamming weight",
+   "aliases": [
+    "weight of a binary vector",
+    "wt(x)",
+    "popcount",
+    "number of ones"
+   ],
+   "gloss": "The number of nonzero coordinates of a binary vector or bit string."
+  },
+  {
+   "name": "Sets, subsets and Cartesian products",
+   "aliases": [
+    "Cartesian product",
+    "[a] = {0, …, a−1}",
+    "3-element subset",
+    "intersection size",
+    "|S ∩ T|",
+    "indicator vector",
+    "characteristic vector"
+   ],
+   "gloss": "Basic set notions, including the set of tuples A_1 × … × A_t, the size of an intersection of finite sets, and the 0/1 indicator vector of a subset."
+  },
+  {
+   "name": "Lexicographic order",
+   "aliases": [
+    "row-major order",
+    "dictionary order",
+    "first coordinate most significant"
+   ],
+   "gloss": "Ordering tuples by comparing first coordinates, then second ones on ties, and so on, as in the row-major storage of a multidimensional array."
+  },
+  {
+   "name": "Permutations",
+   "aliases": [
+    "bijection",
+    "permutation of addresses",
+    "permutation matrix",
+    "rearrangement"
+   ],
+   "gloss": "A bijection from a finite set to itself, such as a reordering of array entries, which can also be written as a 0/1 matrix with one 1 in each row and column."
+  },
+  {
+   "name": "Vector spaces, subspaces, basis and dimension",
+   "aliases": [
+    "vector space",
+    "subspace",
+    "basis",
+    "dimension",
+    "span",
+    "linear independence",
+    "F_2^m"
+   ],
+   "gloss": "A set of vectors closed under addition and scalar multiplication over a field, its subspaces, and a basis whose size is the dimension."
+  },
+  {
+   "name": "Linear maps and matrices",
+   "aliases": [
+    "linear operator",
+    "linear transformation",
+    "matrix product",
+    "identity matrix",
+    "diagonal matrix",
+    "all-one matrix",
+    "transpose",
+    "kernel",
+    "image"
+   ],
+   "gloss": "Maps that preserve addition and scalar multiplication, represented by matrices that compose by matrix multiplication."
+  },
+  {
+   "name": "Rank of a matrix",
+   "aliases": [
+    "rank",
+    "rational rank",
+    "rank-one matrix",
+    "low-rank"
+   ],
+   "gloss": "The dimension of the column space of a matrix, equal to the maximum number of linearly independent rows or columns."
+  },
+  {
+   "name": "Invertible matrices",
+   "aliases": [
+    "nonsingular matrix",
+    "inverse matrix",
+    "GL(m, F)",
+    "general linear group",
+    "singular matrix"
+   ],
+   "gloss": "A square matrix A with an inverse A^{-1} satisfying A A^{-1} = I, equivalently of full rank."
+  },
+  {
+   "name": "Gaussian elimination",
+   "aliases": [
+    "row reduction",
+    "elimination",
+    "row operations",
+    "pivoting"
+   ],
+   "gloss": "Reducing a matrix by elementary row and column operations to echelon form, which computes rank, inverses and triangular factorizations."
+  },
+  {
+   "name": "Triangular matrices",
+   "aliases": [
+    "lower triangular matrix",
+    "upper triangular matrix",
+    "unit triangular"
+   ],
+   "gloss": "Square matrices whose entries above (lower triangular) or below (upper triangular) the diagonal are zero, invertible exactly when the diagonal entries are nonzero."
+  },
+  {
+   "name": "Eigenvalues",
+   "aliases": [
+    "eigenvalue",
+    "eigenvector",
+    "spectrum"
+   ],
+   "gloss": "A scalar λ with Av = λv for some nonzero vector v."
+  },
+  {
+   "name": "Max norm",
+   "aliases": [
+    "infinity norm",
+    "‖·‖_∞",
+    "sup norm",
+    "maximum absolute entry"
+   ],
+   "gloss": "The norm of a vector given by the largest absolute value of its entries."
+  },
+  {
+   "name": "Mathematical induction",
+   "aliases": [
+    "induction",
+    "proof by induction",
+    "strong induction"
+   ],
+   "gloss": "Proving a statement for all n by proving a base case and that each case follows from the earlier ones."
+  },
+  {
+   "name": "Recurrence relations",
+   "aliases": [
+    "recurrence",
+    "divide-and-conquer recurrence",
+    "unrolling a recurrence",
+    "recursion tree",
+    "master theorem"
+   ],
+   "gloss": "Equations bounding the cost of a recursive algorithm in terms of the cost of smaller calls, solved by unrolling into a sum such as a geometric series."
+  },
+  {
+   "name": "Binary search",
+   "aliases": [
+    "bisection search"
+   ],
+   "gloss": "Finding a threshold in a monotone predicate over a sorted range by repeatedly halving the interval, using a logarithmic number of tests."
+  },
+  {
+   "name": "Stable sorting and radix sort",
+   "aliases": [
+    "stable sort",
+    "radix sort",
+    "LSD radix sort",
+    "bucket sort",
+    "counting sort",
+    "sorting"
+   ],
+   "gloss": "A stable sort keeps equal keys in their input order, and radix sort orders records by sorting stably on one digit of the key at a time."
+  },
+  {
+   "name": "Binary counter",
+   "aliases": [
+    "incrementing a counter",
+    "ripple counting",
+    "ripple-carry increment"
+   ],
+   "gloss": "A counter stored in binary and incremented by flipping trailing ones to zero and the next zero to one, at amortized constant cost per increment."
+  },
+  {
+   "name": "Deterministic worst-case time complexity",
+   "aliases": [
+    "worst-case running time",
+    "deterministic algorithm",
+    "time complexity",
+    "T(n)",
+    "lower bound"
+   ],
+   "gloss": "The maximum number of steps an algorithm without randomness takes over all inputs of length n, as a function of n."
+  },
+  {
+   "name": "Cyclic shift",
+   "aliases": [
+    "rotation",
+    "circular shift",
+    "cyclic rotation of a list"
+   ],
+   "gloss": "Moving every entry of a list k positions along, with entries leaving one end re-entering at the other, i.e. index j goes to j + k mod length."
+  }
+ ]
+}
