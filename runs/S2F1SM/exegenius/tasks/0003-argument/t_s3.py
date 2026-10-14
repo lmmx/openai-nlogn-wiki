@@ -1,0 +1,152 @@
+from lib import *
+
+# ---------------------------------------------------------------- synthetic transform (S3.1)
+def synthetic_transform():
+    return show(
+        'S3.1',
+        r"""For a power of two $t$ dividing $2r$ and $\omega_t=y^{2r/t}$, the transform $F_t^-$ is computed by $\log_2t$ decimation-in-frequency rounds of $H_0$ and signed-shift twiddles $\omega_t^{-k}$, which write the outputs in bit-reversed slot order $B_t$; traversing the recursion backwards implements $F_t^+B_t^{-1}$, and across several axes each round is one parallel butterfly followed by a recordwise monomial $y^E$.""",
+        r"""Verify the transform by character cancellation, taking care of the zero divisors of $\mathcal R_r$, write the decimation-in-frequency recursion, track which slot holds which frequency bit, and reverse the recursion to consume the stored order.""",
+        r"""The ring has zero divisors, so cancellation of characters cannot be shown by dividing by $\omega_t^j-1$ and is verified directly.""",
+        'explicit',
+        mot_quote=Q(r"The ring has zero divisors", r"$\omega_t^j-1$."),
+        page='synthetic-transform',
+        frm=['polynomial-ring-mod', 'butterfly-fft', 'dft', 'multidim-transform', 'convolution-theorem', 'complex-numbers'],
+        adds=adds_(
+            (r't', 'transform length', r'A power of two dividing $2r$, the length of one transform axis.', 'count'),
+            (r'\omega_t', 'synthetic root', r'The power $y^{2r/t}$ of the ring variable, a principal $t$-th root of unity in $\mathcal R_r$.', 'direct'),
+            (r'B_t', 'bit reversal', r'The record permutation moving the entry at $j$ to the slot $\operatorname{rev}_a(j)$, where $t=2^a$.', 'direct'),
+            (r'E', 'twiddle exponent', r'The address-dependent exponent of the combined monomial $y^E$ applied after a round.', 'direct'),
+        ),
+        children=[
+            infer('S3.1.1',
+                  r"""The transforms $(F_t^\mp z)_j=\frac1t\sum_k\omega_t^{\mp jk}z_k$ are contractions, since every power of $\omega_t$ is an isometry and each entry averages $t$ such images.""",
+                  Q(r"For a power of two $t$ dividing $2r$, define $\omega_t=y^{2r/t}$.", r"Thus both transforms are contractions.")),
+            infer('S3.1.2',
+                  r"""$\sum_{k=0}^{t-1}\omega_t^{jk}$ equals $t$ if $t\mid j$ and $0$ otherwise, because for $j=2^vj_0$ with $j_0$ odd the shift $k\mapsto k+t/2^{v+1}$ multiplies the sum by $y^{rj_0}=-1$ and $\mathcal R_r$ has no two-torsion; hence $F_t^+F_t^-=t^{-1}I$.""",
+                  Q(r"If $j$ is an integer, then", r"proves the final formula.")),
+            infer('S3.1.3',
+                  r"""The decimation-in-frequency step pairs $z_k$ with $z_{k+t/2}$, writes the outputs of $H_0$ in the same slots, multiplies the $b=1$ output by $\omega_t^{-k}$ and recurses on the two halves; this computes $F_t^-$ because $(F_t^-z)_{2h+b}=\frac1{t/2}\sum_k(\omega_t^2)^{-hk}\omega_t^{-bk}\frac{z_k+(-1)^bz_{k+t/2}}2$.""",
+                  Q(r"The length-one procedure is the identity.", r"\label{eq:synthetic-dif} \end{equation}")),
+            infer('S3.1.4',
+                  r"""After all $a$ rounds the named slots from high to low hold the frequency bits from low to high, so the entry $(F_t^-z)_j$ sits in slot $\operatorname{rev}_a(j)$: the recursion writes its outputs directly in the permuted order $B_t$ and never moves whole frequency indices.""",
+                  Q(r"To follow the recursion, name the original address-bit slots of an", r"it does not move whole frequency indices.")),
+            infer('S3.1.5',
+                  r"""The procedure consuming this order runs the recursion in reverse, each reversed level being half the inverse of the forward level because $H_0^2=I/2$, so the two procedures implement $B_tF_t^-$ and $F_t^+B_t^{-1}$.""",
+                  Q(r"The procedure consuming this stored order traverses the recursion in", r"respectively.")),
+            infer('S3.1.6',
+                  r"""For $D$ axes a round applies one $H_0$ on each participating axis and, because the twiddle of axis $i$ depends only on that axis's address bits and so commutes with the butterflies of the other axes, the steps group into one parallel butterfly $\mathcal H$ followed by one recordwise monomial $J_E$, so every completed round is a contraction.""",
+                  Q(r"For $D$ axes of lengths $t_1,\ldots,t_D$, put", r"so every completed round is a contraction.")),
+        ])
+
+# ---------------------------------------------------------------- transform layout (S3.2)
+def transform_layout():
+    return show(
+        'S3.2',
+        r"""With a layout permutation $L$ that places the selected bit of all axes, of lengths $t_i\in\{2^{\ell-1},2^\ell\}$, at a common offset in consecutive $K$-bit chunks, the forward procedure with exact counterpart $LBF_{\boldsymbol t}^-$ and its opposite $F_{\boldsymbol t}^+B^{-1}L^{-1}$ each cost $O(Tp[dK+pK^{\tau-1}+\ell d^{\lambda'}])$ with error below $\sqrt2\,\ell\,2^{-p}$, layout and restoration included.""",
+        r"""Move $O(dK)$ top slots to a prefix handled bit by bit, regroup the remaining chunks by $O(p/K)$ exchanges of $K$-bit chunks, run each remaining round as one simultaneous layer followed by the signed shift $J_E$, and track the error round by round.""",
+        r"""The simultaneous layer requires the selected bits of its axes to sit at one offset in consecutive chunks, so the arrays must first be rearranged, and the rearrangement itself has to be cheap enough to keep the power saving.""",
+        'explicit',
+        mot_quote=Q(r"To apply Proposition~\ref{prop:simultaneous-layer} in a transform round", r"consecutive $K$-bit chunks."),
+        page='transform-layout',
+        frm=['synthetic-transform', 'simultaneous-layer', 'chunk-interchange', 'fixed-point-disk-grid', 'array-order', 'butterfly-fft'],
+        adds=adds_(
+            (r'L', 'layout permutation', r'The record permutation, composed of prefix moves and chunk exchanges, that puts the selected bits of all axes at common offsets in consecutive chunks.', 'direct'),
+            (r'q', 'chunks per axis', r'The number $\lfloor(\ell-1)/K\rfloor$ of $K$-bit chunks left on each axis after the prefix slots are removed.', 'count'),
+            (r'D', 'participating axes', r'The number $d-1$ of axes on which the transform acts.', 'count'),
+        ),
+        children=[
+            infer('S3.2.1',
+                  r"""The $O(dK)$ listed slots, the top bit of each long axis and the lowest $b=(\ell-1)\bmod K$ bits of every axis, are moved to a prefix, costing $O(TpdK)$, and the part of each axis left outside consists of $q$ consecutive $K$-bit chunks.""",
+                  Q(r"Put $D=d-1$ and write $a_i=\log_2t_i$.", r"now consists of $q$ consecutive $K$-bit chunks.")),
+            infer('S3.2.2',
+                  r"""Regrouping the chunks axis-major to chunk-major takes at most $Dq-1$ exchanges of $K$-bit chunks, each $O(TpK^\tau)$, so all cost $O(Tp\,DqK^\tau)=O(Tp\,pK^{\tau-1})$ because $Dq\le d\ell/K=O(p/K)$; these moves define $L$, and reversing them gives $L^{-1}$ at the same cost.""",
+                  Q(r"Number the axes by $i$ and their chunks, from high to low, by $j$.", r"with the same cost.")),
+            infer('S3.2.3',
+                  r"""Header parsing and generating the layout lists take $\operatorname{poly}(p)=O(Tp)$ time, because $T\ge r\ge2^{(a_r/b_d)p^{1-\epsilon}}$ dominates every fixed power of $p$.""",
+                  Q(r"The header has $O(p)$ bits: its axis entries use", r"so $T$ dominates every fixed power of $p$.")),
+            infer('S3.2.4',
+                  r"""The round at position $h=\ell-1$ on the long axes comes first, then $h=\ell-2,\dots,b$ in the $qK$ rounds on the remaining chunks, then the bottom positions; all axes in a common round have current length $u_i=2^{h+1}$, and the opposite procedure runs this schedule in reverse.""",
+                  Q(r"First process the round at named position $h=\ell-1$ on the long", r"ends with the extra leading round on the long axes.")),
+            infer('S3.2.5',
+                  r"""A round on the remaining chunks selects bit offset $(h-b)\bmod K$ in each of the $D$ consecutive chunks of one chunk index, sees the complete address set $[P]\times[2^K]^D\times[S]$ with $M$ records, and so costs $O(Tpd^{\lambda'})$, in total $O(Tp\ell d^{\lambda'})$.""",
+                  Q(r"For a position $h$ in the remaining chunks, the selected bit has", r"$O(Tp\ell d^{\lambda'})$ in total.")),
+            infer('S3.2.6',
+                  r"""Rounds on prefix slots process the participating bits one at a time through temporary bit moves and buffered record pairs, exactly in $p+D+O(1)$ bits per component with one truncation at the end of the round, and there are at most $b+1\le K$ of them, costing $O(TpdK)$.""",
+                  Q(r"In a round on prefix slots, process the participating bits individually.", r"giving cost $O(TpdK)$.")),
+            infer('S3.2.7',
+                  r"""A monomial $y^E$ with $E=er+s$, $0\le s<r$, is a signed cyclic shift of the coefficient list: split before position $r-s$, put the tail before the head, negate the moved tail and apply the common sign $(-1)^e$, so no coefficient sort is required.""",
+                  Q(r"To implement the monomial, write $E=er+s$ with $0\leq s<r$.", r"and no coefficient sort is required.")),
+            infer('S3.2.8',
+                  r"""Truncation toward zero is odd and $J_E$ a signed coefficient permutation, so $J_EQ_p(\mathcal Hz)=Q_p(J_E\mathcal Hz)$; a contraction does not increase the difference between computed and exact arrays and each of the at most $\ell$ rounds adds less than $\sqrt2\,2^{-p}$, while the layout permutations are isometries, giving error below $\sqrt2\,\ell\,2^{-p}$.""",
+                  Q(r"For a forward round on a group of $D$ chunks, the layer call returns", r"add no numerical error.")),
+            infer('S3.2.9',
+                  r"""Executing the named-slot procedures after $L$ conjugates them by $L$, so the full exact operators are $(L\mathcal D_-L^{-1})L=LBF_{\boldsymbol t}^-$ and $L^{-1}(L\mathcal D_+L^{-1})=F_{\boldsymbol t}^+B^{-1}L^{-1}$, and the final movement $L^{-1}$ restores axis-major physical order.""",
+                  Q(r"It remains to identify the order of the full procedures.", r"restores axis-major physical order.")),
+        ])
+
+# ---------------------------------------------------------------- Kronecker packing (S3.3)
+def kronecker_packing():
+    return show(
+        'S3.3',
+        r"""For disk-grid $f,g\in\mathcal R_r$ with $r=2^\ell<2^p$, the exact Gaussian-integer numerators of $fg$, and then $Q_p(fg/r)$, are computed in $O(rp\log(rp))$ time from four products of signed $4pr$-bit integers by the $O(N\log N)$ multiplier, because every coefficient of an ordinary product stays below $B_0/2$ for $B_0=2^{4p}$.""",
+        r"""Use signed Kronecker substitution: evaluate each integer polynomial at $B_0=2^{4p}$, multiply the four pairs of signed integers, read the coefficients back as centered residues modulo $B_0$ with a carry, and reduce modulo $y^r+1$ by subtracting the upper half.""",
+        r"""The established $O(N\log N)$ multiplier is an independent subroutine for integers, so polynomial products are reduced to integer products by packing coefficients into blocks wide enough that neighboring coefficients cannot collide.""",
+        'explicit',
+        mot_quote=Q(r"To multiply the polynomial records, we use", r"This is an independent subroutine."),
+        page='kronecker-packing',
+        frm=['nlogn-multiplier', 'polynomial-ring-mod', 'positional-number-representation-and-carries', 'polynomials'],
+        adds=adds_(
+            (r'B_0', 'packing base', r'The evaluation point $2^{4p}$ at which integer polynomials are evaluated.', 'direct'),
+            (r'A_u', 'evaluation integer', r'The signed integer $u(B_0)$ obtained by evaluating an integer polynomial $u$ at $B_0$.', 'direct'),
+        ),
+        children=[
+            infer('S3.3.1',
+                  r"""Writing $f=2^{-p}(a+ib)$, $g=2^{-p}(c+ie)$ with integer polynomials of coefficients at most $2^p$, the evaluation integers satisfy $|A_u|\le2^p(B_0^r-1)/(B_0-1)<B_0^r/2$, so each magnitude fits in $4pr$ bits.""",
+                  Q(r"The supplied power of two $r$ determines $\ell=\log_2r$.", r"shows that each magnitude fits in $4pr$ bits.")),
+            infer('S3.3.2',
+                  r"""The four products $A_aA_c,A_bA_e,A_aA_e,A_bA_c$ are evaluations of ordinary polynomial products, whose coefficients obey $|h_j|\le r2^{2p}<2^{3p}<B_0/2$, so after the lower coefficients are removed the next one is identified by its centered residue modulo $B_0$.""",
+                  Q(r"Multiply the four pairs of absolute values using the established multiplier", r"by its centered residue modulo $B_0$.")),
+            infer('S3.3.3',
+                  r"""To form $A_u$, a carry $\gamma_j\in\{-1,0\}$ is propagated through the blocks $d_j\equiv u_j+\gamma_j\pmod{B_0}$, because $-B_0<u_j+\gamma_j<B_0$, giving a fixed-width two's-complement encoding with $\gamma_r=-1$ exactly when $A_u<0$, in a constant number of $O(rp)$ scans.""",
+                  Q(r"To form $A_u$, start with carry", r"linear-time reversals on a work tape.")),
+            infer('S3.3.4',
+                  r"""Each product $Z=h(B_0)$ is read block by block with carry $\rho_{j+1}=(q_j+\rho_j-\widehat h_j)/B_0\in\{0,1\}$, where $\widehat h_j$ is the centered residue of $q_j+\rho_j$; by the separation bound $\widehat h_j=h_j$, and the final carry cancels the sign extension, so extraction costs $O(rp)$.""",
+                  Q(r"Now let $Z$ be one of the four signed product integers", r"so extraction costs $O(rp)$.")),
+            infer('S3.3.5',
+                  r"""The real and imaginary numerator streams $ac-be$ and $ae+bc$ are reduced modulo $y^r+1$ by subtracting the coefficient at $j+r$ from the one at $j$; each $H_j$ is a sum of exactly $r$ signed products of numerators at most $2^p$, so $|H_j|\le r2^{2p}$ and $\|fg/r\|_\infty\le\|f\|_\infty\|g\|_\infty$.""",
+                  Q(r"The real and imaginary numerator streams are respectively", r"fit in $O(p)$ bits.")),
+            infer('S3.3.6',
+                  r"""The grid numerator of the normalized product is the truncation toward zero of $\Re H_j/2^{p+\ell}$ and $\Im H_j/2^{p+\ell}$, done by shifting the magnitude and restoring the sign at $O(p)$ per coefficient, so the four exact integer products dominate and the cost is $O(rp\log(rp))$.""",
+                  Q(r"Finally the $p$-bit grid numerator of the normalized product is", r"wrapping, and truncation costs.")),
+        ])
+
+# ---------------------------------------------------------------- ring convolution (S3)
+def ring_convolution():
+    return show(
+        'S3',
+        r"""Normalized cyclic convolution $\mathcal M_r(f,g)=(f*g)/T$ of disk-grid arrays over $\mathcal R_r$ on $d-1$ power-of-two axes is computed with error below $\sqrt2\,M(3\ell+1)2^{-p}$ in time $O(Tp[dK+pK^{\tau-1}+\ell d^{\lambda'}+\log(rp)])$ by two forward synthetic transforms, pointwise ring products and one opposite transform that consumes the retained frequency order.""",
+        r"""Evaluate the convolution theorem with synthetic polynomial transforms, whose roots of unity act as exact signed shifts, laid out so that each round is one simultaneous layer; keep the stored frequency order through the pointwise product; and multiply the polynomial records by signed packing.""",
+        r"""The roots of unity needed for the transform are powers of $y$, which are free signed shifts, and the opposite transform consumes whatever order the forward transforms leave, so neither shifting nor reordering costs a pass.""",
+        'explicit',
+        mot_quote=Q(r"We now implement the normalized Fourier transforms needed for", r"after a pointwise product."),
+        page='ring-convolution',
+        frm=['convolution-theorem', 'polynomial-ring-mod', 'cyclic-convolution', 'multidim-transform', 'synthetic-transform', 'transform-layout', 'kronecker-packing', 'simultaneous-layer', 'chunk-interchange', 'fixed-point-disk-grid', 'nlogn-multiplier'],
+        adds=adds_(
+            (r'T', 'padded array size', r'The number $rM$ of complex coefficients of the padded array of $M$ polynomial records.', 'count'),
+            (r'M', 'record count', r'The number $\prod_{i<d}t_i=T/r$ of polynomial records, the product of the lengths of the $d-1$ transform axes.', 'count'),
+            (r'\ell', 'ring exponent', r'The base-2 logarithm of $r$, so $r=2^\ell$.', 'direct'),
+            (r't_i', 'axis length', r'The power of two $2^{\ell-1}$ or $2^\ell$ that is the length of the $i$-th transform axis.', 'count'),
+        ),
+        salient=r"""The opposite transform consumes the frequency order that the forward transforms leave (bit-reversed and laid out by $LB$), since the pointwise product commutes with the record permutation $LB$, so no frequency reordering is ever executed.""",
+        children=[
+            synthetic_transform(), transform_layout(), kronecker_packing(),
+            infer('S3.4',
+                  r"""Both forward transforms are performed keeping their common $LB$ order, corresponding polynomial records are multiplied by signed packing, the opposite procedure is applied to that order, and its result is multiplied exactly by $M=T/r$.""",
+                  Q(r"Perform both forward transforms and retain their common $LB$ order.", r"multiply its result exactly by $M=T/r$.")),
+            infer('S3.5',
+                  r"""Since $F_{\boldsymbol t}^-(f*g)=M(F_{\boldsymbol t}^-f)(F_{\boldsymbol t}^-g)$ and $F_{\boldsymbol t}^+F_{\boldsymbol t}^-=I/M$, and the pointwise product commutes with $LB$, the stored procedure gives $M F_{\boldsymbol t}^+(F_{\boldsymbol t}^-f\cdot F_{\boldsymbol t}^-g/r)=(f*g)/(rM)=\mathcal M_r(f,g)$.""",
+                  Q(r"To check normalization, expansion of the finite sums gives", r"with $\mathcal M_r(f,g)$.")),
+            infer('S3.6',
+                  r"""With forward errors below $\delta=\sqrt2\,\ell\,2^{-p}$, the pointwise product (bilinear, norm at most one) changes by less than $2\delta$ and truncation adds $\eta=\sqrt2\,2^{-p}$, the contractive opposite transform gives error below $3\delta+\eta$, and the final exact multiplication by $M$ gives less than $\sqrt2\,M(3\ell+1)2^{-p}$.""",
+                  Q(r"For the error estimate, put", r"as claimed.")),
+        ])

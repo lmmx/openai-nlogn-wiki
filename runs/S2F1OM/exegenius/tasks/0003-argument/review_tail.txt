@@ -1,0 +1,185 @@
+   [S3.1.2] show page=kronecker-packing from=['polynomial-ring-mod', 'nlogn-multiplier', 'positional-number-representation-and-carries', 'dyadic-rationals-and-binary-fractions', 'complex-numbers']
+    CLAIM: For disk-grid $f,g\in\mathcal R_r$ with $r=2^\ell<2^p$, the exact Gaussian integer numerators of $fg$ and then $Q_p(fg/r)$, a disk-grid polynomial within $\sqrt2\,2^{-p}$ of $fg/r$, are computed in $O(rp\log(rp))$ time on fixed tapes from four products of the established multiplier.
+    METHOD: Write $f=2^{-p}(a+ib)$ and $g=2^{-p}(c+ie)$, evaluate $a,b,c,e$ at $B_0=2^{4p}$ as signed integers, form the four products with the $O(N\log N)$ multiplier, extract centered coefficients block by block, reduce modulo $y^r+1$, and truncate.
+    MOTIV(recoverable): Evaluating at a power of two far larger than every product coefficient turns a polynomial product into one integer product whose $4p$-bit blocks determine the coefficients, so the established fast integer multiplier does all the arithmetic.
+    [S3.1.2.1] infer page=None from=[]
+     CLAIM: Each evaluation $A_u=u(B_0)$ has $|A_u|<B_0^r/2$ and is formed from the coefficient stream with a carry in $\{-1,0\}$, and the four products $A_aA_c,A_bA_e,A_aA_e,A_bA_c$ come from the established multiplier.
+    [S3.1.2.2] infer page=None from=[]
+     CLAIM: Every coefficient of the ordinary products obeys $|h_j|\le r2^{2p}<2^{3p}<B_0/2$, so once the lower coefficients are removed the next one is the centered residue modulo $B_0$.
+    [S3.1.2.3] infer page=None from=[]
+     CLAIM: Centered extraction with a carry in $\{0,1\}$ maintains the residual identity, so every extracted block equals the true coefficient and the final carry cancels the sign extension.
+    [S3.1.2.4] infer page=None from=[]
+     CLAIM: Reducing $ac-be$ and $ae+bc$ modulo $y^r+1$ subtracts the coefficient at $j+r$ from that at $j$, so each $H_j$ is a sum of exactly $r$ signed products, $|H_j|\le r2^{2p}$, and $\|fg/r\|_\infty\le\|f\|_\infty\|g\|_\infty$.
+    [S3.1.2.5] infer page=None from=[]
+     CLAIM: Shifting by $p+\ell$ bits gives $Q_p(fg/r)$, and the four exact integer products dominate the linear packing, extraction, wrapping and truncation costs.
+   [S3.1.3] infer page=None from=[]
+    CLAIM: Since $F_{\boldsymbol t}^-(f*g)=M(F_{\boldsymbol t}^-f)(F_{\boldsymbol t}^-g)$ and $F_{\boldsymbol t}^+F_{\boldsymbol t}^-=I/M$, two forward transforms, the pointwise product $P(u,v)=uv/r$, the opposite transform and the scale $M$ give exactly $(f*g)/(rM)$, and the stored order does not interfere because $LB$ permutes whole records, so $P(LBu,LBv)=LBP(u,v)$.
+   [S3.1.4] infer page=None from=[]
+    CLAIM: Two forward errors below $\sqrt2\ell\,2^{-p}$, the bilinear contraction $\|P(x,y)\|\le\|x\|\|y\|$, one product truncation and the opposite error add to less than $\sqrt2(3\ell+1)2^{-p}$ before the exact scale by $M$.
+   [S3.1.5] infer page=None from=[]
+    CLAIM: The $M=T/r$ pointwise products cost $O(Tp\log(rp))$ in total, on top of the three transform costs and a linear final scaling.
+  [S3.2] show page=gaussian-resampling from=['dft', 'multidim-transform', 'fixed-point-disk-grid', 'nlogn-multiplier', 'chunk-interchange', 'exponential-function-and-gaussian-function', 'vector-norms-and-error-bounds', 'primes-coprimality-and-gcd']
+   CLAIM: For coprime $s<t$ with $t/s-1>p/\alpha^4$ and the permutations $(P_su)_j=u_{tj}$, $(P_tv)_k=v_{-sk}$, there are contractions $A,B_0$ with $P_sF_s=2^{2\alpha^2}B_0P_tF_tA$, computed on disk grids with error below $p^2$ in time $O(tp^{3/2+\delta}\alpha)$; tensoring over $d$ axes gives $RF_{\boldsymbol s}=2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A$, $\gamma=2d\alpha^2$, with error below $dp^2$, line costs $O(dTp^{3/2+\delta}\alpha)$ and axis movement $O(Tpd^2(1+\ell^\tau))$ in the padded box.
+   METHOD: Use Harvey and van der Hoeven's Gaussian identity $\mathsf TP_sF_s=P_tF_t\mathsf S$ and the near-identity $N=C\mathsf T\mathsf D$, invert $N$ by a Neumann series to get a left inverse of $\mathsf T$, normalize the maps into contractions, keep $P_s$ and $P_t$ inside the identity instead of sorting, and apply the one-dimensional maps line by line, exposing axes with the chunk interchange.
+   MOTIV(explicit): The usual implementation sorts twice on each coordinate; keeping both permutations in the transform formula avoids executing them, since the chirp absorbs one and the other cancels in the convolution.
+   [S3.2.1] infer page=None from=[]
+    CLAIM: With $N=C\mathsf T\mathsf D$ selecting the coordinates nearest $tj/s$, $\|N-I\|<2^{-\alpha^2\theta}<1/2$ because $\alpha^2\theta>p/\alpha^2>1$, so $N$ is invertible by the Neumann series.
+   [S3.2.2] infer page=None from=[]
+    CLAIM: $\mathsf DN^{-1}C$ is a left inverse of $\mathsf T$, so $\mathsf DN^{-1}CP_tF_t\mathsf S=P_sF_s$, and normalizing to $A=\mathsf S/2$ and $B_0=2^{-(2\alpha^2-2)}\mathsf D\,N^{-1}C/2$ gives $P_sF_s=2^{2\alpha^2}B_0P_tF_tA$ with contractions.
+   [S3.2.3] infer page=None from=[]
+    CLAIM: The quoted arithmetic maps and the ordered selection $C$ give approximations of $A$ and $B_0$ with errors below $16p<p^2$ and $4+3p^2/4<p^2$.
+   [S3.2.4] infer page=None from=[]
+    CLAIM: The original algorithm executes $P_t$ and $P_s^{-1}$ by two label-and-sort passes costing $O(tp\log t)$ each; here both permutations remain in the identity.
+   [S3.2.5] infer page=None from=[]
+    CLAIM: Tensoring over all pairs $(s_i,t_i)$ gives $RF_{\boldsymbol s}=2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A$ with $R=\bigotimes_iP_{s_i}$ and $Q=\bigotimes_iP_{t_i}$.
+   [S3.2.6] infer page=None from=[]
+    CLAIM: Applying the line maps to each valid line of the padded box and zero elsewhere keeps each axis map a contraction with error below $p^2$, so the tensor maps have error below $dp^2$ and line cost $\sum_i(T/t_i)O(t_ip^{3/2+\delta}\alpha)$.
+   [S3.2.7] infer page=None from=[]
+    CLAIM: Exposing each axis takes $O(d)$ adjacent interchanges of $\ell$- or $(\ell-1)$-bit fields by the chunk interchange, peeling one bit for unequal widths, at $O(Tp(1+\ell^\tau))$ each.
+  [S3.3] show page=chirp-identity from=['dft', 'cyclic-convolution', 'multidim-transform', 'gaussian-resampling', 'complex-numbers', 'exponential-function-and-gaussian-function']
+   CLAIM: For even $t_i$ and the chirp $a_{\boldsymbol j}=\exp(-\pi i\sum_is_ij_i^2/t_i)$, which has period $t_i$ in coordinate $i$, the permuted middle transform is $QF_{\boldsymbol t}u=\overline a\cdot(a*(\overline a\cdot u))/T$: two pointwise phase multiplications around one normalized cyclic convolution.
+   METHOD: Check the periodicity of $a$ and compare the coefficient of $u_{\boldsymbol k}$ on both sides, using $\overline a_{\boldsymbol j}a_{\boldsymbol j-\boldsymbol k}\overline a_{\boldsymbol k}=\exp(2\pi i\sum_is_ij_ik_i/t_i)$.
+   MOTIV(explicit): Bluestein's identity turns the transform into a convolution, and the coefficient $s_i$ in the chirp performs the frequency permutation $Q$, so $Q$ is never applied as a separate permutation of the array.
+   SALIENT: The frequency permutation $Q$, multiplication of frequencies by $-s_i$, costs nothing: it is absorbed into the chirp's coefficients, so no sort is executed.
+   [S3.3.1] infer page=None from=[]
+    CLAIM: Since $t_i$ is even, replacing $j_i$ by $j_i+t_i$ changes the exponent by $-\pi is_i(2j_i+t_i)\in2\pi i\mathbb Z$, so $a$ is periodic and the convolution cyclic.
+   [S3.3.2] infer page=None from=[]
+    CLAIM: The coefficient of $u_{\boldsymbol k}$ on the right is $T^{-1}\exp(2\pi i\sum_is_ij_ik_i/t_i)$, exactly that of $QF_{\boldsymbol t}$, since $Q$ reads frequency $(-s_ij_i)_i$ of the negative-sign transform.
+  [S3.4] show page=permutation-cancellation from=['convolution-theorem', 'multidim-transform', 'dft', 'gaussian-resampling', 'primes-coprimality-and-gcd', 'modular-arithmetic', 'functions-bijections-and-permutations']
+   CLAIM: With $S=\prod_is_i$, $(RF_{\boldsymbol s}^+)[(RF_{\boldsymbol s}u)\cdot(RF_{\boldsymbol s}v)]=(u*v)/S^2$, so the retained source permutation $R$ cancels between the two forward transforms, their pointwise product and the opposite-sign transform, and conjugating input and output of an algorithm for $RF_{\boldsymbol s}$ gives one for $RF_{\boldsymbol s}^+$.
+   METHOD: Show $F_{\boldsymbol s}^+R=R^{-1}F_{\boldsymbol s}^+$ by substituting $h=ck$ for units $c$, commute $R$ with pointwise products, and apply the normalized convolution rule with $F_{\boldsymbol s}^+F_{\boldsymbol s}=I/S$.
+   MOTIV(explicit): A convolution needs the forward transforms only through their pointwise product and the opposite transform, and a dilation by units passes through the opposite transform as its inverse, so the retained permutation can cancel instead of being executed.
+   SALIENT: The permutation $R$ is never executed: a dilation by units on the source side passes through the opposite transform as its inverse and cancels exactly.
+   [S3.4.1] infer page=None from=[]
+    CLAIM: For a unit $c$ modulo $q$, $F_q^+R_c=R_c^{-1}F_q^+$, and each $t_i$ is a unit modulo $s_i$, so $RF_{\boldsymbol s}^+R=F_{\boldsymbol s}^+$.
+   [S3.4.2] infer page=None from=[]
+    CLAIM: $(RF_{\boldsymbol s}u)\cdot(RF_{\boldsymbol s}v)=R(F_{\boldsymbol s}u\cdot F_{\boldsymbol s}v)$ because a coordinate permutation commutes with pointwise products.
+   [S3.4.3] infer page=None from=[]
+    CLAIM: With $F_{\boldsymbol s}(u*v)=S(F_{\boldsymbol s}u)\cdot(F_{\boldsymbol s}v)$ and $F_{\boldsymbol s}^+F_{\boldsymbol s}=I/S$, the two normalizations give $(u*v)/S^2$.
+   [S3.4.4] infer page=None from=[]
+    CLAIM: Complex conjugation turns the negative sign into the positive one, commutes with the real permutation $R$, and preserves grid, norm and error bound.
+  [S3.5] show page=None from=[]
+   CLAIM: With a fixed rational choice of exponents and sizes, the machine converts the inputs to radix-$2^b$ digits, maps them to prime cyclic axes, applies two computed source transforms, multiplies pointwise, applies the opposite transform, rescales, rounds and propagates carries, producing the exact $2n$-bit product within $O(n(\lg n)^{1-\kappa})$ steps.
+   METHOD: Instantiate the procedures with compatible parameters, prove each reduction exact at the level of exact counterparts, track errors and disk margins through every computed map to bring the final error below $1/2$, and sum a cost table normalized by $Tp=\Theta(n)$.
+   MOTIV(recoverable): The building blocks come with error and cost bounds under parameter hypotheses, so assembling them needs one parameter choice meeting all hypotheses, an error budget below one half for exact rounding, and a cost table whose rows are powers of $p$ below one.
+   [S3.5.1] show page=prime-lengths from=['crt-axis-map', 'gaussian-resampling', 'primes-coprimality-and-gcd', 'logarithms-and-exponentials']
+    CLAIM: For all large $n$ there are distinct odd primes $s_i$ with $(1-2\eta)t_i<s_i\le(1-\eta)t_i$, $\eta=1/(4d)$, found deterministically in $n^{o(1)}$ time, so that $T/2<S<T$, each $t_i/s_i-1>\eta$ gives $\alpha^4(t_i/s_i-1)>p$, and every hypothesis of the resampling lemma holds.
+    METHOD: Apply the prime-interval bound of Harvey and van der Hoeven (from Rosser and Schoenfeld) to the intervals below $r/2$ and $r$, each holding more than $d$ primes, multiply the lower bounds using Bernoulli's inequality, and search the intervals by trial division.
+    MOTIV(explicit): The product of the source lengths must fill a fixed fraction of the padded box, while each ratio $t_i/s_i$ must stay separated from one for resampling, so the primes must lie just below the powers of two but not too close.
+    [S3.5.1.1] infer page=None from=[]
+     CLAIM: Since $\log(r/2)/d\to\infty$, both $x=r/2$ and $x=r$ satisfy $\log x>8d=2/\eta$, so each interval $((1-2\eta)x,(1-\eta)x]$ holds at least $x/(8d\log x)>d$ primes, and the two intervals are disjoint.
+    [S3.5.1.2] infer page=None from=[]
+     CLAIM: Multiplying the lower bounds and using Bernoulli's inequality gives $S/T>(1-1/(2d))^d>1/2$, so $T/2<S<T$.
+    [S3.5.1.3] infer page=None from=[]
+     CLAIM: Each $t_i/s_i-1\ge\eta/(1-\eta)>\eta$ gives $\alpha^4(t_i/s_i-1)>12d^2b/(4d)=3db\ge p$, and with $2\le\alpha<\sqrt p$ and $t_i<2^p$ every hypothesis of the resampling lemma holds.
+    [S3.5.1.4] infer page=None from=[]
+     CLAIM: Trial-division search costs $O(dr^{3/2}\operatorname{poly}(p))$, whose logarithm is $o(p)$, hence $n^{o(1)}$ time, and the primes are computed by the machine rather than supplied as advice.
+   [S3.5.2] show page=int-as-convolution from=['cyclic-convolution', 'polynomials', 'positional-number-representation-and-carries']
+    CLAIM: Writing each input as $\lceil n/b\rceil$ radix-$2^b$ digits, the product polynomial of the digit lists has degree below $2n/b\le T/2<S$, so it equals their cyclic convolution modulo $x^S-1$, and its coefficients satisfy $0\le c_j<2^{3b}$.
+    METHOD: Compare the degree of the digit product with the convolution length, and bound each coefficient by the number of digit products it sums.
+    MOTIV(recoverable): Cyclic convolution of length $S$ agrees with ordinary polynomial multiplication when the product's degree is below $S$, and the coefficient bound fixes the word width needed to round and carry exactly.
+    [S3.5.2.1] infer page=None from=[]
+     CLAIM: The product has degree at most $2\lceil n/b\rceil-2<2n/b\le T/2<S$, so convolution modulo $x^S-1$ has no nonzero wraparound.
+    [S3.5.2.2] infer page=None from=[]
+     CLAIM: Each coefficient sums at most $\lceil n/b\rceil$ digit products, so $0\le c_j\le\lceil n/b\rceil(2^b-1)^2<2^{3b}$ since $n\le2^b$.
+   [S3.5.3] show page=crt-axis-map from=['cyclic-convolution', 'primes-coprimality-and-gcd', 'modular-arithmetic', 'controlled-shifts', 'chunk-interchange', 'multidim-transform', 'array-order']
+    CLAIM: For pairwise coprime $s_1,\dots,s_d$ with prefix products $P_i=\prod_{j<i}s_j$ and $\mu_i=P_i^{-1}\bmod s_i$, the map $\Phi:x\mapsto\prod_ix_i^{\mu_i}$ is a ring isomorphism from $\mathbb C[x]/(x^S-1)$ to $d$-dimensional cyclic convolution sending index $\sum_ja_jP_j$ to coordinates $a_i+\mu_i\sum_{j<i}a_jP_j\bmod s_i$, and on tape $\Phi$, its inverse and the padding cost $O(Tpd^2(1+\ell^\tau))$.
+    METHOD: Check that $\Phi$ respects $x^S=1$ and maps $x$ to an element of order $S$, express the coordinates as a triangular function of the mixed-radix digits, insert padding in one nested scan, reverse the axes, and apply the triangular updates as prefix-controlled cyclic shifts from the last axis to the first.
+    MOTIV(explicit): The Agarwal-Cooley split converts one cyclic convolution into a multidimensional one, and choosing the coordinate powers $\mu_i$ makes the change of order triangular, hence a sequence of controlled cyclic shifts.
+    [S3.5.3.1] infer page=None from=[]
+     CLAIM: $\Phi$ respects $x^S=1$, and since each $\mu_i$ is a unit and the $s_i$ are pairwise coprime the image of $x$ has order $S$, so its powers run once through all target monomials and $\Phi$ is an isomorphism preserving cyclic convolution.
+    [S3.5.3.2] infer page=None from=[]
+     CLAIM: Index $\sum_ja_jP_j$ goes to $a_i+\mu_i\sum_{j<i}a_jP_j\pmod{s_i}$ because terms with $j>i$ vanish modulo $s_i$ and $\mu_iP_i\equiv1$.
+    [S3.5.3.3] infer page=None from=[]
+     CLAIM: After reversing the axes, updating targets $i=d,\dots,1$ uses only original lower-index digits as controls, each update a prefix-controlled rotation of the valid interval $[0,s_i)$.
+    [S3.5.3.4] infer page=None from=[]
+     CLAIM: Each step is a bijection of the padded box preserving the valid set, so zero padding stays zero, and the inverse subtracts the same offsets for $i=1,\dots,d$.
+    [S3.5.3.5] infer page=None from=[]
+     CLAIM: Reversing the axes takes $O(d^2)$ adjacent interchanges of $\ell$- or $(\ell-1)$-bit fields, so $\Phi$, its inverse and the padding cost $O(Tpd^2(1+\ell^\tau))$, with offset preparation $o(Tp)$.
+   [S3.5.4] show page=complex-convolution from=['ring-convolution', 'cyclic-convolution', 'fixed-point-disk-grid', 'polynomial-ring-mod', 'complex-numbers']
+    CLAIM: Normalized complex cyclic convolution on the power-of-two box with $t_d=r$ is $\mathcal M_{\mathbb C}(f,g)=D_-\iota^{-1}\mathcal M_r(\iota D_+f,\iota D_+g)=(f*g)/T$, where $D_\pm$ multiplies coefficient $k$ of the last axis by $\zeta^{\pm k}$ and $\iota$ reads the last axis as a record of $\mathcal R_r$; its computed version, for disk-grid inputs one of norm at most $.7$, twists with approximate phases, applies the ring convolution and untwists, with twist cost $O(Tp^{1+\delta})$.
+    METHOD: Identify the last cyclic axis with the negacyclic ring through the twist, note that $\iota$ only changes the shape descriptor, and compute the twists with approximate phases followed by truncation.
+    MOTIV(explicit): A phase twist turns the last cyclic coordinate into a polynomial modulo $y^r+1$ whose negative wrap gives exactly the cyclic wrap once the twist is removed, so the ring convolution computes the complex one.
+    [S3.5.4.1] show page=negacyclic-twist from=['polynomial-ring-mod', 'cyclic-convolution', 'complex-numbers']
+     CLAIM: The twist $\Theta:\mathbb C[x_d]/(x_d^r-1)\to\mathcal R_r$, $x_d\mapsto\zeta y$ with $\zeta=e^{\pi i/r}$, is a norm-preserving ring isomorphism multiplying coefficient $k$ by $\zeta^k$, and a product term with $k+l=j+hr$ picks up $\zeta^{k+l}(-1)^h=\zeta^j$.
+     METHOD: Check $(\zeta y)^r=1$, diagonality on the monomial bases, and the sign of each wrapped product term.
+     MOTIV(recoverable): Scaling coefficient $k$ by $\zeta^k$ with $\zeta^r=-1$ converts the cyclic relation $x^r=1$ into the negacyclic $y^r=-1$, so the ring in which twiddles are signed shifts can carry the cyclic convolution.
+     SALIENT: The negative wrap from $y^r=-1$ and the factor $\zeta^r=-1$ from the twist cancel exactly, so the twisted negacyclic product is the cyclic one.
+     [S3.5.4.1.1] infer page=None from=[]
+      CLAIM: $\Theta$ is well defined since $(\zeta y)^r=(-1)(-1)=1$, and it is diagonal with nonzero entries $\zeta^k$, hence an isomorphism.
+     [S3.5.4.1.2] infer page=None from=[]
+      CLAIM: For $k+l=j+hr$ with $h\in\{0,1\}$ the negacyclic sign $(-1)^h$ and $\zeta^{hr}$ cancel, so untwisting recovers the cyclic coefficient with the correct sign.
+    [S3.5.4.2] infer page=None from=[]
+     CLAIM: Linewise $\Theta$ is $\iota D_+$ with inverse $D_-\iota^{-1}$, all isometries, so $\mathcal M_{\mathbb C}(f,g)=(f*g)/T$ is a bilinear contraction.
+    [S3.5.4.3] infer page=None from=[]
+     CLAIM: With component width $p+2$ both formats concatenate the same words in the same order, so $\iota$ and $\iota^{-1}$ change only the shape descriptor.
+    [S3.5.4.4] infer page=None from=[]
+     CLAIM: The computed version truncates the twisted inputs, applies the ring convolution, removes sign-extension bits and truncates the untwisted output, with phases within $2\cdot2^{-p}$ and total twist cost $O(Tp^{1+\delta})$.
+   [S3.5.5] show page=source-transform from=['gaussian-resampling', 'chirp-identity', 'complex-convolution', 'permutation-cancellation', 'fixed-point-disk-grid', 'nlogn-multiplier']
+    CLAIM: For a disk-grid source tensor of norm at most $.5$ in the padded box, the computed source transform $\widetilde{\mathscr F}$ (linewise $\mathcal A$, the computed chirp transform, linewise $\mathcal B_0$, exact scale $2^\gamma$) has exact counterpart $2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A=RF_{\boldsymbol s}$, and $\widetilde{\mathscr F}^+(z)=\overline{\widetilde{\mathscr F}(\overline z)}$ has exact counterpart $RF_{\boldsymbol s}^+$.
+    METHOD: Compute the chirp phases modulo $2r$ from the axis descriptors, evaluate the middle factor by the chirp identity through the complex convolution, compose with the Gaussian line maps and the exact power-of-two scale, and obtain the opposite sign by conjugation.
+    MOTIV(recoverable): The resampling identity reduces the prime-length transform to the middle factor $QF_{\boldsymbol t}$, which the chirp identity turns into one complex convolution; composing with the Gaussian maps then gives $RF_{\boldsymbol s}$ itself.
+    [S3.5.5.1] infer page=None from=[]
+     CLAIM: The chirp numerator $-\sum_is_ij_i^2(r/t_i)\bmod2r$ at each address takes $O(dp^{1+\delta})$ with the established multiplier, so the chirp array costs $O(Tdp^{1+\delta})$.
+    [S3.5.5.2] infer page=None from=[]
+     CLAIM: With exact phases and exact convolution, $x\mapsto\overline a\cdot\mathcal M_{\mathbb C}(a,\overline a\cdot x)$ is $QF_{\boldsymbol t}$ by the chirp identity.
+    [S3.5.5.3] infer page=None from=[]
+     CLAIM: The source transform applies linewise $\mathcal A$, the computed chirp transform, linewise $\mathcal B_0$ and the exact scale $2^\gamma$, so its exact counterpart is $2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A=RF_{\boldsymbol s}$.
+    [S3.5.5.4] infer page=None from=[]
+     CLAIM: Conjugating input and output gives the opposite-sign procedure with exact counterpart $RF_{\boldsymbol s}^+$.
+   [S3.5.6] show page=mult-algorithm from=['int-as-convolution', 'crt-axis-map', 'source-transform', 'permutation-cancellation', 'fixed-point-disk-grid', 'positional-number-representation-and-carries']
+    CLAIM: The algorithm writes digit $a_j$ as the exact grid value $a_j2^{-b-2}$, applies $\Phi$ to get source arrays $u,v$ of norm below $1/4$, computes $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$, multiplies pointwise with one truncation, applies $\widetilde{\mathscr F}^+$, scales by $S$ and then by $2^{2b+4}S$, rounds, applies $\Phi^{-1}$ and propagates radix-$2^b$ carries, and its exact counterpart is $2^{2b+4}(u*v)$, whose preimage under $\Phi$ is the integer convolution of the digits.
+    METHOD: Follow the exact counterparts: the cancellation identity gives $(u*v)/S^2$ after the three transforms, the first scale by $S$ gives $w=(u*v)/S$, and the second scale $2^{2b+4}S$ undoes the remaining normalization and the two input scales.
+    MOTIV(explicit): Every transform is normalized and the digits were scaled into the disk, so the exact counterpart of the pipeline is a known rescaling of the digit convolution; the two factors $S$ undo different normalizations.
+    [S3.5.6.1] infer page=None from=[]
+     CLAIM: Each digit $a_j$ becomes the exact grid numerator $a_j2^{p-b-2}$, i.e. the value $a_j2^{-b-2}<1/4$, with zero records appended up to length $S$, in $O(Tp)$.
+    [S3.5.6.2] infer page=None from=[]
+     CLAIM: The steps are: $\Phi$ with padding, the two computed source transforms, an exact pointwise product truncated to the grid, the computed opposite transform scaled exactly by $S$, a second exact scale by $2^{2b+4}S$ with rounding, $\Phi^{-1}$, and carry propagation.
+    [S3.5.6.3] infer page=None from=[]
+     CLAIM: By the cancellation identity the exact counterpart after the three transforms is $(u*v)/S^2$, so after the first scale it is $w=(u*v)/S$.
+    [S3.5.6.4] infer page=None from=[]
+     CLAIM: The second scale gives $2^{2b+4}(u*v)$, whose preimage under $\Phi$ is the original integer coefficient convolution.
+   [S3.5.7] show page=exact-recovery from=['fixed-point-disk-grid', 'vector-norms-and-error-bounds', 'ring-convolution', 'complex-convolution', 'source-transform', 'permutation-cancellation', 'int-as-convolution', 'positional-number-representation-and-carries', 'floor-ceiling-and-rounding']
+    CLAIM: Every computed map stays in the unit disk with margin, the computed $\widetilde w$ approximates $w=(u*v)/S$ within $28\cdot2^\gamma T^2\log_2T\cdot2^{-p}$, so after the exact scale $2^{2b+4}S$ the error is below $448b\,2^{-3b/4}<1/2$; rounding then gives the exact integer coefficients and carry propagation outputs exactly the $2n$ product bits.
+    METHOD: Propagate errors through contractions and bilinear contractions, whose errors add when operands lie in the disk, checking a disk margin at each call (ring convolution, twisted complex convolution, chirp, source transform, pointwise product, opposite transform), compare the scaled error with $1/2$ using $\gamma\le b/4$ and $S\le T<2^b$, and verify the carry invariant.
+    MOTIV(explicit): The true coefficients are integers, so any approximation within less than $1/2$ rounds to the exact value; contraction bounds make the errors of successive stages add.
+    SALIENT: Despite many approximate stages and a final scale near $2^{5b}$, the total error stays strictly below $1/2$, because the precision $p=6b$ leaves room above the scale $2^{2b+4}S\cdot2^\gamma T^2\log_2T$ with $\gamma=o(b)$.
+    [S3.5.7.1] infer page=None from=[]
+     CLAIM: The ring convolution has error below $M(3\log_2T+2)<5T\log_2T$ grid units, and with one operand of norm at most $.7$ its output norm is below $.701$, a disk margin after the scale $M$.
+    [S3.5.7.2] infer page=None from=[]
+     CLAIM: The two input twists and the output untwist add less than $4$ units each, so the computed complex convolution has error below $6T\log_2T$ units and stays in the disk.
+    [S3.5.7.3] infer page=None from=[]
+     CLAIM: For $\|x\|\le.6$ the chirp operands keep norm at most $.6$, the chirp output has norm below $.701$, and its error is below $8T\log_2T$ units.
+    [S3.5.7.4] infer page=None from=[]
+     CLAIM: The source transform has error below $2^\gamma(2dp^2+8T\log_2T)\le9\cdot2^\gamma T\log_2T$ units and output norm below $.501$, and conjugation gives the same for the opposite transform.
+    [S3.5.7.5] infer page=None from=[]
+     CLAIM: Since $\|u\|,\|v\|<1/4$, the computed transforms have norm below $.26$, the truncated product $z$ has norm below $.5$ and error below $2E_s+2$, and the opposite transform adds $E_s$, so the error against $(u*v)/S^2$ is below $3E_s+2$.
+    [S3.5.7.6] infer page=None from=[]
+     CLAIM: The exact scale by $S$ gives $\widetilde w$ within $S(3E_s+2)<28\cdot2^\gamma T^2\log_2T$ units of $w$, and $\|w\|<1/16$ keeps $\widetilde w$ in the disk.
+    [S3.5.7.7] infer page=None from=[]
+     CLAIM: The second exact scale with $S\le T<2^b$, $\log_2T<b$ and $\gamma\le b/4$ gives final error below $2^{2b+4}S\cdot28\cdot2^\gamma T^2\log_2T\cdot2^{-6b}<448b\,2^{-3b/4}<1/2$.
+    [S3.5.7.8] infer page=None from=[]
+     CLAIM: Carries $k_{j+1}=\lfloor(c_j+k_j)/2^b\rfloor$ stay below $2^{2b}$, and the invariant $\sum_{h<j}c_h2^{bh}=\sum_{h<j}d_h2^{bh}+k_j2^{bj}$ fixes the radix digits of the product.
+    [S3.5.7.9] infer page=None from=[]
+     CLAIM: The product is below $2^{2n}$, so removing only higher zero bits outputs exactly $2n$ bits, most significant first.
+   [S3.5.8] show page=parameter-balance from=['simultaneous-layer', 'chunk-interchange', 'transform-layout', 'ring-convolution', 'kronecker-packing', 'gaussian-resampling', 'crt-axis-map', 'prime-lengths', 'source-transform', 'packed-bit-addition', 'nlogn-multiplier', 'big-o', 'logarithms-and-exponentials']
+    CLAIM: With fixed rationals $\tau=1-2^{-50}$, $\lambda'=1-2^{-54}$, $c=2^{-56}$, $\epsilon=2^{-75}$, $\delta=1/16$ and sizes $p=6\lceil\log_2n\rceil$, $d=\lfloor b^\epsilon\rfloor$, $K=\lfloor d^c\rfloor$, $T\in[4n/b,8n/b)$, $r=2^{\lceil\log_2T/d\rceil}$, every row of the cost table normalized by $Tp=\Theta(n)$ is at most $p^{1-2\kappa}$ up to fixed powers of $\log p$, so the time is $O(Tp\cdot p^{1-\kappa})=O(n(\log n)^{1-\kappa})$ with $\kappa=2^{-182}$.
+    METHOD: Fix exponents and sizes satisfying every layer, transform and resampling hypothesis, list the normalized cost of each operation as a power of $p$, compute the seven margins below one, and absorb setup, descriptor work and exceptional sorting as $o(Tp)$.
+    MOTIV(explicit): Each procedure's cost is a power of $p$ through $d$, $K$ and $\ell$, so the exponents must be balanced together: enough axes for the layer saving, chunks wide enough for cheap layouts and repair, yet axis moves and Gaussian maps still below one pass per level.
+    SALIENT: Every row is a power of $p$ strictly below one, and the smallest margin, $\epsilon c(1-\tau)=2^{-181}=2\kappa$, comes from the chunk exchanges of the transform layout, which fixes the saving exponent $\kappa=2^{-182}$.
+    [S3.5.8.1] infer page=None from=[]
+     CLAIM: Fix $\tau=\sigma=1-2^{-50}$, $\beta=1/2$, $\delta=1/16$, $\lambda=1-2^{-52}$, $c=2^{-56}$, $\lambda'=1-2^{-54}$, $C_1=20$, $\epsilon=2^{-75}$ and $\kappa=2^{-182}$, which satisfy all layer conditions and $\epsilon(2-\tau)<1-\tau$, $3/4+\delta+3\epsilon/2<1$.
+    [S3.5.8.2] infer page=None from=[]
+     CLAIM: Put $b=\lceil\log_2n\rceil$, $p=6b$, $d=\lfloor b^\epsilon\rfloor$, $K=\lfloor d^c\rfloor$, $T$ the power of two in $[4n/b,8n/b)$ and $r=2^{\lceil\log_2T/d\rceil}$ with axis lengths in $\{r/2,r\}$, so that $Tp=\Theta(n)$, $d=\Theta(p^\epsilon)$, $K=\Theta(p^{\epsilon c})$ and $\log_2r=\Theta(p^{1-\epsilon})$.
+    [S3.5.8.3] infer page=None from=[]
+     CLAIM: Normalized by $V=Tp$, the costs are $dK$ (prefix moves and individual rounds), $pK^{\tau-1}$ (layout chunk exchanges), $\ell d^{\lambda'}$ (simultaneous rounds), $d^2(1+\ell^\tau)$ (CRT and axis layouts), $dp^{1/2+\delta}\alpha$ (Gaussian line maps), $dp^\delta$ (chirps, twists, scalar products) and $\log(rp)$ (packed polynomial products).
+    [S3.5.8.4] infer page=None from=[]
+     CLAIM: The seven margins below one are $1-\epsilon(1+c)>1/2$, $\epsilon c(1-\tau)=2^{-181}$, $\epsilon(1-\lambda')=2^{-129}$, $1-\tau-\epsilon(2-\tau)>2^{-51}$, $1/4-\delta-3\epsilon/2>1/8$, $1-\delta-\epsilon>1/2$ and $\epsilon=2^{-75}$, so the least is $2^{-181}=2\kappa$, from the layout chunk exchanges.
+    [S3.5.8.5] infer page=None from=[]
+     CLAIM: Setup at the $p^{O(1)}$ recursion visits and polynomial descriptor work per record or per Gaussian line cost $o(Tp)$, because $r$ exceeds every fixed power of $p$.
+    [S3.5.8.6] infer page=None from=[]
+     CLAIM: The exceptional sorting of all packed basis changes costs $O(Vp^{A'}2^{-K})=o(V)$ since $K=\Theta(p^{\epsilon c})$, a deterministic worst-case bound.
+    [S3.5.8.7] infer page=None from=[]
+     CLAIM: Each power is at most $1-2\kappa$ and any fixed power of $\log p$ is eventually at most $p^\kappa$, so the time is $O(Tp\cdot p^{1-\kappa})=O(n(\log n)^{1-\kappa})$.
+    [S3.5.8.8] infer page=None from=[]
+     CLAIM: Schoolbook multiplication below one fixed cutoff covers the finitely many small lengths, so a single machine achieves $O(n(\lg n)^{1-\kappa})$ for every $n\ge1$.
