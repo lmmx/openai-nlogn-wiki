@@ -17,7 +17,7 @@ This branch starts from `141026-exp-s3-opus-floor`, so it also holds the compari
 | `runs/FB1F8` | FB1 pilot | E7 (91c4fed) | Fable, `high` |
 
 - Every task file was checked by diff against its comparison's, apart from the project path and the instruction sentence.
-- All runs were accepted on their first submit. None stopped on `max_tokens`.
+- E8F1X and FB1F8 were accepted at their second submit; the first was rejected by `submit`'s checks (the logs record why). The other ten were accepted at their first. E8F6X's log also records a third `submit` after acceptance, refused as not pending. None stopped on `max_tokens`.
 - Helper files are kept. `__pycache__` and build output are not, and `sources/` is ignored as elsewhere.
 
 **Transcripts:** `results/transcripts/s4-e8-fb1/subagents/` holds the twelve argument subagents' transcripts and `.meta.json` files. Their descriptions are `S4F8OM 0003-argument`, `E8bF2X 0003-argument` and so on. There were no restarts.
