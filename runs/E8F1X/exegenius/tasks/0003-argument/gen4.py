@@ -1,0 +1,288 @@
+# Part 4: S4 multiplication algorithm, S5 parameters, root
+import os
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"gen3.py")).read())
+
+gauss = show(
+ "G1",
+ r"For coprime $2\le s<t$ with $t/s-1>p/\alpha^4$ there are linear contractions $A:\mathbb C^s\to\mathbb C^t$ and $B_0:\mathbb C^t\to\mathbb C^s$ with $P_sF_s=2^{2\alpha^2}B_0P_tF_tA$, approximated with error below $p^2$ in time $O(tp^{3/2+\delta}\alpha)$; for $d$ axes this tensors to $RF_{\boldsymbol s}=2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A$ with $\gamma=2d\alpha^2$.",
+ r"Use the exact Gaussian identity $\mathsf TP_sF_s=P_tF_t\mathsf S$ and the estimate $\|N-I\|<2^{-\alpha^2\theta}$ for $N=C\mathsf T\mathsf D$; invert $N$ by a Neumann series, normalize the three factors to contractions, and implement them with the cited ordered Gaussian algorithms, keeping the two coordinate permutations inside the identity instead of sorting.",
+ ("recoverable", "The Fourier transform of coprime length $s$ is expressed through one of power-of-two length $t$ by sampling with Gaussian weights; the weights are nearly cancelled by $\\mathsf D$, leaving $N$ close to the identity and invertible.", None),
+ [
+  infer("G1.1", r"The exact Gaussian identity and inverse estimate give $\mathsf TP_sF_s=P_tF_t\mathsf S$ and $\|N-I\|<2.01e^{-\pi\alpha^2\theta/2}<2^{-\alpha^2\theta}$.",
+        r"\|N-I\|<2.01e^{-\pi\alpha^2\theta/2}<2^{-\alpha^2\theta}."),
+  infer("G1.2", r"Since $\alpha^2\theta>p/\alpha^2>1$, $\|N-I\|<1/2$ and $N$ is invertible by the Neumann series.",
+        r"$\alpha^2\theta>p/\alpha^2>1$. Thus $\|N-I\|<1/2$, so $N$ is invertible"),
+  infer("G1.3", r"With $\mathsf S'=\mathsf S/2$, $\mathsf J'=N^{-1}/2$, $\mathsf D'=2^{-(2\alpha^2-2)}\mathsf D$ of norms below $3/4$, $7/8$, $1$, set $A=\mathsf S'$ and $B_0=\mathsf D'\mathsf J'C$, both contractions.",
+        r"Now set $A=\mathsf S'$ and $B_0=\mathsf D'\mathsf J'C$."),
+  infer("G1.4", r"The normalizations multiply to $2^{-(2\alpha^2-2)}\cdot2^{-1}\cdot2^{-1}=2^{-2\alpha^2}$, and the left inverse $\mathsf DN^{-1}C$ of $\mathsf T$ gives $B_0P_tF_tA=2^{-2\alpha^2}P_sF_s$.",
+        r"$2^{-(2\alpha^2-2)}2^{-1}2^{-1}=2^{-2\alpha^2}$. Hence"),
+  infer("G1.5", r"The maps $\widetilde{\mathsf S}'$, $\widetilde{\mathsf J}'$, $\widetilde{\mathsf D}'$ have errors $16p$, $3p^2/4$, $4$ and times $O(tp^{3/2+\delta}\alpha)$, $O(tp^{3/2+\delta}\alpha)$, $O(tp^{1+\delta})$.",
+        r"\widetilde{\mathsf S}'&16p&O(tp^{3/2+\delta}\alpha)\\"),
+  infer("G1.6", r"Since $t/s>1$ the selected indices $q_j$ are strictly increasing with $q_0=0$, so $C$ is an ordered subsequence selection computed by one forward scan in $O(tp)$ time with zero numerical error.",
+        r"For $C$, observe that $q_0=0$, $q_{s-1}<t$, and $q_{j+1}>q_j$,"),
+  infer("G1.7", r"Contraction of the exact maps yields errors below $16p<p^2$ for $\widetilde A$ and $4+3p^2/4<p^2$ for $\widetilde B_0$, with costs adding to $O(tp^{3/2+\delta}\alpha)$.",
+        r"Contraction of the exact maps yields errors less than $16p<p^2$ and"),
+  infer("G1.8", r"The original construction needs two label-and-sort operations, each costing $O(tp\log t)$, to implement $P_t$ and $P_s^{-1}$; here these permutations stay in the identity, so no sort is executed.",
+        r"The original proof of Proposition~4.7(ii) implements"),
+  infer("G1.9", r"Tensoring the one-dimensional identity gives $RF_{\boldsymbol s}=2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A$ with $R=\bigotimes P_{s_i}$, $Q=\bigotimes P_{t_i}$ and $\gamma=2d\alpha^2$.",
+        r"Tensoring \eqref{eq:no-sort-one-dimensional} proves"),
+  infer("G1.10", r"Applied linewise on the padded box (embedding by zeros, then expanding or compressing one axis at a time), the composition of the $d$ axis maps has error less than $dp^2$ and total line cost $\sum_iT/t_i\cdot O(t_ip^{3/2+\delta}\alpha)=O(dTp^{3/2+\delta}\alpha)$.",
+        r"Composing the $d$ axis maps gives error less than $dp^2$."),
+  infer("G1.11", r"Exposing and restoring all lines needs $O(d)$ adjacent axis interchanges per axis and $O(d^2)$ overall, each costing $O(Tp(1+\ell^\tau))$ by the chunk interchange.",
+        r"costs $O(Tp(1+\ell^\tau))$. Exposing and restoring one axis needs"),
+ ],
+ page="gaussian-resampling",
+ frm=["dft","exponential-function-and-gaussian-function","vector-norms-and-error-bounds","fixed-point-disk-grid","multidim-transform","primes-coprimality-and-gcd","chunk-interchange"],
+ salient=r"Both coordinate permutations stay inside the transform identity, so the resampling needs no sort at all, whereas the usual implementation sorts twice on each coordinate.")
+
+chirp = show(
+ "H1",
+ r"For even $t_i$ and the chirp $a_{\boldsymbol j}=\exp(-\pi i\sum_is_ij_i^2/t_i)$, which has period $t_i$ in coordinate $i$, the permuted transform is $QF_{\boldsymbol t}u=\overline a\cdot\bigl(a*(\overline a\cdot u)\bigr)/T$: a pointwise phase, a cyclic convolution with the chirp, and another phase.",
+ r"Check periodicity of the chirp, then compare coefficients: the coefficient of $u_{\boldsymbol k}$ on the right is $\frac1T\overline a_{\boldsymbol j}a_{\boldsymbol j-\boldsymbol k}\overline a_{\boldsymbol k}$, and the quadratic exponents collapse to $2\pi i\sum_is_ij_ik_i/t_i$ by the identity $2jk=j^2+k^2-(j-k)^2$.",
+ ("explicit", "Expressing the frequency change as a chirp convolution lets the target permutation be absorbed without applying it as a separate permutation of the array.", r"in $Q$ without applying $Q$ as a separate permutation of the array."),
+ [
+  infer("H1.1", r"Replacing $j_i$ by $j_i+t_i$ changes the exponent defining $a$ by $-\pi i s_i(2j_i+t_i)$, an integral multiple of $2\pi i$ because $t_i$ is even, so $a$ has period $t_i$ in coordinate $i$.",
+        r"Replacing $j_i$ by $j_i+t_i$ changes the exponent defining $a$ by"),
+  infer("H1.2", r"The coefficient of $u_{\boldsymbol k}$ in the right side is $\frac1T\exp\bigl(2\pi i\sum_is_ij_ik_i/t_i\bigr)$, which is exactly the coefficient in $QF_{\boldsymbol t}$ because $Q$ reads frequency $(-s_ij_i)_i$ from the negative-sign transform.",
+        r"This is precisely the coefficient in $QF_{\boldsymbol t}$, because"),
+ ],
+ page="chirp-identity",
+ frm=["dft","multidim-transform","complex-numbers","cyclic-convolution"])
+
+perm_cancel = show(
+ "H2",
+ r"With $S=\prod_is_i$, the retained source permutation cancels: $(RF_{\boldsymbol s}^+)\bigl[(RF_{\boldsymbol s}u)\cdot(RF_{\boldsymbol s}v)\bigr]=(u*v)/S^2$, and conjugating the input and output of an algorithm for $RF_{\boldsymbol s}$ gives one for $RF_{\boldsymbol s}^+$.",
+ r"Show that the dilation $R$ satisfies $RF^+_{\boldsymbol s}R=F^+_{\boldsymbol s}$ (each $t_i$ being a unit modulo $s_i$), that a coordinate permutation commutes with pointwise products, and then apply the normalized convolution rule and $F^+F=I/S$.",
+ ("explicit", "Keeping $R$ in the formula is harmless because it cancels when a convolution is computed by forward transforms, a pointwise product and an opposite transform.", r"retained source permutation $R$ cancels when computing a convolution."),
+ [
+  infer("H2.1", r"For a unit $c$ modulo $q$ and $(R_cz)_j=z_{cj}$, substituting $h=ck$ in the Fourier sum gives $F_q^+R_c=R_c^{-1}F_q^+$.",
+        r"For a unit $c$ modulo $q$, let $(R_cz)_j=z_{cj}$. Substituting $h=ck$"),
+  infer("H2.2", r"Since each $t_i$ is a unit modulo $s_i$, tensoring gives $F_{\boldsymbol s}^+R=R^{-1}F_{\boldsymbol s}^+$ and hence $RF_{\boldsymbol s}^+R=F_{\boldsymbol s}^+$.",
+        r"$F_{\boldsymbol s}^+R=R^{-1}F_{\boldsymbol s}^+$ and hence"),
+  infer("H2.3", r"A coordinate permutation commutes with pointwise products, so $(RF_{\boldsymbol s}u)\cdot(RF_{\boldsymbol s}v)=R(F_{\boldsymbol s}u\cdot F_{\boldsymbol s}v)$ and the left side equals $F_{\boldsymbol s}^+(F_{\boldsymbol s}u\cdot F_{\boldsymbol s}v)$.",
+        r"because a coordinate permutation commutes with pointwise products."),
+  infer("H2.4", r"The convolution rule $F_{\boldsymbol s}(u*v)=S(F_{\boldsymbol s}u)\cdot(F_{\boldsymbol s}v)$ and $F_{\boldsymbol s}^+F_{\boldsymbol s}=I/S$ give $F_{\boldsymbol s}^+(F_{\boldsymbol s}u\cdot F_{\boldsymbol s}v)=\frac1SF_{\boldsymbol s}^+F_{\boldsymbol s}(u*v)=(u*v)/S^2$.",
+        r"=\frac{u*v}{S^2},"),
+  infer("H2.5", r"Complex conjugation changes the negative Fourier sign to the positive one and commutes with the real permutation $R$, preserving the disk grid and the error bound.",
+        r"changes the negative Fourier sign to the positive one and commutes with"),
+ ],
+ page="permutation-cancellation",
+ frm=["dft","convolution-theorem","multidim-transform","functions-bijections-and-permutations","primes-coprimality-and-gcd","modular-arithmetic"],
+ salient=r"The permutation $R$ drops out of the final answer entirely: it need not be inverted or even sorted, because it appears on both forward transforms and, through $RF^+R=F^+$, on the opposite one.")
+
+resample_group = show(
+ "G",
+ r"The transform of coprime length $S=\prod_is_i$ with its coordinate permutation can be computed through power-of-two tensor transforms without executing either permutation: Gaussian resampling with retained permutations, the middle factor as a chirp convolution, and cancellation of the source permutation across the product.",
+ r"Keep the two permutations $R,Q$ of Gaussian resampling inside the transform identity; express the middle factor $QF_{\boldsymbol t}$ through a chirp convolution; and show that $R$ cancels between the two forward transforms, their pointwise product and the opposite-sign transform.",
+ ("explicit", "The usual resampling implementation sorts twice on each coordinate, so the permutations are retained in the formula and the formula is computed directly.", r"coordinate. We retain both permutations in the transform formula and"),
+ [gauss, chirp, perm_cancel],
+ frm=["dft","multidim-transform","convolution-theorem","exponential-function-and-gaussian-function","vector-norms-and-error-bounds"],
+ adds=[add("R","source permutation","the coordinate permutation $\\bigotimes_iP_{s_i}$ retained on the source side of the resampling identity"),
+       add("Q","target permutation","the coordinate permutation $\\bigotimes_iP_{t_i}$ retained on the power-of-two side of the resampling identity"),
+       add("\\gamma","scale exponent","the exponent $2d\\alpha^2$ of the exact power-of-two scale in the tensor resampling identity")])
+
+primes = show(
+ "Q1",
+ r"For $p=6b$, $d=\lfloor b^\epsilon\rfloor$ and padded axes $t_i\in\{r/2,r\}$, distinct odd primes $s_i\in((1-2\eta)t_i,(1-\eta)t_i]$ with $\eta=1/(4d)$ exist and are found by deterministic search in $n^{o(1)}$ time; they satisfy $T/2<S<T$ and $\alpha^4\theta_i>p$, so every hypothesis of the resampling lemma holds.",
+ r"Apply the prime-interval lower bound of Harvey and van der Hoeven (based on Rosser and Schoenfeld) to show each of the two intervals contains more than $d$ primes, pick distinct ones, and bound their product and the ratios $t_i/s_i$ by Bernoulli's inequality.",
+ ("explicit", "The primes must be close enough to the powers of two for their product to fill a fixed fraction of the box, yet separated enough from them for the resampling hypotheses.", r"$t_i$: their product must occupy a fixed fraction of the padded box,"),
+ [
+  infer("Q1.1", r"For $0<\eta<1/4$ and $x>e^{2/\eta}$ the interval $(1-2\eta)x<q\le(1-\eta)x$ contains at least $\eta x/(2\log x)$ primes.",
+        r"contains at least $\eta x/(2\log x)$ primes. Here $\log$ is the natural"),
+  infer("Q1.2", r"For both $x=r/2$ and $x=r$ one has $\log x>8d=2/\eta$ and the count $x/(8d\log x)$ exceeds $d$; the two intervals are disjoint since $(1-\eta)r/2<(1-2\eta)r$, so distinct odd primes $s_i$ can be chosen, and $\gcd(s_i,t_i)=1$ as $t_i$ is a power of two.",
+        r"For either choice, the stated lower bound for the number of primes is"),
+  infer("Q1.3", r"Multiplying the lower bounds and applying the strict Bernoulli inequality gives $S/T>(1-\tfrac1{2d})^d>\tfrac12$, and with $s_i<t_i$ this gives $T/2<S<T$.",
+        r"Multiplying the lower bounds on $s_i$ and"),
+  infer("Q1.4", r"With $\theta_i=t_i/s_i-1\ge\eta/(1-\eta)>\eta$ and $\alpha=\lceil(12d^2b)^{1/4}\rceil$, $\alpha^4\theta_i>12d^2b/(4d)=3db\ge6b=p$, so the resampling hypothesis $\theta>p/\alpha^4$ holds.",
+        r"Writing $\theta_i=t_i/s_i-1$, the upper bound on $s_i$ gives"),
+  infer("Q1.5", r"Scanning the two intervals and testing candidates by trial division costs $O(dr^{3/2}\operatorname{poly}(p))$, whose logarithm is $O(\log p+p/d)=o(p)$, so the search takes $n^{o(1)}=o(n)$ time.",
+        r"The machine finds these primes by scanning the two intervals"),
+ ],
+ page="prime-lengths",
+ frm=["primes-coprimality-and-gcd","logarithms-and-exponentials","gaussian-resampling","asymptotic-notation-beyond-big-o"],
+ adds=[add("\\eta","prime separation","the relative gap $1/(4d)$ separating the primes $s_i$ from the powers of two $t_i$"),
+       add("\\alpha","Gaussian width","the integer parameter $\\lceil(12d^2b)^{1/4}\\rceil$ controlling the Gaussian weights")])
+
+crt = show(
+ "Q2",
+ r"For pairwise coprime $s_i$ with $S=\prod_is_i$, the map $x\mapsto\prod_ix_i^{\mu_i}$ with $\mu_i=P_i^{-1}\bmod s_i$ is a convolution-preserving isomorphism from $\mathbb C[x]/(x^S-1)$ to $\mathbb C[x_1,\ldots,x_d]/(x_i^{s_i}-1)$; on tape it sends coefficient $k=\sum_ja_jP_j$ to coordinates $b_i=a_i+\mu_i\sum_{j<i}a_jP_j\pmod{s_i}$ at cost $O(Tp\,d^2(1+\ell^\tau))$.",
+ r"Use the Chinese remainder splitting of the cyclic group into prime cyclic axes with coordinate powers chosen so that each new coordinate depends only on earlier axes; then perform the updates for $i=d,\ldots,1$ as prefix-controlled cyclic shifts of valid intervals in the padded box, and reorder axes by chunk interchanges.",
+ ("explicit", "Choosing the coordinate powers as $\\mu_i$ makes the change of order a sequence of controlled cyclic shifts, which the tape handles in linear time.", r"algebraic split, with coordinate powers that make the change of order a"),
+ [
+  infer("Q2.1", r"The image of $x$ has order $S$ because each $\mu_i$ is a unit and the $s_i$ are pairwise coprime, so its powers run through all target monomials exactly once and the algebra map is an isomorphism preserving cyclic convolution.",
+        r"therefore run through all target basis monomials exactly once.  Hence"),
+  infer("Q2.2", r"With $k=\sum_ja_jP_j$ the coordinate of the image in axis $i$ is $b_i=a_i+\mu_i\sum_{j<i}a_jP_j\pmod{s_i}$, since terms with $j>i$ are divisible by $s_i$ and $\mu_iP_i\equiv1$.",
+        r"Indeed terms with $j>i$ are divisible by $s_i$, and $\mu_iP_i=1$ modulo"),
+  infer("Q2.3", r"Padding to the full box is one nested lexicographic scan that copies the next coefficient at valid addresses and writes a zero record elsewhere, at cost $O(Tp)$.",
+        r"at every other address, write a zero record."),
+  infer("Q2.4", r"Updating targets in the order $i=d,d-1,\ldots,1$ means no lower-index control has yet changed, so each offset is computed from the original digits.",
+        r"order $i=d,d-1,\ldots,1$ using \eqref{eq:triangular-crt}.  When target"),
+  infer("Q2.5", r"For fixed controls each update is a cyclic permutation of the valid target interval and the identity elsewhere, so the map is a bijection of the padded box that keeps zero padding zero; its inverse subtracts the same expression in order $i=1,\ldots,d$.",
+        r"permutation of the valid target interval and the identity elsewhere."),
+  infer("Q2.6", r"Offsets cost $o(Tp)$ in total since there are at most $T/t_i$ control prefixes and $r$ exceeds every power of $p$; reversing the $d$ axes takes $O(d^2)$ chunk moves, so $\Phi$, its inverse and padding cost $O(Tp\,d^2(1+\ell^\tau))$.",
+        r"O\bigl(Tp\,d^2(1+\ell^\tau)\bigr)."),
+ ],
+ page="crt-axis-map",
+ frm=["primes-coprimality-and-gcd","modular-arithmetic","cyclic-convolution","controlled-shifts","chunk-interchange","positional-number-representation-and-carries"],
+ adds=[add("\\mu_i","coordinate power","the inverse of the prefix product $P_i$ modulo $s_i$"),
+       add("P_i","prefix product","the product $\\prod_{j<i}s_j$ of the earlier prime lengths")])
+
+complex_conv = show(
+ "X1",
+ r"The normalized cyclic convolution $f*g/T$ of complex arrays on power-of-two axes is computed by twisting the last axis coefficientwise by $\zeta^k$ with $\zeta=e^{\pi i/r}$ into $\mathcal R_r$, applying the ring convolution on the other axes, and untwisting.",
+ r"Use the ring isomorphism $\Theta:x_d\mapsto\zeta y$ from $\mathbb C[x_d]/(x_d^r-1)$ to $\mathcal R_r$, diagonal in the coefficient bases, whose negative wrap exactly cancels the twist; compute the twists as disk-grid products with truncation.",
+ ("explicit", "The negative wrap of the polynomial ring combined with the twist reproduces the original cyclic wrap, so a cyclic axis can be treated as a ring coordinate.", r"modulo $y^r+1$; its negative wrap gives precisely the original cyclic"),
+ [
+  infer("X1.1", r"The map $x_d\mapsto\zeta y$ is well defined since $(\zeta y)^r=(-1)(-1)=1$, and it is diagonal on the bases, multiplying coefficient $k$ by the nonzero number $\zeta^k$, hence an isomorphism preserving the sup norm.",
+        r"is well defined, since $(\zeta y)^r=(-1)(-1)=1$."),
+  infer("X1.2", r"For $k+l=j+hr$ with $h\in\{0,1\}$ the product term after twisting and negacyclic reduction has factor $\zeta^{k+l}(-1)^h=\zeta^j(\zeta^r)^h(-1)^h=\zeta^j$, so untwisting recovers the cyclic coefficient with the correct sign.",
+        r"\zeta^{k+l}(-1)^h=\zeta^j(\zeta^r)^h(-1)^h=\zeta^j."),
+  infer("X1.3", r"Consequently $\mathcal M_{\mathbb C}(f,g)=D_-\iota^{-1}\mathcal M_r(\iota D_+f,\iota D_+g)=f*g/T$, with the division by $T$ already part of $\mathcal M_r$.",
+        r":=D_-\iota^{-1}"),
+  infer("X1.4", r"Computed with approximate twist arrays $\widetilde\theta^\pm$ of error below $2\,2^{-p}$, the convolution is $f'=Q_p(\widetilde\theta^+\cdot f)$, $g'=Q_p(\widetilde\theta^+\cdot g)$, $h'=\widetilde{\mathcal M}_r(\iota f',\iota g')$ and $Q_p(\widetilde\theta^-\cdot\iota^{-1}h')$, costing $O(Tp^{1+\delta})$ for the twists.",
+        r"f'&=Q_p(\widetilde\theta^+\mathbin{\cdot}f),\\"),
+ ],
+ page="complex-convolution",
+ frm=["negacyclic-twist","ring-convolution","cyclic-convolution","fixed-point-disk-grid","complex-numbers"])
+
+source_transform = show(
+ "X0",
+ r"The source transform procedure $\widetilde{\mathscr F}$ computes $RF_{\boldsymbol s}$ on disk-grid tensors of norm at most $.5$ supported on the padded box: the linewise Gaussian map $\mathcal A$, the chirp transform realized by a complex convolution, the linewise map $\mathcal B_0$, and an exact scale by $2^\gamma$.",
+ r"Compose the pieces of the resampling identity $2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A$ with the middle factor computed by the chirp identity through the complex convolution, and implement scales exactly by appending zero bits.",
+ ("recoverable", "The resampling identity writes the coprime-length transform as three factors, and the chirp identity turns the middle one into a convolution that the previous steps can compute.", None),
+ [
+  complex_conv,
+  infer("X0.1", r"The chirp numerators are computed modulo $2r$ as sums of $d$ terms $s_ij_i^2(r/t_i)$ using the established multiplier, so constructing the chirp costs $O(Tdp^{1+\delta})$.",
+        r"construction costs $O(Td p^{1+\delta})$ in total."),
+  infer("X0.2", r"The computed chirp transform forms $x_0=Q_p(\overline{\widetilde a}\cdot x)$, $y_0=\widetilde{\mathcal M}_{\mathbb C}(\widetilde a,x_0)$ and $\widetilde{\mathscr C}(x)=Q_p(\overline{\widetilde a}\cdot y_0)$, approximating $QF_{\boldsymbol t}x$ by the chirp identity.",
+        r"x_0&=Q_p(\overline{\widetilde a}\mathbin{\cdot}x),\\"),
+  infer("X0.3", r"The procedure applies the linewise approximation to $\mathcal A$, then $\widetilde{\mathscr C}$, then the linewise approximation to $\mathcal B_0$, and multiplies the numerators exactly by $2^\gamma$, with exact counterpart $2^\gamma\mathcal B_0QF_{\boldsymbol t}\mathcal A=RF_{\boldsymbol s}$; the opposite-sign procedure is $\overline{\widetilde{\mathscr F}(\overline z)}$.",
+        r"$\widetilde{\mathscr F}$ for the following procedure: apply the linewise"),
+ ],
+ page="source-transform",
+ frm=["gaussian-resampling","chirp-identity","permutation-cancellation","complex-convolution","fixed-point-disk-grid"])
+
+alg_steps = [
+ infer("M1", r"Read each operand backward in groups of $b$ bits to get radix-$2^b$ digits $a_0,\ldots,a_{q-1}$, write digit $a_j$ as the grid numerator $a_j2^{p-b-2}$ in a real word with a zero imaginary word (value $a_j2^{-b-2}<1/4$), and append $S-q$ zero records, at cost $O(n+Sp)=O(Tp)$.",
+       r"For digit $a_j$, write the exact grid numerator"),
+ infer("M2", r"Apply the coefficient-address map $\Phi$ with its padded layout to obtain source arrays $u,v$ of exact grid values of norm less than $1/4$.",
+       r"\item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain"),
+ infer("M3", r"Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$, multiply corresponding coefficients exactly and truncate toward zero to $p$ fractional bits to obtain the source array $z$.",
+       r"\item Compute $\widetilde{\mathscr F}(u)$ and"),
+ infer("M4", r"Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, writing each component in signed width $w_{\rm c}+b$, to obtain $\widetilde w$.",
+       r"\item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid"),
+ infer("M5", r"Multiply the numerators of $\widetilde w$ exactly by $2^{2b+4}S$, round the real values to the nearest integers, write each valid coefficient in a $(3b+1)$-bit word and padded addresses as zero words, and apply $\Phi^{-1}$.",
+       r"\item Multiply the grid numerators of $\widetilde w$ exactly by"),
+ infer("M6", r"Propagate radix-$2^b$ carries in increasing coefficient order, collect the bits least significant first, reverse the stream and output exactly $2n$ bits.",
+       r"\item Propagate radix-$2^b$ carries in increasing coefficient order."),
+ infer("M7", r"The two occurrences of $S$ undo different normalizations: after the three transforms the exact counterpart is $(u*v)/S^2$ by permutation cancellation, so the first scale gives $w=(u*v)/S$, and the second scale $2^{2b+4}S$ gives $2^{2b+4}(u*v)$, whose image under $\Phi^{-1}$ is the integer coefficient convolution.",
+       r"The two occurrences of $S$ in this algorithm undo different"),
+]
+
+exact = show(
+ "ER",
+ r"The recovered coefficient error is below $1/2$, so rounding gives the integer convolution coefficients $c_j<2^{3b}$, and radix-$2^b$ carry propagation outputs exactly the $2n$ bits of the product.",
+ r"Propagate numerical errors through the calls by a chain of estimates $E_{\rm ring}\to6TL\to8TL\to E_s\to E_w$ with disk margins at each step, multiply the final error by the scale $2^{2b+4}S$ and compare with $1/2$; then round and run the carry recurrence.",
+ ("recoverable", "Every routine approximates a linear contraction, so errors add under composition, and the integer coefficients are recovered because the accumulated error is below one half.", None),
+ [
+  infer("ER.1", r"Each synthetic transform has error below $\sqrt2\ell2^{-p}<L2^{-p}$ with $L=\log_2T$, because the layer width is $O(p)$ for $\epsilon C_1<1$.",
+        r"$\sqrt2\ell\,2^{-p}<L2^{-p}$, where $L=\log_2T$, for all"),
+  infer("ER.2", r"A computed phase product with approximation error below $2h_p$ has error below $(2\|x\|+\sqrt2)h_p<4h_p$ and does not increase the norm, so a smaller operand keeps its bound.",
+        r"<(2\|x\|+\sqrt2)h_p<4h_p,"),
+  infer("ER.3", r"The ring convolution returns error $E_{\rm ring}:=M(3L+2)<5TL$ in units of $h_p=2^{-p}$, and with an operand of norm at most $.7$ its output has norm below $.701$.",
+        r"E_{\rm ring}:=M(3L+2)<5TL."),
+  infer("ER.4", r"The complex convolution has error below $(E_{\rm ring}+4+4+4)h_p<6TLh_p$ and is a disk grid array.",
+        r"<(E_{\rm ring}+4+4+4)h_p<6TLh_p."),
+  infer("ER.5", r"The chirp transform has error below $(6TL+2+4+4)h_p<8TLh_p$.",
+        r"<(6TL+2+4+4)h_p<8TLh_p."),
+  infer("ER.6", r"The source transform, including the exact scale $2^\gamma$, has error below $E_sh_p$ with $E_s=9\,2^\gamma TL$.",
+        r"E_s=9\,2^\gamma TL,"),
+  infer("ER.7", r"For the pointwise product $z$ and the opposite transform, the error before the scale by $S$ is below $(3E_s+2)h_p$, since $(\widetilde U-U)\cdot\widetilde V_1+U\cdot(\widetilde V_1-V_1)$ contributes at most $2E_sh_p$, truncation adds $2h_p$, and the exact opposite map $G=RF_{\boldsymbol s}^+$ is a contraction.",
+        r"&<(3E_s+2)h_p."),
+  infer("ER.8", r"Multiplying by $S$ gives error below $E_wh_p$ with $E_w:=S(3E_s+2)<28\,2^\gamma T^2L$.",
+        r"E_w:=S(3E_s+2)<28\,2^\gamma T^2L."),
+  infer("ER.9", r"After the second scale, using $S\le T<2^b$, $L<b$ and $\gamma\le b/4$, the final absolute error is below $2^{2b+4}S\cdot28\,2^\gamma T^2L\cdot2^{-6b}<448b\,2^{-b+\gamma}\le448b\,2^{-3b/4}<\tfrac12$.",
+        r"2^{2b+4}S\cdot28\,2^\gamma T^2L\cdot2^{-6b}"),
+  infer("ER.10", r"Because the true coefficients are integers and the error is strictly below $1/2$, rounding $H_j/2^p$ gives the unique correct coefficient $c_j\in[0,2^{3b})$, since $c_j\le q(2^b-1)^2<2^{3b}$.",
+        r"$H_j/2^p$.  The strict error below $1/2$ makes the nearest integer to"),
+  infer("ER.11", r"The carry recurrence $k_0=0$, $d_j=(c_j+k_j)\bmod Q_0$, $k_{j+1}=\lfloor(c_j+k_j)/Q_0\rfloor$ with $Q_0=2^b$ keeps $0\le k_j\le q(Q_0-1)<Q_0^2$ and the invariant $\sum_{h<j}c_hQ_0^h=\sum_{h<j}d_hQ_0^h+k_jQ_0^j$, so the radix digits are exact.",
+        r"k_0=0,\qquad d_j=(c_j+k_j)\bmod Q_0,"),
+  infer("ER.12", r"The exact product is less than $2^{2n}$, so all bits above position $2n-1$ are zero; discarding only those padding bits and keeping leading zeros outputs exactly $2n$ bits.",
+        r"than $2^{2n}$; all bits above position $2n-1$ are therefore zero."),
+])
+exact_node = show(
+ "ER0",
+ exact["claim"], exact["method"], (exact["motivation"]["source"], exact["motivation"]["text"], None),
+ exact["children"], page="exact-recovery",
+ frm=["fixed-point-disk-grid","vector-norms-and-error-bounds","permutation-cancellation","int-as-convolution","positional-number-representation-and-carries","ring-convolution","source-transform"],
+ adds=[add("b","digit width","the number of bits per radix digit, $\\lceil\\log_2n\\rceil$","count"),
+       add("S","prime product","the product $s_1\\cdots s_d$ of the prime lengths, between $T/2$ and $T$")],
+ salient=r"The error stays below $1/2$ even after being multiplied by the scale $2^{2b+4}S$, because the working precision $p=6b$ leaves slack of order $2^{-3b/4}$ times a factor $448b$.")
+
+mult_alg = show(
+ "M0",
+ r"The multiplication algorithm computes the exact $2n$-bit product by splitting both inputs into radix-$2^b$ digits, placing them on prime cyclic axes, applying the source transform to each, multiplying pointwise, applying the opposite-sign transform with the scalings $S$ and $2^{2b+4}S$, rounding, and propagating carries.",
+ r"Reduce the product to a cyclic convolution of digit lists of length $S$ with no wraparound, put it on distinct prime axes by the Chinese-remainder map, evaluate it as transform, pointwise product and opposite transform with the retained permutation cancelling, then recover the integers by rounding and carries.",
+ ("explicit", "Splitting the inputs into radix digits turns multiplication into a convolution of short integer coefficients, which Fourier-type transforms compute.", r"Splitting the inputs into radix digits reduces multiplication to"),
+ [resample_group, primes, crt, source_transform] + alg_steps + [exact_node],
+ page="mult-algorithm",
+ frm=["int-as-convolution","cyclic-convolution","convolution-theorem","dft","multidim-transform","fixed-point-disk-grid","ring-convolution","positional-number-representation-and-carries"],
+ adds=[add("n","input length","the number of bits of each input integer","count"),
+       add("p","working precision","the number of fractional bits of the fixed-point grid, equal to $6\\lceil\\log_2n\\rceil$","count"),
+       add("q","digit count","the number $\\lceil n/b\\rceil$ of radix digits of each input","count")],
+ salient=r"The two occurrences of $S$ undo different normalizations, and the source permutation $R$, never executed, leaves no trace in the final coefficients.")
+
+# ---------------------------------------------------------------- S5 parameters
+params = show(
+ "PB",
+ r"With $p=6b$, $d=\lfloor b^\epsilon\rfloor$, $K=\lfloor d^c\rfloor$, ring dimension $r=2^{\Theta(p/d)}$ and tiny exponents $\epsilon=2^{-75}$, $c=2^{-56}$, $\tau=1-2^{-50}$, $\lambda'=1-2^{-54}$, $\delta=1/16$, every row of the cost table, normalized by $Tp=\Theta(n)$, is at most $p^{1-2\kappa}$, so the total time is $O(n(\log n)^{1-\kappa})$ with $\kappa=2^{-182}$.",
+ r"List the normalized cost of each operation as a power of $p$, compute the margin $g_i$ below one for the seven dominant rows, take the smallest margin $2^{-181}=2\kappa$, and absorb every fixed power of $\log p$, the setup and exceptional streams, and the finitely many small lengths into the slack.",
+ ("explicit", "The smallest margin leaves slack that covers any remaining fixed power of $\\log p$.", r"Thus $\min_i g_i=2^{-181}=2\kappa$.  This explicit slack will cover"),
+ [
+  infer("PB.1", r"The fixed rational parameters are $\tau=\sigma=1-2^{-50}$, $\lambda=1-2^{-52}$, $c=2^{-56}$, $\lambda'=1-2^{-54}$, $C_1=20$, $\epsilon=2^{-75}$ and $\kappa=2^{-182}$, with $\epsilon C_1<1$, $\epsilon(2-\tau)<1-\tau$ and $\tfrac34+\delta+\tfrac32\epsilon<1$.",
+        r"C_1=20,\qquad \epsilon=2^{-75},\qquad \kappa=2^{-182}.", deferred=True),
+  infer("PB.2", r"For large $n$ put $b=\lceil\log_2n\rceil$, $p=6b$, $d=\lfloor b^\epsilon\rfloor$, $K=\lfloor d^c\rfloor$, take the power of two $T\in[4n/b,8n/b)$ and $r=2^{\lceil(\log_2T)/d\rceil}$, so that $Tp=\Theta(n)$, $d=\Theta(p^\epsilon)$, $K=\Theta(p^{\epsilon c})$, $\ell=\Theta(p^{1-\epsilon})$.",
+        r"Tp=\Theta(n),\quad d=\Theta(p^\epsilon),\quad", deferred=True),
+  infer("PB.3", r"Dividing by the volume $V=Tp=\Theta(n)$ (each coefficient has $\Theta(p)$ bits), the cost of each operation is listed as a normalized cost and a power of $p$.",
+        r"Table~\ref{tab:costs} lists costs after division"),
+  infer("PB.4", r"The seven dominant rows have margins below one $g_1=1-\epsilon(1+c)$, $g_2=\epsilon c(1-\tau)$, $g_3=\epsilon(1-\lambda')$, $g_4=1-\tau-\epsilon(2-\tau)$, $g_5=\tfrac14-\delta-\tfrac32\epsilon$, $g_6=1-\delta-\epsilon$, $g_7=\epsilon$, with values $g_1>\tfrac12$, $g_2=2^{-181}$, $g_3=2^{-129}$, $g_4>2^{-51}$, $g_5>\tfrac18$, $g_6>\tfrac12$, $g_7=2^{-75}$.",
+        r"g_1>\frac12,\quad g_2=2^{-181},\quad g_3=2^{-129},\quad"),
+  infer("PB.5", r"Hence $\min_ig_i=g_2=\epsilon c(1-\tau)=2^{-181}=2\kappa$, because $75+56+50=181$.",
+        r"Thus $\min_i g_i=2^{-181}=2\kappa$.  This explicit slack will cover"),
+  infer("PB.6", r"The layout exchanges use $O(p/K)$ chunk interchanges each costing $O(VK^\tau)$, so the normalized cost is $O(p/K)K^\tau=O(pK^{\tau-1})$ with power $1-\epsilon c(1-\tau)$; the prefix-slot moves and individual rounds cost $dK$, power $\epsilon(1+c)$.",
+        r"O(p/K)\,K^\tau=O(pK^{\tau-1})."),
+  infer("PB.7", r"The at most $\ell$ simultaneous rounds each cost $O(Vd^{\lambda'})$, so the normalized cost is $\ell d^{\lambda'}$ with power $1-\epsilon(1-\lambda')$ since $\ell=\Theta(p^{1-\epsilon})$ and $d=\Theta(p^\epsilon)$.",
+        r"For the at most $\ell$ simultaneous rounds,"),
+  infer("PB.8", r"Axis exposure and restoration need $O(d^2)$ adjacent axis moves, each $O(V(1+\ell^\tau))$, for normalized cost $d^2(1+\ell^\tau)$ with power $\tau+\epsilon(2-\tau)$; the $d$ CRT rotations cost $O(dV)$.",
+        r"Axis exposure and restoration require $O(d^2)$ adjacent axis moves."),
+  infer("PB.9", r"The Gaussian line maps cost $\sum_iT/t_i\cdot O(t_ip^{3/2+\delta}\alpha)=O(dTp^{3/2+\delta}\alpha)$; with $\alpha=\Theta(p^{1/4+\epsilon/2})$ the normalized cost has power $3/4+\delta+3\epsilon/2$.",
+        r"Dividing by $V=Tp$ gives the fifth row.  The factor"),
+  infer("PB.10", r"Chirp numerators, twists and scalar products use a fixed number of exact products on $O(p)$-bit numerators, costing $O(dp^{1+\delta})$ per entry, normalized power $\epsilon+\delta$.",
+        r"then generating the exponentials, costs $O(dp^{1+\delta})$ per entry."),
+  infer("PB.11", r"Four integer products on $O(rp)$ bits per record cost $O(Tp\log(rp))$ in total, normalized power $1-\epsilon$ since $\log(rp)=O(p^{1-\epsilon})$; these use the established $O(N\log N)$ multiplier and do not call the improved algorithm.",
+        r"polynomial records in each pointwise ring product.  Four integer"),
+  infer("PB.12", r"Setup at the at most $p^A$ recursion visits costs $p^{A+C}=o(Tp)$, per-record and per-line work costs $o(Tp)$ because $r$ exceeds every fixed power of $p$, and the compact exceptional-stream sorting totals $O(Vp^{A'}2^{-K})=o(V)$.",
+        r"costs at most $p^{A+C}=o(Tp)$."),
+  infer("PB.13", r"Each of the seven displayed powers is at most $1-2\kappa$ and any fixed power of $\log p$ is at most $p^\kappa$ eventually, so the total is $O(Tp\,p^{1-\kappa})=O(n(\log n)^{1-\kappa})$.",
+        r"Each of the seven displayed powers is at most $1-2\kappa$ by"),
+  infer("PB.14", r"Using schoolbook multiplication below a fixed cutoff, a single fixed-alphabet, fixed-tape deterministic machine has worst-case time $O(n(\lg n)^{1-\kappa})$ for every input length and produces precisely the required $2n$-bit product.",
+        r"$O(n(\lg n)^{1-\kappa})$ for every input length and produces precisely"),
+ ],
+ page="parameter-balance",
+ frm=["mult-algorithm","exact-recovery","ring-convolution","transform-layout","chunk-interchange","simultaneous-layer","gaussian-resampling","crt-axis-map","prime-lengths","kronecker-packing","nlogn-multiplier","logarithms-and-exponentials","asymptotic-notation-beyond-big-o"],
+ adds=[add("\\epsilon","dimension exponent","the tiny exponent $2^{-75}$ such that the number of axes is $d=\\lfloor b^\\epsilon\\rfloor$"),
+       add("c","chunk exponent","the tiny exponent $2^{-56}$ such that the chunk width is $K=\\lfloor d^c\\rfloor$"),
+       add("\\kappa","saving exponent","the exponent $2^{-182}$ by which the logarithmic factor is reduced")],
+ salient=r"The saving is a tiny power: the smallest margin is $g_2=\epsilon c(1-\tau)=2^{-75}\cdot2^{-56}\cdot2^{-50}=2^{-181}$, exactly $2\kappa$, so each of the three tiny exponents contributes multiplicatively to how little is saved.")
+
+root = show(
+ "S0",
+ r"There is one deterministic fixed-alphabet, fixed-tape Turing machine multiplying $n$-bit integers exactly in $O(n(\lg n)^{1-\kappa})$ time with $\kappa=2^{-182}$, disproving the $n\log n$ optimality conjecture in this model.",
+ r"Reduce the product to a digit convolution evaluated by Fourier-type transforms on power-of-two grids over a polynomial ring, speed up the two dominant tape operations, address interchange and butterfly layers, by a power of their width, build the polynomial-ring convolution from them, express the coprime-length transforms through these by Gaussian resampling, check exactness, and balance the parameters so every cost row is at most $(\lg n)^{1-2\kappa}$ per unit volume.",
+ ("explicit", "Scanning the data at each of the logarithmically many transform levels already costs $n\\log n$, so both movement and arithmetic must be made cheaper than a pass per level.", r"We therefore need savings in both movement and arithmetic."),
+ [chunk_interchange, simult, ring_conv, mult_alg, params],
+ page="main-theorem",
+ frm=["fixed-tape-model","nlogn-conjecture","nlogn-multiplier","int-as-convolution","cyclic-convolution","tape-machines","big-o"],
+ salient=r"The saving $(\lg n)^{-\kappa}$ with $\kappa=2^{-182}$ is a genuine power of the logarithm, not a $\log\log$ or $\log^*$ factor, though astronomically small.")
+
+answer = {"root": root}
