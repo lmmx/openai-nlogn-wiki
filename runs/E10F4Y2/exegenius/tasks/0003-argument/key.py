@@ -1,0 +1,196 @@
+from lib import *
+
+
+def LN():
+    return show(
+        "A fixed linear network on scalar wires, run through an eight-row schedule, adds each source value to its matching target whatever the scratch values are, and three invocations (forward, inverse, forward) send $(X_a,Y_a)$ to $(-Y_a,X_a)$ while restoring every scratch wire.",
+        "Compute the net effect of the eight rows symbolically on the target, the side wires and the central wires, then compose three invocations.",
+        "Rows 0-1 cancel the old scratch contribution, rows 2-5 add the new contribution, and rows 6-7 restore the scratch wires, so the result cannot depend on the unknown scratch values.",
+        "explicit",
+        mq=r"the following schedule remove the effect of the old scratch values;",
+        page="linear-network",
+        frm=["linear-algebra-basics", "finite-field-f2-arithmetic"],
+        salient="The scratch wires may start with arbitrary values and are restored exactly, yet they are used to build the target update: a restoring schedule (undo the old contribution, add the new one, undo it again) makes the net map independent of them.",
+        children=[
+            infer("Each of the $I=3v^2$ invocations (three stages of $v^2$ invocations each) has its own auxiliary wires, distinct from those of every other invocation.",
+                  r"I=3v^2=78440670000", frm=["linear-algebra-basics"]),
+            infer("The schedule has eight rows: subtract side injection, subtract scatter, copy, gather, scatter, side injection, undo gather, undo copy.",
+                  r"The forward schedule is"),
+            infer("Rows 0 and 1 subtract the effect $\\mathcal J a+\\mathcal R c$ of the initial side and central scratch vectors $a,c$ from the target.",
+                  r"subtract $\mathcal J a+\mathcal R c$ from $y$."),
+            infer("Rows 2 to 5 change the scratch to $a+\\mathcal Vx$ and $c+\\mathcal Gx$ and then add $\\mathcal R(c+\\mathcal Gx)+\\mathcal J(a+\\mathcal Vx)$ to the target; rows 6 and 7 restore the scratch.",
+                  r"$\mathcal R(c+\mathcal Gx)+\mathcal J(a+\mathcal Vx)$."),
+            infer("The net target change is $(\\mathcal J\\mathcal V+\\mathcal R\\mathcal G)x$, independent of the scratch vectors $a,c$.",
+                  r"$(\mathcal J\mathcal V+\mathcal R\mathcal G)x$, independently of"),
+            infer("Bit case over $\\mathbb F_2$ with neighbours of intersection size one: the central coefficient is $|\\sigma\\cap\\sigma'|\\bmod 2$, the side injection cancels the intersection-one pairs, intersections zero and two already give zero, and a triple with itself gives one, so the net map is $y\\gets y+x$.",
+                  r"In the bit case, the central coefficient from $x_T$ to $y_S$ is"),
+            infer("Complex case over $\\mathbb Z[i,1/2]$ with neighbours of even intersection: the central coefficient is $(|\\sigma\\cap\\sigma'|-1)/2$, the side injection cancels it for intersections zero and two, intersection one contributes zero, and a triple with itself gives one.",
+                  r"In the complex case, the central coefficient is $(|S\cap T|-1)/2$."),
+            infer("Forward, inverse and forward invocations send $(x,y)$ to $(x,y+x)$, then $(-y,y+x)$, then $(-y,x)$, restoring all scratch wires.",
+                  r"Starting from $(x,y)$, the three stages give"),
+            infer("A triple has $z_{\\rm b}=3\\binom{97}{2}=13968$ neighbours in the bit construction and $z_{\\rm c}=\\binom{97}{3}+3\\cdot97=147731$ in the complex one, with $c_{\\rm b}=100$ and $c_{\\rm c}=101$ central wires per invocation.",
+                  r"z_{\rm b}=3\binom{97}{2}=13968,\qquad"),
+            infer("The wire count of the bit network is $W_{\\rm b}=2N+I(vz_{\\rm b}+c_{\\rm b})=177176569091445000000$, and that of the complex network is $W_{\\rm c}=1873807244643542670000$; both are fixed constants.",
+                  r"W_{\rm b}&=2N+I(vz_{\rm b}+c_{\rm b})"),
+        ])
+
+
+def CF():
+    return show(
+        "Giving every source, gate and sink an invertible frame $D_v$, shared by all incidences of a gate, makes the implemented array operator $D_{\\rm out}\\mathsf S_\\Omega D_{\\rm in}^{-1}$, so a route pays only its endpoint operator and each edge only the frame change $D_vD_u^{-1}$.",
+        "Prove the invariant that the stored array equals the frame applied to the logical array, by induction along the edges and gates of the network.",
+        "A pointwise linear gate commutes with any operator acting inside each wire's array, so a frame shared by the gate's wires passes through it unchanged; hence intermediate frames cancel.",
+        "recoverable",
+        page="common-frame-principle",
+        frm=["linear-network", "linear-algebra-basics"],
+        children=[
+            infer("All incidences of a gate use one frame, and an edge from $u$ to $v$ applies $D_vD_u^{-1}$ to its wire's array.",
+                  r"incidences of one gate use the same $D_v$."),
+            infer("At every vertex the stored array equals the frame applied to the logical array; this holds at the sources by definition of the logical input.",
+                  r"At a vertex $v$, the invariant is that the stored array equals $D_v$ applied"),
+            infer("By linearity the common frame commutes with the pointwise gate, so the invariant continues through gates to the sinks.",
+                  r"Thus the common frame commutes with the pointwise gate, and"),
+            infer("The implemented operator on the vector of wire arrays is the endpoint composition $D_{\\rm out}\\mathsf S_\\Omega D_{\\rm in}^{-1}$.",
+                  r"D_{\rm out}\,\mathsf S_\Omega\,D_{\rm in}^{-1}."),
+            infer("For a signed role permutation, the route from input role $w$ to output role $\\rho(w)$ applies its sign times $D_{\\mathrm{sink}(\\rho(w))}D_{\\mathrm{source}(w)}^{-1}$, including on auxiliary roles.",
+                  r"$\varepsilon_wD_{\mathrm{sink}(\rho(w))}"),
+        ])
+
+
+def SL():
+    rows = [
+        ("an $X$ data wire from its incoming vertex to time 2 leaves a residual of dimension $(a-1)(h-1)$", r"X:\ \mathrm{in}\to2&B\otimes t_X^\perp&(a-1)(h-1)"),
+        ("an $X$ data wire from time 2 to time 3 gains a residual of dimension $h-1$", r"X:\ 2\to3&P\otimes t_X^\perp&h-1"),
+        ("an $X$ data wire from time 3 to 6 and from 6 to 7 has zero residual", r"X:\ 3\to6,\ 6\to7&0&0"),
+        ("a $Y$ data wire from its incoming vertex to time 0 has zero residual", r"Y:\ \mathrm{in}\to0&0&0"),
+        ("a $Y$ data wire from time 0 to time 1 has residual dimension $(a-1)(h-1)$", r"Y:\ 0\to1&B\otimes t_Y^\perp&(a-1)(h-1)"),
+        ("a $Y$ data wire from time 1 to time 4 has zero residual", r"Y:\ 1\to4&0&0"),
+        ("a $Y$ data wire from time 4 to time 5 has residual dimension $h-1$", r"Y:\ 4\to5&P\otimes t_Y^\perp&h-1"),
+        ("a central wire from its source to time 1 gains residual $B\\otimes F$ of dimension $(a-1)h$", r"\mathrm{center}:\ \mathrm{source}\to1&B\otimes F&(a-1)h"),
+        ("a central wire from time 1 to time 3 gains residual $P\\otimes F$ of dimension $h$", r"\mathrm{center}:\ 1\to3&P\otimes F&h"),
+        ("a central wire from time 3 to time 4 loses residual $P\\otimes F$ of dimension $h$: this is the only decreasing edge", r"\mathrm{center}:\ 3\to4&P\otimes F&h"),
+        ("a central wire from time 4 to time 6 regains residual $P\\otimes F$ of dimension $h$", r"\mathrm{center}:\ 4\to6&P\otimes F&h"),
+        ("a side wire from its source to time 0 gains residual of dimension $a-1$", r"\mathrm{side}:\ \mathrm{source}\to0&B\otimes\langle t_Y\rangle&a-1"),
+        ("a side wire from time 0 to time 2 gains residual of dimension $(a-1)(h-1)+1$, using that the two triples are orthogonal", r"\mathrm{side}:\ 0\to2&(B\otimes t_Y^\perp)\mathbin{\perp}(P\otimes\langle t_X\rangle)"),
+        ("a side wire from time 2 to time 5 gains residual of dimension $h-2$, which uses the neighbour relation $t_X\\perp t_Y$ essentially", r"\mathrm{side}:\ 2\to5&P\otimes\langle t_X,t_Y\rangle^\perp&h-2"),
+        ("a side wire from time 5 to time 7 gains residual of dimension $1$", r"\mathrm{side}:\ 5\to7&P\otimes\langle t_Y\rangle&1"),
+        ("a scratch wire from its last gate to its sink gains residual of dimension $ah(f-1)$", r"\mathrm{scratch}:\ \mathrm{last}\to\mathrm{sink}"),
+    ]
+    rowkids = [infer("Residual table, row: " + c + ".", q) for (c, q) in rows]
+    gate_rows = [
+        ("time 0 (the $Y$ side wires) carries label $B\\otimes\\langle t\\rangle$", r"0&Y,\ \text{its side wires}&B\otimes\langle t\rangle"),
+        ("time 1 (all $Y$ and central wires) carries $B\\otimes F$", r"1&Y,\ \text{all center wires}&B\otimes F"),
+        ("time 2 (the $X$ side wires) carries $(B\\otimes F)\\perp(P\\otimes\\langle t\\rangle)$", r"2&X,\ \text{its side wires}&(B\otimes F)\mathbin{\perp}(P\otimes\langle t\rangle)"),
+        ("time 3 (all $X$ and central wires) carries $A\\otimes F$", r"3&X,\ \text{all center wires}&A\otimes F"),
+        ("time 4 (central wires returned to the $Y$ bank) carries $B\\otimes F$, which is where $P\\otimes F$ is lost", r"4&Y,\ \text{all center wires}&B\otimes F"),
+        ("time 5 (the $Y$ side wires) carries $(B\\otimes F)\\perp(P\\otimes t^\\perp)$", r"5&Y,\ \text{its side wires}&(B\otimes F)\mathbin{\perp}(P\otimes t^\perp)"),
+        ("time 6 (central wires of the $X$ bank) carries $A\\otimes F$", r"6&X,\ \text{all center wires}&A\otimes F"),
+        ("time 7 (the $X$ side wires) carries $A\\otimes F$", r"7&X,\ \text{its side wires}&A\otimes F"),
+    ]
+    gatekids = [infer("Gate labels, row: " + c + ".", q) for (c, q) in gate_rows]
+    resid = show(
+        "Every edge joins comparable nondegenerate labels, the only decreasing edges are the central-wire edges from time 3 to time 4 with dimension loss $h$, so the total loss is $L=Ich$ and the absolute dimension changes sum to $Wm-2N+2L$.",
+        "Tabulate the orthogonal residual of every edge class by splitting $A=B\\perp P$ and $F=\\langle t\\rangle\\perp t^\\perp$, then sum the signed and absolute changes.",
+        "The residual of a nested pair has dimension equal to the label dimension change, so listing the residual of each edge class gives every change and shows where the single loss occurs.",
+        "recoverable",
+        salient="All dimension loss is confined to one edge class: the central wires between times 3 and 4, each losing exactly $h=100$ out of the label space dimension $m=10^6$; every other edge only grows.",
+        children=[
+            infer("The total dimension lost on decreasing edges is $L=Ich$, where $c$ is the number of central wires per invocation, and the absolute changes sum to $Wm-2N+2L$.",
+                  r"L=Ich,\qquad")] + rowkids + [
+            infer("Label dimension is nondecreasing along every edge except the central edge from time 3 to time 4, which removes $P\\otimes F\\otimes Q$.",
+                  r"Label dimension is nondecreasing along every edge except center $3\to4$, which removes"),
+            infer("There are $Ic$ decreasing edges, each of loss $h$; signed changes sum to $Wm-2N$ because sources total $N$ and sinks $Wm-N$, and replacing signed by absolute changes adds $2L$.",
+                  r"There are $Ic$ decreasing edges, each of loss $h$; replacing signed"),
+        ],
+        adds=[("a", "stage block dimension", "The dimension $h^{j-1}$ of the space $A=F^{\\otimes(j-1)}$ of already processed coordinates at stage $j$.", "count"),
+              ("f", "future factor", "The dimension $h^{3-j}$ of the tensor factor $Q$ of coordinates not yet processed at stage $j$.", "count")])
+    bit = show(
+        "Assigning the projection $P_U$ to each gate and sink with label $U$ and $-P_{U_a}$ to each source $X_a$ makes the endpoint matrix difference $I_m$ on every input role and the rational ranks of all edge differences sum to $s_{\\rm b}=W_{\\rm b}m-N+2L_{\\rm b}<W_{\\rm b}m$.",
+        "Observe that the difference of two nested projections has rank equal to the dimension change, and add the $N$ negative source projections, each costing one extra unit of rank.",
+        "A rank sum is what the tape procedure pays (one smaller interchange per unit of rank), so the dimension count must be converted into a rank count, taking care of the extra source ranks.",
+        "recoverable",
+        salient="The strict deficit $N-2L_{\\rm b}>0$ survives the extra rank of the negative source projections only because $L_{\\rm b}/N=100/539<1/2$.",
+        children=[
+            infer("Adding the absolute dimension changes and the $N$ source ranks gives $s_{\\rm b}=W_{\\rm b}m-N+2L_{\\rm b}=177176569088785861287000000<W_{\\rm b}m$.",
+                  r"&=W_{\rm b}m-N+2L_{\rm b}"),
+            infer("For nested nondegenerate labels $U\\subset V$ the matrix $P_V-P_U$ has rank $\\dim V-\\dim U$, and reversing the edge only negates it.",
+                  r"Its rank is $\dim V-\dim U$; reversing the"),
+            infer("The first edge out of a source $X_a$ has matrix $2P_{U_a}$ of rank one although its dimension change is zero; these $N$ extra ranks are the price of the negative source projections.",
+                  r"Its first edge matrix is therefore $2P_{U_a}$, of rational rank one,"),
+            infer("For an input $X_a$ the endpoint difference is $P_{U_a^\\perp}-(-P_{U_a})=I_m$, and every other role has zero source matrix and identity sink matrix.",
+                  r"For an input $X_a$ the endpoint difference is"),
+        ])
+    cplx = show(
+        "With phase frames $\\mathcal C_U=H^{\\otimes m}\\operatorname{diag}(i^{q_U(x)})H^{\\otimes m}$ built from Hamming weights, each edge is a product of kernels $\\mu I+\\nu X_v$, one per vector of an orthonormal basis of its residual, the lengths total $s_{\\rm c}=W_{\\rm c}m-2N+2L_{\\rm c}<W_{\\rm c}m$, and the telescoped network applies $C^{\\otimes m}$ on every role.",
+        "Use additivity of Hamming weight modulo four on orthogonal binary vectors to turn a residual basis into phase factors, rewrite each phase as a translation kernel by conjugating with Hadamard matrices, and fix the endpoint pair $X_a\\to Y_a$ by sign wrappers.",
+        "Over the binary label field the weight of a sum of orthogonal vectors is additive mod 4, so phases of orthogonal residual directions multiply independently; each direction then costs exactly one two-point kernel.",
+        "recoverable",
+        children=[
+            infer("The phase of a label $U$ is $q_U(x)=\\mathrm{wt}(P_Ux)\\bmod4$ for the Hamming weight over $\\mathbb F_2$ projections.",
+                  r"q_U(x)=\operatorname{wt}(P_Ux)\pmod4."),
+            infer("The complex network's rank total is $s_{\\rm c}=W_{\\rm c}m-2N+2L_{\\rm c}=1873807244636671267308000000<W_{\\rm c}m$, with deficit $2N-2L_{\\rm c}>0$.",
+                  r"s_{\rm c}=W_{\rm c}m-2N+2L_{\rm c}"),
+            infer("Hamming weight satisfies $\\mathrm{wt}(z+w)=\\mathrm{wt}(z)+\\mathrm{wt}(w)-2|\\mathrm{supp}\\,z\\cap\\mathrm{supp}\\,w|$.",
+                  r"\operatorname{wt}(z+w)"),
+            infer("If $z\\cdot w=0$ the intersection is even, so weight is additive modulo four on orthogonal vectors.",
+                  r"If $z\cdot w=0$, the intersection cardinality is even, so weight is"),
+            infer("Each orthonormal basis vector $v$ has odd weight, so its phase coefficient is $\\pm1$ modulo four.",
+                  r"Each $v$ has norm one, so $\operatorname{wt}(v)$ is odd."),
+            infer("The phase $i^{\\varepsilon[v\\cdot x]}$ equals $\\frac{1+i^\\varepsilon}{2}+\\frac{1-i^\\varepsilon}{2}(-1)^{v\\cdot x}$.",
+                  r"\frac{1+i^\varepsilon}{2}"),
+            infer("Conjugating by $H$ turns the character $(-1)^{v\\cdot x}$ into the translation $X_v$, so each basis vector gives a kernel $\\mu I+\\nu X_v$ or its inverse.",
+                  r"becomes $aI+bX_v$ or its inverse."),
+            infer("Zero label has frame $I$ and the full label has frame $C^{\\otimes m}$, since $q_{\\mathcal F}(x)=\\mathrm{wt}(x)$.",
+                  r"The zero label has frame $I$, while the full label has frame"),
+            infer("For the pair $X_a\\to Y_a$ the phase difference is $\\mathrm{wt}(x)+2[u\\cdot x]\\pmod4$, so the operator is $C^{-1}$ on the 27 coordinates of the support of $u$ and $C$ elsewhere.",
+                  r"q_{U_a^\perp}(x)-q_{U_a}(x)"),
+            infer("Direct multiplication gives $C=iZC^{-1}Z$, so sign wrappers $Z$ before and after, and a scalar $i^{27k}$, turn every inverse factor into a forward one and leave $C^{\\otimes mk}$ on every role.",
+                  r"C=iZC^{-1}Z,\qquad C^{-1}=-iZCZ."),
+        ])
+    expo = show(
+        "Both relative rank deficits exceed $20\\cdot2^{-50}$, so $s_{\\rm b}/W_{\\rm b}<m^\\tau$ and $s_{\\rm c}/W_{\\rm c}<m^\\sigma$ with $\\tau=\\sigma=1-2^{-50}$.",
+        "Compute the exact deficits $\\eta_{\\rm b},\\eta_{\\rm c}$ and compare them with $m^{1-2^{-50}}\\ge m(1-20\\cdot2^{-50})$ using $\\log m<20$.",
+        "The recurrence needs a rational exponent below one with $s/W<m^\\tau$; since the deficit is tiny but explicit, a conservative exponent $1-2^{-50}$ can be verified by fixed integer comparisons.",
+        "recoverable",
+        children=[
+            infer("The relative deficit of the bit network is $\\eta_{\\rm b}=339/22587335000000$.",
+                  r"\frac{339}{22587335000000}"),
+            infer("The relative deficit of the complex network is $\\eta_{\\rm c}=73/19906842167500$.",
+                  r"\frac{73}{19906842167500}"),
+            infer("Both recurrences may use the fixed rational exponent $\\tau=\\sigma=1-2^{-50}$.",
+                  r"\tau=\sigma=1-2^{-50}."),
+            infer("Since $m<2^{20}$ and $\\log m<20$, we get $m^{1-2^{-50}}=m\\exp(-2^{-50}\\log m)>m(1-20\\cdot2^{-50})>m(1-\\eta)$ because $\\eta>20\\cdot2^{-50}$.",
+                  r"=m\exp(-2^{-50}\log m)"),
+            infer("Consequently $s_{\\rm b}/W_{\\rm b}<m^\\tau$ and $s_{\\rm c}/W_{\\rm c}<m^\\sigma$ with $0<\\tau=\\sigma<1$.",
+                  r"\frac{s_{\rm b}}{W_{\rm b}}<m^\tau,"),
+        ])
+    return show(
+        "Attaching nested nondegenerate subspaces of $F^{\\otimes3}$ to the gates and terminals, built from indicator vectors of three-element subsets of $[h]$ (pairing as $|\\sigma\\cap\\sigma'|-1$), makes every edge change cost its dimension change and keeps the total number $s$ of smaller calls below $Wm$ in both the bit and the complex network.",
+        "Pick a bilinear space where triple indicators pair as $|\\sigma\\cap\\sigma'|-1$, assign each gate a label by a stage-wise tensor construction, check that only one class of edges loses dimension, then convert the dimension count into rank sums for each of the two networks.",
+        "The saving is the deficit $Wm-s$ between the number of wires times the label dimension and the total rank to be paid; subspace labels let adjacent vertices be nested so this deficit equals twice the total number of loss minus source ranks, which can be counted exactly.",
+        "explicit",
+        mq=r"The saving will come from keeping the total dimension lost on decreasing",
+        page="subset-intersection-labels",
+        frm=["linear-network", "common-frame-principle", "linear-algebra-basics", "finite-field-f2-arithmetic"],
+        adds=[("c", "central wires", "The number of central wires per invocation: $100$ in the bit network and $101$ in the complex one.", "count"),
+              ("L", "total loss", "The total dimension lost on all decreasing edges.", "count")],
+        children=[
+            infer("The ambient pairing is $\\langle t_\\sigma,t_{\\sigma'}\\rangle=|\\sigma\\cap\\sigma'|-1$ with $\\langle t_\\sigma,t_\\sigma\\rangle=2$ over $\\mathbb Q$ (and the dot product over $\\mathbb F_2$ in the complex network), so triple lines are nondegenerate and neighbouring triple lines orthogonal.",
+                  r"\langle t_S,t_T\rangle=|S\cap T|-1,"),
+            infer("The label space is $\\mathcal F=F^{\\otimes3}$ of dimension $m$; terminals are $X_a$: source $U_a$, sink $\\mathcal F$; $Y_a$: source $0$, sink $U_a^\\perp$; each scratch role: source $0$, sink $\\mathcal F$.",
+                  r"u_a=t_{a_1}\otimes t_{a_2}\otimes t_{a_3},\qquad U_a=\langle u_a\rangle."),
+            infer("The source dimensions sum to $N$ and the sink dimensions to $Wm-N$, so signed dimension changes sum to $Wm-2N$ and absolute ones to $Wm-2N+2L$.",
+                  r"The source dimensions sum to $N$ and the sink dimensions to $Wm-N$."),
+            infer("The stage transitions $A'=A\\otimes F$, $P'=P\\otimes\\langle t\\rangle$, $B'=(P')^\\perp$ make each stage's outgoing labels equal the next stage's incoming labels, running from $U_a,0$ to $\\mathcal F,U_a^\\perp$.",
+                  r"A'=A\otimes F,\qquad"),
+            show("Gates in the eight time slots carry the common labels $B\\otimes\\langle t\\rangle$, $B\\otimes F$, $(B\\otimes F)\\perp(P\\otimes\\langle t\\rangle)$, $A\\otimes F$, $B\\otimes F$, $(B\\otimes F)\\perp(P\\otimes t^\\perp)$, $A\\otimes F$, $A\\otimes F$.",
+                 "List the label of the gate at each of the eight times, in the order the gates touch the physical wires (Y-side, Y-center, X-side, X-center, Y-center, Y-side, X-center, X-side).",
+                 "The order of gates is chosen so that every decrease happens in one place, the central return between times 3 and 4; the table fixes the labels that realize this.",
+                 "recoverable", children=gatekids),
+            resid,
+            infer("The loss ratios are exactly $L_{\\rm b}/N=100/539$ and $L_{\\rm c}/N=101/539$, both smaller than $1/2$.",
+                  r"\frac{L_{\rm b}}{N}=\frac{100}{539},\qquad"),
+            bit,
+            cplx,
+            expo,
+        ])
