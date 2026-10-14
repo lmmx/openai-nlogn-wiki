@@ -1,0 +1,370 @@
+# exegenius task 0040-write-multiplication-algorithm
+
+Project directory: `/tmp/claude-0/-home-user/979e8242-2c77-5242-991d-0bed1baea8dd/scratchpad/e6/F2V` (paths below are relative to it)
+
+Write one page of an explanatory wiki. The wiki explains a target result from source documents to a specific reader, one concept per page, in reading order.
+
+- Write for this reader's next uncertainty: at each point, give what they need to follow, and no more. The task lists the step of the argument this page presents, its motivations, and the pages around it. They are material for deciding what to say, not a list to cover: explain the transitions this reader would find hard, and leave familiar ones to ordinary sentences.
+- Open with a sentence that says what the concept is and what it is for on the way to the target.
+- If the page presents a step of the argument, say how its method shows its claim, and give its main motivation in a sentence. Add another motivation only if the reader would be stuck without it.
+- Explain the page's concept so that this reader can follow it using only what they already understand (listed below), what this page itself explains, and the linked prerequisite pages.
+- Define any other technical term on this page, where it is first used.
+- Say what each symbol denotes where you introduce it: what it stands for, and for a size or count, what it counts ("$r$, the number of complex coefficients in a record", not "a power of two $r$"). A use in an example ("take $r = 4$") does not say what $r$ denotes. Symbols listed as already bound can be used without restating them: the page shows the reader their meanings. Using one of those letters with another meaning confuses readers: pick another letter, or say on the page that the letter changes meaning here.
+- Link each prerequisite page the first time you rely on it, using the exact markdown link given. You may also link the other pages listed. Submit rejects links to anything else in the wiki; external URLs are allowed.
+- For each prerequisite page, give a relation: the prerequisite's id, a predicate, and the sentence that links or names it, copied exactly. Use the sentence where the page relies on it; do not add a sentence for the purpose. The page shows the relation as "<this page's concept> *<predicate>* <prerequisite>", so pick a predicate that makes that a true sentence, with this page's concept as subject: "is reduced to", "computes its transforms by", "is based on", "follows from", "bounds the cost of". Build the predicate from the sentence's own words (other forms of a word count: "reduces" for "reduced"), and pick one that says what the prerequisite does for this page: "uses" says little.
+- Stay accurate to the sources. The paragraphs around the evidence are given below; read further in the sources only if they are not enough. State only what the sources support or what is standard background; do not invent results, constants or attributions.
+- Cite the results and constants a reader may want to check, right after the claim: `<cite data-source="id">text copied word for word from that source</cite>`. Readers see these as "(see p. 5)"-style references, hidden until they ask for them, so the sentence must read complete without the quoted words: write "the cost is $O(n \log n)$ <cite …>…</cite>", not "the paper states the cost as <cite …>…</cite>". Submit rejects a citation right after "that", "as", "states", "says", "is", "gives", "reads" or a colon, and text not found in the named source. Do not cite common background.
+- A citation says where a claim comes from; it does not explain it. If the page's concept is an identity, a construction or a definition, state it. Explain how the concept works and how it shows its claim. For a result the page uses from prior work, say what the result states and why it applies here, and cite the source for its proof: the page need not reproduce it.
+- Keep the page short. The task gives its word limit, counted without mathematics and citations, and submit rejects a longer page. Give a small worked example where it makes the idea clearer. No filler, no rhetorical flourishes, no announcing what the page will do.
+- Write mathematics in LaTeX: $...$ inline, $$...$$ on its own lines for display.
+- Do not write a title heading, a prerequisites list or a sources section: those are added automatically. Use ## subheadings only if the page is long.
+
+## Reader
+
+Undergraduate computer science: big-O notation, polynomials, complex numbers, basic Turing machines and tapes
+
+For these sources: The reader is an undergraduate computer scientist: fluent in asymptotic analysis, discrete mathematics (sets, functions, modular arithmetic, primes and gcd, permutations, induction and recursion), first-course linear algebra (matrices, invertibility, rank, basis, dimension, linear maps over the rationals and the complex numbers), complex arithmetic with Euler's formula, and the basic Turing machine model with tapes and step counting. They have seen binary representation, bit operations such as XOR, and perhaps the idea of multiplying integers by divide and conquer, but have not been taught the discrete Fourier transform, the FFT, polynomial transforms, Schönhage–Strassen, abstract ring theory beyond the basic definition, tensor products, or numerical error analysis, and these are what the wiki must explain.
+
+The reader already understands these concepts:
+
+- Big-O notation
+- Polynomials
+- Complex numbers
+- Turing machines and tapes
+- The n log n optimality conjecture
+- Fixed finite-tape Turing machine model
+- Arrays, address fields and elementary scans
+- Controlled cyclic shifts and rational scalings
+- Integer multiplication as digit convolution
+- Normalized DFT and cyclic convolution
+- Multidimensional (tensor) Fourier transform
+- Chinese-remainder map to prime cyclic axes
+- Gaussian resampling
+- Fixed-point disk-grid arithmetic and contractions
+- Polynomial ring modulo y^r + 1
+  - $y$ (ring variable): the formal variable of the polynomials, subject to y^r = -1.
+  - $r$ (record length): the number of complex coefficients in a polynomial record, a power of two.
+- Synthetic Fourier transform modulo y^r + 1
+  - $y$ (ring variable): the formal variable of the polynomial ring, subject to y^r = -1.
+  - $r$ (record length): the number of complex coefficients in a polynomial record, a power of two.
+- Radix-2 butterfly layers and stored frequency order
+- Twist from cyclic to negacyclic convolution
+- Established n log n multiplier as a subroutine
+- Signed Kronecker packing of polynomial products
+- Bluestein's chirp identity
+- Resampling with the permutations left in the transform
+- Chirp identity and source-permutation cancellation
+- Three-element subset intersection gadget
+- Linear network that exchanges two banks and restores scratch values
+- Frames and the common-frame identity
+- Orthogonal complements and projections in a bilinear space
+- Nested subspace labels and the rank saving
+- Lower-triangular rank factorization
+- Cost of a rational matrix shear
+- Power-width chunk interchange in O(Ve^τ) time
+  - $V$ (stored bit volume): the number of data bits stored in the array.
+  - $e$ (chunk width): the number of radix digits in each of the two interchanged chunks, a power of a fixed integer m.
+  - $\tau$ (interchange exponent): a fixed rational constant strictly between 0 and 1.
+- Chunk interchange in O(Vu^τ) time
+  - $V$ (stored bit volume): the number of data bits stored in the array.
+  - $u$ (chunk width): the number of bits in each of the two interchanged address chunks.
+  - $\tau$ (interchange exponent): a fixed rational constant strictly below 1, namely 1 - 2^{-50}.
+- Two-point kernel C and the complex phase network
+- Packed XOR of selected bits across address chunks
+- Simultaneous butterfly layer in O(Vd^λ') time
+  - $V$ (stored bit volume): the number of data bits stored in the array of records.
+  - $d$ (axis count): the number of equal-width address chunks (transform axes) whose selected bit is butterflied simultaneously.
+  - $\lambda'$ (layer exponent): a fixed rational constant strictly below 1, namely 1 - 2^{-54}.
+- Layout and cost of the synthetic transform
+- Convolution over the polynomial ring from the retained layout
+- Source transform via resampling, chirp and ring convolution
+- Choice of sizes, precision and prime axis lengths
+- Exact recovery: scaling, rounding and carries
+- Modular arithmetic and residues (also: congruence, mod q, Z/qZ, integers modulo q, remainder)
+- Primes, divisibility, gcd and coprimality (also: prime number, coprime, relatively prime, pairwise coprime, greatest common divisor, odd prime, units mod q, invertible residue)
+- Binary representation of integers (also: bit string, radix 2, binary expansion, most significant bit, val(x), bin_k(z), padding with zeros, base-2 digits)
+- Bitwise XOR (also: exclusive or, XOR combination, addition mod 2, parity)
+- Logarithms, floors, ceilings and powers of two (also: lg, log base 2, floor, ceiling, power of two, exponent rules)
+- Matrices, invertibility and rank (also: invertible matrix, matrix inverse, matrix product, rank of a matrix, linear map, linear transformation, Gaussian elimination, row operations)
+- Vector spaces, basis and dimension (also: subspace, span, linear independence, linear combination, vector space over the rationals, dimension, standard basis, direct sum)
+- Permutations and permutation matrices (also: bijection, reordering of indices, sorting by a permutation, permutation of coordinates, identity matrix)
+- Lexicographic order and index tuples (also: dictionary order, Cartesian product of index sets, multi-index, mixed-radix positional notation, row-major order)
+- Euler's formula and roots of unity as points on the unit circle (also: e^{i theta}, cos and sin form, unit circle, primitive root of unity, modulus of a complex number, complex conjugate, real and imaginary parts)
+- Geometric series and orthogonality of sums of roots of unity (also: geometric sum, sum of powers of a root of unity vanishes, summation manipulation, Kronecker delta, indicator function)
+- Norms and the triangle inequality (also: absolute value bound, sup norm, maximum norm, Euclidean norm, error bound, triangle inequality, operator norm)
+- Rational numbers, dyadic rationals and exact arithmetic (also: dyadic number, dyadic rational, power-of-two denominator, Gaussian rational, Gaussian integer, rounding to nearest integer, truncation toward zero)
+- Algebraic structures: groups, rings and isomorphisms (also: ring, commutative ring, algebra, ring isomorphism, group, cyclic group, zero divisor, unit, field)
+- Discrete-math proof techniques (also: induction, recursion, recurrence relation, divide and conquer, proof by cases, pigeonhole principle, counting arguments)
+- Schoolbook multiplication and divide-and-conquer multiplication (also: long multiplication, quadratic-time multiplication, Karatsuba, carry propagation, digit-by-digit addition)
+- Multitape machine cost model and linear-time scans (also: sequential tape access, tape scan, head movement cost, one-pass copy, linear-time tape operations, sorting by merging, bit-level time complexity)
+- Complex polynomial evaluation and interpolation (also: evaluating a polynomial at points, coefficient list, degree, polynomial identity, Horner's rule, coefficient extraction)
+- Gaussian function (also: bell curve, exp(-x^2), normal density, Gaussian weight)
+- Convolution as polynomial multiplication (also: convolution of sequences, sum over i+j=k, linear convolution, Cauchy product, coefficient of a product)
+- Quantifiers, sets and basic asymptotic notation beyond big-O (also: little-o, Theta, Omega, sufficiently large n, for all n, worst-case time, lower bound versus upper bound)
+
+## This page
+
+Concept: The multiplication algorithm
+Gloss: Split into radix digits, map by Φ to prime axes, take two source transforms, multiply pointwise, apply the opposite-sign transform with the two scalings by S, round, undo Φ, and propagate carries to output the 2n-bit product.
+
+## This page in the argument
+
+The step: The algorithm splits the inputs into radix digits, maps them by $\Phi$ to prime axes, takes two source transforms, multiplies pointwise, applies the opposite-sign transform with two scalings by $S$, rounds, undoes $\Phi$ and propagates carries.
+How: list the steps in order and explain the two uses of $S$ and $2^{2b+4}$ as undoing known normalizations
+Why: By the cancellation identity the three transforms give $(u*v)/S^2$, and the known scalings restore the integer coefficient convolution. (the sources say so: "The two occurrences of $S$ in this algorithm undo different" (paper))
+
+Its sub-steps, in order:
+
+- Read each operand in groups of $b$ bits to get $q$ radix-$2^b$ digits and write each as an exact grid value $a_j2^{-b-2}$.
+- Apply the coefficient-address map $\Phi$ with its padded layout to obtain the source arrays $u,v$.
+- Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$.
+- Multiply the two transforms pointwise, exactly, and truncate to $p$ fractional bits to get $z$.
+- Apply $\widetilde{\mathscr F}^+(z)$ and scale by $S$.
+- Scale by $2^{2b+4}S$, round to the nearest integers, and undo $\Phi$ to restore the ordinary coefficient order.
+- Propagate radix-$2^b$ carries and output exactly $2n$ bits.
+
+It serves these steps, from the main result down:
+
+- A single deterministic fixed-tape Turing machine multiplies two $n$-bit integers exactly in $O(n(\lg n)^{1-\kappa})$ worst-case time with $\kappa=2^{-182}$.; how: start from the Gaussian-resampling reduction of multiplication to transforms, make the transforms cheaper by two tape procedures that each save a power of the logarithm, then recover the product exactly and add up all costs (on [Multiplying n-bit integers in O(n (lg n)^(1−κ)) time](main-theorem.md))
+
+## Steps this page derives
+
+The argument gives this page these sub-steps of its step (S4.1, S4.2, S4.3, S4.4, S4.5, S4.6, S4.7). Derive each here, so the reader can check how it follows from what comes before: stating its result, or citing the source for it, does not derive it. The passages report each step in the source; they ground the derivation and are not to be copied onto the page. In `derivations`, give each step's id and the passage on the page that derives it, copied exactly: submit checks that the passage is on the page, and the audit judges whether it is enough.
+
+**S4.1**: Read each operand in groups of $b$ bits to get $q$ radix-$2^b$ digits and write each as an exact grid value $a_j2^{-b-2}$.
+Source: "its least significant end in groups of $b$ bits. This produces the radix-$2^b$ digits" (paper)
+> The source-transform procedures now supply the three transforms needed for the radix-digit convolution. Read each stored operand backward from its least significant end in groups of $b$ bits. This produces the radix-$2^b$ digits $a_0,\ldots,a_{q-1}$ in increasing coefficient order. Buffer each group on a fixed work tape and read it back most significant bit first, reversing its least-significant-first input order; pad the final short group with leading zeroes. For digit $a_j$, write the exact grid numerator $a_j2^{p-b-2}$ in a signed $w_{\rm c}$-bit real word, followed by a zero $w_{\rm c}$-bit imaginary word. This exponent is nonnegative because $p=6b$, and the represented value is exactly $a_j2^{-b-2}$. Append $S-q$ zero coefficient records. Buffering and ordering the groups costs $O(n)$, including the one partial group's padding, and writing the $S$ records costs $O(Sp)$. Together with the initial count and copies, this input conversion costs $O(n+Sp)=O(Tp)$; all $n$ input bits, including leading zeroes, are retained before the final group is padded.
+
+**S4.2**: Apply the coefficient-address map $\Phi$ with its padded layout to obtain the source arrays $u,v$.
+Source: "\item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain" (paper)
+> With these streams prepared, perform the following operations. \begin{enumerate} \item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$. Their coefficients are exact $p$-bit grid values of norm less than $1/4$. \item Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$. \item Multiply corresponding complex coefficients exactly and truncate each real and imaginary part toward zero to $p$ fractional bits, writing the result in the common $w_{\rm c}$-bit component format. Denote the resulting source array by $z$. \item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$
+
+**S4.3**: Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$.
+Source: "\item Compute $\widetilde{\mathscr F}(u)$ and" (paper)
+> With these streams prepared, perform the following operations. \begin{enumerate} \item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$. Their coefficients are exact $p$-bit grid values of norm less than $1/4$. \item Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$. \item Multiply corresponding complex coefficients exactly and truncate each real and imaginary part toward zero to $p$ fractional bits, writing the result in the common $w_{\rm c}$-bit component format. Denote the resulting source array by $z$. \item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$ exactly by $2^{2b+4}S$, again retaining the denominator $2^p$, and write each component in signed width $w_{\rm c}+4b+4$. Round the represented real values to
+
+**S4.4**: Multiply the two transforms pointwise, exactly, and truncate to $p$ fractional bits to get $z$.
+Source: "\item Multiply corresponding complex coefficients exactly and truncate" (paper)
+> With these streams prepared, perform the following operations. \begin{enumerate} \item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$. Their coefficients are exact $p$-bit grid values of norm less than $1/4$. \item Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$. \item Multiply corresponding complex coefficients exactly and truncate each real and imaginary part toward zero to $p$ fractional bits, writing the result in the common $w_{\rm c}$-bit component format. Denote the resulting source array by $z$. \item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$ exactly by $2^{2b+4}S$, again retaining the denominator $2^p$, and write each component in signed width $w_{\rm c}+4b+4$. Round the represented real values to the nearest integers. At each valid address, write the rounded coefficient in one signed
+
+**S4.5**: Apply $\widetilde{\mathscr F}^+(z)$ and scale by $S$.
+Source: "\item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid" (paper)
+> With these streams prepared, perform the following operations. \begin{enumerate} \item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$. Their coefficients are exact $p$-bit grid values of norm less than $1/4$. \item Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$. \item Multiply corresponding complex coefficients exactly and truncate each real and imaginary part toward zero to $p$ fractional bits, writing the result in the common $w_{\rm c}$-bit component format. Denote the resulting source array by $z$. \item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$ exactly by $2^{2b+4}S$, again retaining the denominator $2^p$, and write each component in signed width $w_{\rm c}+4b+4$. Round the represented real values to the nearest integers. At each valid address, write the rounded coefficient in one signed $(3b+1)$-bit word, most significant bit first; at every padded address, write a zero word of that width. Supply this local payload width to $\Phi^{-1}$ and apply it, including removal of the address padding, to restore the ordinary coefficien
+
+**S4.6**: Scale by $2^{2b+4}S$, round to the nearest integers, and undo $\Phi$ to restore the ordinary coefficient order.
+Source: "\item Multiply the grid numerators of $\widetilde w$ exactly by" (paper)
+> ficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$. Their coefficients are exact $p$-bit grid values of norm less than $1/4$. \item Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$. \item Multiply corresponding complex coefficients exactly and truncate each real and imaginary part toward zero to $p$ fractional bits, writing the result in the common $w_{\rm c}$-bit component format. Denote the resulting source array by $z$. \item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$ exactly by $2^{2b+4}S$, again retaining the denominator $2^p$, and write each component in signed width $w_{\rm c}+4b+4$. Round the represented real values to the nearest integers. At each valid address, write the rounded coefficient in one signed $(3b+1)$-bit word, most significant bit first; at every padded address, write a zero word of that width. Supply this local payload width to $\Phi^{-1}$ and apply it, including removal of the address padding, to restore the ordinary coefficient order. \item Propagate radix-$2^b$ carries in increasing coefficient order. Write the resulting bits from least to most significant on a work tape, then reverse that stream and output exactly $2n$ bits in most-significant-first order. \
+
+**S4.7**: Propagate radix-$2^b$ carries and output exactly $2n$ bits.
+Source: "\item Propagate radix-$2^b$ carries in increasing coefficient order." (paper)
+> rs exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$ exactly by $2^{2b+4}S$, again retaining the denominator $2^p$, and write each component in signed width $w_{\rm c}+4b+4$. Round the represented real values to the nearest integers. At each valid address, write the rounded coefficient in one signed $(3b+1)$-bit word, most significant bit first; at every padded address, write a zero word of that width. Supply this local payload width to $\Phi^{-1}$ and apply it, including removal of the address padding, to restore the ordinary coefficient order. \item Propagate radix-$2^b$ carries in increasing coefficient order. Write the resulting bits from least to most significant on a work tape, then reverse that stream and output exactly $2n$ bits in most-significant-first order. \end{enumerate}
+
+## Prerequisite pages (link each on first use, exactly as written, and give a relation for each)
+
+- [Chinese-remainder map to prime cyclic axes](crt-axis-map.md): An algebra isomorphism sending one cyclic convolution of length S = s_1⋯s_d (pairwise coprime) to a convolution on a product of d cyclic axes, implemented by triangular controlled cyclic shifts.
+  Shown as: The multiplication algorithm *<predicate>* Chinese-remainder map to prime cyclic axes
+- [Source transform via resampling, chirp and ring convolution](source-transform.md): The computed procedure for a source Fourier transform of prime lengths: Gaussian maps A, then a chirp transform evaluated by a twisted ring convolution, then B₀ and an exact power-of-two scale, with exact counterpart R F_s.
+  Shown as: The multiplication algorithm *<predicate>* Source transform via resampling, chirp and ring convolution
+- [Exact recovery: scaling, rounding and carries](exact-recovery.md): Removing the known normalizations S and 2^{2b+4}, showing the recovered coefficient error is below 1/2 so rounding gives exact convolution coefficients, then propagating radix-2^b carries to the 2n-bit product.
+  Shown as: The multiplication algorithm *<predicate>* Exact recovery: scaling, rounding and carries
+- [Choice of sizes, precision and prime axis lengths](parameter-choice.md): Fixing b = ⌈log₂ n⌉, precision p = 6b, axis count d = ⌊b^ε⌋, padded size T ≈ n/b, record length r, power-of-two axis lengths t_i, and distinct odd prime lengths s_i just below t_i, so that Tp = Θ(n) and all hypotheses of the interfaces hold.
+  Shown as: The multiplication algorithm *<predicate>* Choice of sizes, precision and prime axis lengths
+- [Integer multiplication as digit convolution](radix-digit-convolution.md): Writing each integer as a polynomial in a power of two 2^b, the product's digit-coefficient list is the convolution of the two digit lists, followed by carry propagation.
+  Shown as: The multiplication algorithm *<predicate>* Integer multiplication as digit convolution
+
+## Pages that build on this one
+
+- Cost accounting and the saving exponent κ: A table of costs divided by Tp, each at most p^{1−2κ} thanks to the slack in the chosen exponents (seven dominant margins, the smallest 2^{-181} = 2κ), giving O(n (log n)^{1−κ}) overall.
+- Multiplying n-bit integers in O(n (lg n)^(1−κ)) time: A single deterministic fixed-tape Turing machine multiplies two n-bit integers exactly in O(n (lg n)^{1−κ}) worst-case time with κ = 2^{-182}, using fast address-chunk interchange and simultaneous butterfly layers to speed synthetic transforms inside a Gaussian-resampling multiplication.
+
+## Other pages you may link to
+
+- [The n log n optimality conjecture](n-log-n-conjecture.md)
+- [Three-element subset intersection gadget](triple-gadget.md)
+- [Linear network that exchanges two banks and restores scratch values](bank-exchange-network.md)
+- [Fixed finite-tape Turing machine model](fixed-tape-model.md)
+- [Established n log n multiplier as a subroutine](nlogn-subroutine.md)
+- [Arrays, address fields and elementary scans](stream-arrays.md)
+- [Frames and the common-frame identity](frames.md)
+- [Controlled cyclic shifts and rational scalings](controlled-shifts.md)
+- [Orthogonal complements and projections in a bilinear space](bilinear-orthogonal.md)
+- [Nested subspace labels and the rank saving](subspace-labels.md)
+- [Lower-triangular rank factorization](triangular-factorization.md)
+- [Cost of a rational matrix shear](matrix-shear.md)
+- [Power-width chunk interchange in O(Ve^τ) time](power-width-interchange.md)
+- [Chunk interchange in O(Vu^τ) time](chunk-swap.md)
+- [Packed XOR of selected bits across address chunks](packed-selected-bits.md)
+- [Polynomial ring modulo y^r + 1](negacyclic-ring.md)
+- [Signed Kronecker packing of polynomial products](signed-kronecker-packing.md)
+- [Fixed-point disk-grid arithmetic and contractions](fixed-point-disk-grid.md)
+- [Normalized DFT and cyclic convolution](dft-cyclic-convolution.md)
+- [Multidimensional (tensor) Fourier transform](multidim-transform.md)
+- [Gaussian resampling](gaussian-resampling.md)
+- [Bluestein's chirp identity](bluestein-chirp.md)
+- [Twist from cyclic to negacyclic convolution](coefficient-twist.md)
+- [Synthetic Fourier transform modulo y^r + 1](synthetic-transform.md)
+- [Radix-2 butterfly layers and stored frequency order](butterfly-layers.md)
+- [Two-point kernel C and the complex phase network](phase-kernel-network.md)
+- [Simultaneous butterfly layer in O(Vd^λ') time](simultaneous-butterfly-layer.md)
+- [Layout and cost of the synthetic transform](transform-layout.md)
+- [Convolution over the polynomial ring from the retained layout](ring-convolution.md)
+- [Resampling with the permutations left in the transform](resampling-no-sort.md)
+- [Chirp identity and source-permutation cancellation](chirp-permutation-cancel.md)
+- [Cost accounting and the saving exponent κ](cost-accounting.md)
+- [Multiplying n-bit integers in O(n (lg n)^(1−κ)) time](main-theorem.md)
+
+## Evidence from the sources, with the paragraph around each quote
+
+- "Apply the coefficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$." (paper)
+
+  > With these streams prepared, perform the following operations. \begin{enumerate} \item Apply the coefficient-address map $\Phi$, with its padded layout, to obtain source arrays $u,v$. Their coefficients are exact $p$-bit grid values of norm less than $1/4$. \item Compute $\widetilde{\mathscr F}(u)$ and $\widetilde{\mathscr F}(v)$. \item Multiply corresponding complex coefficients exactly and truncate each real and imaginary part toward zero to $p$ fractional bits, writing the result in the common $w_{\rm c}$-bit component format. Denote the resulting source array by $z$. \item Compute $\widetilde{\mathscr F}^{+}(z)$ and multiply its grid numerators exactly by $S$, retaining the denominator $2^p$ and writing each component in signed width $w_{\rm c}+b$. Denote the represented dyadic array by $\widetilde w$. \item Multiply the grid numerators of $\widetilde w$ exactly by $2
+
+- "The two occurrences of $S$ in this algorithm undo different normalizations." (paper)
+
+  > The two occurrences of $S$ in this algorithm undo different normalizations. By \eqref{eq:source-permutation-cancel}, the exact counterpart after the three transforms is $(u*v)/S^2$, so after the first scale it is $w=(u*v)/S$. The second scale gives $2^{2b+4}(u*v)$, whose inverse image under $\Phi$ is the original integer coefficient convolution. The next subsection verifies the disk bounds needed by every call and proves that the final error is less than $1/2$; it also justifies the rounding, carries, and output length.
+
+
+## Sources (read from disk as needed)
+
+- `sources/paper.tex`: source id `paper`, "Integer multiplication below n log n (OpenAI, 2026)"
+
+## Length
+
+At most 350 words, not counting mathematics and citations: submit rejects a longer page.
+
+## Answer
+
+The answer is two files: the page body as markdown (not JSON), and a JSON object with the symbols the page binds and its relations to its prerequisite pages. In JSON strings, write each backslash of LaTeX twice (`"\\kappa"`). The JSON follows this schema:
+
+```json
+{
+  "$defs": {
+    "Derivation": {
+      "additionalProperties": false,
+      "description": "Where the page derives one of the steps the argument gives it.",
+      "properties": {
+        "quote": {
+          "description": "The passage on this page that derives the step, copied exactly: a sentence or more,\noutside citations.",
+          "type": "string"
+        },
+        "step": {
+          "description": "The step's id, as listed under \"Steps this page derives\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Edge": {
+      "additionalProperties": false,
+      "description": "What this page uses one prerequisite page for.",
+      "properties": {
+        "predicate": {
+          "description": "A short predicate built from the sentence's own words, such that \"<this page's\nconcept> <predicate> <prerequisite>\" is a true sentence: \"is reduced to\", \"computes\nits transforms by\", \"is based on\".",
+          "type": "string"
+        },
+        "prerequisite": {
+          "description": "Id of the prerequisite page.",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The sentence on this page that states it, copied exactly. It must link or name the\nprerequisite and contain the predicate's words.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "prerequisite",
+        "predicate",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "PageBinding": {
+      "additionalProperties": false,
+      "description": "What a symbol a page introduces denotes, and where the page says so.",
+      "properties": {
+        "meaning": {
+          "description": "One sentence saying what the symbol denotes; for a count, what it counts.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display name of one to four words, e.g. \"record length\".",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The sentence on the page that says what the symbol denotes, copied exactly. A use\nin an example (\"take $r = 4$\") does not say what a symbol denotes.",
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/$defs/Relation"
+        },
+        "symbol": {
+          "description": "The symbol in LaTeX, as it appears in the page's mathematics, without dollar signs,\ne.g. `r` or `\\kappa`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "name",
+        "meaning",
+        "relation",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Relation": {
+      "oneOf": [
+        {
+          "const": "direct",
+          "description": "The symbol denotes a thing: \"ω, a primitive root of unity\".",
+          "type": "string"
+        },
+        {
+          "const": "count",
+          "description": "The symbol is the number of instances of something: \"r, the number of complex\ncoefficients in a record\".",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "description": "The structured part of a write answer; the body is the markdown answer file.",
+  "properties": {
+    "derivations": {
+      "default": [],
+      "description": "For each step listed under \"Steps this page derives\", the passage on the page that\nderives it. Empty if the task lists none.",
+      "items": {
+        "$ref": "#/$defs/Derivation"
+      },
+      "type": "array"
+    },
+    "relations": {
+      "description": "One relation for each prerequisite page: what this page uses it for. Empty if the\npage has no prerequisite pages.",
+      "items": {
+        "$ref": "#/$defs/Edge"
+      },
+      "type": "array"
+    },
+    "symbols": {
+      "description": "Every symbol the page binds: each symbol it introduces and says what it denotes.\nLeave out symbols listed as already bound, unless the page gives them a new meaning.\nEmpty if the page introduces no symbols.",
+      "items": {
+        "$ref": "#/$defs/PageBinding"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "symbols",
+    "relations"
+  ],
+  "title": "WriteAnswer",
+  "type": "object"
+}
+```
+
+Write the body to `exegenius/tasks/0040-write-multiplication-algorithm.answer.md` and the JSON to `exegenius/tasks/0040-write-multiplication-algorithm.answer.json`, then run `exegenius submit 0040-write-multiplication-algorithm` in the project directory. If submit rejects the answer, fix the answer and submit again.
+
+Keep any other files you make, such as scripts, in `exegenius/tasks/0040-write-multiplication-algorithm`. Other tasks run at the same time on this machine, and files elsewhere (in /tmp, for example) can be overwritten or run by them. For the same reason, never stop processes by name or pattern (`pkill`, `killall`), which would stop other tasks' commands too: stop a command of your own by its process id.
