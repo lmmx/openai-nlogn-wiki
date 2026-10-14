@@ -1,0 +1,350 @@
+# exegenius task 0030-write-packed-selected-bit-addition
+
+Project directory: `/tmp/claude-0/-home-user/979e8242-2c77-5242-991d-0bed1baea8dd/scratchpad/e5/N3` (paths below are relative to it)
+
+Write one page of an explanatory wiki. The wiki explains a target result from source documents to a specific reader, one concept per page, in reading order.
+
+- Write for this reader's next uncertainty: at each point, give what they need to follow, and no more. The task lists the step of the argument this page presents, its motivations, and the pages around it. They are material for deciding what to say, not a list to cover: explain the transitions this reader would find hard, and leave familiar ones to ordinary sentences.
+- Open with a sentence that says what the concept is and what it is for on the way to the target.
+- If the page presents a step of the argument, say how its method shows its claim, and give its main motivation in a sentence. Add another motivation only if the reader would be stuck without it.
+- Explain the page's concept so that this reader can follow it using only what they already understand (listed below), what this page itself explains, and the linked prerequisite pages.
+- Define any other technical term on this page, where it is first used.
+- Say what each symbol denotes where you introduce it: what it stands for, and for a size or count, what it counts ("$r$, the number of complex coefficients in a record", not "a power of two $r$"). A use in an example ("take $r = 4$") does not say what $r$ denotes. Symbols listed as already bound can be used without restating them: the page shows the reader their meanings. Using one of those letters with another meaning confuses readers: pick another letter, or say on the page that the letter changes meaning here.
+- Link each prerequisite page the first time you rely on it, using the exact markdown link given. You may also link the other pages listed. Submit rejects links to anything else in the wiki; external URLs are allowed.
+- For each prerequisite page, give a relation: the prerequisite's id, a predicate, and the sentence that links or names it, copied exactly. Use the sentence where the page relies on it; do not add a sentence for the purpose. The page shows the relation as "<this page's concept> *<predicate>* <prerequisite>", so pick a predicate that makes that a true sentence, with this page's concept as subject: "is reduced to", "computes its transforms by", "is based on", "follows from", "bounds the cost of". Build the predicate from the sentence's own words (other forms of a word count: "reduces" for "reduced"), and pick one that says what the prerequisite does for this page: "uses" says little.
+- Stay accurate to the sources. The paragraphs around the evidence are given below; read further in the sources only if they are not enough. State only what the sources support or what is standard background; do not invent results, constants or attributions.
+- Cite the results and constants a reader may want to check, right after the claim: `<cite data-source="id">text copied word for word from that source</cite>`. Readers see these as "(see p. 5)"-style references, hidden until they ask for them, so the sentence must read complete without the quoted words: write "the cost is $O(n \log n)$ <cite …>…</cite>", not "the paper states the cost as <cite …>…</cite>". Submit rejects a citation right after "that", "as", "states", "says", "is", "gives", "reads" or a colon, and text not found in the named source. Do not cite common background.
+- A citation says where a claim comes from; it does not explain it. If the page's concept is an identity, a construction or a definition, state it. Explain how the concept works and how it shows its claim. For a result the page uses from prior work, say what the result states and why it applies here, and cite the source for its proof: the page need not reproduce it.
+- Keep the page short. The task gives its word limit, counted without mathematics and citations, and submit rejects a longer page. Give a small worked example where it makes the idea clearer. No filler, no rhetorical flourishes, no announcing what the page will do.
+- Write mathematics in LaTeX: $...$ inline, $$...$$ on its own lines for display.
+- Do not write a title heading, a prerequisites list or a sources section: those are added automatically. Use ## subheadings only if the page is long.
+
+## Reader
+
+Undergraduate computer science: big-O notation, polynomials, complex numbers, basic Turing machines and tapes
+
+For these sources: The reader has an undergraduate computer science degree: discrete mathematics (sets, subsets and binomial coefficients, induction, modular arithmetic, gcd and the Chinese remainder theorem, primes), a first course in linear algebra (matrices, Gaussian elimination, rank, dot products, possibly over GF(2)), calculus (exponentials, logarithms, Newton's method, simple inequalities), and algorithms and computation theory (asymptotic notation, recurrences and geometric sums, sorting including radix sort, binary search, schoolbook and Karatsuba multiplication, amortized binary counters, Turing machines and worst-case running time). They know binary and two's-complement representation of integers and XOR, but have not studied abstract algebra beyond what these courses use, the fast Fourier transform in depth, quotient polynomial rings, or the research literature on fast integer multiplication.
+
+The reader already understands these concepts:
+
+- Big-O notation
+- Polynomials
+- Complex numbers
+- Multitape Turing machine (also: fixed finite-tape model)
+- Linear maps, subspaces and rank
+- Exact integer multiplication on a multitape machine
+- n log n optimality conjecture (also: Schönhage–Strassen conjecture)
+  - $n$ (input bit length): The number of bits in each of the two input integers.
+- Harvey–van der Hoeven O(n log n) multiplier (also: established multiplier)
+  - $n$ (operand bit length): The number of bits in each integer given to the multiplier.
+- Lexicographic array layout and logical volume (also: logical volume, row)
+- Elementary stream operations
+- Controlled shifts and rational scalings
+- Polynomial ring modulo y^r + 1 (also: R_r, negacyclic polynomial ring)
+  - $y$ (ring variable): The polynomial indeterminate whose powers act as synthetic roots of unity.
+  - $r$ (record length): The number of complex coefficients in each polynomial record, a power of two.
+- Gaussian dyadic numbers and fixed-point grids (also: disk grid array, Q_p)
+- Normalized butterfly H₀ (also: butterfly)
+  - $H_0$ (normalized butterfly): The two-point linear map sending (u, v) to ((u+v)/2, (u−v)/2).
+- Linear network with roles and scratch wires (also: role, scratch wire)
+- Restoring arbitrary scratch values (also: transparent computation)
+- Triple-intersection pairings (also: Frankl–Wilson construction)
+- Nondegenerate bilinear forms and orthogonal residuals
+- Three-stage bank exchange (also: gather and scatter, side injection)
+- Frames and the common-frame identity (also: frame)
+- Nested subspace labels and rank budget (also: labels)
+- Recursive saving from s < Wm (also: power saving)
+  - $s$ (smaller-call count): The total number of smaller recursive calls made by one use of the finite network.
+  - $W$ (wire count): The number of wires (roles) in the finite network.
+  - $m$ (label dimension): The dimension of the label space, equal to the factor by which the parameter shrinks per recursion level.
+- Address shear
+- Lower triangular factorization (also: Bruhat factorization)
+- Cost of a rational matrix shear
+- Rational shear interface of the bit network
+- Power-width interchange recursion
+- Fast address-chunk interchange (also: chunk swap, address interchange)
+- Binary phase frames (also: binary phase interface, complex network)
+- Signed Kronecker packing (also: Kronecker substitution)
+- Binary representation of integers (also: binary expansion, bit string value, most significant bit, least significant bit, bin_k, val, radix-2 representation, base-2 digits)
+- Positional number systems with a general radix (also: base q digits, radix-q digits, base 2^b digits, radix, digit expansion)
+- Two's complement (also: two's-complement integers, signed binary words, sign extension, signed w-bit integer)
+- Binary addition with carry propagation (also: carry propagation, ripple-carry addition, carries, schoolbook addition)
+- Schoolbook multiplication (also: long multiplication, grade-school multiplication, quadratic multiplication, O(n^2) multiplication)
+- Karatsuba multiplication (also: Karatsuba's algorithm, Karatsuba–Ofman, O(n^{log_2 3}) multiplication)
+- Integer division with remainder (also: quotient and remainder, Euclidean division, div and mod, integer square root)
+- Floor and ceiling (also: ⌊x⌋, ⌈x⌉, rounding down, rounding up, truncation toward zero, integer part)
+- Logarithms and exponentials (also: log_2, lg, natural logarithm, log, exp, e^x, logarithmic factor)
+- Asymptotic notation beyond big-O (also: Theta notation, Omega notation, little-o, Θ, Ω, o(1), n^{o(1)}, eventually, for sufficiently large n)
+- Worst-case running time (also: time complexity, worst-case time, T(n), step count, bit complexity)
+- Deterministic computation (also: deterministic Turing machine, deterministic algorithm, no advice, uniform algorithm)
+- Polynomial time and polylogarithmic cost (also: polynomial cost, poly(p), b^{O(1)}, polylog)
+- Recurrence relations (also: recurrences, divide-and-conquer recurrence, recursion tree, master theorem)
+- Geometric series (also: geometric sum, Σ a^k, geometric progression)
+- Mathematical induction (also: induction, proof by induction, inductive argument)
+- Sets, subsets and Cartesian products (also: Cartesian product, [a] = {0,...,a−1}, set intersection, cardinality, three-element subsets, indicator vector, characteristic vector)
+- Binomial coefficients (also: n choose k, C(n,k), combinations, k-subsets)
+- Permutations (also: bijection, permutation, inverse permutation, composition of permutations, reordering)
+- Lexicographic order (also: row-major order, dictionary order, lexicographic layout, most significant coordinate first)
+- Matrix transposition (also: transpose, row-major to column-major, A^T)
+- Modular arithmetic (also: congruence, mod, residues, Z/qZ, ≡ (mod q), residue ring, modular inverse)
+- Greatest common divisor and the extended Euclidean algorithm (also: gcd, Euclid's algorithm, extended Euclid, coprime, relatively prime, Bézout)
+- Prime numbers and trial division (also: primes, odd primes, primality testing, trial division)
+- Chinese remainder theorem (also: CRT, Chinese remaindering)
+- Exclusive or and arithmetic modulo 2 (also: XOR, ⊕, GF(2), F_2, binary field, parity, bitwise XOR)
+- Hamming weight (also: weight, wt(x), popcount, number of ones)
+- Gaussian elimination (also: row reduction, elimination, elementary row operations)
+- Dot product and orthogonality (also: inner product, orthogonal vectors, orthonormal basis, z·w)
+- Special matrices (also: identity matrix, diagonal matrix, triangular matrix, permutation matrix, Kronecker product of matrices, block matrix)
+- Triangle inequality (also: |a+b| ≤ |a|+|b|, absolute error bound)
+- Bernoulli's inequality (also: (1+x)^n ≥ 1+nx)
+- Newton's method (also: Newton iteration, Newton–Raphson)
+- Binary search (also: bisection search)
+- Radix sort and stable sorting (also: stable sort, binary radix sort, counting sort, merge, merge sort)
+- Amortized cost of a binary counter (also: binary counter, incrementing a counter, ripple counting, amortized analysis)
+- Stacks (also: stack, push, pop, last-in first-out, LIFO)
+- Fixed-point binary numbers (also: fixed-point, fractional bits, binary point, guard bits, precision p)
+
+## This page
+
+Concept: Packed selected-bit addition
+Gloss: A procedure that XORs selected bits of one address chunk into corresponding bits of another, using a third chunk as restored scratch, by eight cyclic rotations of whole chunk ranges followed by deterministic sorting repair of a small exceptional set of addresses.
+
+## This page in the argument
+
+The step: Selected bits of one address chunk can be XORed into another, restoring a third scratch chunk, in time $O(V(L^\tau+1))$ on the transform layouts.
+How: eight controlled cyclic rotations of whole chunk ranges, then deterministic sorting repair of the exceptional addresses
+Why: The rotations act on whole chunk ranges in linear time and are correct away from a small, explicitly known set of addresses, which is cheap to fix by sorting because that set is a $2^{-K}$ fraction. (the sources leave this for the reader to work out: spell it out)
+
+Its sub-steps, in order:
+
+- On one rectangle the procedure performs $y_{j_i}\leftarrow y_{j_i}\oplus x_{j_i}$ and restores the scratch chunk $z$, within the stated time.
+- The same bound holds for grouped rectangles, as the layer recursion requires.
+
+It serves these steps, from the main result down:
+
+- One deterministic fixed-alphabet multitape Turing machine computes the exact product of two $n$-bit integers in $O(n(\lg n)^{1-\kappa})$ worst-case time with $\kappa=2^{-182}$, disproving the $n\log n$ optimality conjecture in that model.; how: build two sublinear-per-level tape procedures from finite linear networks with a rank deficit, then chain the known reductions from integer product to synthetic polynomial transforms and bound every cost (on [Integer multiplication below n log n](main-theorem.md))
+- Interchanging $u$-bit address chunks costs $O(Vu^\tau)$ and a simultaneous butterfly layer on $d$ chunks costs $O(Vd^{\lambda'})$, with $\tau,\lambda'<1$.; how: supply linear elementary scans, build two finite networks with a rank deficit, and turn each network into a volume-normalized recursion on tape
+- A normalized butterfly $H_0$ on the same bit of up to $d$ address chunks can be applied to polynomial records in $O(Vd^{\lambda'})$ time with $\lambda'<1$ and a single final truncation.; how: express $H_0^{\otimes D}$ through $C^{\otimes D}$, recurse through the complex network's phase frames, implement binary basis changes by packed selected-bit additions, bound guard widths, and evaluate exactly before truncating (on [Simultaneous butterfly layer](simultaneous-butterfly-layer.md))
+
+## Steps this page derives
+
+The argument gives this page these sub-steps of its step (S1.5.2.1, S1.5.2.2). Derive each here, so the reader can check how it follows from what comes before: stating its result, or citing the source for it, does not derive it. The passages report each step in the source; they ground the derivation and are not to be copied onto the page. In `derivations`, give each step's id and the passage on the page that derives it, copied exactly: submit checks that the passage is on the page, and the audit judges whether it is enough.
+
+**S1.5.2.1**: On one rectangle the procedure performs $y_{j_i}\leftarrow y_{j_i}\oplus x_{j_i}$ and restores the scratch chunk $z$, within the stated time.
+Source: "It preserves the spectator coordinates, all other chunk bits, and every" (paper)
+> e a permutation of $(x,y,z)$. Consider $R$-bit records in lexicographic order on \[ [N_0]\times[2^L]_{\chi_1}\times[N_1]\times[2^L]_{\chi_2} \times[N_2]\times[2^L]_{\chi_3}\times[N_3]. \] The subscript names the chunk at that position. The input supplies $N_0,\ldots,N_3,R,K,f,\rho$ as a fixed number of canonical binary integers, together with the finite permutation of the chunk names, as in Section~\ref{sec:streams}. Put \[ M=2^{3L}\prod_{h=0}^3N_h,\qquad V=MR,\qquad A_{\rm rect}=\lceil\log_2(2V)\rceil. \] At the selected positions $j_i=\rho+iK$, numbered from the least significant bit, one fixed multitape procedure performs \[ y_{j_i}\longleftarrow y_{j_i}\mathbin\oplus x_{j_i} \quad(0\le i<f). \] It preserves the spectator coordinates, all other chunk bits, and every record payload; in particular, it restores the entire chunk $z$ for every initial value. With $\delta_{\rm bad}=\min\{1,80(f-1)2^{-K}\}$, its time is \begin{equation} \label{eq:packed-rectangle-time} O\!\left(V(L^\tau+1)+MA_{\rm rect}^3+ \delta_{\rm bad}MA_{\rm rect}(R+A_{\rm rect})\right). \end{equation} When $A_{\rm rect}=O(p)$, $R$ exceeds every fixed polynomial in $p$, $f\le d\le p$, and $K/\log p\to\infty$, this is $O(V(L^\tau+1))$, uniformly over the permitted lengths and payloads in the fixed family. \end{lemma}
+
+**S1.5.2.2**: The same bound holds for grouped rectangles, as the layer recursion requires.
+Source: "\begin{lemma}[Packed selected-bit addition for grouped rectangles]" (paper)
+> \begin{lemma}[Packed selected-bit addition for grouped rectangles] \label{lem:packed-selected-bit-addition} Let a valid grouped packed stream of Definition~\ref{def:grouped-packed-stream} be supplied, and let $A\ge2$ bound the actual total bit length of its descriptor $\mathcal D$, including the header and the entry for $R$. At the positions $j_i=\rho+iK$, numbered from the least significant bit, one fixed multitape procedure performs \[ y_{j_i}\longleftarrow y_{j_i}\mathbin\oplus x_{j_i} \quad(0\le i<f) \] in every group. It fixes the group, row ordinal, spectator coordinates, all other chunk bits, and every record payload; in particular, the chunk $z$ is restored. For $V=MR$, its time is \begin{equation} \label{eq:packed-selected-time} O\!\left(V(L^\tau+1)+MA^3+ M\min\{1,80(f-1)2^{-K}\}\,A(R+A)\right). \end{equation} When $A=O(p)$, $R$ exceeds every fixed polynomial in $p$, $f\le d\le p$, and $K/\log p\to\infty$, this is $O(V(L^\tau+1))$, uniformly over the group counts, shapes, and payloads whose supplied descriptors satisfy that bound. \end{lemma}
+
+## Prerequisite pages (link each on first use, exactly as written, and give a relation for each)
+
+- [Controlled shifts and rational scalings](controlled-shifts.md): Linear-time updates y ↦ y + a(controls) mod q^b of an address field by an offset computed from earlier fields, and multiplication of the field by fixed rational units, implemented by splitting and re-merging blocks.
+  Shown as: Packed selected-bit addition *<predicate>* Controlled shifts and rational scalings
+- [Fast address-chunk interchange](fast-chunk-interchange.md): The procedure exchanging two disjoint u-bit address fields of an array in O(V u^τ) time for a fixed τ < 1, computing XOR combinations of data along the way though its final effect is an exact permutation.
+  Shown as: Packed selected-bit addition *<predicate>* Fast address-chunk interchange
+- [Elementary stream operations](elementary-streams.md): Linear-time O(V) tape scans that permute or move single radix digits of addresses, split and merge streams on a digit, and distribute whole rows cyclically among W role streams.
+  Shown as: Packed selected-bit addition *<predicate>* Elementary stream operations
+
+## Pages that build on this one
+
+- Simultaneous butterfly layer: Applying H₀ on the same bit position of up to d address chunks at once in O(V d^{λ'}) time with λ' < 1, by recursing through the complex network's phase frames, packed bit changes and an exact Gaussian-dyadic evaluation with one final truncation.
+
+## Other pages you may link to
+
+- [Exact integer multiplication on a multitape machine](integer-multiplication-problem.md)
+- [Harvey–van der Hoeven O(n log n) multiplier](hvdh-multiplier.md)
+- [Polynomial ring modulo y^r + 1](negacyclic-ring.md)
+- [Normalized butterfly H₀](normalized-butterfly.md)
+- [Gaussian dyadic numbers and fixed-point grids](gaussian-dyadics.md)
+- [Signed Kronecker packing](signed-packing.md)
+- [n log n optimality conjecture](nlogn-conjecture.md)
+- [Lexicographic array layout and logical volume](array-layout.md)
+- [Address shear](address-shear.md)
+- [Linear maps, subspaces and rank](linear-algebra.md)
+- [Lower triangular factorization](lower-triangular-factorization.md)
+- [Linear network with roles and scratch wires](linear-network.md)
+- [Frames and the common-frame identity](frames.md)
+- [Restoring arbitrary scratch values](scratch-restoration.md)
+- [Nondegenerate bilinear forms and orthogonal residuals](bilinear-forms.md)
+- [Triple-intersection pairings](triple-intersection.md)
+- [Three-stage bank exchange](bank-exchange.md)
+- [Nested subspace labels and rank budget](subspace-labels.md)
+- [Recursive saving from s < Wm](rank-deficit-recursion.md)
+- [Rational shear interface of the bit network](rational-shear-interface.md)
+- [Binary phase frames](phase-frames.md)
+- [Cost of a rational matrix shear](matrix-shear-cost.md)
+- [Power-width interchange recursion](power-width-interchange.md)
+- [Simultaneous butterfly layer](simultaneous-butterfly-layer.md)
+- [Normalized discrete Fourier transform](discrete-fourier-transform.md)
+- [Synthetic polynomial transform](synthetic-transform.md)
+- [Gaussian resampling](gaussian-resampling.md)
+- [Resampling with retained permutations](no-sort-resampling.md)
+- [Transform layout on K-bit chunks](transform-layout.md)
+- [Cyclic convolution](cyclic-convolution.md)
+- [Radix-digit reduction to convolution](radix-digit-convolution.md)
+- [Chinese-remainder address map](crt-address-map.md)
+- [Bluestein's chirp identity](bluestein-chirp.md)
+- [Coefficient twist](coefficient-twist.md)
+- [Normalized convolution over the polynomial ring](synthetic-convolution.md)
+- [Source permutation cancellation](source-permutation-cancellation.md)
+- [Error below 1/2 and exact recovery](exact-recovery.md)
+- [Parameter choice and cost table](parameter-choice.md)
+- [Integer multiplication below n log n](main-theorem.md)
+
+## Evidence from the sources, with the paragraph around each quote
+
+- "The construction first uses a constant number of cyclic shifts of whole chunk ranges, then corrects an explicitly bounded set of addresses." (paper)
+
+  > We implement a binary row addition on corresponding selected bits in two address chunks. A third chunk supplies temporary address bits; its arbitrary initial value must be restored. The construction first uses a constant number of cyclic shifts of whole chunk ranges, then corrects an explicitly bounded set of addresses. The correction depends only on addresses, so the time bound is worst-case over all payloads.
+
+- "We implement a binary row addition on corresponding selected bits in two address chunks." (paper)
+
+  > We implement a binary row addition on corresponding selected bits in two address chunks. A third chunk supplies temporary address bits; its arbitrary initial value must be restored. The construction first uses a constant number of cyclic shifts of whole chunk ranges, then corrects an explicitly bounded set of addresses. The correction depends only on addresses, so the time bound is worst-case over all payloads.
+
+
+## Sources (read from disk as needed)
+
+- `sources/paper.tex`: source id `paper`, "Integer multiplication below n log n (OpenAI, 2026)"
+
+## Length
+
+At most 350 words, not counting mathematics and citations: submit rejects a longer page.
+
+## Answer
+
+The answer is two files: the page body as markdown (not JSON), and a JSON object with the symbols the page binds and its relations to its prerequisite pages. In JSON strings, write each backslash of LaTeX twice (`"\\kappa"`). The JSON follows this schema:
+
+```json
+{
+  "$defs": {
+    "Derivation": {
+      "additionalProperties": false,
+      "description": "Where the page derives one of the steps the argument gives it.",
+      "properties": {
+        "quote": {
+          "description": "The passage on this page that derives the step, copied exactly: a sentence or more,\noutside citations.",
+          "type": "string"
+        },
+        "step": {
+          "description": "The step's id, as listed under \"Steps this page derives\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Edge": {
+      "additionalProperties": false,
+      "description": "What this page uses one prerequisite page for.",
+      "properties": {
+        "predicate": {
+          "description": "A short predicate built from the sentence's own words, such that \"<this page's\nconcept> <predicate> <prerequisite>\" is a true sentence: \"is reduced to\", \"computes\nits transforms by\", \"is based on\".",
+          "type": "string"
+        },
+        "prerequisite": {
+          "description": "Id of the prerequisite page.",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The sentence on this page that states it, copied exactly. It must link or name the\nprerequisite and contain the predicate's words.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "prerequisite",
+        "predicate",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "PageBinding": {
+      "additionalProperties": false,
+      "description": "What a symbol a page introduces denotes, and where the page says so.",
+      "properties": {
+        "meaning": {
+          "description": "One sentence saying what the symbol denotes; for a count, what it counts.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display name of one to four words, e.g. \"record length\".",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The sentence on the page that says what the symbol denotes, copied exactly. A use\nin an example (\"take $r = 4$\") does not say what a symbol denotes.",
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/$defs/Relation"
+        },
+        "symbol": {
+          "description": "The symbol in LaTeX, as it appears in the page's mathematics, without dollar signs,\ne.g. `r` or `\\kappa`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "name",
+        "meaning",
+        "relation",
+        "quote"
+      ],
+      "type": "object"
+    },
+    "Relation": {
+      "oneOf": [
+        {
+          "const": "direct",
+          "description": "The symbol denotes a thing: \"ω, a primitive root of unity\".",
+          "type": "string"
+        },
+        {
+          "const": "count",
+          "description": "The symbol is the number of instances of something: \"r, the number of complex\ncoefficients in a record\".",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "description": "The structured part of a write answer; the body is the markdown answer file.",
+  "properties": {
+    "derivations": {
+      "default": [],
+      "description": "For each step listed under \"Steps this page derives\", the passage on the page that\nderives it. Empty if the task lists none.",
+      "items": {
+        "$ref": "#/$defs/Derivation"
+      },
+      "type": "array"
+    },
+    "relations": {
+      "description": "One relation for each prerequisite page: what this page uses it for. Empty if the\npage has no prerequisite pages.",
+      "items": {
+        "$ref": "#/$defs/Edge"
+      },
+      "type": "array"
+    },
+    "symbols": {
+      "description": "Every symbol the page binds: each symbol it introduces and says what it denotes.\nLeave out symbols listed as already bound, unless the page gives them a new meaning.\nEmpty if the page introduces no symbols.",
+      "items": {
+        "$ref": "#/$defs/PageBinding"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "symbols",
+    "relations"
+  ],
+  "title": "WriteAnswer",
+  "type": "object"
+}
+```
+
+Write the body to `exegenius/tasks/0030-write-packed-selected-bit-addition.answer.md` and the JSON to `exegenius/tasks/0030-write-packed-selected-bit-addition.answer.json`, then run `exegenius submit 0030-write-packed-selected-bit-addition` in the project directory. If submit rejects the answer, fix the answer and submit again.
+
+Keep any other files you make, such as scripts, in `exegenius/tasks/0030-write-packed-selected-bit-addition`. Other tasks run at the same time on this machine, and files elsewhere (in /tmp, for example) can be overwritten or run by them. For the same reason, never stop processes by name or pattern (`pkill`, `killall`), which would stop other tasks' commands too: stop a command of your own by its process id.

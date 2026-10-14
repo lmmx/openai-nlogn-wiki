@@ -1,0 +1,934 @@
+{
+ "target": "main-theorem",
+ "concepts": [
+  {
+   "id": "big-o",
+   "name": "Big-O notation",
+   "aliases": [],
+   "gloss": "Asymptotic upper-bound notation for growth rates of running times.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "polynomials",
+   "name": "Polynomials",
+   "aliases": [],
+   "gloss": "Formal sums of coefficient multiples of powers of a variable, with addition and multiplication.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "complex-numbers",
+   "name": "Complex numbers",
+   "aliases": [],
+   "gloss": "Numbers a+bi with real a, b, including modulus, conjugation and the exponential e^{iθ}.",
+   "requires": [],
+   "known": true,
+   "evidence": []
+  },
+  {
+   "id": "multitape-turing-machine",
+   "name": "Multitape Turing machine",
+   "aliases": [
+    "fixed finite-tape model"
+   ],
+   "gloss": "A Turing machine with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, each head moving at most one cell per step.",
+   "requires": [],
+   "known": true,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "A machine has one fixed finite alphabet and one fixed finite number of one-dimensional tapes."
+    }
+   ]
+  },
+  {
+   "id": "matrix-rank",
+   "name": "Linear maps and matrix rank",
+   "aliases": [
+    "rational rank"
+   ],
+   "gloss": "Matrices represent linear maps between vector spaces, and the rank of a matrix is the dimension of its image.",
+   "requires": [],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Every rational $m\\times m$ matrix $A$ of rank $a$ has a factorization"
+    }
+   ]
+  },
+  {
+   "id": "tensor-product",
+   "name": "Tensor products",
+   "aliases": [],
+   "gloss": "The tensor product of vector spaces or operators builds a multi-index space or acts independently on each index; the paper's label space and simultaneous butterfly layers are tensor products.",
+   "requires": [
+    "matrix-rank"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The ambient label space is $\\mathcal F=F^{\\otimes3}$ with its tensor bilinear form."
+    }
+   ]
+  },
+  {
+   "id": "bilinear-form",
+   "name": "Nondegenerate bilinear forms",
+   "aliases": [
+    "orthogonal complement"
+   ],
+   "gloss": "A bilinear form pairs vectors into scalars; it is nondegenerate when no nonzero vector is orthogonal to everything, which lets a subspace split off its orthogonal complement.",
+   "requires": [
+    "matrix-rank"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "This form has eigenvalues $1$ and $1-h/9=-91/9$, so it is nondegenerate."
+    }
+   ]
+  },
+  {
+   "id": "n-log-n-conjecture",
+   "name": "n log n optimality conjecture",
+   "aliases": [
+    "Schönhage–Strassen conjecture"
+   ],
+   "gloss": "Schönhage and Strassen's conjecture that n-bit integer multiplication needs order n log n time, here read as an eventual Ω(n lg n) lower bound for every fixed multitape machine.",
+   "requires": [
+    "big-o",
+    "multitape-turing-machine"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "proposed $n\\log n$ as the optimal order of growth"
+    },
+    {
+     "source": "paper",
+     "quote": "The theorem refutes an eventual $\\Omega(n\\log n)$ lower bound for every fixed multiplication machine in this model."
+    }
+   ],
+   "title": "$n\\log n$ optimality conjecture",
+   "symbols": [
+    {
+     "symbol": "n",
+     "name": "input bit length",
+     "meaning": "The number of bits in each of the two integers being multiplied.",
+     "relation": "count"
+    },
+    {
+     "symbol": "\\log",
+     "name": "logarithm",
+     "meaning": "The logarithm function, so n log n is the conjectured optimal growth rate.",
+     "relation": "direct"
+    }
+   ]
+  },
+  {
+   "id": "harvey-van-der-hoeven-multiplier",
+   "name": "Harvey–van der Hoeven multiplier",
+   "aliases": [],
+   "gloss": "The previously established deterministic multitape algorithm multiplying N-bit integers in O(N log N) time, used here only as an ordinary subroutine on short records.",
+   "requires": [
+    "big-o",
+    "multitape-turing-machine"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Harvey and van der Hoeven reached the unconditional $O(n\\log n)$ upper bound"
+    },
+    {
+     "source": "paper",
+     "quote": "Calls to the established $O(n\\log n)$ multiplier are ordinary subroutine calls; they do not invoke the improved theorem recursively."
+    }
+   ]
+  },
+  {
+   "id": "elementary-streams",
+   "name": "Arrays on tape and elementary stream operations",
+   "aliases": [
+    "logical volume"
+   ],
+   "gloss": "Multi-index arrays are stored in lexicographic address order with implicit addresses, and fixed digit permutations, digit moves, splits into streams and merges each cost O(V) for logical bit volume V.",
+   "requires": [
+    "multitape-turing-machine",
+    "big-o"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "An array with address set $[a_1]\\times\\cdots\\times[a_t]$ is stored in lexicographic order, with the first coordinate most significant."
+    },
+    {
+     "source": "paper",
+     "quote": "The \\emph{logical volume} $V$ is the number of stored data bits."
+    }
+   ]
+  },
+  {
+   "id": "controlled-shifts",
+   "name": "Controlled shifts",
+   "aliases": [],
+   "gloss": "Linear-time updates that add to, or cyclically shift, a later address field by an amount computed from earlier fields, possible because the target field follows its control fields in tape order.",
+   "requires": [
+    "elementary-streams"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The next operations are linear because their target field follows their control fields."
+    }
+   ]
+  },
+  {
+   "id": "cyclic-convolution",
+   "name": "Cyclic convolution",
+   "aliases": [],
+   "gloss": "The product of polynomials modulo x^S − 1 (or its multidimensional analogue), where exponents wrap around cyclically.",
+   "requires": [
+    "polynomials"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Here $*$ denotes cyclic convolution on the product of the coordinate groups and a dot denotes coordinatewise multiplication."
+    }
+   ]
+  },
+  {
+   "id": "radix-digit-convolution",
+   "name": "Multiplication as digit convolution",
+   "aliases": [],
+   "gloss": "Splitting each integer into radix-2^b digits turns their product into the convolution of short digit sequences, followed by carry propagation.",
+   "requires": [
+    "cyclic-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Splitting the inputs into radix digits reduces multiplication to convolution of short integer coefficients."
+    }
+   ]
+  },
+  {
+   "id": "discrete-fourier-transform",
+   "name": "Normalized discrete Fourier transform",
+   "aliases": [
+    "DFT"
+   ],
+   "gloss": "The map sending a length-q vector to the averages of its entries multiplied by powers of a q-th root of unity; it is a contraction and diagonalizes cyclic convolution.",
+   "requires": [
+    "complex-numbers",
+    "polynomials"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Each normalized Fourier transform above is a contraction, since each output averages inputs multiplied by complex numbers of modulus one."
+    }
+   ]
+  },
+  {
+   "id": "crt-address-map",
+   "name": "Chinese-remainder address map",
+   "aliases": [
+    "Agarwal–Cooley split"
+   ],
+   "gloss": "An algebra isomorphism x ↦ ∏ x_i^{μ_i} that turns a cyclic convolution of length S = ∏ s_i into a multidimensional cyclic convolution on pairwise coprime axes, implemented by triangular controlled shifts.",
+   "requires": [
+    "cyclic-convolution",
+    "controlled-shifts"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "First, the radix-digit coefficient list is placed on a product of distinct prime cyclic axes by a Chinese-remainder map that preserves convolution."
+    }
+   ]
+  },
+  {
+   "id": "fixed-point-approximation",
+   "name": "Fixed-point approximation and error accounting",
+   "aliases": [
+    "disk grid",
+    "precision p"
+   ],
+   "gloss": "Complex values are stored on the grid 2^{-p}(ℤ+iℤ) in the unit disk, truncated toward zero, and errors of approximate contractions add when composed.",
+   "requires": [
+    "complex-numbers",
+    "big-o"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "For any array, let $Q_p$ truncate each real and imaginary coefficient part toward zero to this grid."
+    },
+    {
+     "source": "paper",
+     "quote": "Composing such algorithms adds their errors"
+    }
+   ]
+  },
+  {
+   "id": "gaussian-resampling",
+   "name": "Gaussian resampling",
+   "aliases": [],
+   "gloss": "Harvey and van der Hoeven's identity expressing a Fourier transform of coprime length s through one of a nearby length t, using Gaussian-weighted contractions, so prime-length axes become power-of-two axes.",
+   "requires": [
+    "discrete-fourier-transform",
+    "fixed-point-approximation"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Our starting point is the Gaussian-resampling reduction of Harvey and van der Hoeven"
+    },
+    {
+     "source": "paper",
+     "quote": "Gaussian resampling connects these two shapes."
+    }
+   ]
+  },
+  {
+   "id": "retained-permutations",
+   "name": "Retained transform permutations",
+   "aliases": [],
+   "gloss": "Instead of sorting, the source and target coordinate permutations of resampling stay inside the transform identity; the target one is absorbed by the chirp and the source one cancels across forward transforms, pointwise product and inverse transform.",
+   "requires": [
+    "gaussian-resampling",
+    "cyclic-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We retain both permutations in the transform formula and compute that formula directly."
+    },
+    {
+     "source": "paper",
+     "quote": "Finally, the source permutation retained during resampling cancels across the two forward source transforms, their pointwise product, and the opposite-sign transform."
+    }
+   ]
+  },
+  {
+   "id": "bluestein-chirp",
+   "name": "Bluestein's chirp identity",
+   "aliases": [
+    "chirp"
+   ],
+   "gloss": "A Fourier transform equals pointwise multiplication by a quadratic-phase chirp, a cyclic convolution with the chirp, and another chirp multiplication.",
+   "requires": [
+    "discrete-fourier-transform",
+    "cyclic-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Next, Bluestein's chirp identity converts the middle transform, including its target permutation, into normalized cyclic convolution."
+    }
+   ]
+  },
+  {
+   "id": "negacyclic-ring",
+   "name": "Polynomial ring ℂ[y]/(yʳ+1)",
+   "aliases": [],
+   "gloss": "The ring of complex polynomials of degree below r with y^r = −1, in which multiplying by a power of y is a signed shift of the coefficient list and powers of y act as roots of unity.",
+   "requires": [
+    "polynomials",
+    "complex-numbers"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "one coordinate is stored as the coefficient list of a polynomial modulo $y^r+1$, with $r$ a power of two."
+    },
+    {
+     "source": "paper",
+     "quote": "Multiplication by $y^a$, for any integer $a$, permutes the coefficients and changes some signs"
+    }
+   ],
+   "title": "Polynomial ring $\\mathbb C[y]/(y^r+1)$",
+   "symbols": [
+    {
+     "symbol": "\\mathbb C",
+     "name": "complex numbers",
+     "meaning": "The field of complex numbers from which the coefficients are taken.",
+     "relation": "direct"
+    },
+    {
+     "symbol": "y",
+     "name": "ring variable",
+     "meaning": "The polynomial indeterminate, whose r-th power equals −1 in the ring.",
+     "relation": "direct"
+    },
+    {
+     "symbol": "r",
+     "name": "record length",
+     "meaning": "The number of complex coefficients in each polynomial record, a power of two.",
+     "relation": "count"
+    }
+   ]
+  },
+  {
+   "id": "coefficient-twist",
+   "name": "Coefficient phase twist",
+   "aliases": [],
+   "gloss": "Multiplying coefficient k by ζ^k with ζ = e^{πi/r} maps cyclic convolution modulo x^r − 1 isomorphically onto negacyclic multiplication modulo y^r + 1.",
+   "requires": [
+    "negacyclic-ring",
+    "cyclic-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "A phase twist changes the last cyclic coordinate into a polynomial modulo $y^r+1$; its negative wrap gives precisely the original cyclic wrap after the twist is removed."
+    }
+   ]
+  },
+  {
+   "id": "butterfly-h0",
+   "name": "Normalized butterfly H₀",
+   "aliases": [],
+   "gloss": "The two-point map H₀(u,v) = ((u+v)/2, (u−v)/2), the radix-two step of fast Fourier-type transforms, applied coefficientwise to polynomial records.",
+   "requires": [
+    "complex-numbers"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "the transform calculation consists of address rearrangements, signed shifts, and two-point butterfly operations."
+    }
+   ],
+   "title": "Normalized butterfly $H_0$",
+   "symbols": [
+    {
+     "symbol": "H_0",
+     "name": "normalized butterfly",
+     "meaning": "The two-point linear map sending (u,v) to ((u+v)/2,(u−v)/2).",
+     "relation": "direct"
+    }
+   ]
+  },
+  {
+   "id": "gaussian-dyadics",
+   "name": "Gaussian dyadic numbers",
+   "aliases": [],
+   "gloss": "Complex numbers whose real and imaginary parts are rationals with power-of-two denominators, the ring ℤ[i,1/2], in which the butterfly layers are computed exactly.",
+   "requires": [
+    "complex-numbers"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Intermediate values are exact Gaussian dyadics, whose real and imaginary parts have power-of-two denominators."
+    }
+   ]
+  },
+  {
+   "id": "synthetic-transform",
+   "name": "Synthetic polynomial transform",
+   "aliases": [
+    "Nussbaumer transform"
+   ],
+   "gloss": "Nussbaumer's Fourier transform over ℂ[y]/(y^r+1) using powers of y as roots of unity, so it needs only signed shifts, butterflies and address rearrangements, with a stored frequency order consumed by the inverse transform.",
+   "requires": [
+    "negacyclic-ring",
+    "discrete-fourier-transform",
+    "butterfly-h0"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "These are the synthetic polynomial transforms of Nussbaumer and Quandalle and Nussbaumer"
+    },
+    {
+     "source": "paper",
+     "quote": "Powers of $y$ then serve as roots of unity in the remaining axes, and multiplication by such a root is a signed shift of the coefficient list."
+    }
+   ]
+  },
+  {
+   "id": "signed-packing",
+   "name": "Signed Kronecker packing",
+   "aliases": [
+    "Kronecker substitution"
+   ],
+   "gloss": "Packing the signed fixed-point coefficients of two ring elements into large integers so one call to the O(N log N) multiplier yields their exact polynomial product.",
+   "requires": [
+    "negacyclic-ring",
+    "harvey-van-der-hoeven-multiplier",
+    "fixed-point-approximation"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The reduction is a signed form of Kronecker substitution"
+    },
+    {
+     "source": "paper",
+     "quote": "Their polynomial products use signed packing and the established $O(n\\log n)$ multiplier as an ordinary subroutine."
+    }
+   ]
+  },
+  {
+   "id": "linear-network",
+   "name": "Linear network with wire roles",
+   "aliases": [
+    "role",
+    "bank exchange"
+   ],
+   "gloss": "A fixed finite circuit of linear gates on wires, each wire's fixed place called its role, which in three stages exchanges two data banks (X,Y) ↦ (−Y,X) with prescribed signs.",
+   "requires": [
+    "matrix-rank"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Each procedure arises from its own fixed linear network that exchanges two banks of values, with prescribed signs, and restores every auxiliary value."
+    },
+    {
+     "source": "paper",
+     "quote": "A wire's fixed place in the network is called its role."
+    }
+   ]
+  },
+  {
+   "id": "scratch-restoration",
+   "name": "Restoration of scratch values",
+   "aliases": [
+    "transparent computation"
+   ],
+   "gloss": "A gate schedule that subtracts the effect of arbitrary initial auxiliary values, performs the update, and undoes its copies so every scratch wire ends with its initial value.",
+   "requires": [
+    "linear-network"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We call all these auxiliary wires \\emph{scratch wires}; their initial values may be arbitrary."
+    },
+    {
+     "source": "paper",
+     "quote": "This cancellation of arbitrary initial scratch values is a linear instance of the restoration construction for transparent computation"
+    }
+   ]
+  },
+  {
+   "id": "triple-intersection-construction",
+   "name": "Three-element subset construction",
+   "aliases": [
+    "gather and scatter",
+    "side wires"
+   ],
+   "gloss": "Data indexed by 3-element subsets of a 100-set are combined by gather/scatter through central wires, giving coefficients depending on intersection size, and side wires cancel the unwanted ones so the net effect is y ← y + x.",
+   "requires": [
+    "linear-network",
+    "scratch-restoration"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The construction uses three-element subsets: gather and scatter create coefficients depending on intersection size, and auxiliary wires cancel the unwanted coefficients."
+    }
+   ]
+  },
+  {
+   "id": "frames",
+   "name": "Frames and the common-frame identity",
+   "aliases": [],
+   "gloss": "Each network vertex gets an invertible operator D_v on the wire's array; edges apply D_v D_u^{-1}, pointwise gates commute with a common frame, so the whole network implements D_out S D_in^{-1} on rows split cyclically among the roles.",
+   "requires": [
+    "linear-network",
+    "elementary-streams"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We call $D_v$ its frame: the stored array is $D_vg$ when the logical array is $g$."
+    },
+    {
+     "source": "paper",
+     "quote": "Distribute rows cyclically among the $W$ roles, padding the row count for each prefix to a multiple of $W$."
+    }
+   ]
+  },
+  {
+   "id": "subspace-labels",
+   "name": "Subspace labels and orthogonal residuals",
+   "aliases": [],
+   "gloss": "Nested nondegenerate subspaces of a fixed m-dimensional bilinear space are attached to the network's vertices, and the dimension of the orthogonal residual on each edge counts the smaller operations needed there.",
+   "requires": [
+    "bilinear-form",
+    "tensor-product",
+    "triple-intersection-construction",
+    "frames"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "A label is a nondegenerate subspace of a fixed bilinear space."
+    },
+    {
+     "source": "paper",
+     "quote": "Their dimension changes count the smaller operations needed on an edge"
+    }
+   ]
+  },
+  {
+   "id": "rank-saving",
+   "name": "Rank saving s < Wm",
+   "aliases": [],
+   "gloss": "The key finite fact: the total number s of smaller calls over all edges of a network with W wires and label dimension m is strictly less than Wm.",
+   "requires": [
+    "subspace-labels",
+    "matrix-rank"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The decisive property is that the total number $s$ of smaller calls satisfies $s<Wm$."
+    }
+   ],
+   "title": "Rank saving $s<Wm$",
+   "symbols": [
+    {
+     "symbol": "s",
+     "name": "smaller call count",
+     "meaning": "The total number of smaller recursive calls, the sum of edge ranks or residual dimensions over all network edges.",
+     "relation": "count"
+    },
+    {
+     "symbol": "W",
+     "name": "wire count",
+     "meaning": "The number of wires (roles) in the finite network, including scratch wires.",
+     "relation": "count"
+    },
+    {
+     "symbol": "m",
+     "name": "label dimension",
+     "meaning": "The dimension of the ambient label space, equal to the number of sub-fields a parameter is split into per recursion level.",
+     "relation": "count"
+    }
+   ]
+  },
+  {
+   "id": "recursive-power-saving",
+   "name": "Recursive power saving",
+   "aliases": [],
+   "gloss": "Splitting the work into s calls each on volume V/W gives the normalized recurrence F_k ≤ (s/W)F_{k−1} + O(1), and s/W < m^τ with τ < 1 yields cost O(V e^τ) instead of O(V e).",
+   "requires": [
+    "rank-saving",
+    "frames",
+    "big-o"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "After dividing cost by volume, multiplying the parameter by $m$ increases the recursive contribution by $s/W<m$."
+    },
+    {
+     "source": "paper",
+     "quote": "This strict inequality is the source of the power saving."
+    }
+   ]
+  },
+  {
+   "id": "address-shear",
+   "name": "Address shear",
+   "aliases": [],
+   "gloss": "The address permutation (H,D) ↦ (H+D,D) on two field groups, which together with two linear-cost updates gives the interchange (H,D) ↦ (D,H).",
+   "requires": [
+    "elementary-streams"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "For the bit procedure, that endpoint operator is an address shear"
+    }
+   ]
+  },
+  {
+   "id": "lower-triangular-factorization",
+   "name": "Lower triangular factorization",
+   "aliases": [
+    "Bruhat factorization"
+   ],
+   "gloss": "Every rational matrix of rank a factors as E₁ΠE₂ with invertible lower triangular E₁, E₂ and a partial permutation Π with a ones, a reordered Bruhat factorization.",
+   "requires": [
+    "matrix-rank"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The required factorization is the Bruhat factorization for arbitrary matrices, with coordinate order reversed"
+    }
+   ]
+  },
+  {
+   "id": "rational-matrix-interface",
+   "name": "Rational matrix interface",
+   "aliases": [],
+   "gloss": "The XOR bit network with projection matrices as frames, whose endpoint differences are the identity on every role, so it implements the address shear with total edge rank s_b < W_b m.",
+   "requires": [
+    "subspace-labels",
+    "address-shear",
+    "rank-saving"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "For a nondegenerate rational subspace $U\\subset\\mathcal F$, write $P_U$ for the projection onto $U$ along $U^\\perp$."
+    },
+    {
+     "source": "paper",
+     "quote": "The bit network has $W_{\\rm b}$ wires, uses only pointwise XOR gates"
+    }
+   ]
+  },
+  {
+   "id": "chunk-interchange",
+   "name": "Fast address-chunk interchange",
+   "aliases": [
+    "chunk swap"
+   ],
+   "gloss": "The first tape procedure: exchanging two disjoint u-bit address fields of an array in O(V u^τ) time with τ < 1, by recursively running the bit network with shears as edge frames.",
+   "requires": [
+    "rational-matrix-interface",
+    "lower-triangular-factorization",
+    "controlled-shifts",
+    "recursive-power-saving"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The first procedure interchanges two disjoint contiguous address fields of $u$ bits in an array whose addresses form a complete Cartesian product."
+    },
+    {
+     "source": "paper",
+     "quote": "Its cost is $O(Vu^\\tau)$ for a fixed $\\tau<1$."
+    }
+   ]
+  },
+  {
+   "id": "binary-phase-interface",
+   "name": "Binary phase interface",
+   "aliases": [
+    "phase frames"
+   ],
+   "gloss": "The complex network over Gaussian dyadics with binary labels, whose edge frames are products of two-point kernels C = HSH and whose endpoints telescope to a tensor power of C, convertible to the H₀ layer.",
+   "requires": [
+    "subspace-labels",
+    "butterfly-h0",
+    "gaussian-dyadics",
+    "rank-saving"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "Its phase-frame difference $\\mathcal C_V\\mathcal C_U^{-1}$ is a product of one translation kernel $aI+bX_v$, or its inverse, per vector in an orthonormal basis of the edge residual."
+    }
+   ]
+  },
+  {
+   "id": "packed-selected-bit-addition",
+   "name": "Packed selected-bit addition",
+   "aliases": [],
+   "gloss": "Changing selected address bits in several chunks at once by whole-chunk cyclic shifts and moves, followed by a deterministic repair of an explicitly bounded set of exceptional addresses.",
+   "requires": [
+    "chunk-interchange",
+    "controlled-shifts"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We implement a binary row addition on corresponding selected bits in two address chunks."
+    },
+    {
+     "source": "paper",
+     "quote": "Those changes are implemented by whole-chunk moves and controlled shifts, followed by a deterministic correction of the explicitly identified exceptional addresses."
+    }
+   ]
+  },
+  {
+   "id": "simultaneous-butterfly-layer",
+   "name": "Simultaneous butterfly layer",
+   "aliases": [],
+   "gloss": "The second tape procedure: applying H₀ at the same bit position of up to d address chunks at once in O(V d^{λ'}) time with λ' < 1, computed exactly in Gaussian dyadics and truncated once.",
+   "requires": [
+    "binary-phase-interface",
+    "packed-selected-bit-addition",
+    "recursive-power-saving",
+    "chunk-interchange",
+    "fixed-point-approximation"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "one selects the same bit position in each of at most $d$ equal-width address chunks, and the cost is $O(Vd^{\\lambda'})$ for a fixed $\\lambda'<1$."
+    },
+    {
+     "source": "paper",
+     "quote": "A single truncation follows the completed contractive layer."
+    }
+   ]
+  },
+  {
+   "id": "synthetic-convolution",
+   "name": "Convolution over the polynomial ring",
+   "aliases": [],
+   "gloss": "Normalized cyclic convolution of arrays over ℂ[y]/(y^r+1) computed by two forward synthetic transforms on a tape layout using chunk interchanges and simultaneous layers, packed pointwise products, and the opposite transform.",
+   "requires": [
+    "synthetic-transform",
+    "simultaneous-butterfly-layer",
+    "chunk-interchange",
+    "signed-packing"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "The two forward synthetic transforms retain the same frequency order through their pointwise product, and the opposite transform consumes that order."
+    }
+   ]
+  },
+  {
+   "id": "exact-recovery",
+   "name": "Exact recovery by rounding and carries",
+   "aliases": [],
+   "gloss": "Removing known scales, bounding the coefficient error strictly below 1/2, rounding to integers and propagating carries gives the exact binary product.",
+   "requires": [
+    "fixed-point-approximation",
+    "radix-digit-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "proves that the recovered coefficient error is strictly below $1/2$, and propagates carries to obtain the exact binary product."
+    }
+   ]
+  },
+  {
+   "id": "parameter-choice",
+   "name": "Parameter choice and cost balance",
+   "aliases": [
+    "cost table"
+   ],
+   "gloss": "Fixed rational exponents (τ, λ′, c, ε, δ, …) and sizes d ≈ p^ε, K ≈ d^c make every normalized cost-table term at most p^{1−2κ}, with smallest margin 2^{−181} = 2κ.",
+   "requires": [
+    "simultaneous-butterfly-layer",
+    "chunk-interchange",
+    "gaussian-resampling",
+    "synthetic-convolution"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "A compatible choice of rational parameters makes all terms in its cost table fit Theorem~\\ref{thm:main}."
+    },
+    {
+     "source": "paper",
+     "quote": "Thus $\\min_i g_i=2^{-181}=2\\kappa$."
+    }
+   ]
+  },
+  {
+   "id": "main-theorem",
+   "name": "Integer multiplication in O(n(lg n)^(1−κ)) time",
+   "aliases": [],
+   "gloss": "A single deterministic fixed-tape Turing machine computes the exact product of two n-bit integers in O(n(lg n)^{1−κ}) worst-case time with κ = 2^{−182}, refuting the n log n lower-bound conjecture in this model.",
+   "requires": [
+    "n-log-n-conjecture",
+    "radix-digit-convolution",
+    "crt-address-map",
+    "gaussian-resampling",
+    "retained-permutations",
+    "bluestein-chirp",
+    "coefficient-twist",
+    "synthetic-convolution",
+    "chunk-interchange",
+    "simultaneous-butterfly-layer",
+    "exact-recovery",
+    "parameter-choice"
+   ],
+   "known": false,
+   "evidence": [
+    {
+     "source": "paper",
+     "quote": "We give a deterministic algorithm that multiplies two $n$-bit integers"
+    },
+    {
+     "source": "paper",
+     "quote": "The algorithm is exact for every input length and disproves the $n\\log n$ optimality conjecture of Sch"
+    }
+   ],
+   "title": "Integer multiplication in $O(n(\\lg n)^{1-\\kappa})$ time",
+   "symbols": [
+    {
+     "symbol": "O",
+     "name": "big-O",
+     "meaning": "Asymptotic upper bound up to a constant factor.",
+     "relation": "direct"
+    },
+    {
+     "symbol": "n",
+     "name": "input bit length",
+     "meaning": "The number of bits in each of the two integers being multiplied.",
+     "relation": "count"
+    },
+    {
+     "symbol": "\\lg",
+     "name": "ceiling binary logarithm",
+     "meaning": "The binary logarithm rounded up, and at least 1.",
+     "relation": "direct"
+    },
+    {
+     "symbol": "\\kappa",
+     "name": "saving exponent",
+     "meaning": "The fixed constant 2^{−182} by which the logarithmic factor's exponent drops below one.",
+     "relation": "direct"
+    }
+   ]
+  }
+ ]
+}
