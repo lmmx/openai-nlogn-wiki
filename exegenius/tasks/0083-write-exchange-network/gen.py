@@ -6,7 +6,7 @@ def D(step,q):
     d.append({"step":step,"quote":q})
 D("S1.1.1","Fix the ground-set size $h=100$ and let $v=\\binom h3=161700$ be the number of three-element subsets of $[h]$")
 D("S1.1.2","Set $N=v^3=4227952113000000$ for the size of each data bank, and $m=h^3=1000000$ for the label-space dimension used later.")
-D("S1.1.3","Three stages each run $v^2$ invocations with their own scratch wires, so there are $I=3v^2=78440670000$ invocations.")
+D("S1.1.3","Three stages run $v^2$ invocations with own scratch wires, so there are $I=3v^2=78440670000$ invocations.")
 D("S1.1.4a","two triples $S,S'$ are neighbours when $|S\\cap S'|=1$")
 D("S1.1.4b","the neighbours of a triple are the distinct triples with even intersection (zero or two)")
 D("S1.1.5","The net change of $y$ is $(\\mathcal J\\mathcal V+\\mathcal R\\mathcal G)x$ and is independent of $\\sigma,\\gamma$; by the cancellations above it is $y\\gets y+x$.")
@@ -36,7 +36,7 @@ B("S'","other triple","A second triple, the index of a source value x_{S'}.","di
 B("a","bank index","The index of a value in a data bank, a triple of triples.","direct","Banks $X_a,Y_a$ are indexed by $a\\in\\mathcal T^3$, a triple of triples."),
 B("\\sigma","side scratch vector","The initial values of the side scratch wires.","direct","Let $\\sigma,\\gamma$ be the initial side and central scratch vectors; $\\mathcal V,\\mathcal G,\\mathcal J,\\mathcal R$ are the copy, gather, injection and scatter maps."),
 B("\\gamma","central scratch vector","The initial values of the central scratch wires.","direct","Let $\\sigma,\\gamma$ be the initial side and central scratch vectors; $\\mathcal V,\\mathcal G,\\mathcal J,\\mathcal R$ are the copy, gather, injection and scatter maps."),
-B("I","invocation count","The number of invocations.","count","Three stages each run $v^2$ invocations with their own scratch wires, so there are $I=3v^2=78440670000$ invocations."),
+B("I","invocation count","The number of invocations.","count","Three stages run $v^2$ invocations with own scratch wires, so there are $I=3v^2=78440670000$ invocations."),
 B("z_{\\rm b}","bit neighbours","The number of neighbours of a fixed triple in the bit construction.","count","A fixed triple has $z_{\\rm b}=3\\binom{97}{2}=13968$ neighbours in the bit construction"),
 B("z_{\\rm c}","complex neighbours","The number of neighbours of a fixed triple in the complex construction.","count","It has $z_{\\rm c}=\\binom{97}{3}+3\\cdot97=147731$ neighbours in the complex construction (intersection zero plus intersection two)."),
 B("c_{\\rm b}","bit central wires","The number of central wires per invocation in the bit network.","count",QC),

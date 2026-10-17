@@ -1,4 +1,4 @@
-A linear exchange network is a fixed circuit of linear gates on wires carrying scalars that swaps two banks with a sign and restores every scratch wire, whatever value it started with.
+A linear exchange network is a fixed circuit of linear gates on wires carrying scalars that swaps two banks with a sign and restores every scratch wire, whatever its initial value.
 
 Fix the ground-set size $h=100$ and let $v=\binom h3=161700$ be the number of three-element subsets of $[h]$, and let $\mathcal T$ be the set of these subsets. Banks $X_a,Y_a$ are indexed by $a\in\mathcal T^3$, a triple of triples. Set $N=v^3=4227952113000000$ for the size of each data bank, and $m=h^3=1000000$ for the label-space dimension used later.
 
@@ -14,7 +14,7 @@ Let $\sigma,\gamma$ be the initial side and central scratch vectors; $\mathcal V
 
 ## Three stages
 
-Three stages each run $v^2$ invocations with their own scratch wires, so there are $I=3v^2=78440670000$ invocations. The inverse schedule, the forward one with target updates negated and logical source $Y$, target $X$, has net change $X\gets X-Y$. A forward invocation $X\to Y$ at stage 1, the inverse schedule $Y\to X$ at stage 2 and a forward invocation $X\to Y$ at stage 3 give
+Three stages run $v^2$ invocations with own scratch wires, so there are $I=3v^2=78440670000$ invocations. The inverse schedule, the forward one with target updates negated and logical source $Y$, target $X$, has net change $X\gets X-Y$. A forward invocation $X\to Y$ at stage 1, the inverse schedule $Y\to X$ at stage 2 and a forward invocation $X\to Y$ at stage 3 give
 $$(x,y)\mapsto(x,y+x)\mapsto(-y,y+x)\mapsto(-y,x),$$
 that is $(X_a,Y_a)\mapsto(-Y_a,X_a)$ <cite data-source="paper">Performing a forward invocation from $X$ to $Y$ at stage 1,</cite>.
 

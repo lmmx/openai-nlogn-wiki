@@ -1,0 +1,124 @@
+{
+ "derivations": [
+  {
+   "step": "S4.2",
+   "quote": "Tensor this identity over the axes. Put $R=\\bigotimes_iP_{s_i}$ (a permutation, not a ring), $Q=\\bigotimes_iP_{t_i}$, $\\mathcal A=\\bigotimes_iA_i$, $\\mathcal B_0=\\bigotimes_iB_{0,i}$. By the product rule the left sides combine to $RF_{\\boldsymbol s}$, and the right sides to $\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A$ times $d$ factors $2^{2\\alpha^2}$, so $RF_{\\boldsymbol s}=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A$ with $\\gamma=2d\\alpha^2$ <cite data-source=\"paper\">=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A,</cite>. Both $\\mathcal A$ and $\\mathcal B_0$ are contractions, applied one line at a time in a padded box of $T$ entries. Errors and times add over the $d$ passes: error below $dp^2$, time $O(dTp^{3/2+\\delta}\\alpha)$ with a constant independent of $d$. Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), and with $t_i\\in\\{t_{\\max}/2,t_{\\max}\\}$, $t_{\\max}=2^\\ell$, entries of $O(p)$ bits, exposing and restoring all lines costs $O(Tp\\,d^2(1+\\ell^\\tau))$ <cite data-source=\"paper\">then exposing and restoring all the lines costs</cite>. Since $t_i\\ge t_{\\max}/2$, at most $2dT/t_{\\max}$ lines occur, so setup $O(p^g)$ per line ($g$ a fixed exponent) totals $O(dTp^g/t_{\\max})=o(Tp)$ when $t_{\\max}$ outgrows every power of $p$ and $d$ is polynomially bounded in $p$."
+  },
+  {
+   "step": "S4.4",
+   "quote": "The source permutation $R$ cancels: $(RF_{\\boldsymbol s}^+)[(RF_{\\boldsymbol s}u)\\cdot(RF_{\\boldsymbol s}v)]=u*v/S^2$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "gaussian-resampling",
+   "predicate": "computes its transforms by",
+   "quote": "Each prime-length transform is computed through a power-of-two one by [Gaussian resampling](gaussian-resampling.md)"
+  },
+  {
+   "prerequisite": "chirp",
+   "predicate": "is absorbed by",
+   "quote": "The target permutation $Q$ is absorbed by the [Bluestein chirp identity](chirp.md)"
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "\\boldsymbol s",
+   "name": "axis-length tuple",
+   "meaning": "The tuple $(s_1,\\dots,s_d)$ of prime axis lengths, one per axis.",
+   "relation": "direct",
+   "quote": "Write $\\boldsymbol s=(s_1,\\dots,s_d)$, $\\boldsymbol t=(t_1,\\dots,t_d)$, $S=\\prod_is_i$, $T=\\prod_it_i$."
+  },
+  {
+   "symbol": "\\boldsymbol t",
+   "name": "padded-length tuple",
+   "meaning": "The tuple $(t_1,\\dots,t_d)$ of power-of-two axis lengths.",
+   "relation": "direct",
+   "quote": "Write $\\boldsymbol s=(s_1,\\dots,s_d)$, $\\boldsymbol t=(t_1,\\dots,t_d)$, $S=\\prod_is_i$, $T=\\prod_it_i$."
+  },
+  {
+   "symbol": "\\boldsymbol q",
+   "name": "axis-length tuple",
+   "meaning": "A generic tuple of axis lengths.",
+   "relation": "direct",
+   "quote": "For a tuple $\\boldsymbol q$ of axis lengths, $F_{\\boldsymbol q}=\\bigotimes_iF_{q_i}$ is the normalized [discrete Fourier transform](dft.md) along every axis, and $F_{\\boldsymbol q}^+$ its opposite."
+  },
+  {
+   "symbol": "F_{\\boldsymbol q}",
+   "name": "multidimensional transform",
+   "meaning": "The normalized discrete Fourier transform applied along every axis of an array with axis lengths q.",
+   "relation": "direct",
+   "quote": "For a tuple $\\boldsymbol q$ of axis lengths, $F_{\\boldsymbol q}=\\bigotimes_iF_{q_i}$ is the normalized [discrete Fourier transform](dft.md) along every axis, and $F_{\\boldsymbol q}^+$ its opposite."
+  },
+  {
+   "symbol": "\\delta",
+   "name": "time exponent",
+   "meaning": "The fixed exponent in the time bound of Gaussian resampling.",
+   "relation": "direct",
+   "quote": "For one axis, with $p$ and $\\alpha$ as there and $\\delta$ the fixed exponent in its time bound, let $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ ($u,v$ are complex arrays here, not integers)."
+  },
+  {
+   "symbol": "u",
+   "name": "complex array",
+   "meaning": "Here a complex array, not an integer; changes meaning from the multiplication page.",
+   "relation": "direct",
+   "quote": "For one axis, with $p$ and $\\alpha$ as there and $\\delta$ the fixed exponent in its time bound, let $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ ($u,v$ are complex arrays here, not integers)."
+  },
+  {
+   "symbol": "v",
+   "name": "complex array",
+   "meaning": "Here a complex array, not an integer; changes meaning from the multiplication page.",
+   "relation": "direct",
+   "quote": "For one axis, with $p$ and $\\alpha$ as there and $\\delta$ the fixed exponent in its time bound, let $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ ($u,v$ are complex arrays here, not integers)."
+  },
+  {
+   "symbol": "R",
+   "name": "source permutation",
+   "meaning": "The tensor product of the source permutations P_{s_i}; a permutation, not the scalar ring.",
+   "relation": "direct",
+   "quote": "Put $R=\\bigotimes_iP_{s_i}$ (a permutation, not a ring), $Q=\\bigotimes_iP_{t_i}$, $\\mathcal A=\\bigotimes_iA_i$, $\\mathcal B_0=\\bigotimes_iB_{0,i}$."
+  },
+  {
+   "symbol": "\\gamma",
+   "name": "power-of-two exponent",
+   "meaning": "The exponent 2 d alpha^2 of the total scalar factor 2^gamma.",
+   "relation": "direct",
+   "quote": "so $RF_{\\boldsymbol s}=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A$ with $\\gamma=2d\\alpha^2$"
+  },
+  {
+   "symbol": "t_{\\max}",
+   "name": "largest axis length",
+   "meaning": "The largest axis length, a power of two 2^l.",
+   "relation": "direct",
+   "quote": "and with $t_i\\in\\{t_{\\max}/2,t_{\\max}\\}$, $t_{\\max}=2^\\ell$, entries of $O(p)$ bits"
+  },
+  {
+   "symbol": "g",
+   "name": "setup exponent",
+   "meaning": "A fixed exponent bounding per-line setup work by p^g.",
+   "relation": "direct",
+   "quote": "Since $t_i\\ge t_{\\max}/2$, at most $2dT/t_{\\max}$ lines occur, so setup $O(p^g)$ per line ($g$ a fixed exponent)"
+  },
+  {
+   "symbol": "\\boldsymbol j",
+   "name": "entry multi-index",
+   "meaning": "The index (j_1,...,j_d) of an entry of the array.",
+   "relation": "direct",
+   "quote": "where $\\boldsymbol j=(j_1,\\dots,j_d)$ indexes the entries"
+  },
+  {
+   "symbol": "c",
+   "name": "unit",
+   "meaning": "An integer that is a unit (invertible) modulo q.",
+   "relation": "direct",
+   "quote": "For a unit $c$ modulo $q$ and a vector $z$ of $q$ entries, let $(R_cz)_j=z_{cj}$."
+  },
+  {
+   "symbol": "z",
+   "name": "complex vector",
+   "meaning": "A vector of q complex entries.",
+   "relation": "direct",
+   "quote": "For a unit $c$ modulo $q$ and a vector $z$ of $q$ entries, let $(R_cz)_j=z_{cj}$."
+  }
+ ]
+}

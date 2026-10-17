@@ -4,7 +4,7 @@ It orders the outputs of the [synthetic polynomial transform](synthetic-transfor
 
 $$(F_t^-z)_j=\frac1t\sum_{k=0}^{t-1}\omega_t^{-jk}z_k,\qquad (F_t^+z)_j=\frac1t\sum_{k=0}^{t-1}\omega_t^{jk}z_k.$$
 
-Multiplying by a power of $y$ permutes coefficients and flips signs, so every power of $\omega_t$ is an isometry. Each entry averages $t$ such images, so both transforms are contractions.
+Multiplying by a power of $y$ permutes coefficients and flips signs, so every power of $\omega_t$ is an isometry. Each entry averages $t$ such images: contractions.
 
 The ring has zero divisors, so we cannot divide by $\omega_t^j-1$; directly, $\sum_{k}\omega_t^{jk}$ equals $t$ if $t\mid j$ and $0$ otherwise. For $t\nmid j$ write $j=2^vj_0$ with $j_0$ odd and $0\le v<a$. Replacing $k$ by $k+t/2^{v+1}$ modulo $t$ permutes the summands and multiplies the sum by $y^{rj_0}=-1$, so the sum equals its negative. The additive group of $\mathcal R_r$ has no two-torsion (no nonzero element equals its negative), so the sum is zero <cite data-source="paper">Hence the sum is zero, since the additive group of</cite>. Expanding the composite gives $F_t^+F_t^-=t^{-1}I$.
 
@@ -14,7 +14,7 @@ $$(F_t^-z)_{2h+b}=\frac1{t/2}\sum_{k=0}^{t/2-1}(\omega_t^2)^{-hk}\,\omega_t^{-bk
 
 Apply $H_0$ to each pair, multiply the $b=1$ output by $\omega_t^{-k}$, and recurse on the two length-$t/2$ branches.
 
-Call the address bits of a position, high to low, slots $a-1,\dots,0$. A pair differs only in the highest unprocessed slot, where $H_0$ writes $b$. After $s$ rounds slots $a-1,\dots,a-s$ hold frequency bits $0,\dots,s-1$ and the rest index a sequence of length $t/2^s$; the next round writes bit $s$ into slot $a-1-s$. Hence after $a$ rounds $(F_t^-z)_j$ sits at slot $\operatorname{rev}_a(j)$, where $\operatorname{rev}_a$ reverses the $a$ binary digits of $j$. Let $B_t$ be the permutation moving the entry at $j$ to $\operatorname{rev}_a(j)$ <cite data-source="paper">Let $B_t$ denote this record permutation: it moves the entry at $j$ to $\operatorname{rev}_a(j)$.</cite> The pointwise product keeps this order <cite data-source="paper">retain the same frequency order through their pointwise product</cite>.
+Call the address bits of a position, high to low, slots $a-1,\dots,0$. A pair differs only in the highest unprocessed slot, where $H_0$ writes $b$. After $s$ rounds slots $a-1,\dots,a-s$ hold frequency bits $0,\dots,s-1$ and the rest index a sequence of length $t/2^s$; the next round writes bit $s$ into slot $a-1-s$. After $a$ rounds $(F_t^-z)_j$ sits at slot $\operatorname{rev}_a(j)$, where $\operatorname{rev}_a$ reverses the $a$ binary digits of $j$. Let $B_t$ be the permutation moving the entry at $j$ to $\operatorname{rev}_a(j)$ <cite data-source="paper">Let $B_t$ denote this record permutation: it moves the entry at $j$ to $\operatorname{rev}_a(j)$.</cite> The pointwise product keeps this order <cite data-source="paper">retain the same frequency order through their pointwise product</cite>.
 
 The opposite procedure runs the levels backwards. Each forward level is invertible, and as $H_0^2=I/2$ the reversed level is half its inverse, so the reverse procedure composed with $B_tF_t^-$ is $2^{-a}I=I/t$. By character cancellation $F_t^+B_t^{-1}$ composed with $B_tF_t^-$ is also $I/t$. As $B_tF_t^-$ is invertible (a product of invertible levels), the two reverse operators agree. The exact procedures implement $B_tF_t^-$ and $F_t^+B_t^{-1}$.
 
