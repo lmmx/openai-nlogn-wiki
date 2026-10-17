@@ -1,0 +1,132 @@
+{
+  "outcome": "answered",
+  "answer": "Split each n-bit input into q = ceil(n/b) digits in radix 2^b, with b = ceil(log2 n). Viewing the product of the two digit sequences as a totipuv of a chosen length S (between T/2 and T, with T a power of two near 4n/b to 8n/b) means nothing wraps around, and every coefficient is a non-negative integer of at most 3b bits. Next, the lolazad map, a triangular set of controlled shifts, rewrites that length-S totipuv as one over several axes of pairwise coprime prime lengths. Each prime-length tobifup is then computed from power-of-two tobifups by the sikusup identity (resampling plus a divasov phase-convolution-phase identity), with the target permutation absorbed into the identity and the source permutation cancelling across the transforms, so no sort is executed. The two scaled digit arrays are transformed forward, multiplied pointwise, sent through the opposite transform, rescaled, and each coefficient is rounded to the nearest integer; the lolazad map is then undone. Finally carries are propagated in radix 2^b to write the exact 2n-bit product. The answer is exact rather than approximate because every stored value keeps p = 6b fractional bits and the accumulated error on each recovered coefficient is below 1/2; since the true coefficients are integers, rounding returns each one exactly, and carry propagation then gives the exact binary number. Confidence: the stages and the exactness argument agree across the pages I opened, but I did not re-derive the numeric constants and I did not open the pages for the synthetic transform, ring convolution, parameter choice or cost accounting that the error bounds cite.",
+  "citations": [
+    {
+      "page": "vub",
+      "quote": "Splitting each input into digits in a large power-of-two radix turns the integer product into a convolution of short integer sequences"
+    },
+    {
+      "page": "vub",
+      "quote": "Each digit polynomial has degree at most $q-1$, so the product polynomial has degree at most $2q-2$."
+    },
+    {
+      "page": "vub",
+      "quote": "So every coefficient is a nonnegative integer of at most $3b$ bits."
+    },
+    {
+      "page": "siz",
+      "quote": "$p=6b$ fractional bits for every stored value"
+    },
+    {
+      "page": "guf",
+      "quote": "The Lolazad rewrites one totipuv of length $S$ as a convolution on several short axes of pairwise coprime lengths"
+    },
+    {
+      "page": "roz",
+      "quote": "Sikusup expresses the Tobifup of a source length $s$ through the transform of a nearby larger power-of-two length $t$, so that only power-of-two transforms need a fast algorithm."
+    },
+    {
+      "page": "pap",
+      "quote": "The identity converts the transform together with $Q$ into a totipuv, so $Q$ never has to be executed as a sort."
+    },
+    {
+      "page": "kur",
+      "quote": "the transform of a convolution is a pointwise product."
+    },
+    {
+      "page": "fam",
+      "quote": "Totipuv is the product of two sequences whose indices wrap around"
+    },
+    {
+      "page": "siz",
+      "quote": "Multiply corresponding coefficients exactly and truncate toward zero to $p$ fractional bits, obtaining the array $z$."
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+    },
+    {
+      "page": "mes",
+      "quote": "Nutipib shows that the computed convolution coefficients lie within $1/2$ of the true integers, so rounding recovers them."
+    },
+    {
+      "page": "mes",
+      "quote": "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+    }
+  ],
+  "key_idea": {
+    "page": "mes",
+    "statement": "Every computed coefficient stays within 1/2 of the integer it approximates, so rounding gives that integer exactly and carrying then gives the exact product.",
+    "quote": "Nutipib shows that the computed convolution coefficients lie within $1/2$ of the true integers, so rounding recovers them."
+  },
+  "stuck": [
+    {
+      "page": "home",
+      "quote": "is turned into pointwise multiplication by the [tobifup](kur)",
+      "note": "Two invented names on the front page with no definition. I could not tell what totipuv or tobifup stood for from this page alone; I had to follow the links to fam and kur to learn that totipuv is a wrap-around product and tobifup a transform.",
+      "level": "symbol"
+    },
+    {
+      "page": "siz",
+      "quote": "computed through the [Babuzif](taf) and [Muzilef](tab)",
+      "note": "The complex totipuv is said to equal f*g/T, with T the padded length, and the page says it is computed through two other pages. I did not open those pages, so I could not tell whether the division by T is a definition or a result that rests on them. I accepted it from this page.",
+      "level": "statement"
+    },
+    {
+      "page": "siz",
+      "quote": "Digit $a_j$ is stored with numerator $a_j2^{p-b-2}$ in a signed real word followed by a zero imaginary word",
+      "note": "The scaling by 2^(-b-2) is applied and undone by a 2^(2b+4) factor, which I could follow. The reason for it (keeping every stored value in the unit disk so the error bounds apply) is not given here; I only found it on the mes page.",
+      "level": "chain"
+    },
+    {
+      "page": "vub",
+      "quote": "It is a product of distinct odd primes, each slightly below a power of two",
+      "note": "Why the length S must be a product of distinct primes that sit just below powers of two is only forward-referenced here. I got the reason from the guf and roz pages, which I followed, but I did not see why the choice is needed until I reached roz.",
+      "level": "chain"
+    },
+    {
+      "page": "fam",
+      "quote": "The resampling permutation multiplies indices by a unit modulo the length",
+      "note": "The page asserts that for this permutation the opposite transform satisfies a commutation identity, so the permutation cancels. The identity is stated without proof on this page and I could not check it, so I took the cancellation on trust.",
+      "level": "statement"
+    },
+    {
+      "page": "pap",
+      "quote": "expanding the square leaves the cross term",
+      "note": "I could check each exponent identity line by line and the coefficient match, but I could not see why this particular chirp, with the factor s_i, is the right device for relabelling the output. The page says the factor s_i encodes the target permutation, and I accepted that.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "A Gaussian is its own Tobifup, so a wide smear before a transform equals a narrow one after it.",
+      "note": "The fact that a Gaussian is its own transform is outside my background, so I could not connect it to anything I know and could not see why the smearing step gives the resampling identity.",
+      "level": "beyond"
+    },
+    {
+      "page": "roz",
+      "quote": "This is a proved result of that paper (its Theorem 4.2 and Lemma 4.6), imported here without proof",
+      "note": "The identity that the resampling maps satisfy is cited from another paper and not proved here. I could not tell whether the wiki's claim was proved in the wiki or only cited, so its status is a claim I accepted.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "Each [synthetic transform](gip) has error below $L$.",
+      "note": "The whole error budget rests on this per-transform bound, stated here with the referenced page not yet opened by me. I took the bound on the page's word.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "where $b\\ge2^{24}$ gives $\\gamma\\le b/4$ and keeps $E_sh_p<10^{-3}$.",
+      "note": "The final inequality needs gamma at most b/4, and this page gets that from an assumption that b is at least 2^24. gamma is a scalar exponent defined on another page that I did not open, so I could not check whether this is a choice the algorithm makes or a hypothesis of the theorem.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "Here $2^{2b+4}ST^2<2^{5b+4}$ uses about $5b$ of the $6b$ fractional bits.",
+      "note": "The constants 28, 9 and 448 in the final error bound come from earlier bounds on the transforms and products. I could follow the chain of multiplications but could not reproduce those constants, so I accepted the final inequality below 1/2 without checking the arithmetic.",
+      "level": "step"
+    }
+  ],
+  "reason": "Answered from 9 of the 15 allowed pages: the front page, siz, fam, kur, vub, mes, guf, pap and roz. My confidence is moderate. The stages and the exactness argument (fixed-point precision of 6b bits, error below 1/2 per coefficient, rounding, then carries) agree across the pages I read, but I did not re-derive the numeric error constants, and I did not open the pages (gip, taf, tab, tagaris, fef) that the error and parameter bounds cite."
+}

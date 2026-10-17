@@ -1,0 +1,88 @@
+{
+  "outcome": "answered",
+  "answer": "The chain turns the integer product into a short-coefficient convolution, moves it onto axes of prime length, replaces each prime-length transform by a power-of-two one (resampling plus Divasov step), runs the power-of-two convolution as a ring convolution whose transforms need only signed shifts, and finally rounds the result back to exact integers. Stage by stage. (1) Radix digits: each n-bit integer is cut into q = ceil(n/b) digits of b = ceil(log2 n) bits. The product then becomes a convolution of length S whose coefficients c_j are short integers below 2^(3b), and S is chosen so that nothing wraps around. This is needed because it makes the final rounding step able to recover exact integers. (2) Address map: S is a product of distinct odd primes. The map Phi rewrites the length-S convolution as one on d axes of pairwise coprime prime lengths s_i, because a transform of length S has no power-of-two structure while coprime axes split into short one-axis transforms. (3) Resampling and Divasov steps: each prime-length transform F_s is re-expressed through a nearby larger power-of-two transform F_t, using an input map A and an output map B_0, so that only power-of-two transforms need a fast algorithm. The permutations are never executed as sorts. The target permutation Q of F_t is absorbed by the Divasov identity Q F_t u = conj(a) times (a convolved with (conj(a) times u)) divided by T, which turns it into one convolution of length T between two phase multiplications. (4) Twist: the convolution over complex arrays is moved onto the ring C[y]/(y^r+1) by the map x_d to zeta*y with zeta = e^(pi i/r). The wrap of the last cyclic axis then becomes a sign, which is repaired by a phase. This is needed because in that ring multiplication by a root of unity (a power of y) is a signed shift of the coefficient list, so transforms over the ring need no complex multiplications. (5) Synthetic-transform convolution: forward synthetic transforms over the ring on the remaining axes, a pointwise record product, and the opposite transform give f*g/T. The forward output is left in bit-reversed order and the opposite transform takes that order as input, so no reordering is run. (6) Assembly: apply Phi to the two digit arrays, apply the resampling-and-Divasov step transform to each, multiply the results pointwise and truncate, apply the opposite transform, scale by S and by 2^(2b+4)S, round to the nearest integers, apply Phi inverse, and propagate radix-2^b carries to get the exact 2n-bit product. The rounding step is licensed by an error bound below 1/2, which I took from the page without opening the page that proves it. Confidence is moderate: the chain of reductions is consistent across the pages I opened, but the resampling identity was imported without proof and I did not check the scale factors beyond the arithmetic shown.",
+  "citations": [
+    {
+      "page": "vub",
+      "quote": "Splitting each input into digits in a large power-of-two radix turns the integer product into a convolution of short integer sequences"
+    },
+    {
+      "page": "vub",
+      "quote": "So every coefficient is a nonnegative integer of at most $3b$ bits."
+    },
+    {
+      "page": "guf",
+      "quote": "The reason for the split is that a transform of length $S$ has no power-of-two structure, while over coprime axes it becomes a product of short one-axis transforms, each treated separately."
+    },
+    {
+      "page": "roz",
+      "quote": "Sikusup expresses the Tobifup of a source length $s$ through the transform of a nearby larger power-of-two length $t$, so that only power-of-two transforms need a fast algorithm."
+    },
+    {
+      "page": "pap",
+      "quote": "so the target permutation $Q$ is absorbed into a totipuv of length $T$ and never executed."
+    },
+    {
+      "page": "taf",
+      "quote": "and the sign is repaired by a phase."
+    },
+    {
+      "page": "reb",
+      "quote": "Addition is coefficientwise."
+    },
+    {
+      "page": "gip",
+      "quote": "so every twiddle multiplication (multiplication by a root of unity) is a signed shift of a coefficient list."
+    },
+    {
+      "page": "tab",
+      "quote": "Muzilef computes the normalized convolution over"
+    },
+    {
+      "page": "kov",
+      "quote": "so no reordering is executed."
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+    }
+  ],
+  "key_idea": {
+    "page": "pap",
+    "statement": "Multiplying by Divasov step phases before and after turns a permuted power-of-two-style transform into a single cyclic convolution of length T, so the reordering is absorbed into the convolution and never has to be executed as a sort on tape.",
+    "quote": "so the target permutation $Q$ is absorbed into a totipuv of length $T$ and never executed."
+  },
+  "stuck": [
+    {
+      "page": "siz",
+      "quote": "computes convolution through",
+      "note": "The header lists Babuzif and Muzilef as the convolution routines, but the six numbered steps of the algorithm never name the twist to the polynomial ring. I had to infer from the Babuzif page that the twist sits inside the convolution step, so the place of the twist in the chain was a chain-level gap.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "imported here without proof",
+      "note": "The resampling identity P_s F_s = 2^(2 alpha^2) B_0 P_t F_t A, and the cost and error bounds for A, B_0 and the approximations, are cited to an outside paper and not proved on the page. I accepted them as stated, so their status (proved fact versus assumption) was a statement-level gap for me.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "A Gaussian is its own Tobifup, so a wide smear before a transform equals a narrow one after it.",
+      "note": "The self-transform property of a Gaussian is not in my background and the page gives no further explanation, so I could not connect the wide-smear idea to anything I know. I went past it by taking the rest of the resampling argument as given.",
+      "level": "beyond"
+    },
+    {
+      "page": "pap",
+      "quote": "The factor $s_i$ in the Divasov kernel is what encodes $Q$.",
+      "note": "I checked the coefficient algebra that gives frequency -s_i j_i, but the page only asserts that the factor s_i in the Divasov kernel is the thing that encodes the permutation. I followed the steps without seeing why this particular scaling is the right one for the prime-length transform.",
+      "level": "chain"
+    },
+    {
+      "page": "siz",
+      "quote": "The error on the recovered coefficients is below $1/2$",
+      "note": "The rounding step in the algorithm depends on this error bound, which the page attributes to a separate error page. I did not open that page, so I accepted the bound on the page's word, which is a statement I could not verify myself.",
+      "level": "statement"
+    }
+  ],
+  "reason": "I answered from 12 opened pages (home, siz, vub, guf, pap, roz, reb, taf, tab, gip, zom, kov). The chain radix digits, address map, resampling and Divasov step, twist, synthetic-transform convolution, assembly is supported by quotes from those pages. Confidence is moderate: the resampling identity and the error bound were taken on the word of the pages without being checked, and I did not open the pages that prove them (the Nutipib error page and the Makevif layout page). The scale-factor bookkeeping in the assembly step was followed arithmetically but not independently verified."
+}

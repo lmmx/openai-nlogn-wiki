@@ -1,0 +1,78 @@
+{
+  "outcome": "answered",
+  "answer": "Each call at parameter mf makes s calls at parameter f, each on a stream of volume V/W, so the cost per unit of volume C satisfies C(mf) <= (s/W) C(f) + O(1). Unrolling this over log_m f levels, the deepest term is (s/W)^(log_m f) = f^(log_m(s/W)), so the cost per unit of data is a power of f with exponent log_m(s/W). That exponent is strictly below one exactly when s/W < m, that is s < Wm. Here s is the total rank of the frame changes over the edges of the linear exchange network, W is its wire count and m = h^3 is the dimension of the label space. The strict inequality is obtained from nested subspace labels: for the bit network s_b = W_b m - (N - 2L_b), which is below W_b m because L_b/N = 100/539 is below 1/2. For the saving to be a power, any fixed tau < 1 with s/W < m^tau works, and the wiki takes tau = 1 - 2^(-50). The relative deficit is tiny: eta_b = 339/22587335000000, about 1.5e-11, and eta_c is about 3.7e-12, but any positive deficit gives a power saving.",
+  "citations": [
+    {
+      "page": "rut",
+      "quote": "a call at parameter $mf$ makes $s$ calls at parameter $f$ on streams of volume $V/W$ with $s<Wm$"
+    },
+    {
+      "page": "rut",
+      "quote": "The deepest term is $(s/W)^{\\log_m f}=f^{\\log_m(s/W)}$; for $s/W>1$ the geometric sum is a constant times it"
+    },
+    {
+      "page": "rut",
+      "quote": "So any fixed $\\tau<1$ with $s/W<m^\\tau$ gives $\\mathcal C(f)=O(f^\\tau)$"
+    },
+    {
+      "page": "dol",
+      "quote": "Source dimensions sum to $N$, sink dimensions to $Nm+N(m-1)+(W-2N)m=Wm-N$."
+    },
+    {
+      "page": "dol",
+      "quote": "A wire enters and leaves each gate with that gate's label, so its signed changes telescope to sink minus source dimension, summing to $Wm-2N$ over all wires."
+    },
+    {
+      "page": "rut",
+      "quote": "is $339/22587335000000\\approx1.5\\cdot10^{-11}$"
+    },
+    {
+      "page": "rut",
+      "quote": "Hence $\\tau=\\sigma=1-2^{-50}$ gives $s_{\\rm b}/W_{\\rm b}<m^\\tau$"
+    }
+  ],
+  "key_idea": {
+    "page": "rut",
+    "statement": "Each level of the recursion multiplies the cost per unit of volume by s/W, while the parameter shrinks by a factor m, so when s/W is below m the cost per unit of data becomes a power of f with exponent log_m(s/W), which is below one.",
+    "quote": "The deepest term is $(s/W)^{\\log_m f}=f^{\\log_m(s/W)}$; for $s/W>1$ the geometric sum is a constant times it, and for $s/W\\le1$ it is $O(\\log f)$."
+  },
+  "stuck": [
+    {
+      "page": "rut",
+      "quote": "An edge's frame change costs one call at parameter $f$ on that wire's stream per unit of rank",
+      "note": "The claim that a frame change of rank r costs r smaller calls is asserted here and rests on the matrix shear page, which I did not open (budget). The dol page only says that an edge shears by the difference of endpoint matrices, costing one smaller call per unit of rank, without showing why.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "Every route must change frame in all $m$ dimensions, so if every wire climbed from dimension $0$ to $m$ the total would be exactly $Wm$, which, as shown below, saves nothing.",
+      "note": "I could not see why a full climb of every wire gives exactly Wm, or why that means no saving, until the telescoping count on the dol page; the link from the sign-counting to the strict inequality took a second page.",
+      "level": "chain"
+    },
+    {
+      "page": "ber",
+      "quote": "The later page [Pukezad](dol) makes this choice: it uses nested subspaces as frames, so that an edge costs one smaller call per unit of rank change.",
+      "note": "The frames page says the interior frames should be chosen to make edges cheap, but does not say why nested subspaces achieve that. I got past it by reading the dol page, and I still could not see why nesting, rather than some other choice, is what makes each edge cost only its rank change.",
+      "level": "chain"
+    },
+    {
+      "page": "dol",
+      "quote": "The negative source makes every route's endpoint difference $\\mathrm{Id}$, the same shear on every role",
+      "note": "I followed the arithmetic that gives the extra N from the source edges, but not why the sign on the X_a source is needed. I got past it by reading the result as a stated design choice.",
+      "level": "chain"
+    },
+    {
+      "page": "dol",
+      "quote": "give the complex network, without the source extra, $s_{\\rm c}=W_{\\rm c}m-2N+2L_{\\rm c}<W_{\\rm c}m$.",
+      "note": "The complex-network formula is attributed to the Letenat page, which I did not open (budget). I took it on the wiki's word, so its status (proved here or only cited) is unclear to me.",
+      "level": "statement"
+    },
+    {
+      "page": "dol",
+      "quote": "Labels lie in $\\mathcal F=F\\otimes F\\otimes F$, of dimension $h^3=m$.",
+      "note": "The tensor-product label space was a term I was not taught. The mugumez page defined it, with its dimension and factorwise form, and resolved this.",
+      "level": "symbol"
+    }
+  ],
+  "reason": "I am fairly confident in the main chain. The recurrence C(mf) <= (s/W) C(f) + O(1) on the rut page gives a power below one exactly when s < Wm, and the dol page supplies the count s_b = W_b m - (N - 2L_b) < W_b m with L_b/N = 100/539 < 1/2. The explicit exponent is checked against the numbers on the page. Gaps: I did not open the matrix shear page (kep) or the complex-network page (mot), so the rank-cost step and the complex-network formula are taken on the wiki's word. I also did not check the claim that nested subspaces are the right frames beyond the statement given."
+}

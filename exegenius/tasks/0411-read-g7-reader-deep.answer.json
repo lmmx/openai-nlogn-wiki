@@ -1,0 +1,80 @@
+{
+  "outcome": "answered",
+  "answer": "The classical transform has Theta(log n) levels, and each level has to bring the partners of every butterfly together and then combine them. On a tape machine each level is one sequential pass over all Theta(n) stored bits, so the levels together cost Theta(n log n). That is why the classical approach alone suggests n log n. The new algorithm looks for savings in two places, and it needs both at once. First, movement: swapping two address chunks of u bits in one operation costs O(V u^tau) with a fixed tau < 1, so many address bits move at once instead of one level at a time. Second, arithmetic: one round of butterfly steps across up to d axes runs as a single pass in O(V d^lambda') with lambda' < 1, instead of d separate passes. A layout first gathers the bits of the axes so that many levels become one such round. The per-level cost then drops below a full pass because the recursion's branching ratio s/W is below m, which gives a power-saving exponent. The savings are all powers of the logarithm, so the single machine runs in O(n (lg n)^(1-kappa)) with kappa = 2^-182, which is o(n log n). Confidence is moderate to high on this outline. I followed the cited arguments but did not check the exponent margin arithmetic beyond the cited formulas, and I did not open the algebra pages behind the rank count s < Wm.",
+  "citations": [
+    {
+      "page": "nut",
+      "quote": "On a tape machine that is one pass over the whole stored volume of $\\Theta(n)$ bits per level, so the levels cost $\\Theta(n\\log n)$."
+    },
+    {
+      "page": "nut",
+      "quote": "Interchanging two address chunks of $u$ bits moves $u$ address bits at once for $O(Vu^\\tau)$ with fixed $\\tau<1$"
+    },
+    {
+      "page": "nut",
+      "quote": "The [sifigeg](tiz) does one round of butterflies on up to $d$ axes at once for $O(Vd^{\\lambda'})$ with $\\lambda'<1$, instead of $d$ separate passes."
+    },
+    {
+      "page": "tiz",
+      "quote": "A tape machine performs one butterfly factor per whole-array pass, so $D$ separate factors would require $D$ whole-array passes"
+    },
+    {
+      "page": "rut",
+      "quote": "So any fixed $\\tau<1$ with $s/W<m^\\tau$ gives $\\mathcal C(f)=O(f^\\tau)$, and an interchange costs $O(Vf^\\tau)$."
+    },
+    {
+      "page": "rut",
+      "quote": "If $s=Wm$, depth $j$ contributes $m^j$, the sum is about $f$, and the cost is proportional to $Vf$: no saving."
+    }
+  ],
+  "key_idea": {
+    "page": "nut",
+    "statement": "A tape machine pays one full pass per butterfly level, so the way below n log n is to make one pass do the work of many levels, which needs both cheaper address movement and cheaper arithmetic.",
+    "quote": "The remedy is to let one pass do the work of many levels, which needs cheaper movement and cheaper arithmetic together"
+  },
+  "stuck": [
+    {
+      "page": "nut",
+      "level": "symbol",
+      "quote": "Interchanging two address chunks of $u$ bits moves $u$ address bits at once",
+      "note": "The page gives no meaning for address chunk or address bits. I could only resolve them on the pid page, where an address is a tuple (p,h,g,d,z) of fields and a chunk is one field of u bits. I read ahead to get past this."
+    },
+    {
+      "page": "tiz",
+      "level": "symbol",
+      "quote": "The sifigeg applies the two-point step $H_0(u,v)=((u+v)/2,(u-v)/2)$ to one bit of each of $D\\le d$ selected address chunks",
+      "note": "The formula is clear, but the page never says why this two-point step is called a butterfly or how it relates to the transform in the question. I got past it by guessing it is the usual butterfly of the transform."
+    },
+    {
+      "page": "reb",
+      "level": "symbol",
+      "quote": "In the variant called decimation in frequency, each stage pairs the first-half entries with the second-half entries, and the outputs come out in bit-reversed order",
+      "note": "Decimation in frequency and bit-reversed order are not taught to the reader and I did not open the katisen page that explains them. This did not block the answer, since the answer only needs the pass-counting argument."
+    },
+    {
+      "page": "tiz",
+      "level": "chain",
+      "quote": "so the cost per unit volume grows as a power of the axis count below 1, not linearly.",
+      "note": "I followed that a recursive kernel on 1/W of the data gives a power below 1, but on this page I could not see why that needs the rank count to stay below W times m. The rut page resolves it: if s = Wm each level multiplies the cost by m and nothing is saved."
+    },
+    {
+      "page": "pid",
+      "level": "chain",
+      "quote": "So only the frame change $\\Phi_{A_i}$ of an edge is paid for on tape.",
+      "note": "Why the endpoint frames cost nothing on tape depends on the frame page (ber), which I did not open within budget. I followed the sentence and accepted the endpoint contract on trust."
+    },
+    {
+      "page": "dol",
+      "level": "beyond",
+      "quote": "Labels lie in $\\mathcal F=F\\otimes F\\otimes F$, of dimension $h^3=m$.",
+      "note": "The product-of-spaces construction on this page, the nondegenerate subspaces and the splitting into orthogonal pieces are outside the reader's background, and the mugumez page that supplies the dimension facts was not opened. So I could not check the count s < Wm and accepted it from the cited pages."
+    },
+    {
+      "page": "vor",
+      "level": "chain",
+      "quote": "Substitution gives $g_1>1/2$, $g_2=2^{-75}2^{-56}2^{-50}=2^{-181}$",
+      "note": "I followed that the smallest of the seven margins fixes the saving and that kappa is half of it. I did not check the other six margins, and I could not see why splitting the margin in half is the right allowance for the logarithm factors."
+    }
+  ],
+  "reason": "Answered with moderate to high confidence on the core outline. I read 10 of 15 pages: nut, kaf, tiz, mov, pid, rut, fam, vor, reb and dol. The n log n cost comes from Theta(log n) levels, each one full pass over Theta(n) bits, and the savings come from chunk interchange and multi-axis butterfly rounds with exponents below 1. Not opened and not needed for the answer: the Sikusup and chirp pages, the Gepupog frame page, and the katisen page. Some margin arithmetic and the rank count were accepted from the cited formulas rather than checked."
+}

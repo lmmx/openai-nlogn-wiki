@@ -1,0 +1,76 @@
+{
+  "outcome": "answered",
+  "answer": "On a tape machine a standard FFT-style transform on n bits has a fixed number of two-point levels, Theta(log n) of them. Each level has to bring the two partners of every butterfly together (address movement) and then apply the butterfly arithmetic. On a tape machine that costs one full pass over the stored volume of Theta(n) bits per level, so the levels together cost Theta(n log n). The page says the level count is fixed by the two-point structure, so the number of levels cannot be reduced; only the cost of a level can shrink. A level's cost is movement plus arithmetic, so only cheaper movement and cheaper arithmetic can beat n log n. The construction then lets one pass do the work of several levels: interchanging two address chunks of u bits costs O(V u^tau) with tau = 1 - 2^-50, and the sifigeg performs one round of butterflies on up to d axes at once in time O(V d^lambda') with lambda' < 1, instead of d separate passes. The total saving is a power of log n with exponent kappa = 2^-182, so the time is O(n (lg n)^(1-kappa)). Other tweaks to the multiplier are not addressed on these pages; the argument that they cannot help depends on the claim that the level count is fixed, which the pages state without proof.",
+  "citations": [
+    {
+      "page": "nut",
+      "quote": "each level must bring the partners of every butterfly together and then combine them."
+    },
+    {
+      "page": "nut",
+      "quote": "On a tape machine that is one pass over the whole stored volume of"
+    },
+    {
+      "page": "zaz",
+      "quote": "Done naively, that is one pass per level"
+    },
+    {
+      "page": "zaz",
+      "quote": "The number of levels is fixed by the two-point structure, so what must shrink is the cost of a level"
+    },
+    {
+      "page": "zaz",
+      "quote": "the same source concludes that savings are needed in both movement and arithmetic, and that two tape procedures supply them."
+    },
+    {
+      "page": "bog",
+      "quote": "This is why movement and butterfly arithmetic must both be made cheaper"
+    },
+    {
+      "page": "nut",
+      "quote": "The remedy is to let one pass do the work of many levels, which needs cheaper movement and cheaper arithmetic together"
+    },
+    {
+      "page": "tiz",
+      "quote": "A tape machine performs one butterfly factor per whole-array pass"
+    }
+  ],
+  "key_idea": {
+    "page": "zaz",
+    "statement": "A standard transform has a fixed number of levels, each costing one full pass over the stored bits, so the total stays at n log n unless the cost of each level falls.",
+    "quote": "The number of levels is fixed by the two-point structure, so what must shrink is the cost of a level"
+  },
+  "stuck": [
+    {
+      "page": "zaz",
+      "quote": "The number of levels is fixed by the two-point structure, so what must shrink is the cost of a level",
+      "note": "The page asserts that the level count is fixed by the two-point structure and concludes that only the per-level cost can shrink. I could not see why a different radix or another change to the transform cannot alter the number of levels. I accepted the claim as stated, so this step is a guess.",
+      "level": "chain"
+    },
+    {
+      "page": "zaz",
+      "quote": "the same source concludes that savings are needed in both movement and arithmetic",
+      "note": "'The same source' is not identified on this page, so I could not tell which source is meant, or whether this sentence is a claim of its own or a citation.",
+      "level": "statement"
+    },
+    {
+      "page": "bog",
+      "quote": "This is why movement and butterfly arithmetic must both be made cheaper",
+      "note": "The page says both movement and arithmetic must be cheaper, but does not say why other tweaks (for example a different radix or smaller constants) cannot achieve the same. I could not connect that to anything I know.",
+      "level": "beyond"
+    },
+    {
+      "page": "nut",
+      "quote": "which needs cheaper movement and cheaper arithmetic together",
+      "note": "Why one pass that does several levels needs cheap movement and cheap arithmetic at the same time. I got past it by guessing that a pass costs movement plus arithmetic, which the page does not state in those words.",
+      "level": "chain"
+    },
+    {
+      "page": "tiz",
+      "quote": "the cost per unit volume grows as a power of the axis count below 1, not linearly.",
+      "note": "I followed the recursion sketch (each call works on 1/W of the data, with s smaller calls and s < Wm), but I could not see why this gives an exponent below 1 in the axis count. I did not open the page that develops the recursion. This matters for the size of the saving, not for why only movement and arithmetic can be cheapened.",
+      "level": "chain"
+    }
+  ],
+  "reason": "Answered with moderate confidence. The core accounting (a fixed number of levels, one full pass per level, total n log n, and that only the per-level cost can shrink) is stated on the Bitebid, Legafod and Divogam pages, and the sifigeg and interchange costs are given on the Sifigeg and Legafod pages. The claim that no other tweak of a standard multiplier can help rests on the Legafod page asserting that the level count is fixed; I could not verify that assertion. I used 7 of the 15 allowed page opens."
+}

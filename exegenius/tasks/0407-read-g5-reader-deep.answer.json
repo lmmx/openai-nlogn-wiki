@@ -1,0 +1,97 @@
+{
+  "outcome": "answered",
+  "answer": "kappa = 2^-182 is half of the smallest margin in the cost table. After dividing every cost by V = Tp, the seven dominant normalized costs are powers p^(1-g_i) of p. The smallest margin is g_2 = eps*c*(1-tau) = 2^-75 * 2^-56 * 2^-50 = 2^-181. It belongs to the chunk exchanges: their normalized cost p*K^(tau-1), with K = Theta(p^(eps*c)), is a power 1 - eps*c*(1-tau) of p. So every dominant term is at most p^(1-2kappa). The margin is taken to be 2kappa because one kappa pays for the fixed powers of log p (any fixed power of log p is at most p^kappa for large p) and the other kappa is the saving: p^(1-2kappa) * p^kappa = p^(1-kappa), and Tp * p^(1-kappa) = O(n (lg n)^(1-kappa)). The fenilov page says that 2kappa may not exceed the smallest margin, so 2^-182 is the largest power of two that fits. The dedapov page says any kappa below 2^-181 would pass the same test, and I could not reconcile these two statements from the pages. The exponents eps = 2^-75, c = 2^-56 and 1-tau = 2^-50 are described as conservative fixed choices, and their product fixes the scale of kappa.",
+  "citations": [
+    {
+      "page": "nut",
+      "quote": "$\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$"
+    },
+    {
+      "page": "fef",
+      "quote": "Divided by $V=Tp$, the cost of each of seven kinds of operation is a power of $p$, and each of these exponents is at most $1-2\\kappa$."
+    },
+    {
+      "page": "fef",
+      "quote": "The smallest margin belongs to the chunk exchanges, whose normalized cost $pK^{\\tau-1}$ is a power $1-\\epsilon c(1-\\tau)$ of $p$ because $K=\\Theta(p^{\\epsilon c})$."
+    },
+    {
+      "page": "fef",
+      "quote": "Its margin is $\\epsilon c(1-\\tau)=2^{-75}\\cdot2^{-56}\\cdot2^{-50}=2^{-181}$."
+    },
+    {
+      "page": "fef",
+      "quote": "so the total is, up to a constant, $Tp\\cdot p^{1-2\\kappa}p^{\\kappa}=Tp\\cdot p^{1-\\kappa}$, which is"
+    },
+    {
+      "page": "fef",
+      "quote": "one $\\kappa$ of the margin absorbs the logarithmic factors and the other is the saving."
+    },
+    {
+      "page": "fef",
+      "quote": "Hence $2\\kappa$ may not exceed the smallest margin below one."
+    },
+    {
+      "page": "fef",
+      "quote": "and $2^{-182}$ is the largest power of two allowed."
+    },
+    {
+      "page": "vor",
+      "quote": "Half the smallest margin pays for logarithms and half remains as the saving."
+    },
+    {
+      "page": "vor",
+      "quote": "Any positive $\\kappa$ below $2^{-181}$ would pass the same test; $g_2$ sets the scale of $\\kappa$."
+    },
+    {
+      "page": "fef",
+      "quote": "The constants are conservative: no optimization is claimed."
+    },
+    {
+      "page": "dol",
+      "quote": "a relative deficit of $\\frac{339}{22587335000000}\\approx1.5\\cdot10^{-11}$"
+    },
+    {
+      "page": "pid",
+      "quote": "For the actual network $\\eta$ exceeds $20\\cdot2^{-50}$"
+    }
+  ],
+  "stuck": [
+    {
+      "page": "vor",
+      "quote": "Any positive $\\kappa$ below $2^{-181}$ would pass the same test; $g_2$ sets the scale of $\\kappa$.",
+      "note": "This page says any positive kappa below 2^-181 would pass. But the halving it describes requires 2kappa to stay within the margin, and the fenilov page says 2kappa may not exceed the smallest margin and that 2^-182 is the largest power of two allowed. I could not tell whether 2^-182 is forced by the argument or is a convention, and the two pages disagree.",
+      "level": "statement"
+    },
+    {
+      "page": "fef",
+      "quote": "The constants are conservative: no optimization is claimed. They only need to give some fixed $\\kappa>0$, and $\\kappa$ is then forced by the cost accounting.",
+      "note": "The page says kappa is forced by the cost accounting, but also that the constants are conservative and that none is optimized. I could not see what fixes kappa at exactly 2^-182 rather than some value below the margin, because the choices eps = 2^-75 and c = 2^-56 are not justified beyond being conservative.",
+      "level": "statement"
+    },
+    {
+      "page": "vor",
+      "quote": "Half the smallest margin pays for logarithms and half remains as the saving.",
+      "note": "I followed the arithmetic p^(1-2kappa) * p^kappa = p^(1-kappa), but not why the log allowance is kappa rather than some other amount, so the equal split is asserted, not derived.",
+      "level": "chain"
+    },
+    {
+      "page": "fef",
+      "quote": "The product of three small exponents is unavoidably tiny",
+      "note": "I could trace eps(2-tau) < 1-tau to the axis-layout margin g4 on the dedapov page, and tau(1+c/beta) < 1 to the layer conditions on this page. But the claim that the product is unavoidably tiny is not argued, and the page does not say why eps and c are these particular powers of two.",
+      "level": "statement"
+    },
+    {
+      "page": "dol",
+      "quote": "for subspaces $E,E',G$ of tensor powers of $F$, $\\dim(E\\otimes G)=\\dim E\\cdot\\dim G$",
+      "note": "Tensor products are outside my background. I got past this by guessing that the dimension of a tensor product is the product of the dimensions, and then followed the dimension count without seeing the underlying construction.",
+      "level": "symbol"
+    },
+    {
+      "page": "dol",
+      "quote": "to save, the labels must confine all loss to one small edge.",
+      "note": "I followed the sink-minus-source count that gives s = Wm - (N - 2L), but I could not see why the labels have to be chosen so that all loss falls on one small edge. The page states this as a requirement without a reason.",
+      "level": "chain"
+    }
+  ],
+  "reason": "Fairly sure of the arithmetic and of the structure. g_2 = 2^-75 * 2^-56 * 2^-50 = 2^-181, and kappa = 2^-182 is half of that; the table on the dedapov page and the explanation on the fenilov page agree on these numbers. The chunk-exchange margin in turn rests on tau = 1 - 2^-50, which the fizokid page says is chosen rather than derived. I checked its support against the dol page: the relative rank deficit of the bit network is about 1.5e-11, which exceeds 20*2^-50, so the stated condition holds. Less sure of why the margin is split in halves, and of why 2^-182 rather than a larger value below 2^-181: the fenilov page says 2kappa may not exceed the margin, while the dedapov page says any kappa below 2^-181 passes, and the pages do not settle this. I did not open the pages for the sifigeg, the power-saving recurrence, or the Sikited conjecture, since the question did not need them."
+}

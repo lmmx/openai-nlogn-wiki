@@ -1,0 +1,100 @@
+{
+  "outcome": "answered",
+  "answer": "The classical transform on n-bit inputs runs Theta(log n) butterfly layers over Theta(n) stored bits. Each layer of t/2 butterflies and twiddle multiplications halves a length-t transform into two length-t/2 transforms, so the arithmetic per layer is small, but on a tape each layer needs at least one scan of all stored bits, and log n scans of n bits cost Theta(n log n). That is why the front page says the logarithmic factor can only be beaten by cheaper address movement or cheaper butterfly arithmetic. The new algorithm attacks both with two tape procedures. The first is a chunk interchange, which moves two address chunks of width u in O(V u^tau) time with tau = 1 - 2^-50. The second is the layer procedure (sifigeg), which applies one bit of each of D selected chunks at once in O(V d^lambda') time with lambda' < 1, instead of one whole-array pass per bit. Both are recursive: a call at parameter mf makes s calls at parameter f on streams of volume V/W, with s < Wm, so each level of splitting multiplies the cost per unit volume by s/W < m, which gives a fixed power below linear in the parameter. The strict inequality s < Wm comes from a rank count on nested subspace labels that I could not verify in detail. The layer's two-point step is rewritten through a kernel C = aI + bX with C^2 = X. Summing all costs gives O(n (log n)^(1-kappa)) with kappa = 2^-182, which is the saving over n log n. I am confident of the mechanism and the scan argument. I am not confident of the exact rank count or of the constants, which the wiki states as choices.",
+  "citations": [
+    {
+      "page": "home",
+      "quote": "so the logarithmic factor can only be beaten by cheaper address movement and cheaper butterfly arithmetic."
+    },
+    {
+      "page": "bog",
+      "quote": "even one scan of the stored bits per level over $\\log n$ levels costs order $n\\log n$"
+    },
+    {
+      "page": "bog",
+      "quote": "One layer of $t/2$ butterflies and $t/2$ twiddle multiplications reduces a length-$t$ transform to two independent length-$t/2$ transforms."
+    },
+    {
+      "page": "pid",
+      "quote": "and $F_k\\le cF_{k-1}+O(1)$, where $c=s/W$ is the number of calls $s$ times the volume fraction $1/W$ of each."
+    },
+    {
+      "page": "rut",
+      "quote": "so the cost per unit volume grows by $s/W<m$ per factor $m$ of the parameter"
+    },
+    {
+      "page": "tiz",
+      "quote": "so the cost per unit volume grows as a power of the axis count below 1, not linearly."
+    },
+    {
+      "page": "nok",
+      "quote": "Since $a^2+b^2=\\frac{i}{2}-\\frac{i}{2}=0$ and $2ab=1$, we get $C^2=(a^2+b^2)I+2ab\\,X=X$"
+    },
+    {
+      "page": "vor",
+      "quote": "The total is $O(Tp\\,p^{1-\\kappa})=O(n(\\log n)^{1-\\kappa})$"
+    }
+  ],
+  "key_idea": {
+    "page": "rut",
+    "statement": "A tape procedure's cost per unit volume grows, at each level of splitting its parameter by m, by the factor s/W, which is below m, so the total cost is a fixed power of the parameter below linear rather than linear.",
+    "quote": "so the cost per unit volume grows by $s/W<m$ per factor $m$ of the parameter"
+  },
+  "stuck": [
+    {
+      "page": "home",
+      "quote": "is turned into pointwise multiplication by the [tobifup](kur)",
+      "note": "The wiki's names for the transform (totipuv, tobifup) are new words to me. I could only tell what they meant from the definition of the butterfly transform on the divogam page, not from the name itself.",
+      "level": "symbol"
+    },
+    {
+      "page": "bog",
+      "quote": "the later transforms consist of address rearrangements, signed shifts and, and even one scan of the stored bits per level",
+      "note": "The sentence is garbled ('signed shifts and, and'), and the next sentence has no full stop. I could not tell what the full list of costs was, or whether the n log n charge covers all of them or only the scans.",
+      "level": "statement"
+    },
+    {
+      "page": "dol",
+      "quote": "Labels lie in $\\mathcal F=F\\otimes F\\otimes F$, of dimension $h^3=m$.",
+      "note": "Tensor products are not something I have been taught, so I could not decode the label space F tensor F tensor F or see why its dimension is m.",
+      "level": "symbol"
+    },
+    {
+      "page": "dol",
+      "quote": "for subspaces $E,E',G$ of tensor powers of $F$, $\\dim(E\\otimes G)=\\dim E\\cdot\\dim G$",
+      "note": "The page relies on dimension facts for tensor products that I cannot connect to anything I know, and the page they come from (mugumez) I did not open, so I accepted them without checking.",
+      "level": "beyond"
+    },
+    {
+      "page": "dol",
+      "quote": "so $\\Pi_{U'}-\\Pi_U$ projects onto $U'\\cap U^\\perp$ and has rank $\\dim U'-\\dim U$",
+      "note": "I followed the decomposition of the space into three orthogonal pieces, but I could not see on my own why the difference of the two projections has exactly that rank, so I accepted the step.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "Every route must change frame in all $m$ dimensions, so if every wire climbed from dimension $0$ to $m$ the total would be exactly $Wm$",
+      "note": "The page asserts that every route must change frame in all m dimensions. I could not tell whether this is derived or assumed, and I took it as given to get the claim that equality gives no saving.",
+      "level": "statement"
+    },
+    {
+      "page": "rut",
+      "quote": "The bank wires escape: $X_a$ starts on a line and $Y_a$ stops on a subspace of dimension $m-1$, saving $2N$ in all.",
+      "note": "I could not see where the saving of 2N comes from without the rank table on the dol page, which I could not follow, so I went past this count on trust.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "yet any positive deficit gives a power saving.",
+      "note": "I followed the recurrence showing that any fixed s/W below m gives a power below linear. I did not see why a relative deficit of order 10^-11 is enough for a usable exponent, beyond the explicit choice of 2^-50 on the page.",
+      "level": "chain"
+    },
+    {
+      "page": "tiz",
+      "quote": "The paper takes $\\lambda'=1-2^{-54}$, barely below $D\\le d$ passes, because $s/W$ is barely below $m$.",
+      "note": "This cites an outside paper. I could not tell from the wiki whether lambda' is a proved bound or a parameter choice, so its status is unclear to me.",
+      "level": "statement"
+    }
+  ],
+  "reason": "Answered from nine opened pages (home, bog, rut, dol, pid, tiz, vor, ber, nok). The scan argument and the form of the savings are clear to me. The strict inequality s < Wm rests on a tensor-product rank count I could not check, and the constants (2^-50, 2^-54, 2^-182) are stated as choices, so I am sure of the mechanism but not of the numbers."
+}
