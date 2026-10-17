@@ -4,7 +4,7 @@ Fix the ground-set size $h=100$ and let $v=\binom h3=161700$ be the number of th
 
 ## One invocation
 
-Fixing two coordinates of $a$ leaves values $x_S,y_S$ indexed by triples $S\in\mathcal T$; $x$ and $y$ denote the vectors of all $x_S$ and all $y_S$. A forward invocation performs $y_S\gets y_S+x_S$ for every $S$. Through central wires $C_i$, $i\in[h]$, gather adds $\sum_{S'\ni i}x_{S'}$ to $C_i$, with $S'$ another triple,, and scatter adds $\sum_{i\in S}C_i$ to $y_S$. But $x_{S'}$ reaches $y_S$ with a coefficient depending on $|S\cap S'|$ <cite data-source="paper">on intersection size, and auxiliary wires cancel the unwanted</cite>. Side wires $A_{SS'}$ copy $x_{S'}$ and inject it into $y_S$ to cancel it.
+Fixing two coordinates of $a$ leaves values $x_S,y_S$ indexed by triples $S\in\mathcal T$; $x$ and $y$ denote the vectors of all $x_S$ and all $y_S$. A forward invocation performs $y_S\gets y_S+x_S$ for every $S$. Through central wires $C_i$, $i\in[h]$, gather adds $\sum_{S'\ni i}x_{S'}$ to $C_i$, with $S'$ another triple, and scatter adds $\sum_{i\in S}C_i$ to $y_S$. But $x_{S'}$ reaches $y_S$ with a coefficient depending on $|S\cap S'|$ <cite data-source="paper">on intersection size, and auxiliary wires cancel the unwanted</cite>. Side wires $A_{SS'}$ copy $x_{S'}$ and inject it into $y_S$ to cancel it.
 
 In the bit construction, scalars lie in $\mathbb F_2$ and two triples $S,S'$ are neighbours when $|S\cap S'|=1$. The central coefficient $|S\cap S'|\bmod 2$ is 1 for $S'=S$ and for intersection one, and 0 otherwise, so side wires cancel the intersection-one cases.
 
