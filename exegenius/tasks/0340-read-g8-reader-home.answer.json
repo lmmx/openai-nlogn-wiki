@@ -1,0 +1,108 @@
+{
+  "outcome": "answered",
+  "answer": "The recurrence on the Pipozop page gives C(mf) <= (s/W) C(f) + O(1), where C(f) is the time per unit of volume at parameter f. Unrolling it over the recursion depth j gives C(f) = O(sum over j from 0 to log_m f of (s/W)^j). If the ratio s/W is at most m^tau for a fixed tau below 1, every term is at most m^(tau j), so the sum is O(f^tau): the per-unit cost is a power of the parameter strictly below the first power. Two things must hold. First, the total rank s of the edge changes must be strictly less than W*m (so s/W < m); the page takes this strictness from the rank counts on the Pukezad page, which are strict because L/N < 1/2. Second, the gap must be a fixed power: s/W < m^tau with tau < 1 fixed, not merely some strict gap. The size of the saving is set by the chosen exponent tau = sigma = 1 - 2^(-50) on the Fenilov page, so the per-unit cost is O(f^(1-2^(-50))), a saving of a factor f^(2^(-50)) relative to linear in f (this last step is my own arithmetic from tau). The actual relative gap is eta = 339/22587335000000 (about 1.5e-11) for the bit network and 73/19906842167500 (about 3.7e-12) for the complex network; both exceed 20*2^(-50), about 1.8e-14, which is what makes s/W < m^tau hold. I did not open the cost-accounting page, so I did not verify how this exponent yields kappa = 2^(-182).",
+  "citations": [
+    {
+      "page": "rut",
+      "quote": "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes."
+    },
+    {
+      "page": "rut",
+      "quote": "\\mathcal C(mf)\\le\\frac{s}{W}\\mathcal C(f)+O(1),\\qquad \\mathcal C(1)=O(1)"
+    },
+    {
+      "page": "rut",
+      "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+    },
+    {
+      "page": "dol",
+      "quote": "both strictly less than $Wm$, because $L/N<1/2$."
+    },
+    {
+      "page": "zaz",
+      "quote": "if the circuit data satisfy the shear contract with $s<Wm$ and $s/W<m^\\tau$"
+    },
+    {
+      "page": "fef",
+      "quote": "Take $\\tau=\\sigma=1-2^{-50}$, $\\beta=1/2$ and $\\delta=1/16$."
+    },
+    {
+      "page": "rut",
+      "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$"
+    }
+  ],
+  "key_idea": {
+    "page": "rut",
+    "statement": "A call at parameter mf makes s calls at parameter f, each on 1/W of the data, so the cost per unit of data at mf is at most s/W times the cost at f; when s/W is at most m^tau for a fixed tau below 1, the recursion costs a power f^tau per unit of data.",
+    "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+  },
+  "stuck": [
+    {
+      "page": "rut",
+      "quote": "A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$.",
+      "note": "I could not see why the label-space dimension is the number of slots per chunk, or what a slot is. The page gives no reason for the split factor being m.",
+      "level": "beyond"
+    },
+    {
+      "page": "rut",
+      "quote": "an edge's frame change costs one call at parameter $f$ on its stream per unit of rank",
+      "note": "I could not see why a frame change costs one smaller call per unit of rank. I accepted it and went on to the frames page and the rank-count page to check it.",
+      "level": "step"
+    },
+    {
+      "page": "ber",
+      "quote": "The intermediate frames are therefore free, and can be chosen so that each edge change is cheap",
+      "note": "The page asserts that the frames can be chosen so that edges are cheap, but does not show how that gives the rank count s. I could only connect the frame choice to the count on the Pukezad page.",
+      "level": "chain"
+    },
+    {
+      "page": "dol",
+      "quote": "A wire enters and leaves each gate with that gate's label, so its signed changes telescope to sink minus source dimension",
+      "note": "I followed the telescoping and the step to absolute changes Wm-2N+2L, but I could not see why the loss L is the only correction once signs are taken.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "For $U\\subset V$, $\\Pi_V-\\Pi_U$ (identity on $V\\cap U^\\perp$, zero on $U\\perp V^\\perp$) has rank $\\dim V-\\dim U$, as does its negative.",
+      "note": "I could not verify this rank claim from the page itself. I accepted it as stated.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "Only $X_a$'s first edge differs: at stage $1$ its first gate has label $U_a$, so $2\\Pi_{U_a}$ has rank one where the dimension change is zero.",
+      "note": "This is the source of the extra +N in s_b = (W_b m - 2N + 2L_b) + N. I accepted it without working through the stage-1 gate labels.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "[Letenat](mot) give the complex network $s_{\\rm c}=W_{\\rm c}m-2N+2L_{\\rm c}<W_{\\rm c}m$.",
+      "note": "The complex strict inequality is cited to a page I did not open, so I accepted it on the citation.",
+      "level": "statement"
+    },
+    {
+      "page": "rut",
+      "quote": "Here $j$ means the recursion depth, the number of levels below the top call, not the stage number as on [Pukezad](dol)",
+      "note": "j is redefined here with a meaning different from the Pukezad page, so I had to decode which j is meant in the unrolled sum.",
+      "level": "symbol"
+    },
+    {
+      "page": "rut",
+      "quote": "otherwise its last term, below $m^{\\tau\\log_m f}=f^\\tau$, dominates",
+      "note": "The page says the last term dominates when s/W is above 1. I followed it, but I did not see why the geometric terms add up to a constant times the last one; I accepted it.",
+      "level": "step"
+    },
+    {
+      "page": "fef",
+      "quote": "These are conservative.",
+      "note": "The page sets tau = sigma = 1 - 2^(-50) and calls these values conservative without saying what they are conservative against. I could not tell whether tau is derived from the rank count or chosen as a parameter.",
+      "level": "statement"
+    },
+    {
+      "page": "rut",
+      "quote": "$W$ (stream count): The fixed number of streams into which rows are dealt. From [Legafod](zaz).",
+      "note": "W was undefined until I opened the stream-operations page, where it is the fixed number of streams that rows are dealt into cyclically.",
+      "level": "symbol"
+    }
+  ],
+  "reason": "I answered, but my confidence is moderate. The recurrence C(mf) <= (s/W) C(f) + O(1) and its unrolling, the strict inequality s < Wm, the exponent tau = 1 - 2^(-50), and the margins (eta about 1.5e-11 bit and 3.7e-12 complex, both above 20*2^(-50)) are all stated on the pages I opened, and I checked the two eta values by hand. Several steps, including why a frame change counts as one call per unit of rank and why the extra +N appears, were accepted from the text without full derivation. I opened 7 of the 15 allowed pages and did not open the cost-accounting page or the Letenat page."
+}

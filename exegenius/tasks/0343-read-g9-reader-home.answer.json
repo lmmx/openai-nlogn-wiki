@@ -1,0 +1,108 @@
+{
+  "outcome": "answered",
+  "answer": "Split each n-bit input into q = ceiling(n/b) digits in radix 2^b, where b = ceiling(log2 n). Their product is the wrap-around product (the wiki's totipuv) of the two digit sequences, padded to a length S that is a product of distinct odd primes with T/2 < S < T, and no wrap-around occurs because the padded length is large enough. The sequence is then reindexed onto prime-length axes by a fixed reindexing map (the Lolazad page). Each prime-length transform (the wiki's tobifup) is computed through a power-of-two transform, using a resampling identity with fixed linear contractions and phase multipliers (Sikusup and Divasov), with the permutations kept inside the identity so none is executed as a sort. The stages in order are: radix digits; reindexing onto prime axes; two forward transforms of the two sequences; pointwise product of the transforms; one opposite transform; rescaling by S and by 2^(2b+4)S; rounding each entry to the nearest integer; undoing the reindexing; and carry propagation in radix 2^b, which outputs exactly 2n bits. The result is exact rather than approximate because all values are kept to p = 6b fractional bits and the accumulated error on each coefficient is below 1/2; the true coefficients are integers, so rounding returns them exactly, and carry propagation then gives the exact binary product. I am not fully sure of the constants: the wiki's exactness bound is stated only for digit widths b at least 2^24, and I did not see why the prime-length detour is needed.",
+  "citations": [
+    {
+      "page": "siz",
+      "quote": "Pegapev chains the reductions of the earlier pages to turn two $n$-bit integers into their exact $2n$-bit product."
+    },
+    {
+      "page": "siz",
+      "quote": "and the product is their convolution modulo $x^S-1$, as in [Lekavon](vub)."
+    },
+    {
+      "page": "vub",
+      "quote": "Multiplication therefore reduces to a [Totipuv](fam) of length $S$ on short integer coefficients."
+    },
+    {
+      "page": "fam",
+      "quote": "If the ordinary product has degree below $q$, nothing wraps and $f*g$ is the ordinary product."
+    },
+    {
+      "page": "guf",
+      "quote": "moving the data on tape by controlled shifts and axis reorderings only."
+    },
+    {
+      "page": "kur",
+      "quote": "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+    },
+    {
+      "page": "roz",
+      "quote": "Sikusup expresses a Tobifup of length $s$, the source length, through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
+    },
+    {
+      "page": "pap",
+      "quote": "The permuted transform is thus reduced to one [Totipuv](fam) of length $T$ between two pointwise phase multiplications."
+    },
+    {
+      "page": "zom",
+      "quote": "The source permutation $R$ cancels"
+    },
+    {
+      "page": "siz",
+      "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers"
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+    },
+    {
+      "page": "siz",
+      "quote": "Exactness is shown by [Nutipib](mes): the error on these coefficients is below $1/2$, so rounding is exact."
+    },
+    {
+      "page": "mes",
+      "quote": "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+    }
+  ],
+  "key_idea": {
+    "page": "siz",
+    "statement": "The exact product is the digit-sequence wrap-around product computed through transforms; each coefficient is off by less than one half, so rounding recovers the exact integer coefficients and carrying gives the exact binary product.",
+    "quote": "Exactness is shown by [Nutipib](mes): the error on these coefficients is below $1/2$, so rounding is exact."
+  },
+  "stuck": [
+    {
+      "page": "home",
+      "quote": "[Totipuv](fam) is turned into pointwise multiplication by the [tobifup](kur)",
+      "note": "Both names are invented; I could not tell what totipuv or tobifup were from the front page. I only learned them by opening the Totipuv and Tobifup pages (wrap-around product and transform with weights). Read as a term I could not decode until then.",
+      "level": "symbol"
+    },
+    {
+      "page": "siz",
+      "quote": "where $\\gamma$ is the exponent of the power-of-two scale that resampling introduces, not the initial central values of the exchange network.",
+      "note": "The factor 2^gamma is applied after the resampling stage. I could not connect resampling or the exchange network to anything I know, and the sentence does not say what gamma does to the result, only that it is not the central values. I only checked that the scale factors cancel in the bookkeeping.",
+      "level": "beyond"
+    },
+    {
+      "page": "roz",
+      "quote": "There are linear contractions $A$, $B_0$ with",
+      "note": "The resampling identity relies on Gaussian-weighted maps with a width parameter alpha and an exponent. I could not connect those maps to anything I know or see why the identity holds, so I took the identity on the page's word to reach the answer. The error bound and time bound were likewise accepted without checking.",
+      "level": "beyond"
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it.",
+      "note": "I followed the algebra that the chirp identity holds, but could not see why reading a different frequency makes the permutation free, which is what allows the permutations to be dropped from the chain.",
+      "level": "chain"
+    },
+    {
+      "page": "siz",
+      "quote": "Digit $a_j$ is stored as the grid value $a_j2^{-b-2}$, so inputs have norm below $1/4$",
+      "note": "The scale factors 2^(-b-2), 2^(2b+4) and S are stated, and I checked that they cancel, but the page does not say why these particular sizes are chosen. I guessed that they keep every value in the unit disk.",
+      "level": "step"
+    },
+    {
+      "page": "vub",
+      "quote": "$S$ is the length of the totipuv, a product of distinct odd primes with $T/2<S<T$.",
+      "note": "I could not see why the wrap-around length must be a product of distinct odd primes rather than a power of two. The reindexing page needs pairwise coprime axis lengths, but no page I opened states why the prime-length detour is needed, so I could follow the chain without seeing why it leads to the product.",
+      "level": "chain"
+    },
+    {
+      "page": "mes",
+      "quote": "keeps $E_sh_p<10^{-3}$.",
+      "note": "The exactness proof uses b at least 2^24 and says 'for large n' for several inequalities. I could not tell whether this is an assumption that limits the theorem to huge n, or a claim that holds for all n, and so could not tell how far the exactness statement reaches.",
+      "level": "statement"
+    }
+  ],
+  "reason": "Answered with moderate confidence. The overall chain (digit split, wrap-around product, reindexing to prime axes, transforms with pointwise product, rescale, round, carry) is supported by the Pegapev, Lekavon, Lolazad, Totipuv, Tobifup, Divasov, Nizizag and Nutipib pages. Two parts I took on the page's word without being able to see why they hold: the Sikusup resampling identity, and why the convolution length must be a product of odd primes. The exactness bound is stated only for digit widths of at least 2^24. I opened 10 of the 15 allowed pages: home, siz, fam, kur, mes, vub, guf, roz, pap, zom."
+}

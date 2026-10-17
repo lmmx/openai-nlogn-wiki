@@ -1,0 +1,156 @@
+{
+  "outcome": "answered",
+  "answer": "The chain runs in six stages, each one reducing the product to something the next stage can handle. (1) Radix digits (page vub): each n-bit integer is written as q = ceil(n/b) digits in radix 2^b, with b = ceil(log2 n). The digit product is a wrap-around product (the wiki's totipuv) of length S, and S is long enough that nothing wraps and every coefficient fits in 3b bits, so the integer product becomes a totipuv of short coefficients. (2) Address map (page guf): S is a product of pairwise coprime lengths s_1..s_d. The map sending x to the product of x_i raised to mu_i is an isomorphism that preserves totipuv, so the single length-S totipuv becomes a d-axis one, with one axis per s_i. This is needed because the later stages act on one axis at a time. (3) Resampling and chirps (pages roz and pap): a transform of prime length s is re-expressed through a transform of a nearby power-of-two length t, so only power-of-two transforms need a fast algorithm. For even t_i the chirp identity gives Q F_t u = conj(a) times (a totipuv (conj(a) times u)) divided by T, so the target reordering is absorbed into an ordinary totipuv of power-of-two length T, between two pointwise phase multiplications. (4) Twist (page taf, with page reb): the last cyclic axis is turned into the ring R_r = C[y]/(y^r+1) by multiplying entry k by zeta^k with zeta = e^(pi i/r). The wrap sign of ring multiplication then reproduces the totipuv on that axis. This is needed because in R_r multiplying by a power of y is only a signed shift, so the transforms over the ring need no complex multiplications. (5) Synthetic-transform convolution (pages tab and gip): both operands are transformed over R_r with roots of unity omega_t = y^(2r/t), multiplied record by record in the ring, and transformed back, with a scaling by the number of records. (6) Assembly and rounding (page siz): after the two forward transforms, the pointwise product, the opposite transform, a rescaling by S, and multiplication by 2^(2b+4) S, the values are rounded to integers, mapped back by the inverse address map, and carries are propagated to give the exact 2n-bit product. Rounding is exact because the error is below 1/2, a claim the page cites to another page that I did not open. Confidence is moderate: I could follow the stage-by-stage reductions and their size bookkeeping, but I took the error bounds and the cited lemmas on trust.",
+  "citations": [
+    {
+      "page": "siz",
+      "quote": "Pegapev chains the reductions of the earlier pages to turn two $n$-bit integers into their exact $2n$-bit product."
+    },
+    {
+      "page": "vub",
+      "quote": "Multiplication therefore reduces to a [Totipuv](fam) of length $S$ on short integer coefficients."
+    },
+    {
+      "page": "vub",
+      "quote": "Every exponent $j$ is at most $2q-2<S$, so nothing folds."
+    },
+    {
+      "page": "vub",
+      "quote": "So every coefficient is a nonnegative integer of at most $3b$ bits."
+    },
+    {
+      "page": "guf",
+      "quote": "moving the data on tape by controlled shifts and axis reorderings only."
+    },
+    {
+      "page": "guf",
+      "quote": "is an isomorphism and preserves [Totipuv](fam)."
+    },
+    {
+      "page": "roz",
+      "quote": "Sikusup expresses a Tobifup of length $s$, the source length, through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
+    },
+    {
+      "page": "roz",
+      "quote": "Applied along each axis of a [Tagaris](dib), it replaces $s$ by $t$."
+    },
+    {
+      "page": "pap",
+      "quote": "The Divasov rewrites a permuted [Tobifup](kur) as a pointwise chirp phase, a totipuv, and another chirp phase, so the target permutation of resampling is absorbed into the convolution and never executed as a sort."
+    },
+    {
+      "page": "pap",
+      "quote": "The permuted transform is thus reduced to one [Totipuv](fam) of length $T$ between two pointwise phase multiplications."
+    },
+    {
+      "page": "taf",
+      "quote": "The twist converts the last cyclic axis into the coordinate of the [Satumig](reb)"
+    },
+    {
+      "page": "taf",
+      "quote": "The twist reproduces [Totipuv](fam) on that axis."
+    },
+    {
+      "page": "reb",
+      "quote": "so multiplying by a root of unity costs only a signed rotation of the list, with no arithmetic; this is what lets the later transforms avoid complex multiplications."
+    },
+    {
+      "page": "gip",
+      "quote": "so every twiddle multiplication (multiplication by a root of unity) is a signed shift of a coefficient list."
+    },
+    {
+      "page": "tab",
+      "quote": "computed by transforming both operands, multiplying records pointwise and transforming back."
+    },
+    {
+      "page": "kur",
+      "quote": "The transform diagonalizes [totipuv](fam): the transform of a convolution is a pointwise product of transforms."
+    },
+    {
+      "page": "kur",
+      "quote": "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+    },
+    {
+      "page": "siz",
+      "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers"
+    },
+    {
+      "page": "siz",
+      "quote": "Exactness is shown by [Nutipib](mes): the error on these coefficients is below $1/2$, so rounding is exact."
+    }
+  ],
+  "key_idea": {
+    "page": "siz",
+    "statement": "The integer product is cut into digits, turned into a wrap-around product of short coefficients, computed through transforms whose twiddle multiplications are cheap, and then rounded back to exact integers.",
+    "quote": "Pegapev chains the reductions of the earlier pages to turn two $n$-bit integers into their exact $2n$-bit product."
+  },
+  "stuck": [
+    {
+      "page": "siz",
+      "quote": "be the [tobifup](kur) on the axes",
+      "note": "The name tobifup is new. I could not decode it from this page and had to open kur to learn that it is the transform that diagonalizes totipuv. Got past it by reading a later page.",
+      "level": "symbol"
+    },
+    {
+      "page": "vub",
+      "quote": "Here $S$, $T$ and $v$ also differ from their meanings on earlier pages.",
+      "note": "Symbols are reused with new meanings (S, T, v, q). I had to re-track what each one means on this page, which made the digit-count step harder to follow.",
+      "level": "symbol"
+    },
+    {
+      "page": "vub",
+      "quote": "a product of distinct odd primes with $T/2<S<T$.",
+      "note": "I can check the inequalities, but I could not see why S must be a product of distinct odd primes rather than simply T. The parameter page (fef) that would justify this was not opened.",
+      "level": "chain"
+    },
+    {
+      "page": "guf",
+      "quote": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because.",
+      "note": "The sentence stops before its reason, so I cannot tell why the offset cost is negligible.",
+      "level": "step"
+    },
+    {
+      "page": "guf",
+      "quote": "moving the data on tape by controlled shifts and axis reorderings only.",
+      "note": "The page does not say why a d-axis form is wanted. I only connected it to the later stages through the phrase on roz that the transform is applied along each axis, so the reason behind the split was a chain I followed without seeing why it leads there.",
+      "level": "chain"
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it.",
+      "note": "I checked the exponent algebra, but I could not see why reading a different frequency makes the permutation free in the transform.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "The cited estimate gives $\\|N-I\\|<2.01e^{-\\pi\\alpha^2\\theta/2}<2^{-\\alpha^2\\theta}$.",
+      "note": "This bound and the Lemma it relies on are cited, not proved on this page, so I could not tell whether the claimed status (proved or assumed) holds. The Gaussian weights and the condition on theta were also not motivated for me.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "There are linear contractions $A$, $B_0$ with $P_sF_s=2^{2\\alpha^2}B_0P_tF_tA$.",
+      "note": "I followed the construction of N and its inverse, but I could not see how the normalizing factors combine to give exactly this identity. The earlier maps are attributed to other authors and not explained here.",
+      "level": "chain"
+    },
+    {
+      "page": "siz",
+      "quote": "truncation $Q_p$ to $p$ fractional bits.",
+      "note": "I followed each assignment in the computed version, but I could not see why approximating the chirp and truncating at every step still keeps the final error below 1/2. That argument is on mes, which I did not open.",
+      "level": "chain"
+    },
+    {
+      "page": "tab",
+      "quote": "Their exact counterparts are $LBF^-$ and the opposite map",
+      "note": "L and B (layout permutation and bit reversal) are defined on the mov page, which I did not open, so I could not say what they reorder. I treated them as bookkeeping because the page says no reordering is executed.",
+      "level": "symbol"
+    },
+    {
+      "page": "reb",
+      "quote": "is computed by decimation in frequency with outputs written in bit-reversed order, $B_tF_t^-$",
+      "note": "The terms decimation in frequency and bit-reversed output are not explained on any page I opened (the kov page was not opened). I could follow the rest of the transform stage without them.",
+      "level": "symbol"
+    }
+  ],
+  "reason": "The answer is built from 12 opened pages (home, siz, vub, guf, pap, roz, reb, tab, taf, fam, kur, gip). Each stage's reduction and its size bookkeeping can be followed on the pages, but the error bounds and several cited lemmas (mes, mov, kov, fef, and a lemma named in roz) were not opened, so my confidence is moderate."
+}

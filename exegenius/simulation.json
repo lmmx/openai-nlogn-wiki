@@ -1634,6 +1634,261 @@
         "statement": "kappa is half of the smallest margin g_2 = 2^-181: the seven dominant costs stay below p^(1-2*kappa), and the leftover kappa absorbs any power of log p, so the total is p^(1-kappa).",
         "quote": "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
       }
+    },
+    {
+      "task": "0343-read-g9-reader-home",
+      "round": 1,
+      "goal": 8,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "multiplication-algorithm",
+        "convolution",
+        "dft",
+        "precision-recovery",
+        "radix-digit-reduction",
+        "crt-map",
+        "gaussian-resampling",
+        "chirp",
+        "retained-permutations"
+      ],
+      "searches": [],
+      "answer": "Split each n-bit input into q = ceiling(n/b) digits in radix 2^b, where b = ceiling(log2 n). Their product is the wrap-around product (the wiki's Cyclic convolution) of the two digit sequences, padded to a length S that is a product of distinct odd primes with T/2 < S < T, and no wrap-around occurs because the padded length is large enough. The sequence is then reindexed onto prime-length axes by a fixed reindexing map (the Chinese-remainder address map page). Each prime-length transform (the wiki's Discrete Fourier transform) is computed through a power-of-two transform, using a resampling identity with fixed linear contractions and phase multipliers (Gaussian resampling and Bluestein chirp identity), with the permutations kept inside the identity so none is executed as a sort. The stages in order are: radix digits; reindexing onto prime axes; two forward transforms of the two sequences; pointwise product of the transforms; one opposite transform; rescaling by S and by 2^(2b+4)S; rounding each entry to the nearest integer; undoing the reindexing; and carry propagation in radix 2^b, which outputs exactly 2n bits. The result is exact rather than approximate because all values are kept to p = 6b fractional bits and the accumulated error on each coefficient is below 1/2; the true coefficients are integers, so rounding returns them exactly, and carry propagation then gives the exact binary product. I am not fully sure of the constants: the wiki's exactness bound is stated only for digit widths b at least 2^24, and I did not see why the prime-length detour is needed.",
+      "citations": [
+        [
+          "multiplication-algorithm",
+          "The multiplication algorithm chains the reductions of the earlier pages to turn two $n$-bit integers into their exact $2n$-bit product."
+        ],
+        [
+          "multiplication-algorithm",
+          "and the product is their convolution modulo $x^S-1$, as in [Multiplication as radix-digit convolution](vub)."
+        ],
+        [
+          "radix-digit-reduction",
+          "Multiplication therefore reduces to a [Cyclic convolution](fam) of length $S$ on short integer coefficients."
+        ],
+        [
+          "convolution",
+          "If the ordinary product has degree below $q$, nothing wraps and $f*g$ is the ordinary product."
+        ],
+        [
+          "crt-map",
+          "moving the data on tape by controlled shifts and axis reorderings only."
+        ],
+        [
+          "dft",
+          "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+        ],
+        [
+          "gaussian-resampling",
+          "Gaussian resampling expresses a Discrete Fourier transform of length $s$, the source length, through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
+        ],
+        [
+          "chirp",
+          "The permuted transform is thus reduced to one [Cyclic convolution](fam) of length $T$ between two pointwise phase multiplications."
+        ],
+        [
+          "retained-permutations",
+          "The source permutation $R$ cancels"
+        ],
+        [
+          "multiplication-algorithm",
+          "Multiply by $2^{2b+4}S$, round to the nearest integers"
+        ],
+        [
+          "multiplication-algorithm",
+          "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+        ],
+        [
+          "multiplication-algorithm",
+          "Exactness is shown by [Error tracking and exact recovery](mes): the error on these coefficients is below $1/2$, so rounding is exact."
+        ],
+        [
+          "precision-recovery",
+          "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "home",
+          "quote": "[Cyclic convolution](fam) is turned into pointwise multiplication by the [Discrete Fourier transform](kur)",
+          "note": "Both names are invented; I could not tell what Cyclic convolution or Discrete Fourier transform were from the front page. I only learned them by opening the Cyclic convolution and Discrete Fourier transform pages (wrap-around product and transform with weights). Read as a term I could not decode until then.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "where $\\gamma$ is the exponent of the power-of-two scale that resampling introduces, not the initial central values of the exchange network.",
+          "note": "The factor 2^gamma is applied after the resampling stage. I could not connect resampling or the exchange network to anything I know, and the sentence does not say what gamma does to the result, only that it is not the central values. I only checked that the scale factors cancel in the bookkeeping.",
+          "level": "beyond"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "There are linear contractions $A$, $B_0$ with",
+          "note": "The resampling identity relies on Gaussian-weighted maps with a width parameter alpha and an exponent. I could not connect those maps to anything I know or see why the identity holds, so I took the identity on the page's word to reach the answer. The error bound and time bound were likewise accepted without checking.",
+          "level": "beyond"
+        },
+        {
+          "page": "chirp",
+          "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it.",
+          "note": "I followed the algebra that the chirp identity holds, but could not see why reading a different frequency makes the permutation free, which is what allows the permutations to be dropped from the chain.",
+          "level": "chain"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "Digit $a_j$ is stored as the grid value $a_j2^{-b-2}$, so inputs have norm below $1/4$",
+          "note": "The scale factors 2^(-b-2), 2^(2b+4) and S are stated, and I checked that they cancel, but the page does not say why these particular sizes are chosen. I guessed that they keep every value in the unit disk.",
+          "level": "step"
+        },
+        {
+          "page": "radix-digit-reduction",
+          "quote": "$S$ is the length of the Cyclic convolution, a product of distinct odd primes with $T/2<S<T$.",
+          "note": "I could not see why the wrap-around length must be a product of distinct odd primes rather than a power of two. The reindexing page needs pairwise coprime axis lengths, but no page I opened states why the prime-length detour is needed, so I could follow the chain without seeing why it leads to the product.",
+          "level": "chain"
+        },
+        {
+          "page": "precision-recovery",
+          "quote": "keeps $E_sh_p<10^{-3}$.",
+          "note": "The exactness proof uses b at least 2^24 and says 'for large n' for several inequalities. I could not tell whether this is an assumption that limits the theorem to huge n, or a claim that holds for all n, and so could not tell how far the exactness statement reaches.",
+          "level": "statement"
+        }
+      ],
+      "reason": "Answered with moderate confidence. The overall chain (digit split, wrap-around product, reindexing to prime axes, transforms with pointwise product, rescale, round, carry) is supported by the The multiplication algorithm, Multiplication as radix-digit convolution, Chinese-remainder address map, Cyclic convolution, Discrete Fourier transform, Bluestein chirp identity, Retained permutation cancellation and Error tracking and exact recovery pages. Two parts I took on the page's word without being able to see why they hold: the Gaussian resampling resampling identity, and why the convolution length must be a product of odd primes. The exactness bound is stated only for digit widths of at least 2^24. I opened 10 of the 15 allowed pages: home, siz, fam, kur, mes, vub, guf, roz, pap, zom.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "multiplication-algorithm",
+        "statement": "The exact product is the digit-sequence wrap-around product computed through transforms; each coefficient is off by less than one half, so rounding recovers the exact integer coefficients and carrying gives the exact binary product.",
+        "quote": "Exactness is shown by [Error tracking and exact recovery](mes): the error on these coefficients is below $1/2$, so rounding is exact."
+      }
+    },
+    {
+      "task": "0340-read-g8-reader-home",
+      "round": 1,
+      "goal": 7,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "rank-recurrence",
+        "subspace-labels",
+        "exchange-network",
+        "array-frames",
+        "parameter-choice",
+        "stream-ops"
+      ],
+      "searches": [],
+      "answer": "The recurrence on the Recursive power saving page gives C(mf) <= (s/W) C(f) + O(1), where C(f) is the time per unit of volume at parameter f. Unrolling it over the recursion depth j gives C(f) = O(sum over j from 0 to log_m f of (s/W)^j). If the ratio s/W is at most m^tau for a fixed tau below 1, every term is at most m^(tau j), so the sum is O(f^tau): the per-unit cost is a power of the parameter strictly below the first power. Two things must hold. First, the total rank s of the edge changes must be strictly less than W*m (so s/W < m); the page takes this strictness from the rank counts on the Nested subspace labels and rank deficit page, which are strict because L/N < 1/2. Second, the gap must be a fixed power: s/W < m^tau with tau < 1 fixed, not merely some strict gap. The size of the saving is set by the chosen exponent tau = sigma = 1 - 2^(-50) on the Parameter and prime-length choice page, so the per-unit cost is O(f^(1-2^(-50))), a saving of a factor f^(2^(-50)) relative to linear in f (this last step is my own arithmetic from tau). The actual relative gap is eta = 339/22587335000000 (about 1.5e-11) for the bit network and 73/19906842167500 (about 3.7e-12) for the complex network; both exceed 20*2^(-50), about 1.8e-14, which is what makes s/W < m^tau hold. I did not open the cost-accounting page, so I did not verify how this exponent yields kappa = 2^(-182).",
+      "citations": [
+        [
+          "rank-recurrence",
+          "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes."
+        ],
+        [
+          "rank-recurrence",
+          "\\mathcal C(mf)\\le\\frac{s}{W}\\mathcal C(f)+O(1),\\qquad \\mathcal C(1)=O(1)"
+        ],
+        [
+          "rank-recurrence",
+          "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+        ],
+        [
+          "subspace-labels",
+          "both strictly less than $Wm$, because $L/N<1/2$."
+        ],
+        [
+          "stream-ops",
+          "if the circuit data satisfy the shear contract with $s<Wm$ and $s/W<m^\\tau$"
+        ],
+        [
+          "parameter-choice",
+          "Take $\\tau=\\sigma=1-2^{-50}$, $\\beta=1/2$ and $\\delta=1/16$."
+        ],
+        [
+          "rank-recurrence",
+          "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$"
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "rank-recurrence",
+          "quote": "A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$.",
+          "note": "I could not see why the label-space dimension is the number of slots per chunk, or what a slot is. The page gives no reason for the split factor being m.",
+          "level": "beyond"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "an edge's frame change costs one call at parameter $f$ on its stream per unit of rank",
+          "note": "I could not see why a frame change costs one smaller call per unit of rank. I accepted it and went on to the frames page and the rank-count page to check it.",
+          "level": "step"
+        },
+        {
+          "page": "array-frames",
+          "quote": "The intermediate frames are therefore free, and can be chosen so that each edge change is cheap",
+          "note": "The page asserts that the frames can be chosen so that edges are cheap, but does not show how that gives the rank count s. I could only connect the frame choice to the count on the Nested subspace labels and rank deficit page.",
+          "level": "chain"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "A wire enters and leaves each gate with that gate's label, so its signed changes telescope to sink minus source dimension",
+          "note": "I followed the telescoping and the step to absolute changes Wm-2N+2L, but I could not see why the loss L is the only correction once signs are taken.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "For $U\\subset V$, $\\Pi_V-\\Pi_U$ (identity on $V\\cap U^\\perp$, zero on $U\\perp V^\\perp$) has rank $\\dim V-\\dim U$, as does its negative.",
+          "note": "I could not verify this rank claim from the page itself. I accepted it as stated.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "Only $X_a$'s first edge differs: at stage $1$ its first gate has label $U_a$, so $2\\Pi_{U_a}$ has rank one where the dimension change is zero.",
+          "note": "This is the source of the extra +N in s_b = (W_b m - 2N + 2L_b) + N. I accepted it without working through the stage-1 gate labels.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "[Binary phase frames](mot) give the complex network $s_{\\rm c}=W_{\\rm c}m-2N+2L_{\\rm c}<W_{\\rm c}m$.",
+          "note": "The complex strict inequality is cited to a page I did not open, so I accepted it on the citation.",
+          "level": "statement"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "Here $j$ means the recursion depth, the number of levels below the top call, not the stage number as on [Nested subspace labels and rank deficit](dol)",
+          "note": "j is redefined here with a meaning different from the Nested subspace labels and rank deficit page, so I had to decode which j is meant in the unrolled sum.",
+          "level": "symbol"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "otherwise its last term, below $m^{\\tau\\log_m f}=f^\\tau$, dominates",
+          "note": "The page says the last term dominates when s/W is above 1. I followed it, but I did not see why the geometric terms add up to a constant times the last one; I accepted it.",
+          "level": "step"
+        },
+        {
+          "page": "parameter-choice",
+          "quote": "These are conservative.",
+          "note": "The page sets tau = sigma = 1 - 2^(-50) and calls these values conservative without saying what they are conservative against. I could not tell whether tau is derived from the rank count or chosen as a parameter.",
+          "level": "statement"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "$W$ (stream count): The fixed number of streams into which rows are dealt. From [Elementary stream operations](zaz).",
+          "note": "W was undefined until I opened the stream-operations page, where it is the fixed number of streams that rows are dealt into cyclically.",
+          "level": "symbol"
+        }
+      ],
+      "reason": "I answered, but my confidence is moderate. The recurrence C(mf) <= (s/W) C(f) + O(1) and its unrolling, the strict inequality s < Wm, the exponent tau = 1 - 2^(-50), and the margins (eta about 1.5e-11 bit and 3.7e-12 complex, both above 20*2^(-50)) are all stated on the pages I opened, and I checked the two eta values by hand. Several steps, including why a frame change counts as one call per unit of rank and why the extra +N appears, were accepted from the text without full derivation. I opened 7 of the 15 allowed pages and did not open the cost-accounting page or the Binary phase frames page.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "rank-recurrence",
+        "statement": "A call at parameter mf makes s calls at parameter f, each on 1/W of the data, so the cost per unit of data at mf is at most s/W times the cost at f; when s/W is at most m^tau for a fixed tau below 1, the recursion costs a power f^tau per unit of data.",
+        "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+      }
     }
   ],
   "baselines": [
