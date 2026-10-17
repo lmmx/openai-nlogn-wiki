@@ -23,7 +23,7 @@ d4="The maps $\\iota^{\\pm1}$ only regroup scalars, and $D_\\pm$ multiplies by n
 for q in [d1,d2,d3,d4]: assert q in t,q
 ans=dict(
  derivations=[dict(step="S5.4.1",quote=d1),dict(step="S5.4.2",quote=d2),dict(step="S5.4.3",quote=d3),dict(step="S5.4.4",quote=d4)],
- relations=[dict(prerequisite="ring-y",predicate="converts the last cyclic axis into the coordinate of",quote=q_R),
+ relations=[dict(prerequisite="ring-y",predicate="converts the last cyclic axis into",quote=q_R),
             dict(prerequisite="convolution",predicate="reproduces",quote=q_rel2)],
  symbols=[
   S("f","first array","The first complex array being convolved.","direct",q_fg),

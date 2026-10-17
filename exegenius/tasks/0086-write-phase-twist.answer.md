@@ -6,11 +6,11 @@ Let $f$ and $g$ be two complex arrays with $d$ axes, the last of length $r$, and
 
 Let $\zeta=e^{\pi i/r}$, so $\zeta^r=-1$. Define the ring map $\Theta$ from $\mathbb C[x_d]/(x_d^r-1)$ to $\mathcal R_r$ by $x_d\mapsto\zeta y$. It is well defined because $(\zeta y)^r=(-1)(-1)=1$.
 
-Since $\Theta(x_d^k)=\zeta^k y^k$, $\Theta$ is diagonal on the bases $(x_d^k)$ and $(y^k)$, multiplying coefficient $k$ by $\zeta^k\ne0$. It is therefore an isomorphism, with inverse multiplying by $\zeta^{-k}$. Both maps preserve the coefficient sup norm, since $|\zeta^{\pm k}|=1$ <cite data-source="paper">Both exact maps preserve the coefficient sup norm.</cite>
+Here $k$ and $l$ index coefficients, not operations. Since $\Theta(x_d^k)=\zeta^k y^k$, $\Theta$ is diagonal on the bases $(x_d^k)$ and $(y^k)$, multiplying coefficient $k$ by $\zeta^k\ne0$. It is therefore an isomorphism, with inverse multiplying by $\zeta^{-k}$. Both maps preserve the coefficient sup norm, since $|\zeta^{\pm k}|=1$ <cite data-source="paper">Both exact maps preserve the coefficient sup norm.</cite>
 
 ## The wrap
 
-Here $k$ and $l$ index coefficients, not operations. Take $k,l<r$ and write $k+l=j+hr$, with $j<r$ the resulting position and $h\in\{0,1\}$ the wrap indicator. After twisting, the term carries $\zeta^{k+l}$, and negacyclic reduction contributes $(-1)^h$, so the factor is
+Take $k,l<r$ and write $k+l=j+hr$, with $j<r$ the resulting position and $h\in\{0,1\}$ the wrap indicator. After twisting, the term carries $\zeta^{k+l}$, and negacyclic reduction contributes $(-1)^h$, so the factor is
 $$\zeta^{k+l}(-1)^h=\zeta^j(\zeta^r)^h(-1)^h=\zeta^j.$$
 The coefficient of $y^j$ is thus $\zeta^j$ times the cyclic coefficient; untwisting by $\zeta^{-j}$ restores it with the correct sign. The twist reproduces [Cyclic convolution](convolution.md) on that axis.
 
