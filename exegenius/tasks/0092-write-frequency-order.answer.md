@@ -4,7 +4,7 @@ It orders the outputs of the [synthetic polynomial transform](synthetic-transfor
 
 $$(F_t^-z)_j=\frac1t\sum_{k=0}^{t-1}\omega_t^{-jk}z_k,\qquad (F_t^+z)_j=\frac1t\sum_{k=0}^{t-1}\omega_t^{jk}z_k.$$
 
-Multiplying by a power of $y$ permutes coefficients and flips signs, so every power of $\omega_t$ is an isometry. Each entry averages $t$ such images: contractions.
+Multiplying by a power of $y$ permutes coefficients and flips signs, so every power of $\omega_t$ is an isometry. Each entry averages $t$ such images, so both transforms contract.
 
 The ring has zero divisors, so we cannot divide by $\omega_t^j-1$; directly, $\sum_{k}\omega_t^{jk}$ equals $t$ if $t\mid j$ and $0$ otherwise. For $t\nmid j$ write $j=2^vj_0$ with $j_0$ odd and $0\le v<a$. Replacing $k$ by $k+t/2^{v+1}$ modulo $t$ permutes the summands and multiplies the sum by $y^{rj_0}=-1$, so the sum equals its negative. The additive group of $\mathcal R_r$ has no two-torsion (no nonzero element equals its negative), so the sum is zero <cite data-source="paper">Hence the sum is zero, since the additive group of</cite>. Expanding the composite gives $F_t^+F_t^-=t^{-1}I$.
 

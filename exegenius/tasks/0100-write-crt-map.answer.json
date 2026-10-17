@@ -8,18 +8,25 @@
    "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$ as a multidimensional one, moving the data on tape by controlled shifts only."
   },
   {
+   "symbol": "d",
+   "name": "number of axes",
+   "meaning": "The number of axes of the target ring.",
+   "relation": "count",
+   "quote": "Here $d$ is the number of axes, $i$ indexes them, and the lengths $s_i$ are pairwise coprime (unrelated to $s_i$ on the chirp page)."
+  },
+  {
    "symbol": "i",
    "name": "axis index",
    "meaning": "The index of an axis, from 1 to d.",
    "relation": "direct",
-   "quote": "Here $d$ is the number of axes, $i$ indexes them, and the lengths $s_i$ are pairwise coprime (this $s_i$ is unrelated to the one on the chirp page)."
+   "quote": "Here $d$ is the number of axes, $i$ indexes them, and the lengths $s_i$ are pairwise coprime (unrelated to $s_i$ on the chirp page)."
   },
   {
    "symbol": "s_i",
    "name": "axis source length",
    "meaning": "The length of axis i, pairwise coprime with the others; unrelated to the s_i of the chirp page.",
    "relation": "direct",
-   "quote": "Here $d$ is the number of axes, $i$ indexes them, and the lengths $s_i$ are pairwise coprime (this $s_i$ is unrelated to the one on the chirp page)."
+   "quote": "Here $d$ is the number of axes, $i$ indexes them, and the lengths $s_i$ are pairwise coprime (unrelated to $s_i$ on the chirp page)."
   },
   {
    "symbol": "P_i",
@@ -54,14 +61,14 @@
    "name": "coefficient index",
    "meaning": "The index of a coefficient of the length-S sequence.",
    "relation": "direct",
-   "quote": "Write a coefficient index $k$ in mixed radix as $k=\\sum_ja_jP_j$ with $0\\le a_j<s_j$."
+   "quote": "For an exponent $k$, the index of a coefficient, $\\Phi(x^k)=1$ exactly when $s_i\\mid\\mu_ik$ for every $i$; as $\\mu_i$ is a unit modulo $s_i$ this means $s_i\\mid k$ for every $i$, and as the $s_i$ are pairwise coprime, $S\\mid k$."
   },
   {
    "symbol": "a_j",
    "name": "mixed-radix digit",
    "meaning": "The j-th digit of k in mixed radix, 0 <= a_j < s_j.",
    "relation": "direct",
-   "quote": "Write a coefficient index $k$ in mixed radix as $k=\\sum_ja_jP_j$ with $0\\le a_j<s_j$."
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix with digits $0\\le a_j<s_j$."
   },
   {
    "symbol": "b_i",
@@ -71,11 +78,39 @@
    "quote": "The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i$."
   },
   {
+   "symbol": "t_i",
+   "name": "padded axis length",
+   "meaning": "The padded length of axis i, either r/2 or r.",
+   "relation": "direct",
+   "quote": "Pad axis $i$ with zero records to a length $t_i\\in\\{r/2,r\\}$, where $r=2^\\ell$ is the record length."
+  },
+  {
    "symbol": "\\ell",
    "name": "address bits",
    "meaning": "The base-2 logarithm of the record length r, the number of address bits of a full-width axis.",
    "relation": "direct",
-   "quote": "Pad axis $i$ with zero records to a power of two $t_i\\in\\{r/2,r\\}$, where $r=2^\\ell$ is the record length."
+   "quote": "Pad axis $i$ with zero records to a length $t_i\\in\\{r/2,r\\}$, where $r=2^\\ell$ is the record length."
+  },
+  {
+   "symbol": "T",
+   "name": "padded record count",
+   "meaning": "The number of padded records, the product of the t_i.",
+   "relation": "count",
+   "quote": "Let $T=\\prod_it_i$ be the number of padded records, each of $O(p)$ bits (with $p$ as on the fixed-point page)."
+  },
+  {
+   "symbol": "V",
+   "name": "stream volume",
+   "meaning": "The volume of the stream being moved, Tp bits.",
+   "relation": "direct",
+   "quote": "Here $V=Tp$ is the stream volume and $\\tau<1$ is a fixed exponent."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "chunk-swap exponent",
+   "meaning": "A fixed exponent below 1 in the cost of a chunk interchange.",
+   "relation": "direct",
+   "quote": "Here $V=Tp$ is the stream volume and $\\tau<1$ is a fixed exponent."
   }
  ],
  "relations": [
@@ -106,7 +141,7 @@
   },
   {
    "step": "S5.3.3",
-   "quote": "Now $\\Phi(x^k)=1$ exactly when $s_i\\mid\\mu_ik$ for every $i$; as $\\mu_i$ is a unit modulo $s_i$ this means $s_i\\mid k$ for every $i$, and as the $s_i$ are pairwise coprime, $S\\mid k$. So the image of $x$ has order $S$ and its $S$ powers are distinct. The target has exactly $S$ monomials, so the powers run through all of them exactly once. Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md)."
+   "quote": "For an exponent $k$, the index of a coefficient, $\\Phi(x^k)=1$ exactly when $s_i\\mid\\mu_ik$ for every $i$; as $\\mu_i$ is a unit modulo $s_i$ this means $s_i\\mid k$ for every $i$, and as the $s_i$ are pairwise coprime, $S\\mid k$. So the image of $x$ has order $S$ and its $S$ powers are distinct. The target has exactly $S$ monomials, so the powers run through all of them exactly once. Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md)."
   },
   {
    "step": "S5.3.4",
@@ -118,11 +153,11 @@
   },
   {
    "step": "S5.3.6",
-   "quote": "Then update targets for $i=d,d-1,\\dots,1$, so no lower-index control has yet changed when axis $i$ is updated. Each update is a prefix-controlled cyclic shift of the valid interval $[0,s_i)$ and the identity on $[s_i,t_i)$, so zero padding stays zero."
+   "quote": "Update targets for $i=d,d-1,\\dots,1$, so no lower-index control has yet changed when axis $i$ is updated. Each update is a prefix-controlled cyclic shift of the valid interval $[0,s_i)$ and the identity on $[s_i,t_i)$, so zero padding stays zero."
   },
   {
    "step": "S5.3.7",
-   "quote": "Reversal takes $O(d^2)$ adjacent axis swaps. Axes have $\\ell$ or $\\ell-1$ address bits. Equal-width axes are exchanged by a [chunk interchange](address-interchange.md) costing $O(Tp\\,\\ell^\\tau)$ for a fixed $\\tau<1$ <cite data-source=\"paper\">equal width $L$ in $O(VL^\\tau)$ time</cite>, with $V=Tp$ the stream volume. For unequal widths, move the longer axis's leading bit aside, swap the equal-width remainder, and restore the bit, adding fixed linear passes."
+   "quote": "Axes have $\\ell$ or $\\ell-1$ address bits; for unequal widths, move the longer axis's leading bit aside, swap the equal-width remainder, and restore the bit, adding fixed linear passes. Reversing $d$ axes takes $O(d^2)$ adjacent swaps, so reordering dominates the $O(dTp)$ shifts and $O(Tp)$ scans."
   }
  ]
 }
