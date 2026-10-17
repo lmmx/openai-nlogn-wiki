@@ -1,12 +1,12 @@
 Error tracking and exact recovery shows the computed coefficients lie within $1/2$ of the true integers, so rounding is exact and carries give the product.
 
-The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md) with $p=6b$ fractional bits; $b=\lceil\log_2n\rceil$ is the digit width, so $n\le2^b$. Let $h_p=2^{-p}$, $L=\log_2T$, $S\le T$; since $T<8n/b$, for large $n$ both $T<2^b$ and $L<b$. Error $a$ means sup-norm error less than $ah_p$, and every array is tracked to stay in the disk (norm at most $1$). By the paper's cost lemma, each [Synthetic polynomial transform](synthetic-transform.md) has error below $L$ <cite data-source="paper">$\sqrt2\ell\,2^{-p}<L2^{-p}$</cite>.
+The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md) with $p=6b$ fractional bits, where $b=\lceil\log_2n\rceil$ is the digit width. Let $h_p=2^{-p}$, $L=\log_2T$, $S\le T$; since $T<8n/b$, for large $n$ both $T<2^b$ and $L<b$. Error $a$ means sup-norm error less than $ah_p$, and every array is tracked to stay in the disk (norm at most $1$). By the paper's cost lemma each [Synthetic polynomial transform](synthetic-transform.md) has error below $L$ <cite data-source="paper">$\sqrt2\ell\,2^{-p}<L2^{-p}$</cite>.
 
 It adds errors through the [Contractions and bilinear contractions](contraction-maps.md) making up each normalized transform and product: a linear one does not enlarge an input error, and a bilinear $\mathcal M$ with $\|\mathcal M(f,g)\|\le\|f\|\|g\|$ satisfies
 $$\|\mathcal M(f',g')-\mathcal M(f,g)\|=\|\mathcal M(f'-f,g')+\mathcal M(f,g'-g)\|\le\|f'-f\|\|g'\|+\|f\|\|g'-g\|.$$
 For disk operands the two input errors add.
 
-Take a unit phase $e$, a disk-grid approximation $\widetilde e$ with $|\widetilde e-e|<2h_p$, and a disk operand $x$ (not the polynomial variable). The product error is at most $2\|x\|h_p$ and truncation $Q_p$ adds under $\sqrt2h_p$, so $\|Q_p(\widetilde ex)-ex\|<(2\|x\|+\sqrt2)h_p<4h_p$; and $|\widetilde e|\le1$ gives $\|Q_p(\widetilde ex)\|\le\|x\|$.
+Take a unit phase $e$, a disk-grid approximation $\widetilde e$ with $|\widetilde e-e|<2h_p$, and a disk operand $x$ (not the polynomial variable). Truncation $Q_p$ adds under $\sqrt2h_p$, so $\|Q_p(\widetilde ex)-ex\|<(2\|x\|+\sqrt2)h_p<4h_p$; and $|\widetilde e|\le1$ gives $\|Q_p(\widetilde ex)\|\le\|x\|$.
 
 The ring convolution $\mathcal M_r$ of [Phase twist](phase-twist.md) returns $(f*g)/T$. Its transforms and truncation give error under $3L+2$ before a final exact multiplication by $M=T/r$, which scales the error:
 $$E_{\rm ring}:=M(3L+2)<5TL.$$
@@ -23,14 +23,13 @@ has two terms under $E_sh_p$; truncation adds under $2h_p$. So $\|z-U\cdot V_1\|
 
 Let $G$ be the exact opposite source transform. Both source transforms carry a factor $1/S$, so $F(u*v)=S\,Fu\cdot Fv$ and $F^+F=I/S$, and the retained permutation cancels ([Retained permutation cancellation](retained-permutations.md)): $G(U\cdot V_1)=(u*v)/S^2$ <cite data-source="paper">=\frac{u*v}{S^2}.</cite> The computed opposite transform accepts $z$ and is within $E_sh_p$ of $Gz$, while $G$ is a contraction, so the total is under $(3E_s+2)h_p$. Multiplying exactly by $S$, $\widetilde w$ approximates $w=(u*v)/S$ with error under $E_wh_p$:
 $$E_w:=S(3E_s+2)<28\cdot2^\gamma T^2L.$$
-Each coefficient of $w$ averages $S$ products under $1/16$, so $\widetilde w$ stays in the disk.
 
 The integer coefficients are $2^{2b+4}Sw$, undoing the digit scales and the $1/S$. With $S\le T<2^b$ and $L<b$, the absolute error is under
 $$2^{2b+4}S\cdot28\cdot2^\gamma T^2L\cdot2^{-6b}<448b\,2^{-b+\gamma}\le448b\,2^{-3b/4}<\tfrac12.$$
-The amplification up to $2^{5b+4}$ is absorbed because $p=6b$ leaves margin $2^{-b}$. The true coefficients are integers, so this strict error makes the nearest integer to the represented value the unique correct coefficient.
+The amplification up to $2^{5b+4}$ is absorbed because $p=6b$ leaves margin $2^{-b}$. The coefficients are integers, so this strict error makes the nearest integer to the represented value the unique correct one.
 
 Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), where $c_j\le q(2^b-1)^2$ and $q=\lceil n/b\rceil\le2^b$. With $Q_0=2^b$ and $k_0=0$,
 $$d_j=(c_j+k_j)\bmod Q_0,\qquad k_{j+1}=\lfloor(c_j+k_j)/Q_0\rfloor,$$
-where $d_j$ is output digit $j$ and $k_j$ the carry into it. Then $0\le k_j\le q(Q_0-1)<Q_0^2$: if this holds at $j$, then $c_j+k_j\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1)$. Since $c_j+k_j=d_j+Q_0k_{j+1}$, adding $c_jQ_0^j$ carries the invariant
+$d_j$ being the output digit and $k_j$ the carry. Then $0\le k_j\le q(Q_0-1)<Q_0^2$: if this holds at $j$, then $c_j+k_j\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1)$. Since $c_j+k_j=d_j+Q_0k_{j+1}$, adding $c_jQ_0^j$ carries the invariant
 $$\sum_{h<j}c_hQ_0^h=\sum_{h<j}d_hQ_0^h+k_jQ_0^j$$
 from $j$ to $j+1$. The unprocessed terms are multiples of $Q_0^j$, so the first $j$ radix digits are fixed. The product is less than $2^{2n}$, so bits above position $2n-1$ are zero and $2n$ bits are output.
