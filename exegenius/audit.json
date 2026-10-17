@@ -22467,6 +22467,555 @@
             }
           }
         ]
+      },
+      {
+        "page": "packed-bit-addition",
+        "gaps": [
+          {
+            "term": "field lengths, ranks and strides",
+            "kind": "step",
+            "quote": "dividing by the fixed field lengths gives the values of $x,y,z$ and their strides",
+            "note": "The page never states the layout of a record stream (the order of the chunks x,y,z and of the spectator fields, and their lengths), so the 'fixed field lengths' are undefined. The reader cannot check how a rank yields the chunk values and strides, or why rank(q') is the rank plus signed change times stride.",
+            "action": "rewrite: cite or cut a step inside added reasoning"
+          },
+          {
+            "term": "\\rho",
+            "kind": "symbol",
+            "quote": "Selected positions are $j_i=\\rho+iK$, $0\\le i<f$, $0\\le\\rho<K$",
+            "note": "Only its range 0 <= rho < K is given; the page never says that rho is the common offset (bit position) of the selected bits within each K-bit segment.",
+            "action": "rewrite: say what the symbol denotes"
+          }
+        ],
+        "dropped": [],
+        "symbols": [
+          {
+            "symbol": "c",
+            "anchor": {
+              "kind": "here",
+              "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+            }
+          },
+          {
+            "symbol": "u",
+            "anchor": {
+              "kind": "here",
+              "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+            }
+          },
+          {
+            "symbol": "w",
+            "anchor": {
+              "kind": "here",
+              "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+            }
+          },
+          {
+            "symbol": "P",
+            "anchor": {
+              "kind": "here",
+              "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+            }
+          },
+          {
+            "symbol": "u'",
+            "anchor": {
+              "kind": "here",
+              "quote": "So $(u',w')=(u+c(1-2(u\\bmod2)),w)$: $u$ flips parity iff $c=1$, quotients by two persist, $w$ is restored."
+            }
+          },
+          {
+            "symbol": "w'",
+            "anchor": {
+              "kind": "here",
+              "quote": "So $(u',w')=(u+c(1-2(u\\bmod2)),w)$: $u$ flips parity iff $c=1$, quotients by two persist, $w$ is restored."
+            }
+          },
+          {
+            "symbol": "x",
+            "anchor": {
+              "kind": "here",
+              "quote": "XORs selected bits of an address chunk $x$ into chunk $y$, restoring a scratch chunk $z$"
+            }
+          },
+          {
+            "symbol": "y",
+            "anchor": {
+              "kind": "here",
+              "quote": "XORs selected bits of an address chunk $x$ into chunk $y$, restoring a scratch chunk $z$"
+            }
+          },
+          {
+            "symbol": "z",
+            "anchor": {
+              "kind": "here",
+              "quote": "XORs selected bits of an address chunk $x$ into chunk $y$, restoring a scratch chunk $z$"
+            }
+          },
+          {
+            "symbol": "\\oplus",
+            "anchor": {
+              "kind": "background",
+              "note": "Bitwise XOR is covered by the profile's machine-level binary representation (XOR)."
+            }
+          },
+          {
+            "symbol": "R",
+            "anchor": {
+              "kind": "here",
+              "quote": "Each address holds an $R$-bit record (not the scalar ring)"
+            }
+          },
+          {
+            "symbol": "L",
+            "anchor": {
+              "kind": "here",
+              "quote": "three chunks $x,y,z$ of $L=fK$ bits"
+            }
+          },
+          {
+            "symbol": "K",
+            "anchor": {
+              "kind": "here",
+              "quote": "with $K\\ge6$ the segment spacing and $f$ the number of selected bits"
+            }
+          },
+          {
+            "symbol": "f",
+            "anchor": {
+              "kind": "here",
+              "quote": "with $K\\ge6$ the segment spacing and $f$ the number of selected bits"
+            }
+          },
+          {
+            "symbol": "M",
+            "anchor": {
+              "kind": "here",
+              "quote": "Let $M$ count addresses, $V=MR$"
+            }
+          },
+          {
+            "symbol": "V",
+            "anchor": {
+              "kind": "here",
+              "quote": "Let $M$ count addresses, $V=MR$"
+            }
+          },
+          {
+            "symbol": "A_{\\rm rect}",
+            "anchor": {
+              "kind": "here",
+              "quote": "$A_{\\rm rect}=\\lceil\\log_2(2V)\\rceil$ bound counter lengths"
+            }
+          },
+          {
+            "symbol": "j_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "Selected positions are $j_i=\\rho+iK$"
+            }
+          },
+          {
+            "symbol": "i",
+            "anchor": {
+              "kind": "background",
+              "note": "Index of a family j_i, g_i, ... and summation index; summation notation from discrete mathematics."
+            }
+          },
+          {
+            "symbol": "\\rho",
+            "anchor": {
+              "kind": "unbound",
+              "quote": "Selected positions are $j_i=\\rho+iK$, $0\\le i<f$, $0\\le\\rho<K$",
+              "note": "Only its range 0 <= rho < K is given; the page never says that rho is the common offset (bit position) of the selected bits within each K-bit segment."
+            }
+          },
+          {
+            "symbol": "g_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+            }
+          },
+          {
+            "symbol": "h_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+            }
+          },
+          {
+            "symbol": "a_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+            }
+          },
+          {
+            "symbol": "b_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+            }
+          },
+          {
+            "symbol": "u_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "form a disjoint segment of value $u_i=2g_i+a_i$"
+            }
+          },
+          {
+            "symbol": "w_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "those of $z$ one of value $w_i=2h_i+b_i$"
+            }
+          },
+          {
+            "symbol": "g",
+            "anchor": {
+              "kind": "here",
+              "quote": "written $g$ for either"
+            }
+          },
+          {
+            "symbol": "c_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "The control is $c_i=x_{j_i}$."
+            }
+          },
+          {
+            "symbol": "\\mathcal B",
+            "anchor": {
+              "kind": "here",
+              "quote": "Let $\\mathcal B$, the exceptional addresses, be those where some guard fails"
+            }
+          },
+          {
+            "symbol": "S_0",
+            "anchor": {
+              "kind": "here",
+              "quote": "Let $S_0$ compose the eight."
+            }
+          },
+          {
+            "symbol": "T_0",
+            "anchor": {
+              "kind": "here",
+              "quote": "the ideal map $T_0$ doing the XORs at"
+            }
+          },
+          {
+            "symbol": "q",
+            "anchor": {
+              "kind": "here",
+              "quote": "the record at $q$ came from $S_0^{-1}(q)$ and belongs at $q'=T_0S_0^{-1}(q)$"
+            }
+          },
+          {
+            "symbol": "q'",
+            "anchor": {
+              "kind": "here",
+              "quote": "the record at $q$ came from $S_0^{-1}(q)$ and belongs at $q'=T_0S_0^{-1}(q)$"
+            }
+          },
+          {
+            "symbol": "\\delta_{\\rm bad}",
+            "anchor": {
+              "kind": "here",
+              "quote": "$|\\mathcal B|\\le\\delta_{\\rm bad}M$, $\\delta_{\\rm bad}=\\min\\{1,80(f-1)2^{-K}\\}$"
+            }
+          },
+          {
+            "symbol": "\\tau",
+            "anchor": {
+              "kind": "page",
+              "page": "address-interchange"
+            }
+          },
+          {
+            "symbol": "p",
+            "anchor": {
+              "kind": "page",
+              "page": "fixed-point"
+            }
+          },
+          {
+            "symbol": "d",
+            "anchor": {
+              "kind": "page",
+              "page": "convolution"
+            }
+          }
+        ]
+      },
+      {
+        "page": "cost-accounting",
+        "gaps": [
+          {
+            "term": "r exceeds every fixed power of p",
+            "kind": "step",
+            "quote": "Both are $o(Tp)$ because $r$ exceeds every fixed power of $p$.",
+            "note": "The page only gives an upper bound r <= 2^{O(p/d)}. That r grows faster than every power of p needs a lower bound such as log r = Theta(p^{1-epsilon}), which the page does not state or derive. It only has l = Theta(p^{1-epsilon}) and r = 2^l if the reader links them.",
+            "action": "rewrite: explain the step"
+          },
+          {
+            "term": "relation of p to n",
+            "kind": "step",
+            "quote": "$O(Tp\\,p^{1-\\kappa})=O(n(\\log n)^{1-\\kappa})$",
+            "note": "The step from p^{1-kappa} to (log n)^{1-kappa}, and the claims p^{A+C}=o(Tp) and the polylog bounds, need p = Theta(log n) (p = 6 ceil(log2 n) in the paper). The page never states how p relates to n, only V=Tp=Theta(n).",
+            "action": "rewrite: explain the step"
+          },
+          {
+            "term": "stable bit sorting of exceptional records",
+            "kind": "step",
+            "quote": "Stable bit sorting makes $O(p)$ scans of it",
+            "note": "The page does not say what the O(p)-bit key is used for, what is sorted by it, or why sorting by one bit per scan on a tape machine gives O(p) linear scans. The reader cannot check this cost.",
+            "action": "rewrite: cite or cut a step inside added reasoning"
+          }
+        ],
+        "dropped": [],
+        "symbols": [
+          {
+            "symbol": "\\kappa",
+            "anchor": {
+              "kind": "page",
+              "page": "conjecture"
+            }
+          },
+          {
+            "symbol": "n",
+            "anchor": {
+              "kind": "page",
+              "page": "conjecture"
+            }
+          },
+          {
+            "symbol": "V",
+            "anchor": {
+              "kind": "here",
+              "quote": "Let $V=Tp=\\Theta(n)$ be the volume"
+            }
+          },
+          {
+            "symbol": "T",
+            "anchor": {
+              "kind": "here",
+              "quote": "the number of stored bits of $T$ coefficients of $p$ bits"
+            }
+          },
+          {
+            "symbol": "p",
+            "anchor": {
+              "kind": "page",
+              "page": "fixed-point"
+            }
+          },
+          {
+            "symbol": "\\Theta",
+            "anchor": {
+              "kind": "background",
+              "note": "Reader profile covers big-O/asymptotic notation (algorithms course)."
+            }
+          },
+          {
+            "symbol": "O",
+            "anchor": {
+              "kind": "background",
+              "note": "Reader profile covers big-O/asymptotic notation (algorithms course)."
+            }
+          },
+          {
+            "symbol": "o",
+            "anchor": {
+              "kind": "background",
+              "note": "Reader profile covers big-O/asymptotic notation (algorithms course)."
+            }
+          },
+          {
+            "symbol": "\\lg",
+            "anchor": {
+              "kind": "background",
+              "note": "Reader profile covers logarithms (discrete mathematics / algorithms)."
+            }
+          },
+          {
+            "symbol": "\\log",
+            "anchor": {
+              "kind": "background",
+              "note": "Reader profile covers logarithms (discrete mathematics / algorithms)."
+            }
+          },
+          {
+            "symbol": "\\epsilon",
+            "anchor": {
+              "kind": "page",
+              "page": "parameter-choice"
+            }
+          },
+          {
+            "symbol": "c",
+            "anchor": {
+              "kind": "page",
+              "page": "parameter-choice"
+            }
+          },
+          {
+            "symbol": "\\delta",
+            "anchor": {
+              "kind": "page",
+              "page": "parameter-choice"
+            }
+          },
+          {
+            "symbol": "\\tau",
+            "anchor": {
+              "kind": "page",
+              "page": "parameter-choice"
+            }
+          },
+          {
+            "symbol": "\\lambda'",
+            "anchor": {
+              "kind": "page",
+              "page": "parameter-choice"
+            }
+          },
+          {
+            "symbol": "d",
+            "anchor": {
+              "kind": "page",
+              "page": "convolution"
+            }
+          },
+          {
+            "symbol": "K",
+            "anchor": {
+              "kind": "page",
+              "page": "parameter-choice"
+            }
+          },
+          {
+            "symbol": "\\ell",
+            "anchor": {
+              "kind": "page",
+              "page": "crt-map"
+            }
+          },
+          {
+            "symbol": "\\alpha",
+            "anchor": {
+              "kind": "page",
+              "page": "gaussian-resampling"
+            }
+          },
+          {
+            "symbol": "g_i",
+            "anchor": {
+              "kind": "here",
+              "quote": "each a power $p^{1-g_i}$ with margin $g_i>0$ below one"
+            }
+          },
+          {
+            "symbol": "g_1",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_1=1-\\epsilon(1+c)$"
+            }
+          },
+          {
+            "symbol": "g_2",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_2=\\epsilon c(1-\\tau)$"
+            }
+          },
+          {
+            "symbol": "g_3",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_3=\\epsilon(1-\\lambda')$"
+            }
+          },
+          {
+            "symbol": "g_4",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_4=1-\\tau-\\epsilon(2-\\tau)$"
+            }
+          },
+          {
+            "symbol": "g_5",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_5=1/4-\\delta-3\\epsilon/2$"
+            }
+          },
+          {
+            "symbol": "g_6",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_6=1-\\delta-\\epsilon$"
+            }
+          },
+          {
+            "symbol": "g_7",
+            "anchor": {
+              "kind": "here",
+              "quote": "$g_7=\\epsilon$"
+            }
+          },
+          {
+            "symbol": "N",
+            "anchor": {
+              "kind": "page",
+              "page": "hvdh-multiplier"
+            }
+          },
+          {
+            "symbol": "r",
+            "anchor": {
+              "kind": "page",
+              "page": "ring-y"
+            }
+          },
+          {
+            "symbol": "t_i",
+            "anchor": {
+              "kind": "page",
+              "page": "crt-map"
+            }
+          },
+          {
+            "symbol": "i",
+            "anchor": {
+              "kind": "page",
+              "page": "crt-map"
+            }
+          },
+          {
+            "symbol": "A",
+            "anchor": {
+              "kind": "here",
+              "quote": "Fix an exponent $A$ with at most $p^A$ visits in total"
+            }
+          },
+          {
+            "symbol": "C",
+            "anchor": {
+              "kind": "here",
+              "quote": "an exponent $C$ with descriptor setup of at most $p^C$ steps per visit"
+            }
+          },
+          {
+            "symbol": "V_{\\rm call}",
+            "anchor": {
+              "kind": "here",
+              "quote": "Let $V_{\\rm call}$ be the volume of one packed change of basis."
+            }
+          }
+        ]
       }
     ]
   }
