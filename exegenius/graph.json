@@ -2109,6 +2109,127 @@
         "quote": "The source transform $\\widetilde{\\mathscr F}$ applies the [Gaussian resampling](gaussian-resampling.md) map $\\mathcal A$, then $\\widetilde{\\mathscr C}$, then the resampling map $\\mathcal B_0$, then multiplies exactly by $2^\\gamma$, where $\\gamma$ counts the zero bits appended to each word."
       }
     ],
+    "packed-bit-addition": [
+      {
+        "symbol": "d",
+        "name": "chunk bound",
+        "meaning": "Maximum number of chunks a layer acts on.",
+        "relation": "direct",
+        "quote": "Packed selected-bit addition XORs selected bits of chunk $x$ into chunk $y$, using chunk $z$ as restored scratch; the [simultaneous butterfly layer](simultaneous-layer.md), acting on up to $d$ chunks, needs it for changes of basis."
+      },
+      {
+        "symbol": "c",
+        "name": "control",
+        "meaning": "Boolean control of the eight additions.",
+        "relation": "direct",
+        "quote": "Let $c$ be a Boolean control and $u,w$ integers; do these eight additions in order:"
+      },
+      {
+        "symbol": "u",
+        "name": "target integer",
+        "meaning": "Integer whose parity is flipped by the eight additions.",
+        "relation": "direct",
+        "quote": "Let $c$ be a Boolean control and $u,w$ integers; do these eight additions in order:"
+      },
+      {
+        "symbol": "w",
+        "name": "auxiliary integer",
+        "meaning": "Arbitrary auxiliary integer restored by the eight additions.",
+        "relation": "direct",
+        "quote": "Let $c$ be a Boolean control and $u,w$ integers; do these eight additions in order:"
+      },
+      {
+        "symbol": "L",
+        "name": "bits per chunk",
+        "meaning": "Number of bits in each address chunk.",
+        "relation": "count",
+        "quote": "A chunk has $L=fK$ bits: $f$ selected bits spaced $K$ apart, at positions $j_i=\\rho+iK.$"
+      },
+      {
+        "symbol": "f",
+        "name": "selected bits",
+        "meaning": "Number of selected bits in each chunk.",
+        "relation": "count",
+        "quote": "A chunk has $L=fK$ bits: $f$ selected bits spaced $K$ apart, at positions $j_i=\\rho+iK.$"
+      },
+      {
+        "symbol": "K",
+        "name": "spacing",
+        "meaning": "Spacing between consecutive selected positions, which is also the bit length of a segment.",
+        "relation": "direct",
+        "quote": "A chunk has $L=fK$ bits: $f$ selected bits spaced $K$ apart, at positions $j_i=\\rho+iK.$"
+      },
+      {
+        "symbol": "\\rho",
+        "name": "offset",
+        "meaning": "Offset of the lowest selected position.",
+        "relation": "direct",
+        "quote": "A chunk has $L=fK$ bits: $f$ selected bits spaced $K$ apart, at positions $j_i=\\rho+iK.$"
+      },
+      {
+        "symbol": "M",
+        "name": "address count",
+        "meaning": "Number of addresses.",
+        "relation": "count",
+        "quote": "Let $M$ be the number of addresses, $R$ the bits per record, $V=MR$ the volume, and $A_{\\rm rect}$ the bit length of counters, $\\log_2(2V)$ rounded up."
+      },
+      {
+        "symbol": "R",
+        "name": "record length",
+        "meaning": "Number of bits in a record.",
+        "relation": "count",
+        "quote": "Let $M$ be the number of addresses, $R$ the bits per record, $V=MR$ the volume, and $A_{\\rm rect}$ the bit length of counters, $\\log_2(2V)$ rounded up."
+      },
+      {
+        "symbol": "V",
+        "name": "volume",
+        "meaning": "Total number of bits, M times R.",
+        "relation": "count",
+        "quote": "Let $M$ be the number of addresses, $R$ the bits per record, $V=MR$ the volume, and $A_{\\rm rect}$ the bit length of counters, $\\log_2(2V)$ rounded up."
+      },
+      {
+        "symbol": "A_{\\rm rect}",
+        "name": "counter length",
+        "meaning": "Bit length of counters.",
+        "relation": "direct",
+        "quote": "Let $M$ be the number of addresses, $R$ the bits per record, $V=MR$ the volume, and $A_{\\rm rect}$ the bit length of counters, $\\log_2(2V)$ rounded up."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "interchange exponent",
+        "meaning": "Fixed exponent below one in the cost of the chunk interchange.",
+        "relation": "direct",
+        "quote": "It swaps chunks using the [chunk interchange](address-interchange.md), costing $O(VL^\\tau)$ for fixed $\\tau<1.$"
+      },
+      {
+        "symbol": "\\mathcal B",
+        "name": "exceptional set",
+        "meaning": "Set of addresses where some guard fails the interval test.",
+        "relation": "direct",
+        "quote": "Let $\\mathcal B$ be the addresses where a guard of $y$ or $z$ fails $10\\le g\\le2^{K-1}-11.$"
+      },
+      {
+        "symbol": "S_0",
+        "name": "packed map",
+        "meaning": "Composition of the eight packed cyclic-shift lines.",
+        "relation": "direct",
+        "quote": "Let $S_0$ be the eight lines' composition."
+      },
+      {
+        "symbol": "\\delta_{\\rm bad}",
+        "name": "bad fraction",
+        "meaning": "Upper bound on the fraction of exceptional addresses.",
+        "relation": "direct",
+        "quote": "Hence $|\\mathcal B|\\le\\delta_{\\rm bad}M$ with $\\delta_{\\rm bad}=\\min\\{1,80(f-1)2^{-K}\\},$ whatever the records."
+      },
+      {
+        "symbol": "p",
+        "name": "coefficient precision",
+        "meaning": "Bit precision of the record coefficients.",
+        "relation": "direct",
+        "quote": "With coefficient precision $p,$ dividing the extra terms by $V$ gives $A_{\\rm rect}^3/R\\to0$ and $80(f-1)2^{-K}A_{\\rm rect}(1+A_{\\rm rect}/R)=o(1)$ when $A_{\\rm rect}=O(p),$ $R$ exceeds every polynomial in $p,$ $f\\le d\\le p$ and $K/\\log p\\to\\infty.$ So the cost is $O(V(L^\\tau+1)).$"
+      }
+    ],
     "phase-frames": [
       {
         "symbol": "m",
@@ -2964,6 +3085,18 @@
         "prerequisite": "precision-recovery",
         "predicate": "is justified by",
         "quote": "Exactness is justified by [Error tracking and exact recovery](precision-recovery.md): the error on the recovered integer coefficients is below $1/2$."
+      }
+    ],
+    "packed-bit-addition": [
+      {
+        "prerequisite": "controlled-shifts",
+        "predicate": "performs its rotations as",
+        "quote": "The packed map performs its rotations as [controlled shifts](controlled-shifts.md) costing $O(V).$"
+      },
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "swaps chunks using",
+        "quote": "It swaps chunks using the [chunk interchange](address-interchange.md), costing $O(VL^\\tau)$ for fixed $\\tau<1.$"
       }
     ],
     "phase-frames": [
