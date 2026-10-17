@@ -1,0 +1,103 @@
+{
+ "symbols": [
+  {
+   "symbol": "B_0",
+   "name": "packing base",
+   "meaning": "The base 2^{4p} at which the polynomials are evaluated.",
+   "relation": "direct",
+   "quote": "Set $B_0=2^{4p}$, the packing base."
+  },
+  {
+   "symbol": "A_u",
+   "name": "signed evaluation integer",
+   "meaning": "The integer obtained by evaluating the integer-coefficient polynomial u at B_0.",
+   "relation": "direct",
+   "quote": "let $A_u=u(B_0)=\\sum_{j<r}u_jB_0^j$ be the signed evaluation integer"
+  },
+  {
+   "symbol": "\\gamma_j",
+   "name": "carry",
+   "meaning": "The carry, in {-1,0}, into block j when forming A_u.",
+   "relation": "direct",
+   "quote": "scan the coefficients with a carry $\\gamma_j$"
+  },
+  {
+   "symbol": "d_j",
+   "name": "block",
+   "meaning": "The residue of u_j plus the carry modulo B_0, the j-th block of 4p bits of A_u.",
+   "relation": "direct",
+   "quote": "Let $d_j\\in[0,B_0)$ be the residue of $u_j+\\gamma_j$ modulo $B_0$"
+  },
+  {
+   "symbol": "h_j",
+   "name": "product coefficient",
+   "meaning": "The coefficient of y^j in the ordinary product h=ac of integer polynomials.",
+   "relation": "direct",
+   "quote": "let $h_j$ be its coefficient of $y^j$"
+  },
+  {
+   "symbol": "\\rho_j",
+   "name": "extraction carry",
+   "meaning": "The carry into block j during extraction, in {0,1}.",
+   "relation": "direct",
+   "quote": "let $\\rho_j$ be the carry into block $j$"
+  },
+  {
+   "symbol": "H_j",
+   "name": "reduced coefficient",
+   "meaning": "The Gaussian integer coefficient of y^j after reduction modulo y^r+1.",
+   "relation": "direct",
+   "quote": "Let $H_j$ be the resulting Gaussian integer coefficient."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "ring-y",
+   "predicate": "multiplies in",
+   "quote": "It multiplies in the [Polynomial ring modulo y^r + 1](ring-y.md) in $O(rp\\log(rp))$ time, where $p$ is the number of fractional bits of each coefficient."
+  },
+  {
+   "prerequisite": "hvdh-multiplier",
+   "predicate": "multiplies the four pairs of absolute values with",
+   "quote": "The multiplier takes nonnegative integers, so signed packing multiplies the four pairs of absolute values with the [Established O(n log n) multiplier](hvdh-multiplier.md), restoring each sign, to obtain $A_aA_c,A_bA_e,A_aA_e,A_bA_c$."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S3.1.1",
+   "quote": "Write $f=2^{-p}(a+ib)$ and $g=2^{-p}(c+ie)$, where $a,b,c,e$ (letters that change meaning here) are integer-coefficient polynomials of degree below $r$ with coefficients of absolute value at most $2^p$. Set $B_0=2^{4p}$, the packing base."
+  },
+  {
+   "step": "S3.1.2",
+   "quote": "By the geometric sum, $|A_u|\\le2^p(B_0^r-1)/(B_0-1)<B_0^r/2$, so its magnitude fits in $4pr$ bits."
+  },
+  {
+   "step": "S3.1.3",
+   "quote": "The multiplier takes nonnegative integers, so signed packing multiplies the four pairs of absolute values with the [Established O(n log n) multiplier](hvdh-multiplier.md), restoring each sign, to obtain $A_aA_c,A_bA_e,A_aA_e,A_bA_c$. A product is negative when exactly one operand is."
+  },
+  {
+   "step": "S3.1.4",
+   "quote": "Each $h_j$ sums at most $r$ products of coefficients of size at most $2^p$, so $|h_j|\\le r2^{2p}<2^{3p}<B_0/2$. So after removing lower coefficients, the next is identified by its centered residue modulo $B_0$"
+  },
+  {
+   "step": "S3.1.5",
+   "quote": "Since $-B_0<u_j+\\gamma_j<B_0$ whenever $\\gamma_j\\in\\{-1,0\\}$, the carry stays in $\\{-1,0\\}$. Telescoping gives $A_u=\\sum_{j<r}d_jB_0^j+\\gamma_rB_0^r$, so the blocks $d_j$ are a fixed-width two's-complement encoding of $A_u$."
+  },
+  {
+   "step": "S3.1.6",
+   "quote": "If $\\widehat h_i=h_i$ for $i<j$, then $\\sum_{i<j}q_iB_0^i=\\sum_{i<j}h_iB_0^i+\\rho_jB_0^j$, so $q_j+\\rho_j\\equiv h_j$ modulo $B_0$. Since $h_j\\in[-B_0/2,B_0/2)$, $\\widehat h_j=h_j$."
+  },
+  {
+   "step": "S3.1.7",
+   "quote": "The real and imaginary numerator streams are $ac-be$ and $ae+bc$. Since $y^{j+r}=-y^j$, reduce modulo $y^r+1$ by subtracting the coefficient at $j+r$ from the one at $j$ for $0\\le j<r$."
+  },
+  {
+   "step": "S3.1.8",
+   "quote": "So $H_j$ is a sum of exactly $r$ signed products of coefficients of modulus at most $2^p$, hence $|H_j|\\le r2^{2p}$."
+  },
+  {
+   "step": "S3.1.9",
+   "quote": "Four exact integer products therefore dominate the linear packing, extraction, combination, wrapping and truncation costs, so the total is $O(rp\\log(rp))$"
+  }
+ ]
+}

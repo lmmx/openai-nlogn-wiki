@@ -1,4 +1,4 @@
-This page fixes every exponent and size used for $n$-bit inputs, so that the hypotheses of the butterfly-layer lemma and of the lemma on [Gaussian resampling](gaussian-resampling.md) hold at once.
+This page fixes every exponent and size for $n$-bit inputs so that the hypotheses of the butterfly-layer lemma and of [Gaussian resampling](gaussian-resampling.md) hold at once.
 
 The exponents are fixed rationals, so each inequality among them is an integer comparison. In the [simultaneous butterfly layer](simultaneous-layer.md), $\tau$ is the exponent in the cost of a chunk interchange, $\sigma$ bounds the growth exponent of the recursion's child calls, $\beta$ sets the threshold $d^\beta$ below which active chunks are handled singly, $\lambda$ is the per-node overhead exponent, $\lambda'$ is the final exponent in the cost $O(Vd^{\lambda'})$ on bit volume $V$, $c$ is the exponent of the address-chunk width (not the machine constant of the conjecture page), $\epsilon$ is the exponent of the axis count, $C_1$ is the exponent of the guard bits, and $\delta$ is the exponent slack in the resampling cost.
 
@@ -8,9 +8,9 @@ The layer needs $\max\{\tau,\sigma\}<\lambda<1$, $\tau(1+c/\beta)<\lambda$, $\ma
 
 For large $n$ put $b=\lceil\log_2n\rceil$, $p=6b$, $d=\lfloor b^\epsilon\rfloor$. Here $b$ is the digit width, $p$ is the precision of the [Fixed-point Gaussian dyadic records](fixed-point.md), and $d$ counts the axes. Put $K=\lfloor d^c\rfloor$, the width in bits of an address chunk. Take the power of two $T$ in $[4n/b,8n/b)$, so $Tp\in[24n,48n)$.
 
-Let $r=2^{\lceil(\log_2T)/d\rceil}$ and $\ell=\log_2r$; choose $d\ell-\log_2T\in[0,d)$ of the axis lengths to be $r/2$ and the others $r$, with the last axis of length $r$. The count lies in $[0,d)$ because $\ell$ rounds $(\log_2T)/d$ up, so some axis has length $r$; the product is $r^d/2^{d\ell-\log_2T}=T$. Thus $t_i\in\{r/2,r\}$, $\prod_it_i=T$ and $t_d=r$.
+Let $r=2^{\lceil(\log_2T)/d\rceil}$ and $\ell=\log_2r$; choose $d\ell-\log_2T\in[0,d)$ of the axis lengths to be $r/2$ and the others $r$, with the last axis of length $r$. The count lies in $[0,d)$ since $\ell$ rounds up, so some axis has length $r$; the product is $r^d/2^{d\ell-\log_2T}=T$. Thus $t_i\in\{r/2,r\}$, $\prod_it_i=T$ and $t_d=r$.
 
-The lemmas assume $a_dp^\epsilon\le d\le b_dp^\epsilon$, $2^{a_rp/d}\le r\le2^{b_rp/d}$ and $d\ell\le C_\ell p$, for fixed positive constants $a_d,b_d,a_r,b_r,C_\ell$. Since $2^{b-1}<n\le2^b$, the range of $T$ gives $b/2\le\log_2T\le b$ for large $b$. With $b^\epsilon/2\le d\le b^\epsilon\le b$ this yields $\frac1{12}p^\epsilon\le d\le p^\epsilon$ and $\frac p{12d}\le\ell\le\frac p{3d}$. These choices give $Tp=\Theta(n)$, $d=\Theta(p^\epsilon)$, $K=\Theta(p^{\epsilon c})$, $\ell=\Theta(p^{1-\epsilon})$, $r=2^{\Theta(p^{1-\epsilon})}$, so the comparison constants $a_d=a_r=1/12$, $b_d=1$, $b_r=1/3$, $C_\ell=1$ can be fixed for all lengths at once.
+The lemmas assume $a_dp^\epsilon\le d\le b_dp^\epsilon$, $2^{a_rp/d}\le r\le2^{b_rp/d}$ and $d\ell\le C_\ell p$ for fixed constants $a_d,b_d,a_r,b_r,C_\ell$. Since $2^{b-1}<n\le2^b$, the range of $T$ gives $b/2\le\log_2T\le b$ for large $b$. With $b^\epsilon/2\le d\le b^\epsilon\le b$ this yields $\frac1{12}p^\epsilon\le d\le p^\epsilon$ and $\frac p{12d}\le\ell\le\frac p{3d}$. These choices give $Tp=\Theta(n)$, $d=\Theta(p^\epsilon)$, $K=\Theta(p^{\epsilon c})$, $\ell=\Theta(p^{1-\epsilon})$, $r=2^{\Theta(p^{1-\epsilon})}$, so the comparison constants $a_d=a_r=1/12$, $b_d=1$, $b_r=1/3$, $C_\ell=1$ can be fixed for all lengths at once.
 
 ## Primes
 
@@ -18,9 +18,9 @@ Put $\alpha=\lceil(12d^2b)^{1/4}\rceil$, the Gaussian width of resampling. Put $
 
 Each $s_i$ is a prime whose relative distance below $t_i$ lies in $[\eta,2\eta)$. The nearer end gives the gap that resampling needs; the farther end keeps $S$ a fixed fraction of $T$.
 
-By the prime-interval lemma of Harvey and van der Hoeven, which we use without proof, for $0<\eta<1/4$ and real $x>e^{2/\eta}$, the interval of integers $q$ with $(1-2\eta)x<q\le(1-\eta)x$ contains at least $\eta x/(2\log x)$ primes. Both $x=r/2$ and $x=r$ qualify since $\log x>8d=2/\eta$, and the count $x/(8d\log x)$ exceeds $d$, because $\log(r/2)/d=\Theta(p^{1-2\epsilon})\to\infty$ and $\log(8d^2\log x)=\Theta(\log p)=o(\log x)$ give $x>8d^2\log x$.<cite data-source="paper">contains at least $\eta x/(2\log x)$ primes</cite>
+By the prime-interval lemma of Harvey and van der Hoeven, which we use without proof, for $0<\eta<1/4$ and real $x>e^{2/\eta}$, the interval of integers $q$ with $(1-2\eta)x<q\le(1-\eta)x$ contains at least $\eta x/(2\log x)$ primes. Both $x=r/2$ and $x=r$ qualify since $\log x>8d=2/\eta$, and the count $x/(8d\log x)$ exceeds $d$, as $x>8d^2\log x$ eventually.<cite data-source="paper">contains at least $\eta x/(2\log x)$ primes</cite>
 
-The two intervals are disjoint since $(1-\eta)r/2<(1-2\eta)r$, and both lie above $2$. Choose distinct odd primes with $(1-2\eta)t_i<s_i\le(1-\eta)t_i$; $\gcd(s_i,t_i)=1$ as $t_i$ is a power of two. These are the prime axis lengths of the [Chinese-remainder address map](crt-map.md), which needs them distinct. Put $S=\prod_is_i$.
+The two intervals are disjoint since $(1-\eta)r/2<(1-2\eta)r$, and lie above $2$. Choose distinct odd primes with $(1-2\eta)t_i<s_i\le(1-\eta)t_i$; $\gcd(s_i,t_i)=1$ as $t_i$ is a power of two. These are the prime axis lengths of the [Chinese-remainder address map](crt-map.md). Put $S=\prod_is_i$.
 
 Multiplying the lower bounds and applying strict Bernoulli gives $S/T>(1-1/(2d))^d>1/2$ for $d\ge2$, because $(1-1/(2d))^d>1-d/(2d)$. With $s_i<t_i$ this gives $T/2<S<T$.
 
