@@ -8,7 +8,7 @@ S=lambda sym,name,mean,rel,q:{"symbol":sym,"name":name,"meaning":mean,"relation"
 l1="An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
 hd="Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
 ek="Let each chunk have $e=m^k$ digits ($k$ recursion levels)."
-op="Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (the volume)"
+op="Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (volume)"
 aj="Write $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$, $0\\le a_j<m$."
 symbols=[
 S("u","chunk width","The number of bits in each of the two address chunks.","count",op),
