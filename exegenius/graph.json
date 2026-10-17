@@ -421,7 +421,8 @@
       "aliases": [],
       "gloss": "The forward synthetic transform writes its outputs in bit-reversed order, the pointwise product keeps that order, and the opposite transform consumes it, so no reordering is executed.",
       "requires": [
-        "synthetic-transform"
+        "synthetic-transform",
+        "contraction-maps"
       ],
       "known": false,
       "evidence": [
@@ -1222,6 +1223,50 @@
       "evidence": []
     }
   ],
+  "candidates": [
+    {
+      "term": "algebra map",
+      "page": "crt-map",
+      "quote": "so $\\Phi$ respects $x^S=1$ and defines an algebra map"
+    }
+  ],
+  "rewrite": {
+    "array-frames": [
+      "Say what $u$ denotes where it is first used: the page uses it before saying so in \"On a route from a source $u$ through gates $a$ and $b$ to a sink $v$\""
+    ],
+    "contraction-maps": [
+      "The reader cannot follow this step: \"Errors of successive steps also add: insert the exact map at the computed input and apply its contraction bound to the accumulated input error (cited).\" (The page never defines the computed approximation of a map or its own error, so the instruction to insert the exact map at the computed input cannot be turned into the inequality (error of step) + (input error) by this reader. The page does not write out the decomposition into the approximation's error at the computed input plus the exact map applied to the earlier error.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "controlled-shifts": [
+      "The reader cannot follow this step: \"A fixed rational linear combination of the controls, reduced modulo $Q$, qualifies.\" (The claim omits a hypothesis. Reducing a rational coefficient modulo Q = q^b needs its denominator to be prime to q (the paper's Lemma, lines 555-568, requires coefficients whose denominators are prime to q; a denominator divisible by q has no inverse mod Q and the combination cannot be reduced). The page states it for any fixed rational combination, which is false as stated.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "convolution": [
+      "Say what $\\mathcal M_r$ denotes where it is first used: the page uses it before saying so in \"The map $\\mathcal M_r$ is linear in each argument\""
+    ],
+    "exchange-network": [
+      "Say what $x$ denotes where it is first used (for a size or count, what it counts): \"making the scratch values $\\sigma+\\mathcal Vx$, $\\gamma+\\mathcal Gx$\" (The bare vector x (all the source slices x_S) is never said to be the vector of slices; the page only defines the slices x_S.)",
+      "Say what $y$ denotes where it is first used (for a size or count, what it counts): \"The schedule subtracts $\\mathcal J\\sigma+\\mathcal R\\gamma$ from $y$\" (The bare vector y (all the target slices y_S) is never said to be the vector of slices; the page only defines the slices y_S.)"
+    ],
+    "frequency-order": [
+      "[Contractions and bilinear contractions](contraction-maps.md) is now a prerequisite: link it where \"contraction\" is used: \"so both transforms contract\""
+    ],
+    "matrix-shear": [
+      "The reader cannot follow this step: \"Any prime larger than all nonzero numerators and denominators in the table works.\" (Too weak as stated. Numerators can be negative, so 'larger than' them is vacuous: with a numerator -6 the prime 3 is larger yet divides it. The paper (line 1417) requires a prime exceeding the absolute values of all nonzero numerators and denominators. The page also calls q an odd prime, but 'any prime larger than' these values could be 2 when all entries are 0 or 1 in absolute value; the paper (line 1415) chooses an odd prime.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it."
+    ],
+    "phase-twist": [
+      "Say what $\\boldsymbol j$ denotes where it is first used (for a size or count, what it counts): \"$\\iota$ reads each line $(f_{\\boldsymbol j,k})_k$ as the polynomial\" (The page never says that bold j is the index of a line, i.e. a tuple of positions along the first d-1 axes; it is only implied by use, and plain j was just defined as a position in the last axis.)"
+    ],
+    "ring-y": [
+      "The reader cannot follow this step: \"It permutes the coefficients and changes some signs, so it is a linear-time pass over the list.\" (Does not follow as stated: an arbitrary signed permutation of a list on a tape is not a linear-time pass. It is linear only because multiplication by y^a is a rotation, i.e. the list is split into two pieces that are swapped, with the moved piece negated and a common sign applied (paper line 3148-3156, cost O(rp) per record). The page never gives this two-piece structure, so the reader cannot check the claim.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "stream-ops": [
+      "Cite or cut this step: \"In item 4 the array is indexed by $[P]\\times[R]\\times[B]$\" (The page never says what [P], [R], [B] mean (the index set {0,...,P-1} etc.; paper defines [a]={0,...,a-1} at line 450), nor which digits of the address are the prefix, the row field and the suffix.). It is inside reasoning added for an earlier step, so do not explain it further: cite the source for it, or remove the claim.",
+      "The reader cannot follow this step: \"merging the streams in any fixed order of the row classes\" (The page never says how rows are dealt cyclically (row r goes to stream r mod W, i.e. r=Wg+w), nor what the row classes are, nor that each stream then has shape [P]x[R/W]x[B]; item 4 is only cited and not explained.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "synthetic-transform": [
+      "Say what $j$ denotes where it is first used (for a size or count, what it counts): \"(F_t^-z)_j=\\frac1t\\sum_{k=0}^{t-1}\\omega_t^{-jk}z_k\" (The page only gives a range 0<=j<t and later 'an integer j'; it never says j indexes the output entry. The phase-twist binding of j (wrapped position) is a different meaning.)"
+    ]
+  },
   "bindings": {
     "address-interchange": [
       {
@@ -6580,6 +6625,13 @@
         "depth": 1
       }
     ]
+  },
+  "note_depth": {
+    "contraction-maps": 0,
+    "controlled-shifts": 0,
+    "matrix-shear": 1,
+    "ring-y": 0,
+    "stream-ops": 1
   },
   "background": {
     "summary": "The reader is a computer science undergraduate: they have taken discrete mathematics, an algorithms course (asymptotics, divide and conquer, schoolbook and Karatsuba multiplication, sorting), a first linear algebra course (vector spaces, subspaces, dimension, rank, matrices as linear maps, inverses, triangular matrices, orthogonality, bilinear forms at a basic level), calculus, elementary number theory (primes, gcd, modular arithmetic) and basic machine-level binary representation (XOR, two's complement). They have seen Turing machines with tapes only at an introductory level. They have not been taught the discrete Fourier transform or FFT as such, abstract algebra beyond basic definitions (quotient rings, finite fields as a theory), tensor products, numerical error analysis, or the specific literature on fast integer multiplication.",
