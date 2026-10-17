@@ -2,7 +2,9 @@ The negacyclic ring is a way of storing a list of complex numbers so that multip
 
 Write $\mathcal R_r=\mathbb C[y]/(y^r+1)$ for it, where $y$ is the ring variable, the indeterminate of the polynomials, and $r$ is the record length, the number of complex coefficients in a polynomial of the ring, always a power of two with $r\geq 2$. An element is
 $$z=\sum_{k=0}^{r-1}z_k y^k,\qquad z_k\in\mathbb C,$$
-so it is just a record of $r$ complex numbers. Addition is coefficientwise. Multiplication is ordinary polynomial multiplication followed by the rule $y^r=-1$. A term of degree $r+j$, where $j\geq 0$ is the number of places its degree exceeds $r-1$, is therefore replaced using $y^{r+j}=-y^j$: it wraps around to the front with its sign flipped. This is arithmetic modulo $y^r+1$, and for that reason the ring is also called the negacyclic ring. We always keep the representative of degree below $r$.
+so it is just a record of $r$ complex numbers. Addition is coefficientwise. Multiplication is ordinary polynomial multiplication followed by reduction modulo $y^r+1$, which means imposing $y^r=-1$. Consider a term of degree $r+j$ with $j\geq 0$, so that $j$ is the amount by which its degree exceeds $r$. Then
+$$y^{r+j}=y^{r}y^{j}=-y^{j},$$
+so the term, with its complex coefficient unchanged apart from the sign, lands at position $j$ with its sign flipped: it wraps around to the front. A product of two records has degree at most $2r-2$, so one such wrap suffices. For this sign flip the ring is also called the negacyclic ring. We always keep the representative of degree below $r$ <cite data-source="paper">We always use representatives of degree less than $r$.</cite>
 
 ## Powers of $y$ are signed shifts
 

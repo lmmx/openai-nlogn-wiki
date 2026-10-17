@@ -1,8 +1,10 @@
-The Bluestein chirp identity rewrites a permuted [Discrete Fourier transform](dft.md) as a pointwise chirp phase, a [Cyclic convolution](convolution.md), and another chirp phase, so the target permutation of resampling is absorbed into the convolution and never executed as a sort. This is how the middle transform, including its target permutation, becomes a normalized cyclic convolution <cite data-source="paper">Bluestein's chirp identity converts the middle transform,</cite>.
+The Bluestein chirp identity rewrites a permuted [Discrete Fourier transform](dft.md) as a pointwise chirp phase, a cyclic convolution, and another chirp phase, so the target permutation of resampling is absorbed into the convolution and never executed as a sort. This is how the middle transform, including its target permutation, becomes a normalized cyclic convolution <cite data-source="paper">Bluestein's chirp identity converts the middle transform,</cite>.
 
-Index the data by $\boldsymbol j=(j_1,\dots,j_d)$, where $d$ is the number of axes. On axis $i$, $t_i$ is the even number of entries along that axis and $s_i$ is an integer coprime to $t_i$. Put $T=\prod_i t_i$, the total number of entries. Indices along axis $i$ are taken modulo $t_i$.
+## Setting
 
-The transform is $(F_{\boldsymbol t}u)_{\boldsymbol f}=\frac1T\sum_{\boldsymbol k}u_{\boldsymbol k}\exp(-2\pi i\sum_i k_if_i/t_i)$, where $\boldsymbol f=(f_1,\dots,f_d)$ is the frequency labelling an output entry. The target permutation $Q$ reorders the output so that position $\boldsymbol j$ holds the entry of frequency $(-s_ij_i)_i$. So in $QF_{\boldsymbol t}u$, the coefficient of $u_{\boldsymbol k}$ in output position $\boldsymbol j$ is $\frac1T\exp(2\pi i\sum_i s_ij_ik_i/t_i)$.
+Data are arrays indexed by $\boldsymbol j=(j_1,\dots,j_d)$, where $d$ is the number of axes. The tuple $\boldsymbol t=(t_1,\dots,t_d)$ lists the axis lengths, where $t_i$ is the even number of entries along axis $i$, and $s_i$ is an integer coprime to $t_i$. Put $T=\prod_i t_i$, the total number of entries. Indices along axis $i$ are taken modulo $t_i$.
+
+The normalized transform $F_{\boldsymbol t}$ is given by $(F_{\boldsymbol t}u)_{\boldsymbol f}=\frac1T\sum_{\boldsymbol k}u_{\boldsymbol k}\exp(-2\pi i\sum_i k_if_i/t_i)$, where $\boldsymbol k$ runs over input positions and $\boldsymbol f=(f_1,\dots,f_d)$ is the frequency labelling an output entry. The target permutation $Q$ reorders the output so that position $\boldsymbol j$ holds the entry of frequency $(-s_ij_i)_i$. So in $QF_{\boldsymbol t}u$, the coefficient of $u_{\boldsymbol k}$ in output position $\boldsymbol j$ is $\frac1T\exp(2\pi i\sum_i s_ij_ik_i/t_i)$.
 
 ## The identity
 
