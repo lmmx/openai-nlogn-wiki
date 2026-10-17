@@ -4,7 +4,7 @@ Let $s<t<2^p$ be coprime integers, where $p>100$ counts the fractional bits of e
 
 ## Exact construction
 
-Their maps $\mathsf S,\mathsf T:\mathbb C^s\to\mathbb C^t$ (see the [Established O(n log n) multiplier](hvdh-multiplier.md)) are, for $0\le k<t$, with $u$ extended periodically and $j$ over all integers,
+Harvey and van der Hoeven's maps $\mathsf S,\mathsf T:\mathbb C^s\to\mathbb C^t$ (see [Established O(n log n) multiplier](hvdh-multiplier.md)) are, for $0\le k<t$, with $u$ extended periodically and $j$ over all integers,
 $$(\mathsf Su)_k=\frac1\alpha\sum_j e^{-\pi\alpha^{-2}(j-sk/t)^2}u_j,\qquad (\mathsf Tu)_k=\sum_j e^{-\pi\alpha^2(tj/s-k)^2}u_j.$$
 They satisfy $\mathsf TP_sF_s=P_tF_t\mathsf S$ <cite data-source="paper">\mathsf T P_sF_s=P_tF_t\mathsf S,</cite>.
 
