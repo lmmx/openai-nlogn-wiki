@@ -15,12 +15,12 @@ Scanning $\Theta(n)$ stored bits at each of $\Theta(\log n)$ transform levels al
 
 ## Totaling the cost
 
-[Cost accounting and the exponent κ](cost-accounting.md) totals the running time as follows, dividing every cost by $V=Tp=\Theta(n)$, the number of stored bits, where $T$ counts coefficients and $p$, of order $\lg n$, is the precision in bits of each. The axis count is $d=\Theta(p^{\epsilon})$ and the chunk width $K=\lfloor d^{c}\rfloor$, with fixed exponents $\epsilon$ and $c$ from [Parameter and prime-length choice](parameter-choice.md); here $c$ is not the machine constant. The seven dominant normalized costs are powers of $p$:
+[Cost accounting and the exponent κ](cost-accounting.md) totals the running time as follows, dividing every cost by $V=Tp=\Theta(n)$, the number of stored bits, where $T$ counts coefficients and $p$, of order $\lg n$, is the precision in bits of each. The axis count is $d=\Theta(p^{\epsilon})$ and the chunk width $K=\lfloor d^{c}\rfloor$, with fixed exponents $\epsilon$ and $c$ from [Parameter and prime-length choice](parameter-choice.md); here $c$ is not the machine constant, the scaling integer, the control bit or the unit of earlier pages. The seven dominant normalized costs are powers of $p$:
 $$p^{\epsilon(1+c)},\quad p^{1-\epsilon c(1-\tau)},\quad p^{1-\epsilon(1-\lambda')},\quad p^{\tau+\epsilon(2-\tau)},\quad p^{3/4+\delta+3\epsilon/2},\quad p^{\epsilon+\delta},\quad p^{1-\epsilon}.$$
 They come from prefix moves and single butterfly rounds ($dK$), chunk exchanges ($pK^{\tau-1}$), simultaneous butterfly rounds ($\ell d^{\lambda'}$, with $\ell$ the address bits of a long axis), Chinese-remainder and axis layouts, Gaussian line maps, chirps and twists, and packed ring products ($\log(rp)$). The rest is absorbed.
 
 The margin $g_i$ of the $i$-th term is one minus its exponent. The fixed parameters are $\tau=1-2^{-50}$, $\lambda'=1-2^{-54}$, $c=2^{-56}$, $\delta=1/16$ and $\epsilon=2^{-75}$ <cite data-source="paper">\epsilon=2^{-75},\qquad \kappa=2^{-182}.</cite>. The smallest margin belongs to chunk exchanges:
 $$g_2=\epsilon c(1-\tau)=2^{-75}\cdot2^{-56}\cdot2^{-50}=2^{-181}=2\kappa,$$
-and the others are larger, e.g. $g_3=2^{-129}$, $g_7=2^{-75}$ <cite data-source="paper">Thus $\min_i g_i=2^{-181}=2\kappa$.</cite>
+and the other margins are larger <cite data-source="paper">Thus $\min_i g_i=2^{-181}=2\kappa$.</cite>
 
 So every dominant term is at most $p^{1-2\kappa}$. Remaining factors are fixed powers of $\log p$, which are below $p^{\kappa}$ for large $p$, so the normalized total is $O(p^{1-\kappa})$ and the time is $O(Vp^{1-\kappa})=O(n(\lg n)^{1-\kappa})$.
