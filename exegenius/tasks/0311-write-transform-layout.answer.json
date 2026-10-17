@@ -1,0 +1,88 @@
+{
+ "derivations": [
+  {
+   "step": "S2.2",
+   "quote": "Both cost $O(Tp[dK+pK^{\\tau-1}+\\ell d^{\\lambda'}])$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "synthetic-transform",
+   "predicate": "arranges the address bits of",
+   "quote": "The tape layout arranges the address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis."
+  },
+  {
+   "prerequisite": "simultaneous-layer",
+   "predicate": "runs as one",
+   "quote": "The tape layout arranges the address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis."
+  },
+  {
+   "prerequisite": "address-interchange",
+   "predicate": "exchanges made by",
+   "quote": "This needs at most $Dq-1$ exchanges, each made by the [fast address-chunk interchange](address-interchange.md) at cost $O(TpK^\\tau)$, even for nonadjacent chunks"
+  },
+  {
+   "prerequisite": "frequency-order",
+   "predicate": "keeps the bit-reversed order of",
+   "quote": "Outputs keep the bit-reversed order of [retained frequency order](frequency-order.md), written $B$ along every axis (the bit-reversal permutation here, not the row length of the stream-operations page or the suffix digit count of the controlled-shifts page)."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "D",
+   "name": "transformed axis count",
+   "meaning": "The number of transformed axes, d-1.",
+   "relation": "count",
+   "quote": "Write $\\ell=\\log_2 r$, the address bits of a long axis (an address-bit count, not the depth of a value), and $D=d-1$, the number of transformed axes (not the second chunk value of the address-interchange page, the source group of the matrix-shear page, or the selected chunk count of the simultaneous-layer page)."
+  },
+  {
+   "symbol": "b",
+   "name": "leftover low bits",
+   "meaning": "The number of leftover low bits of an axis.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$, the number of leftover low bits of an axis (not the lowest output-index bit of the butterfly page, a digit count of the matrix-shear or controlled-shifts pages, or a kernel coefficient), and $q=\\lfloor(\\ell-1)/K\\rfloor$, its number of whole chunks (not a sequence length of the DFT and convolution pages, nor a radix or prime), so $\\ell-1=qK+b$."
+  },
+  {
+   "symbol": "q",
+   "name": "whole chunks",
+   "meaning": "The number of whole K-bit chunks of an axis.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$, the number of leftover low bits of an axis (not the lowest output-index bit of the butterfly page, a digit count of the matrix-shear or controlled-shifts pages, or a kernel coefficient), and $q=\\lfloor(\\ell-1)/K\\rfloor$, its number of whole chunks (not a sequence length of the DFT and convolution pages, nor a radix or prime), so $\\ell-1=qK+b$."
+  },
+  {
+   "symbol": "B",
+   "name": "bit reversal",
+   "meaning": "The bit-reversal permutation applied along every axis.",
+   "relation": "direct",
+   "quote": "Outputs keep the bit-reversed order of [retained frequency order](frequency-order.md), written $B$ along every axis (the bit-reversal permutation here, not the row length of the stream-operations page or the suffix digit count of the controlled-shifts page)."
+  },
+  {
+   "symbol": "L",
+   "name": "layout permutation",
+   "meaning": "The record permutation defined by the prefix moves and chunk exchanges.",
+   "relation": "direct",
+   "quote": "The prefix moves and exchanges define the record permutation $L$ (neither a linear map, as on the contractions page, nor a dimension loss, as on the subspace-labels page); reversing them gives $L^{-1}$."
+  },
+  {
+   "symbol": "z",
+   "name": "round input",
+   "meaning": "The array entering a round of the transform.",
+   "relation": "direct",
+   "quote": "Truncation toward zero is odd and acts separately on each real and imaginary part, so for the array $z$ entering a round (not an address suffix, nor a binary vector of the phase-frames page) $J_EQ_p(\\mathcal Hz)=Q_p(J_E\\mathcal Hz)$: one truncation follows the exact round."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "The fixed exponent below 1 in the chunk interchange cost.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits (not a tensor line or segment spacing); $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\lambda'",
+   "name": "layer exponent",
+   "meaning": "The fixed exponent below 1 in the simultaneous layer cost.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits (not a tensor line or segment spacing); $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  }
+ ]
+}

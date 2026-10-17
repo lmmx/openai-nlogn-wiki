@@ -1,0 +1,150 @@
+{
+ "derivations": [
+  {
+   "step": "S5.7.1",
+   "quote": "Each [synthetic transform](synthetic-transform.md) has error below $L$"
+  },
+  {
+   "step": "S5.7.2",
+   "quote": "Norms are sup norms, an error of $a$ means error below $ah_p$ (here $a$ is an error size in grid spacings, not the chirp), and every array stays in the unit disk (norm $\\le1$)."
+  },
+  {
+   "step": "S5.7.3",
+   "quote": "For a bilinear contraction $\\mathcal M$, replacing operands $f,g$ by $f',g'$ gives"
+  },
+  {
+   "step": "S5.7.4",
+   "quote": "so for disk operands the two input errors add."
+  },
+  {
+   "step": "S5.7.5",
+   "quote": "the product differs by under $2\\|x\\|h_p$ and truncation $Q_p$ adds under $\\sqrt2h_p$, so $\\|Q_p(\\widetilde ex)-ex\\|<(2\\|x\\|+\\sqrt2)h_p<4h_p$. Also $\\|Q_p(\\widetilde ex)\\|\\le\\|x\\|$, since $|\\widetilde e|\\le1$."
+  },
+  {
+   "step": "S5.7.6",
+   "quote": "Together they err by under $3L+2$. An exact multiplication by $M=T/r$ then gives $(f*g)/T$ and"
+  },
+  {
+   "step": "S5.7.7",
+   "quote": "The complex convolution adds two input twists and one output untwist, each under $4$, so it errs by under"
+  },
+  {
+   "step": "S5.7.8",
+   "quote": "the errors $2$ (kernel), $4$, $6TL$ and $4$ give"
+  },
+  {
+   "step": "S5.7.9",
+   "quote": "The error before scaling is under $2dp^2+8TL$. As $2dp^2<TL$ eventually, scaling gives error under $E_sh_p$ with"
+  },
+  {
+   "step": "S5.7.10",
+   "quote": "has two terms under $E_sh_p$; truncation adds under $2h_p$. So $\\|z-U\\cdot V_1\\|<(2E_s+2)h_p$."
+  },
+  {
+   "step": "S5.7.11",
+   "quote": "The computed opposite transform is within $E_sh_p$ of $Gz$ and $G$ is a contraction, so"
+  },
+  {
+   "step": "S5.7.12",
+   "quote": "Exact multiplication by $S$ makes $\\widetilde w$ approximate $w=(u*v)/S$ with error under $E_wh_p$, where"
+  },
+  {
+   "step": "S5.7.13",
+   "quote": "The integer coefficients are $2^{2b+4}Sw$: $2^{2b+4}$ undoes the two digit scales and $S$ the remaining $1/S$."
+  },
+  {
+   "step": "S5.7.14",
+   "quote": "With $h_p=2^{-6b}$, $S\\le T<2^b$, $L<b$ and $\\gamma\\le b/4$, the absolute error is under"
+  },
+  {
+   "step": "S5.7.15",
+   "quote": "Here $2^{2b+4}ST^2<2^{5b+4}$ uses about $5b$ of the $6b$ fractional bits."
+  },
+  {
+   "step": "S5.7.16",
+   "quote": "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+  },
+  {
+   "step": "S5.7.17",
+   "quote": "Put $Q_0=2^b$ and $k_0=0$; $k_j$ is the carry into position $j$ and $d_j$ the $j$-th output digit:"
+  },
+  {
+   "step": "S5.7.18",
+   "quote": "Then $0\\le k_j\\le q(Q_0-1)<Q_0^2$: if this holds at $j$, then $c_j+k_j\\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1)$."
+  },
+  {
+   "step": "S5.7.19",
+   "quote": "from $j$ to $j+1$ (it holds at $j=0$). Unprocessed terms are multiples of $Q_0^j$, so the first $j$ radix digits are fixed."
+  },
+  {
+   "step": "S5.7.20",
+   "quote": "The product is below $2^{2n}$, so all bits above position $2n-1$ are zero and exactly $2n$ bits are output."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "fixed-point",
+   "predicate": "runs on",
+   "quote": "The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md) with $p=6b$ fractional bits, where $b=\\lceil\\log_2n\\rceil$ is the digit width."
+  },
+  {
+   "prerequisite": "contraction-maps",
+   "predicate": "adds errors through",
+   "quote": "Errors add through the [Contractions and bilinear contractions](contraction-maps.md) making up each transform and product."
+  },
+  {
+   "prerequisite": "chirp",
+   "predicate": "is built from",
+   "quote": "The computed chirp transform $\\widetilde{\\mathscr C}$ is built from the [Bluestein chirp identity](chirp.md): a phase product, a complex convolution with the chirp kernel, and a last phase product."
+  },
+  {
+   "prerequisite": "radix-digit-reduction",
+   "predicate": "rebuilds the binary product from",
+   "quote": "Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), indexed by $j$, with $c_j\\le q(2^b-1)^2$ and $q\\le2^b$."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "h_p",
+   "name": "grid spacing",
+   "meaning": "The grid spacing 2^{-p} of the fixed-point records.",
+   "relation": "direct",
+   "quote": "Write $h_p=2^{-p}$ and $L=\\log_2T$, the base-2 logarithm of the padded length $T$ (the letter $L$ here is not a linear map as on the contractions page)."
+  },
+  {
+   "symbol": "L",
+   "name": "log of padded length",
+   "meaning": "The base-2 logarithm of the padded length T.",
+   "relation": "direct",
+   "quote": "Write $h_p=2^{-p}$ and $L=\\log_2T$, the base-2 logarithm of the padded length $T$ (the letter $L$ here is not a linear map as on the contractions page)."
+  },
+  {
+   "symbol": "a",
+   "name": "error size",
+   "meaning": "The size of an error in grid spacings.",
+   "relation": "direct",
+   "quote": "Norms are sup norms, an error of $a$ means error below $ah_p$ (here $a$ is an error size in grid spacings, not the chirp), and every array stays in the unit disk (norm $\\le1$)."
+  },
+  {
+   "symbol": "x",
+   "name": "disk array",
+   "meaning": "An array in the unit disk to which a phase or chirp transform is applied.",
+   "relation": "direct",
+   "quote": "For a unit phase $e$, an approximation $\\widetilde e$ with $|\\widetilde e-e|<2h_p$ and a disk operand $x$ (here $x$ is an array in the unit disk to which a phase or chirp transform is applied, not the polynomial variable), the product differs by under $2\\|x\\|h_p$ and truncation $Q_p$ adds under $\\sqrt2h_p$, so $\\|Q_p(\\widetilde ex)-ex\\|<(2\\|x\\|+\\sqrt2)h_p<4h_p$."
+  },
+  {
+   "symbol": "u",
+   "name": "scaled first digits",
+   "meaning": "The scaled digit array of the first input.",
+   "relation": "direct",
+   "quote": "Now $u,v$ are the scaled digit arrays of the two inputs, not the input integers of the radix-digit page: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$."
+  },
+  {
+   "symbol": "v",
+   "name": "scaled second digits",
+   "meaning": "The scaled digit array of the second input.",
+   "relation": "direct",
+   "quote": "Now $u,v$ are the scaled digit arrays of the two inputs, not the input integers of the radix-digit page: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$."
+  }
+ ]
+}
