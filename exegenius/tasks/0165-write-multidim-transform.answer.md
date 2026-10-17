@@ -9,7 +9,7 @@ Write $t_i$ for the axis lengths when each is a power of two, and $T=\prod_it_i$
 
 ## Lifting the resampling identity
 
-The one-dimensional lemma of [Gaussian resampling](gaussian-resampling.md) treats coprime $s_i<t_i$, with $t_i$ a power of two sufficiently larger than $s_i$. Let $p$ be the number of fractional bits of the stored values, $\alpha$ an integer resampling parameter with $2\le\alpha<\sqrt p$, and $\delta$ a fixed constant with $0<\delta<1/8$ that sets the slack in the exponent $3/2+\delta$ of $p$ in the time bound. With index permutations $P_{s_i},P_{t_i}$ there are linear maps $A_i,B_{0,i}$ with
+The one-dimensional lemma of [Gaussian resampling](gaussian-resampling.md) treats coprime $s_i<t_i$, with $t_i$ a power of two sufficiently larger than $s_i$. Let $p$ be the number of fractional bits of the stored values, $\alpha$ an integer resampling parameter with $2\le\alpha<\sqrt p$, and $\delta$ a fixed constant with $0<\delta<1/8$ that sets the slack in the exponent $3/2+\delta$ of $p$ in the time bound. Let $P_{s_i}$ and $P_{t_i}$ be the index permutations of the source and padded axes, and $A_i$ and $B_{0,i}$ the linear input and output maps of axis $i$. The lemma gives
 $$P_{s_i}F_{s_i}=2^{2\alpha^2}B_{0,i}P_{t_i}F_{t_i}A_i.$$
 Both are contractions, so an input error stays bounded, as in [Contractions and bilinear contractions](contraction-maps.md). Fixed-point algorithms approximate each with error less than $p^2$ in time $O(t_ip^{3/2+\delta}\alpha)$.
 

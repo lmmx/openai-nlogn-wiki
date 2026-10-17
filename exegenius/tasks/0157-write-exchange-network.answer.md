@@ -1,0 +1,29 @@
+A linear exchange network is a fixed circuit of linear gates on wires, each carrying one scalar, that swaps two banks of values with a sign and restores every scratch wire to its initial value, whatever that was; later pages build their tape procedures from it.
+
+Fix the ground-set size $h=100$ and write $[h]=\{1,\dots,h\}$. Let $\mathcal T$ be the set of three-element subsets of $[h]$, so that $v=\binom h3=161700$ is the number of such subsets. The network has two data banks $X=(X_a)$ and $Y=(Y_a)$, indexed by $a\in\mathcal T^3$ (here $a$ is a triple of triples, not a shift exponent). Set $N=v^3=4227952113000000$ for the size of each bank, and $m=h^3=1000000$ for the dimension of the label space used later.
+
+## One invocation
+
+Fix two of the three coordinates of $a$ and let the remaining one, $S\in\mathcal T$, vary. A forward invocation $X\to Y$ takes the resulting slices $x_S$ of $X$ and $y_S$ of $Y$ and must perform $y_S\gets y_S+x_S$ with linear gates only. It also has scratch wires, whose initial values are arbitrary.
+
+Routing every $x_{S'}$ to every $y_S$ directly would need a wire per pair. Instead, central wires $C_i$, $i\in[h]$, are used: gather adds $\sum_{S'\ni i}x_{S'}$ to $C_i$, where $S'$ is another triple of the slice, and scatter adds $\sum_{i\in S}C_i$ to $y_S$. Then $x_{S'}$ reaches $y_S$ with a coefficient depending on $|S\cap S'|$ <cite data-source="paper">on intersection size, and auxiliary wires cancel the unwanted</cite>. Side wires $A_{SS'}$, one per ordered pair of neighbouring triples, cancel it: copy adds $x_{S'}$ to $A_{SS'}$, and side injection adds a multiple of $A_{SS'}$ to $y_S$.
+
+In the bit construction, scalars lie in $\mathbb F_2$ and $S,S'$ are neighbours when $|S\cap S'|=1$. The central coefficient is $|S\cap S'|\bmod 2$: it is 1 for $S'=S$ (intersection 3) and for intersection one, and 0 for intersection zero or two. Injection adds $\sum_{S':|S\cap S'|=1}A_{SS'}$, which gives intersection one a second 1, and $1+1=0$ in $\mathbb F_2$. Only the self coefficient 1 remains.
+
+In the complex construction the network keeps its scalars in $\mathbb Z[i,1/2]$, the values of [Fixed-point Gaussian dyadic records](fixed-point.md), and the neighbours of a triple are the distinct triples with even intersection (zero or two). A further central wire $C_\ast$ receives $\sum_{S'}x_{S'}$ from gather, and scatter adds $(\sum_{i\in S}C_i-C_\ast)/2$ to $y_S$. The central coefficient is $(|S\cap S'|-1)/2$, which is $-\tfrac12,0,\tfrac12,1$ for intersection $0,1,2,3$. Injection adds $-\sum_{S'}\frac{|S\cap S'|-1}{2}A_{SS'}$ over neighbours $S'$ of $S$, so through the copy it contributes the opposite coefficient and cancels intersections zero and two exactly. Intersection one has coefficient 0 already, and the self coefficient is $(3-1)/2=1$, since a triple is not its own neighbour.
+
+To make the result independent of the scratch values, let $\sigma$ and $\gamma$ be the initial values of the side and central wires, and write $\mathcal V,\mathcal G,\mathcal J,\mathcal R$ for the copy, gather, injection and scatter maps. The schedule has eight rows: subtract $\mathcal J\sigma$ and $\mathcal R\gamma$ from $y$; copy; gather; scatter; inject; undo gather; undo copy. The scratch values become $\sigma+\mathcal Vx$ and $\gamma+\mathcal Gx$, the scatter and injection add $\mathcal R(\gamma+\mathcal Gx)+\mathcal J(\sigma+\mathcal Vx)$, and the undo rows restore $\gamma,\sigma$. The net change of $y$ is $(\mathcal J\mathcal V+\mathcal R\mathcal G)x$, with $\sigma,\gamma$ cancelled; by the coefficients above it is $y\gets y+x$. This restoration is a linear instance of the construction of Buhrman, Cleve, Koucký, Loff and Speelman <cite data-source="paper">is a linear instance of the restoration construction for transparent computation</cite>. So for arbitrary initial scratch values, one forward invocation changes $y_S$ to $y_S+x_S$ and leaves every other value unchanged <cite data-source="paper">invocation changes $y_S$ to $y_S+x_S$ and leaves every other value</cite>.
+
+## Three stages
+
+Stage 1 lets the first coordinate of $a$ vary, stage 2 the second, stage 3 the third. A stage covers all $v^2$ choices of the other two coordinates, each with its own invocation and its own scratch wires, so every $a$ lies in exactly one slice per stage and there are $I=3v^2=78440670000$ invocations.
+
+The inverse schedule is the forward one with every update to the target negated; with source bank $Y$ and target bank $X$ it performs $X\gets X-Y$. Run a forward invocation $X\to Y$ at stage 1, the inverse schedule $Y\to X$ at stage 2, and a forward invocation $X\to Y$ at stage 3. At every $a$,
+$$(x,y)\mapsto(x,y+x)\mapsto(-y,y+x)\mapsto(-y,x),$$
+that is $(X_a,Y_a)\mapsto(-Y_a,X_a)$, and every scratch wire is restored <cite data-source="paper">Performing a forward invocation from $X$ to $Y$ at stage 1,</cite>.
+
+## Counting wires
+
+A fixed triple has $z_{\rm b}=3\binom{97}{2}=13968$ neighbours in the bit construction (choose the common element, then two of the other 97) <cite data-source="paper">z_{\rm b}=3\binom{97}{2}=13968</cite>. It has $z_{\rm c}=\binom{97}{3}+3\cdot97=147731$ neighbours in the complex construction: intersection zero plus intersection two <cite data-source="paper">z_{\rm c}=\binom{97}{3}+3\cdot97=147731</cite>. There are $c_{\rm b}=100$ central wires per invocation in the bit network and $c_{\rm c}=101$ in the complex one.
+
+Each ordered neighbour pair has a side wire, so an invocation has $vz$ side wires, with $z$ the neighbour count. The bit network has $W_{\rm b}=2N+I(vz_{\rm b}+c_{\rm b})=177176569091445000000$ wires <cite data-source="paper">W_{\rm b}&=2N+I(vz_{\rm b}+c_{\rm b})</cite>. The complex network has $W_{\rm c}=2N+I(vz_{\rm c}+c_{\rm c})=1873807244643542670000$ wires <cite data-source="paper">W_{\rm c}&=2N+I(vz_{\rm c}+c_{\rm c})</cite>. All these numbers are fixed, independent of the input length.
