@@ -10,20 +10,20 @@ D={
 'S5.1.2':"Take $\\lambda=1-2^{-52}$ and $c=2^{-56}$.",
 'S5.1.3':"Take $\\lambda'=1-2^{-54}$.",
 'S5.1.4':"Take $C_1=20$, $\\epsilon=2^{-75}$ and $\\kappa=2^{-182}$.",
-'S5.1.5':"The layer conditions hold with room to spare: $\\tau(1+c/\\beta)<1-31\\cdot2^{-55}<\\lambda$. Indeed $\\tau(1+c/\\beta)=(1-2^{-50})(1+2^{-55})=1-31\\cdot2^{-55}-2^{-105}$, while $\\lambda=1-8\\cdot2^{-55}$.",
+'S5.1.5':"The layer conditions hold with room to spare: $\\tau(1+c/\\beta)<1-31\\cdot2^{-55}<\\lambda$, since $\\tau(1+c/\\beta)=1-31\\cdot2^{-55}-2^{-105}$ and $\\lambda=1-8\\cdot2^{-55}$.",
 'S5.1.6':"Also $\\sigma+\\beta(1-\\sigma)=1-2^{-51}<\\lambda<\\lambda'<1$.",
 'S5.1.7':"For large $n$ put $b=\\lceil\\log_2n\\rceil$, $p=6b$, $d=\\lfloor b^\\epsilon\\rfloor$.",
 'S5.1.8':"Put $K=\\lfloor d^c\\rfloor$.",
-'S5.1.9':"Take the power of two $T$ in $[4n/b,8n/b)$. Here $T$ is the number of positions of the padded box, an array with $d$ axes, so $Tp=6bT\\in[24n,48n)$.",
-'S5.1.10':"Let $r=2^{\\lceil(\\log_2T)/d\\rceil}$ and $\\ell=\\log_2r$; choose $d\\ell-\\log_2T\\in[0,d)$ of the axis lengths to be $r/2$ and the others $r$, with the last axis of length $r$. So $\\ell$ is the number of address bits of the longest axis, and $r$ is also the record length of the ring. This works because $d\\ell\\ge\\log_2T$ and $d\\ell<\\log_2T+d$: with $m=d\\ell-\\log_2T$ axes of length $r/2$ the product is $2^{d\\ell-m}=T$, and $m<d$ leaves a last axis of length $r$.",
+'S5.1.9':"Take the power of two $T$ in $[4n/b,8n/b)$, so $Tp\\in[24n,48n)$.",
+'S5.1.10':"Let $r=2^{\\lceil(\\log_2T)/d\\rceil}$ and $\\ell=\\log_2r$; choose $d\\ell-\\log_2T\\in[0,d)$ of the axis lengths to be $r/2$ and the others $r$, with the last axis of length $r$. This is possible as $0\\le d\\ell-\\log_2T<d$, and the product is $2^{d\\ell-(d\\ell-\\log_2T)}=T$.",
 'S5.1.11':"Thus $t_i\\in\\{r/2,r\\}$, $\\prod_it_i=T$ and $t_d=r$.",
-'S5.1.12':"These choices give $Tp=\\Theta(n)$, $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$, $r=2^{\\Theta(p^{1-\\epsilon})}$, so the comparison constants $a_d=a_r=1/12$, $b_d=1$, $b_r=1/3$, $C_\\ell=1$ can be fixed for all lengths at once. These are the constants by which the layer and transform lemmas bound $d$, $r$ and $\\ell$. They follow from $b/2\\le\\log_2T\\le b$ and $d\\le b$, which give $\\tfrac1{12}p^\\epsilon\\le d\\le p^\\epsilon$ and $\\tfrac p{12d}\\le\\ell\\le\\tfrac p{3d}$.",
+'S5.1.12':"These choices give $Tp=\\Theta(n)$, $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$, $r=2^{\\Theta(p^{1-\\epsilon})}$, so the comparison constants $a_d=a_r=1/12$, $b_d=1$, $b_r=1/3$, $C_\\ell=1$ can be fixed for all lengths at once: $b/2\\le\\log_2T\\le b$ gives $\\tfrac1{12}p^\\epsilon\\le d\\le p^\\epsilon$ and $\\tfrac p{12d}\\le\\ell\\le\\tfrac p{3d}$.",
 'S5.1.13':"Put $\\alpha=\\lceil(12d^2b)^{1/4}\\rceil$.",
-'S5.1.14':"Put $\\gamma=2d\\alpha^2$ and $\\eta=1/(4d)$. Here $\\gamma$ is the total of the $2\\alpha^2$-bit scalings of the $d$ axes, and $\\eta$ is the relative gap kept between each prime and its power of two.",
-'S5.1.15':"Since $\\lceil A\\rceil\\le2A$ for $A\\ge1$, $\\alpha\\le2(12d^2b)^{1/4}$, and $8\\sqrt{12}<28$. Then $\\gamma<28d^2\\sqrt b\\le28b^{1/2+2\\epsilon}\\le28b^{2/3}$, so $2\\le\\alpha<\\sqrt p$ eventually and $\\gamma=o(b)$.",
+'S5.1.14':"Put $\\gamma=2d\\alpha^2$ and $\\eta=1/(4d)$.",
+'S5.1.15':"As $\\lceil A\\rceil\\le2A$ and $8\\sqrt{12}<28$, $\\gamma<28d^2\\sqrt b\\le28b^{1/2+2\\epsilon}\\le28b^{2/3}$ follows, so $2\\le\\alpha<\\sqrt p$ eventually and $\\gamma=o(b)$.",
 'S5.1.16':"By the prime-interval lemma, for $0<\\eta<1/4$ and $x>e^{2/\\eta}$ the interval $(1-2\\eta)x<q\\le(1-\\eta)x$ contains at least $\\eta x/(2\\log x)$ primes; both $x=r/2$ and $x=r$ qualify since $\\log x>8d=2/\\eta$, and the count $x/(8d\\log x)$ exceeds $d$.",
-'S5.1.17':"The two intervals are disjoint and each holds more than $d$ primes, so we can choose distinct odd primes with $(1-2\\eta)t_i<s_i\\le(1-\\eta)t_i$; $\\gcd(s_i,t_i)=1$ as $t_i$ is a power of two.",
-'S5.1.18':"Multiplying the lower bounds and applying strict Bernoulli gives $S/T>(1-1/(2d))^d>1/2$ for $d\\ge2$, since $(1-x)^d>1-dx$.",
+'S5.1.17':"The two intervals are disjoint and each holds more than $d$ primes, so choose distinct odd primes with $(1-2\\eta)t_i<s_i\\le(1-\\eta)t_i$; $\\gcd(s_i,t_i)=1$ as $t_i$ is a power of two.",
+'S5.1.18':"Multiplying the lower bounds and applying strict Bernoulli gives $S/T>(1-1/(2d))^d>1/2$ for $d\\ge2$.",
 'S5.1.19':"With $s_i<t_i$ this gives $T/2<S<T$.",
 'S5.1.20':"With $\\theta_i=t_i/s_i-1\\ge\\eta/(1-\\eta)>\\eta$ we get $\\alpha^4\\theta_i>12d^2b/(4d)=3db\\ge6b=p$, the separation hypothesis of the resampling lemma; also $t_i\\le r\\le T<2^p$.",
 'S5.1.21':"The deterministic search for the primes takes $n^{o(1)}=o(n)$ time, since its logarithm is $o(p)$ and $p=\\Theta(\\log n)$; all primes and length parameters are generated by the machine, not given as advice.",
@@ -32,50 +32,43 @@ for k,v in D.items(): assert v in md,k
 def S(sym,name,meaning,rel,quote):
     assert quote in md,(sym,quote)
     return dict(symbol=sym,name=name,meaning=meaning,relation=rel,quote=quote)
-q_n="The inputs are two integers of $n$ bits each."
-q_exp="Here $\\kappa$ is the saving exponent of the final running time, $\\epsilon$ and $c$ set the number of axes and the chunk width below, and $\\lambda'$ is the exponent in the $O(Vd^{\\lambda'})$ cost of a butterfly layer on $V$ stored bits."
-q_rest="The constants $\\tau,\\sigma,\\beta,\\delta,\\lambda,C_1$ are fixed rational numbers that the lemmas constrain by inequalities."
-q_bpd="Here $b$ is the bit length of $n$, $d$ is the number of axes of the padded box defined next, and $p$ is the precision in bits, which sets the $2^{-p}$ grid of the [Fixed-point Gaussian dyadic records](fixed-point.md)."
-q_K="Here $K$ is the width in bits of the address chunks that are interchanged."
-q_T="Here $T$ is the number of positions of the padded box, an array with $d$ axes, so $Tp=6bT\\in[24n,48n)$."
-q_l="So $\\ell$ is the number of address bits of the longest axis, and $r$ is also the record length of the ring."
-q_t="Write $t_i$ for the length of axis $i$."
-q_cmp="These are the constants by which the layer and transform lemmas bound $d$, $r$ and $\\ell$."
-q_a="We choose the width $\\alpha$ of the Gaussian weights in [Gaussian resampling](gaussian-resampling.md) as follows."
-q_g="Here $\\gamma$ is the total of the $2\\alpha^2$-bit scalings of the $d$ axes, and $\\eta$ is the relative gap kept between each prime and its power of two."
-q_xq="Let $x$ be a real number and $q$ an integer."
-q_s="We choose the pairwise coprime prime axis lengths $s_i$ of the [Chinese-remainder address map](crt-map.md) near the $t_i$."
-q_S="Put $S=\\prod_is_i$, the length of the cyclic convolution."
-q_th="Write $\\theta_i=t_i/s_i-1$ for the relative gap."
-sy=[S('n','input bits','The number of bits of each of the two input integers.','count',q_n),
-S('\\kappa','saving exponent','The exponent of the logarithmic saving in the final running time.','direct',q_exp),
-S('\\epsilon','axis-count exponent','The fixed exponent making the number of axes d about b to the power epsilon.','direct',q_exp),
-S('c','chunk-width exponent','The fixed exponent making the chunk width K about d to the power c.','direct',q_exp),
-S("\\lambda'",'layer cost exponent','The exponent in the cost O(V d^lambda\') of a butterfly layer on V stored bits.','direct',q_exp)]
-for s in ['\\tau','\\sigma','\\beta','\\delta','\\lambda','C_1']:
-    sy.append(S(s,'lemma constant','A fixed rational constant that the lemmas constrain by inequalities.','direct',q_rest))
-sy+=[S('b','bit length','The bit length of n, namely the ceiling of log2 n.','direct',q_bpd),
-S('d','number of axes','The number of axes of the padded box.','count',q_bpd),
-S('p','precision','The precision in bits, which sets the 2^{-p} grid of the fixed-point records.','direct',q_bpd),
-S('K','chunk width','The width in bits of the address chunks that are interchanged.','direct',q_K),
-S('T','padded box size','The number of positions of the padded box, a power of two.','count',q_T),
-S('\\ell','address bits','The number of address bits of the longest axis, log2 r.','direct',q_l),
-S('t_i','axis length','The length of axis i of the padded box.','direct',q_t),
-S('a_d','comparison constant','A fixed comparison constant by which the layer and transform lemmas bound d, r and l.','direct',q_cmp),
-S('a_r','comparison constant','A fixed comparison constant by which the layer and transform lemmas bound d, r and l.','direct',q_cmp),
-S('b_d','comparison constant','A fixed comparison constant by which the layer and transform lemmas bound d, r and l.','direct',q_cmp),
-S('b_r','comparison constant','A fixed comparison constant by which the layer and transform lemmas bound d, r and l.','direct',q_cmp),
-S('C_\\ell','comparison constant','A fixed comparison constant by which the layer and transform lemmas bound d, r and l.','direct',q_cmp),
-S('\\alpha','Gaussian width','The width parameter of the Gaussian weights in the resampling.','direct',q_a),
-S('\\gamma','total scaling','The total of the 2 alpha^2-bit scalings of the d axes.','direct',q_g),
-S('\\eta','relative gap','The relative gap kept between each prime and its power of two.','direct',q_g),
-S('x','interval scale','A real number, the scale of the prime interval.','direct',q_xq),
-S('q','candidate','An integer in the prime interval.','direct',q_xq),
-S('s_i','prime axis length','The prime length of axis i in the Chinese-remainder address map.','direct',q_s),
-S('S','convolution length','The product of the s_i, the length of the cyclic convolution.','direct',q_S),
-S('\\theta_i','relative gap of axis i','The relative gap t_i/s_i - 1 between s_i and t_i.','direct',q_th)]
-R=[dict(prerequisite='gaussian-resampling',predicate='chooses the width of',quote=q_a),
-dict(prerequisite='crt-map',predicate='chooses the pairwise coprime prime axis lengths of',quote=q_s),
-dict(prerequisite='fixed-point',predicate='sets the grid of',quote=q_bpd)]
+q_n="This page fixes every size and exponent so that the hypotheses of the lemmas hold, for inputs of $n$ bits."
+q_box="The padded box has $d$ axes and $T$ positions, and its axis $i$ has length $t_i$."
+q_exp="The fixed rational constants: $\\epsilon$ and $c$ set the number of axes and chunk width, $\\lambda'$ is the cost exponent of a butterfly layer, $\\kappa$ is the final saving exponent, and $\\tau,\\sigma,\\beta,\\delta,\\lambda,C_1$ enter the lemmas' inequalities."
+q_bl="Let $b$ be the bit length of $n$, $K$ the address-chunk width in bits, $\\ell$ the address bits of the longest axis, and $p$ the precision, setting the $2^{-p}$ grid of the [Fixed-point Gaussian dyadic records](fixed-point.md)."
+q_cmp="The lemmas bound $d,r,\\ell$ by constants $a_d,a_r,b_d,b_r,C_\\ell$."
+q_a="This page fixes the width $\\alpha$ of the Gaussian weights in [Gaussian resampling](gaussian-resampling.md), their total scaling $\\gamma$ over the axes, and the relative gap $\\eta$ of each prime below its power of two."
+q_xq="Let $x$ be real and $q$ an integer."
+q_s="This page fixes the prime axis lengths $s_i$ of the [Chinese-remainder address map](crt-map.md) near the $t_i$."
+q_S="Put $S=\\prod_is_i$, the cyclic convolution length."
+q_th="Let $\\theta_i=t_i/s_i-1$ be the relative gap of axis $i$."
+def M(sym,name,meaning,rel,quote): return S(sym,name,meaning,rel,quote)
+sy=[M('n','input bits','The number of bits of each of the two input integers.','count',q_n),
+M('d','number of axes','The number of axes of the padded box.','count',q_box),
+M('T','padded box size','The number of positions of the padded box.','count',q_box),
+M('t_i','axis length','The length of axis i of the padded box.','direct',q_box),
+M('\\epsilon','axis-count exponent','Fixed exponent setting the number of axes.','direct',q_exp),
+M('c','chunk-width exponent','Fixed exponent setting the chunk width.','direct',q_exp),
+M("\\lambda'",'layer cost exponent','The cost exponent of a butterfly layer.','direct',q_exp),
+M('\\kappa','saving exponent','The saving exponent of the final running time.','direct',q_exp)]
+for s_ in ['\\tau','\\sigma','\\beta','\\delta','\\lambda','C_1']:
+    sy.append(M(s_,'lemma constant','A fixed rational constant entering the lemmas inequalities.','direct',q_exp))
+sy+=[M('b','bit length','The bit length of n.','direct',q_bl),
+M('K','chunk width','The address-chunk width in bits.','direct',q_bl),
+M('\\ell','address bits','The number of address bits of the longest axis.','count',q_bl),
+M('p','precision','The precision in bits, setting the 2^{-p} grid of the fixed-point records.','direct',q_bl)]
+for s_ in ['a_d','a_r','b_d','b_r','C_\\ell']:
+    sy.append(M(s_,'comparison constant','A fixed constant with which the lemmas bound d, r and l.','direct',q_cmp))
+sy+=[M('\\alpha','Gaussian width','The width of the Gaussian weights in the resampling.','direct',q_a),
+M('\\gamma','total scaling','The total scaling of the Gaussian weights over the axes.','direct',q_a),
+M('\\eta','relative gap','The relative gap of each prime below its power of two.','direct',q_a),
+M('x','interval scale','A real number, the scale of the prime interval.','direct',q_xq),
+M('q','candidate','An integer in the prime interval.','direct',q_xq),
+M('s_i','prime axis length','The prime axis length of axis i near t_i.','direct',q_s),
+M('S','convolution length','The product of the s_i, the cyclic convolution length.','direct',q_S),
+M('\\theta_i','relative gap','The relative gap t_i/s_i - 1 of axis i.','direct',q_th)]
+R=[dict(prerequisite='gaussian-resampling',predicate='fixes the width of',quote=q_a),
+dict(prerequisite='crt-map',predicate='fixes the prime axis lengths of',quote=q_s),
+dict(prerequisite='fixed-point',predicate='sets the grid of',quote=q_bl)]
 for r in R: assert r['quote'] in md
 json.dump(dict(symbols=sy,relations=R,derivations=[dict(step=k,quote=v) for k,v in D.items()]),open(base+'.answer.json','w'),indent=1)
