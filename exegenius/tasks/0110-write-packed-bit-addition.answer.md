@@ -1,7 +1,5 @@
 Packed selected-bit addition XORs chosen bits of a chunk $x$ into chunk $y$ (chunks here), restoring a scratch chunk $z$; the [simultaneous butterfly layer](simultaneous-layer.md) on $d$ address chunks needs it.
 
-Records have $R$ bits. A chunk has $L=fK$ bits (segment length $K\ge6$); the $f$ selected bits lie at $j_i=\rho+iK$, $0\le i<f$, with offset $\rho<K$; the goal is $y_{j_i}\leftarrow y_{j_i}\oplus x_{j_i}$. Let $M$ count addresses, $V=MR$, and $A_{\rm rect}=\lceil\log_2(2V)\rceil$ bound counter lengths.
-
 For a Boolean control $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$. Do, in order:
 
 $$\begin{array}{llll}
@@ -10,6 +8,8 @@ $$\begin{array}{llll}
 \end{array}$$
 
 For $c=1$, substituting the four parity pairs shows the first four lines induce $(00\ 01\ 10)$ on the parities of $(u,w)$ and the last four induce $(01\ 10\ 11)$, composing to $(00\ 10)(01\ 11)$: it flips the parity of $u$ and restores $w$'s. So $(u',w')=(u+c(1-2(u\bmod2)),w)$, keeping quotients by two. Each variable is changed four times by at most one, so moves at most four, hence eight.
+
+Records have $R$ bits. A chunk has $L=fK$ bits (segment length $K\ge6$); the $f$ selected bits lie at $j_i=\rho+iK$, $0\le i<f$, with offset $\rho<K$; the goal is $y_{j_i}\leftarrow y_{j_i}\oplus x_{j_i}$. Let $M$ count addresses, $V=MR$, and $A_{\rm rect}=\lceil\log_2(2V)\rceil$ bound counter lengths.
 
 Omit $j_{f-1}$ first. For $0\le i<f-1$, the $K$ bits of $y$ from $j_i$ give a segment $u_i=2g_i+a_i$ and those of $z$ give $w_i=2h_i+b_i$, with bits $a_i,b_i$, guard values $g_i,h_i\in\{0,\dots,2^{K-1}-1\}$, and control $c_i=x_{j_i}$. Line (1) on all segments is
 $$y\leftarrow y-\sum_{i=0}^{f-2}2^{j_i}[x_{j_i}=1][z_{j_i}=0]\pmod{2^L}.$$

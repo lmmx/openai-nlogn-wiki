@@ -1,23 +1,28 @@
-Packed selected-bit addition XORs selected bits of chunk $x$ into chunk $y$, using chunk $z$ as restored scratch; the [simultaneous butterfly layer](simultaneous-layer.md), acting on up to $d$ chunks, needs it for changes of basis.
+Packed selected-bit addition XORs chosen bits of a chunk $x$ into chunk $y$ (chunks here), restoring a scratch chunk $z$; the [simultaneous butterfly layer](simultaneous-layer.md) on $d$ address chunks needs it.
 
-Let $c$ be a Boolean control and $u,w$ integers; do these eight additions in order:
+For a Boolean control $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$. Do, in order:
 
-$$\begin{array}{cccc} u\mathrel{-}=c[w\%2=0] & w\mathrel{-}=c[u\%2=0] & u\mathrel{+}=c[w\%2=0] & w\mathrel{+}=c[u\%2=0]\\ w\mathrel{+}=c[u\%2=1] & u\mathrel{+}=c[w\%2=1] & w\mathrel{-}=c[u\%2=1] & u\mathrel{-}=c[w\%2=1]\end{array}$$
+$$\begin{array}{llll}
+(1)\ u\leftarrow u-c[w\bmod2=0] & (2)\ w\leftarrow w-c[u\bmod2=0] & (3)\ u\leftarrow u+c[w\bmod2=0] & (4)\ w\leftarrow w+c[u\bmod2=0]\\
+(5)\ w\leftarrow w+c[u\bmod2=1] & (6)\ u\leftarrow u+c[w\bmod2=1] & (7)\ w\leftarrow w-c[u\bmod2=1] & (8)\ u\leftarrow u-c[w\bmod2=1]
+\end{array}$$
 
-For $c=1$ the first four induce the cycle $(00\ 01\ 10)$ on the parities of $(u,w)$ and the last four induce $(01\ 10\ 11),$ so their composition is $(00\ 10)(01\ 11):$ it flips the parity of $u$ and restores $w.$ Tracing $(0,0),(0,1),(1,0),(1,1)$ gives $(1,0),(1,1),(0,0),(0,1),$ since predicates depend only on parities, so the complete output is $(u',w')=(u+c(1-2(u\%2)),w):$ $u$ keeps its quotient by two and $w$ is restored.
+For $c=1$, substituting the four parity pairs shows the first four lines induce $(00\ 01\ 10)$ on the parities of $(u,w)$ and the last four induce $(01\ 10\ 11)$, composing to $(00\ 10)(01\ 11)$: it flips the parity of $u$ and restores $w$'s. So $(u',w')=(u+c(1-2(u\bmod2)),w)$, keeping quotients by two. Each variable is changed four times by at most one, so moves at most four, hence eight.
 
-A chunk has $L=fK$ bits: $f$ selected bits spaced $K$ apart, at positions $j_i=\rho+iK.$ Let $M$ be the number of addresses, $R$ the bits per record, $V=MR$ the volume, and $A_{\rm rect}$ the bit length of counters, $\log_2(2V)$ rounded up. The packed map performs its rotations as [controlled shifts](controlled-shifts.md) costing $O(V).$ It swaps chunks using the [chunk interchange](address-interchange.md), costing $O(VL^\tau)$ for fixed $\tau<1.$
+Records have $R$ bits. A chunk has $L=fK$ bits (segment length $K\ge6$); the $f$ selected bits lie at $j_i=\rho+iK$, $0\le i<f$, with offset $\rho<K$; the goal is $y_{j_i}\leftarrow y_{j_i}\oplus x_{j_i}$. Let $M$ count addresses, $V=MR$, and $A_{\rm rect}=\lceil\log_2(2V)\rceil$ bound counter lengths.
 
-For $0\le i<f-1,$ the $K$ bits of $y$ from position $j_i$ form a segment $u_i=2g_i+a_i,$ and those of $z$ give $w_i=2h_i+b_i,$ with bits $a_i,b_i.$ The guard values satisfy $0\le g_i,h_i<2^{K-1},$ and the control is $c_i=x_{j_i}.$
+Omit $j_{f-1}$ first. For $0\le i<f-1$, the $K$ bits of $y$ from $j_i$ give a segment $u_i=2g_i+a_i$ and those of $z$ give $w_i=2h_i+b_i$, with bits $a_i,b_i$, guard values $g_i,h_i\in\{0,\dots,2^{K-1}-1\}$, and control $c_i=x_{j_i}$. Line (1) on all segments is
+$$y\leftarrow y-\sum_{i=0}^{f-2}2^{j_i}[x_{j_i}=1][z_{j_i}=0]\pmod{2^L}.$$
+Other lines vary the sign, tested parity or roles of $y,z$. Each is a cyclic shift of a whole chunk by an offset independent of the target chunk, hence a bijection of the addresses; $S_0$ composes the eight.
 
-One line on all segments is a cyclic shift of a whole chunk by an offset independent of the target chunk, hence a bijection of the rectangle. Let $S_0$ be the eight lines' composition. It uses at most sixteen swaps and eight rotations <cite data-source="paper">There are at most sixteen swaps and eight rotations in $S_0$.</cite>
+Let $\mathcal B$ (exceptional addresses) be those where a guard of $y$ or $z$ fails $10\le g\le2^{K-1}-11$. Off $\mathcal B$ each segment lies in $[20,2^K-21]$, so displacement eight stays in $[0,2^K-1]$: no segment carries into or borrows from a neighbour, and $S_0$ equals the ideal map $T_0$ XORing at $j_0,\dots,j_{f-2}$.
 
-Let $\mathcal B$ be the addresses where a guard of $y$ or $z$ fails $10\le g\le2^{K-1}-11.$ Elsewhere each segment lies in $[20,2^K-21],$ so displacement eight stays in $[0,2^K-1]$ and no segment carries into or borrows from its neighbour. Then $S_0$ equals the ideal XOR map $T_0.$
+Ten values fall on each side of the interval ($2^{K-1}\ge32$): twenty per guard <cite data-source="paper">There are exactly twenty excluded values for each guard in</cite>. Guards are equidistributed at every spectator choice, so a union bound over $2(f-1)$ guards gives $|\mathcal B|\le\delta_{\rm bad}M$ with $\delta_{\rm bad}=\min\{1,80(f-1)2^{-K}\}$.
 
-There are exactly twenty excluded values for each guard among $2^{K-1}.$ A union bound over the $2(f-1)$ guards, with the same guard distribution at every choice of other coordinates, bounds the bad addresses. Hence $|\mathcal B|\le\delta_{\rm bad}M$ with $\delta_{\rm bad}=\min\{1,80(f-1)2^{-K}\},$ whatever the records.
+$T_0$ flips only the bits $a_i$, preserving guards and so $\mathcal B$. Two bijections agreeing off $\mathcal B$ give $S_0(\mathcal B^c)=T_0(\mathcal B^c)=\mathcal B^c$ and $S_0(\mathcal B)=\mathcal B$, so $T_0S_0^{-1}$ fixes $\mathcal B^c$ and permutes $\mathcal B$.
 
-Both $T_0$ and $S_0$ are bijections agreeing off $\mathcal B,$ and $T_0$ preserves $\mathcal B,$ so $T_0S_0^{-1}$ fixes $\mathcal B^c$ and permutes $\mathcal B.$
+A scan extracts records at $\mathcal B$, computing each destination $T_0S_0^{-1}$ by reversing the eight additions; its rank (current rank plus signed chunk differences times strides) is the key, and its hole is marked. As $T_0S_0^{-1}$ permutes $\mathcal B$, the keys are exactly the holes' ranks, so a stable radix sort and one scan refilling holes in order apply $T_0$. $j_{f-1}$ is then XORed by an [elementary stream operation](stream-ops.md), $O(V)$.
 
-The repair extracts the records at $\mathcal B$ with destination-rank keys, stably radix-sorts them, and reinserts them in one scan. The keys are distinct because $T_0S_0^{-1}$ permutes $\mathcal B.$
+$S_0$ has at most eight rotations and sixteen swaps <cite data-source="paper">There are at most sixteen swaps and eight rotations in $S_0$.</cite>. It performs rotations as [controlled shifts](controlled-shifts.md) costing $O(V)$ and swaps as [chunk interchanges](address-interchange.md) costing $O(VL^\tau)$ for fixed exponent $\tau<1$. Schoolbook arithmetic on counters costs $O(A_{\rm rect}^3)$ per record; at most $A_{\rm rect}$ radix passes sort $|\mathcal B|$ records of $R+A_{\rm rect}$ bits. The time is $O(V(L^\tau+1)+MA_{\rm rect}^3+\delta_{\rm bad}MA_{\rm rect}(R+A_{\rm rect}))$ <cite data-source="paper">With $\delta_{\rm bad}=\min\{1,80(f-1)2^{-K}\}$, its time is</cite>.
 
-The time is $O(V(L^\tau+1)+MA_{\rm rect}^3+\delta_{\rm bad}MA_{\rm rect}(R+A_{\rm rect})):$ movement costs $O(V(L^\tau+1)),$ record scans $O(MA_{\rm rect}^3+V),$ radix passes $O(|\mathcal B|A_{\rm rect}(R+A_{\rm rect})).$ With coefficient precision $p,$ dividing the extra terms by $V$ gives $A_{\rm rect}^3/R\to0$ and $80(f-1)2^{-K}A_{\rm rect}(1+A_{\rm rect}/R)=o(1)$ when $A_{\rm rect}=O(p),$ $R$ exceeds every polynomial in $p,$ $f\le d\le p$ and $K/\log p\to\infty.$ So the cost is $O(V(L^\tau+1)).$
+Per $V$ the extra terms are $A_{\rm rect}^3/R$ and $80(f-1)2^{-K}A_{\rm rect}(1+A_{\rm rect}/R)$. With $p$ the precision bits, both vanish when $A_{\rm rect}=O(p)$, $R$ exceeds every polynomial in $p$, $f\le d\le p$ and $K/\log p\to\infty$, so the cost is $O(V(L^\tau+1))$.
