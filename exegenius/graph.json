@@ -1223,9 +1223,6 @@
     }
   ],
   "rewrite": {
-    "address-interchange": [
-      "Say what $a_j$ denotes where it is first used: the page uses it before saying so in \"Split each remaining chunk into $a_j$ pieces of width $m^j$\""
-    ],
     "packed-bit-addition": [
       "The reader cannot follow this step: \"Guards are equidistributed at every spectator choice\" (The page never says what a spectator choice is (the remaining address coordinates) nor why each guard is equidistributed: this holds because the y and z chunks range over all their values at every fixed choice of the other coordinates. The count of exceptional addresses rests on this and the reader cannot check it from the page.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
       "The reader cannot follow this step: \"$S_0$ has at most eight rotations and sixteen swaps (cited).\" (The page never says why a rotation needs swaps. In the paper (line 2117) the target chunk is moved to the rightmost of the three chunk positions by a swap and the swap is undone after the rotation, giving two swaps per rotation and so sixteen. The page states only the count, with no role or reason, and the count stands in for how the construction works.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
@@ -1262,247 +1259,184 @@
       {
         "symbol": "u",
         "name": "chunk width",
-        "meaning": "The number of bits in each of the two address chunks.",
+        "meaning": "The number of bits in each of the two interchanged address chunks.",
         "relation": "count",
-        "quote": "Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (volume)"
+        "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each in an array of $V$ stored bits (the volume) in $O(Vu^\\tau)$ time on fixed tapes"
       },
       {
         "symbol": "V",
-        "name": "volume",
-        "meaning": "The number of stored bits of the array.",
+        "name": "array volume",
+        "meaning": "The number of bits stored in the array.",
         "relation": "count",
-        "quote": "Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (volume)"
+        "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each in an array of $V$ stored bits (the volume) in $O(Vu^\\tau)$ time on fixed tapes"
       },
       {
         "symbol": "\\tau",
-        "name": "time exponent",
-        "meaning": "The fixed exponent below 1 in the time bound, 1-2^{-50}.",
+        "name": "saving exponent",
+        "meaning": "The fixed exponent below 1 in the cost, equal to 1 - 2^{-50}.",
         "relation": "direct",
-        "quote": "with $\\tau=1-2^{-50}$."
+        "quote": "where $\\tau=1-2^{-50}$ is the saving exponent."
       },
       {
         "symbol": "p",
         "name": "prefix",
-        "meaning": "The address field before the first chunk.",
+        "meaning": "The part of an address before the first chunk.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "h",
         "name": "first chunk",
-        "meaning": "The address field of the first chunk.",
+        "meaning": "The first of the two address chunks being interchanged.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
-      },
-      {
-        "symbol": "d",
-        "name": "second chunk",
-        "meaning": "The address field of the second chunk.",
-        "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "g",
         "name": "gap",
-        "meaning": "The address field between the chunks.",
+        "meaning": "The part of an address between the two chunks.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+      },
+      {
+        "symbol": "d",
+        "name": "second chunk",
+        "meaning": "The second of the two address chunks being interchanged.",
+        "relation": "direct",
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "z",
         "name": "suffix",
-        "meaning": "The address field after the second chunk.",
+        "meaning": "The part of an address after the second chunk.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "q",
-        "name": "radix",
-        "meaning": "The fixed prime used as digit radix.",
+        "name": "digit radix",
+        "meaning": "The fixed prime that is the radix of the digits.",
         "relation": "direct",
-        "quote": "Digits are radix $q$ (a fixed prime)."
-      },
-      {
-        "symbol": "H",
-        "name": "first chunk value",
-        "meaning": "The value of the first chunk, a vector of m fields.",
-        "relation": "direct",
-        "quote": "For chunk values $H,D$,"
-      },
-      {
-        "symbol": "D",
-        "name": "second chunk value",
-        "meaning": "The value of the second chunk, a vector of m fields.",
-        "relation": "direct",
-        "quote": "For chunk values $H,D$,"
+        "quote": "Digits are radix $q$, a fixed prime."
       },
       {
         "symbol": "e",
-        "name": "chunk digits",
-        "meaning": "The number of radix-q digits in each chunk.",
+        "name": "chunk digit count",
+        "meaning": "The number of radix-q digits in a chunk.",
         "relation": "count",
-        "quote": "Let each chunk have $e=m^k$ digits ($k$ recursion levels)."
+        "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels."
       },
       {
         "symbol": "k",
-        "name": "level count",
-        "meaning": "The number of recursion levels, with e=m^k.",
+        "name": "recursion levels",
+        "meaning": "The number of recursion levels, with e = m^k.",
         "relation": "count",
-        "quote": "Let each chunk have $e=m^k$ digits ($k$ recursion levels)."
-      },
-      {
-        "symbol": "b",
-        "name": "field digits",
-        "meaning": "The number of digits in each of the m fields of a chunk.",
-        "relation": "count",
-        "quote": "Cut it into $m$ fields of $b=e/m$ digits"
+        "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels."
       },
       {
         "symbol": "M",
         "name": "vertex matrix",
-        "meaning": "The rational m by m matrix assigned to a terminal or gate.",
+        "meaning": "The rational m by m matrix carried by a terminal or gate of the network.",
         "relation": "direct",
-        "quote": "each terminal and gate carries a rational $m\\times m$ matrix $M$"
-      },
-      {
-        "symbol": "i",
-        "name": "edge index",
-        "meaning": "Index of an edge of the network.",
-        "relation": "direct",
-        "quote": "and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$"
+        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
       },
       {
         "symbol": "A_i",
         "name": "edge matrix",
         "meaning": "The difference of the matrices at the head and tail of edge i.",
         "relation": "direct",
-        "quote": "and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$"
+        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
       },
       {
-        "symbol": "I_m",
-        "name": "identity matrix",
-        "meaning": "The m by m identity matrix.",
+        "symbol": "i",
+        "name": "edge index",
+        "meaning": "The index of an edge of the network.",
         "relation": "direct",
-        "quote": "$M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$ (the identity)"
+        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
       },
       {
         "symbol": "w",
         "name": "wire index",
-        "meaning": "The index of a wire of the network, 1 to W.",
+        "meaning": "The index of an input wire of the network.",
         "relation": "direct",
-        "quote": "The shear contract: input wire $w$ ends at output role $\\rho(w)$"
+        "quote": "The shear contract: input wire $w$ is routed to an output role $\\rho(w)$ with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$, the identity, and $s<Wm$ by [Nested subspace labels and rank deficit](subspace-labels.md)."
+      },
+      {
+        "symbol": "\\rho",
+        "name": "role map",
+        "meaning": "The map sending input wire w to its output role.",
+        "relation": "direct",
+        "quote": "The shear contract: input wire $w$ is routed to an output role $\\rho(w)$ with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$, the identity, and $s<Wm$ by [Nested subspace labels and rank deficit](subspace-labels.md)."
+      },
+      {
+        "symbol": "I_m",
+        "name": "identity",
+        "meaning": "The m by m identity matrix.",
+        "relation": "direct",
+        "quote": "The shear contract: input wire $w$ is routed to an output role $\\rho(w)$ with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$, the identity, and $s<Wm$ by [Nested subspace labels and rank deficit](subspace-labels.md)."
       },
       {
         "symbol": "\\Phi_M",
-        "name": "shear permutation",
+        "name": "address shear",
         "meaning": "The array permutation moving the entry at address (H,D) to (H+MD,D).",
         "relation": "direct",
-        "quote": "Let $\\Phi_M$ move the entry at address $(H,D)$ to $(H+MD,D)$."
+        "quote": "Let $\\Phi_M$ move the entry at address $(H,D)$ to $(H+MD,D)$; then $\\Phi_{M'}\\Phi_M=\\Phi_{M'+M}$."
       },
       {
-        "symbol": "M'",
-        "name": "other matrix",
-        "meaning": "Another rational m by m matrix.",
+        "symbol": "f_w",
+        "name": "wire input",
+        "meaning": "The physical input array of wire w.",
         "relation": "direct",
-        "quote": "For another matrix $M'$,"
+        "quote": "Read wire $w$'s input $f_w$ as the logical array $\\Phi_{-M_{\\mathrm{in}(w)}}f_w$."
       },
       {
         "symbol": "x",
         "name": "stream row",
         "meaning": "The row number within a role stream.",
         "relation": "direct",
-        "quote": "row $Wx+w-1$ goes to stream $w$ as row $x$"
-      },
-      {
-        "symbol": "f_w",
-        "name": "input array",
-        "meaning": "The physical input array on wire w.",
-        "relation": "direct",
-        "quote": "Read wire $w$'s input $f_w$ as the logical array"
-      },
-      {
-        "symbol": "f'_{\\rho(w)}",
-        "name": "output array",
-        "meaning": "The physical output array at role rho(w).",
-        "relation": "direct",
-        "quote": "the output is $f'_{\\rho(w)}=\\Phi_{M_{\\mathrm{out}(\\rho(w))}}\\Phi_{-M_{\\mathrm{in}(w)}}f_w=\\Phi_{I_m}f_w$"
+        "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
       },
       {
         "symbol": "j",
-        "name": "level",
-        "meaning": "Index of a level of the unrolled recurrence.",
+        "name": "recursion level",
+        "meaning": "The index of a recursion level in the unrolled recurrence.",
         "relation": "direct",
-        "quote": "Unrolled over levels $j$,"
-      },
-      {
-        "symbol": "F_k",
-        "name": "normalized cost",
-        "meaning": "The time per unit volume of the interchange at width m^k.",
-        "relation": "direct",
-        "quote": "The time per unit volume $F_k$ at width $m^k$ obeys"
+        "quote": "Unrolled over the recursion levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$."
       },
       {
         "symbol": "k'",
         "name": "level count",
-        "meaning": "The least integer with m^{k'} at least e.",
+        "meaning": "The least integer with m^{k'} at least e, used for arbitrary widths.",
         "relation": "direct",
-        "quote": "put $k'=\\lceil\\log_m e\\rceil$"
+        "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
       },
       {
         "symbol": "\\nu",
-        "name": "top digits",
-        "meaning": "The number of top digits of each chunk interchanged first.",
+        "name": "high digit count",
+        "meaning": "The number of top digits of each chunk set aside to form the row field.",
         "relation": "count",
-        "quote": "and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$"
-      },
-      {
-        "symbol": "h^+",
-        "name": "high part of h",
-        "meaning": "The top nu digits of the first chunk.",
-        "relation": "direct",
-        "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
-      },
-      {
-        "symbol": "h^-",
-        "name": "rest of h",
-        "meaning": "The remaining digits of the first chunk.",
-        "relation": "direct",
-        "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
-      },
-      {
-        "symbol": "d^+",
-        "name": "high part of d",
-        "meaning": "The top nu digits of the second chunk.",
-        "relation": "direct",
-        "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
-      },
-      {
-        "symbol": "d^-",
-        "name": "rest of d",
-        "meaning": "The remaining digits of the second chunk.",
-        "relation": "direct",
-        "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+        "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
       },
       {
         "symbol": "\\Lambda",
         "name": "row range",
-        "meaning": "The range of the row field formed by the two high parts.",
-        "relation": "direct",
+        "meaning": "The number of values of the row field formed by the high parts of both chunks.",
+        "relation": "count",
         "quote": "Now $d^+,h^+$ form a row field of range $\\Lambda=q^{2\\nu}\\ge W^{k'}$ before both remaining chunks."
       },
       {
         "symbol": "\\Lambda'",
         "name": "padded row range",
-        "meaning": "The row count after padding with zero rows.",
-        "relation": "direct",
-        "quote": "Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows"
+        "meaning": "The row count after padding with zero rows to a multiple of W^{k'}.",
+        "relation": "count",
+        "quote": "Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows, so the volume stays below $2V$."
       },
       {
         "symbol": "a_j",
         "name": "piece count",
-        "meaning": "The number of pieces of width m^j, the j-th base-m digit of e minus nu.",
+        "meaning": "The number of pieces of width m^j into which each remaining chunk is cut.",
         "relation": "count",
-        "quote": "Write $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$, $0\\le a_j<m$."
+        "quote": "Write the remaining width in base $m$: $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$ with $0\\le a_j<m$, where the base-$m$ digit $a_j$ is the number of pieces of width $m^j$ into which each remaining chunk is cut."
       }
     ],
     "array-frames": [
@@ -4294,17 +4228,17 @@
       {
         "prerequisite": "rank-recurrence",
         "predicate": "obeys the recurrence of",
-        "quote": "The time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md)."
+        "quote": "So the time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md)."
       },
       {
         "prerequisite": "matrix-shear",
-        "predicate": "performs its shears by",
-        "quote": "[Matrix shear by triangular factorization](matrix-shear.md) performs each $\\Phi_{A_i}$: rank $a$ costs $a$ interchanges of $b$-digit fields"
+        "predicate": "performs each edge shear by",
+        "quote": "The interchange performs each edge shear by [Matrix shear by triangular factorization](matrix-shear.md): if $A_i$ has rank $a$, then $\\Phi_{A_i}$ costs $a$ interchanges of $b$-digit fields"
       },
       {
         "prerequisite": "stream-ops",
-        "predicate": "splits rows into role streams by",
-        "quote": "Within each prefix, rows are split into role streams by [stream scans](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
+        "predicate": "are split into role streams by",
+        "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
       }
     ],
     "array-frames": [
@@ -4742,51 +4676,11 @@
   "added": {
     "address-interchange": [
       {
-        "sentence": "Its steps XOR data.",
-        "depth": 1
-      },
-      {
-        "sentence": "Letters $u,p,h,d$ change meaning here.",
-        "depth": 1
-      },
-      {
-        "sentence": "For chunk values $H,D$, $D\\gets D-H$, $H\\gets H+D$, $D\\gets H-D$ send $(H,D)$ to $(H,D-H)$, $(D,D-H)$, $(D,H)$.",
-        "depth": 1
-      },
-      {
         "sentence": "md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$.",
         "depth": 1
       },
       {
-        "sentence": "The shear contract: input wire $w$ ends at output role $\\rho(w)$, with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$ (the identity), and $s<Wm$ ([rank deficit](subspace-labels.",
-        "depth": 1
-      },
-      {
-        "sentence": "md)); take $\\tau$ with $s/W<m^\\tau$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Let $\\Phi_M$ move the entry at address $(H,D)$ to $(H+MD,D)$.",
-        "depth": 1
-      },
-      {
-        "sentence": "For another matrix $M'$, $\\Phi_{M'}\\Phi_M=\\Phi_{M'+M}$.",
-        "depth": 1
-      },
-      {
-        "sentence": "md) at a vertex with matrix $M$ is $\\Phi_M$; an edge to a vertex with matrix $M'$ changes it by $\\Phi_{M'-M}=\\Phi_{A_i}$.",
-        "depth": 1
-      },
-      {
-        "sentence": "md) performs each $\\Phi_{A_i}$: rank $a$ costs $a$ interchanges of $b$-digit fields (cited), so there are exactly $s$ smaller calls (cited).",
-        "depth": 1
-      },
-      {
         "sentence": "Suppose a row field ahead of both chunks has length divisible by $W^k$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Within each prefix, rows are split into role streams by [stream scans](stream-ops.",
         "depth": 1
       },
       {
@@ -4802,23 +4696,7 @@
         "depth": 1
       },
       {
-        "sentence": "Unrolled over levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$.",
-        "depth": 1
-      },
-      {
         "sentence": "If $s/W\\le1$ this is at most $k+1=O(m^{k\\tau})$; otherwise it is $O((s/W)^k)$, below $m^{k\\tau}$.",
-        "depth": 1
-      },
-      {
-        "sentence": "As $s/W$ nears $m$, $\\tau\\approx1$.",
-        "depth": 1
-      },
-      {
-        "sentence": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$ and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$; small $e$ use single-digit interchanges.",
-        "depth": 1
-      },
-      {
-        "sentence": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$.",
         "depth": 1
       },
       {
@@ -4826,27 +4704,7 @@
         "depth": 1
       },
       {
-        "sentence": "Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows (volume below $2V$).",
-        "depth": 1
-      },
-      {
-        "sentence": "Write $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$, $0\\le a_j<m$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Split each remaining chunk into $a_j$ pieces of width $m^j$ and interchange corresponding pieces as above.",
-        "depth": 1
-      },
-      {
-        "sentence": "The total $O(V)\\sum_ja_jm^{j\\tau}\\le O(V)\\,m\\sum_jm^{j\\tau}=O(Ve^\\tau)$, since $m^{k'}<me$.",
-        "depth": 1
-      },
-      {
         "sentence": "Scan away padded rows and reverse the joining, giving $(d^+,d^-,g,h^+,h^-)$ at cost $O(V\\nu)=O(Ve^\\tau)$.",
-        "depth": 1
-      },
-      {
-        "sentence": "For $u$-bit chunks, pad $[2^u]$ to $[q^e]$, $e$ least with $q^e\\ge2^u$, and scan the padding away.",
         "depth": 1
       },
       {

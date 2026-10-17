@@ -5,14 +5,21 @@
    "name": "chunk width",
    "meaning": "The number of bits in each of the two interchanged address chunks.",
    "relation": "count",
-   "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each (the chunk width) in an array of volume $V$ (stored bits) in $O(Vu^\\tau)$ time on fixed tapes"
+   "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each in an array of $V$ stored bits (the volume) in $O(Vu^\\tau)$ time on fixed tapes"
   },
   {
    "symbol": "V",
    "name": "array volume",
    "meaning": "The number of bits stored in the array.",
    "relation": "count",
-   "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each (the chunk width) in an array of volume $V$ (stored bits) in $O(Vu^\\tau)$ time on fixed tapes"
+   "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each in an array of $V$ stored bits (the volume) in $O(Vu^\\tau)$ time on fixed tapes"
+  },
+  {
+   "symbol": "\\tau",
+   "name": "saving exponent",
+   "meaning": "The fixed exponent below 1 in the cost, equal to 1 - 2^{-50}.",
+   "relation": "direct",
+   "quote": "where $\\tau=1-2^{-50}$ is the saving exponent."
   },
   {
    "symbol": "p",
@@ -61,14 +68,14 @@
    "name": "chunk digit count",
    "meaning": "The number of radix-q digits in a chunk.",
    "relation": "count",
-   "quote": "Let each chunk have $e=m^k$ digits, where $k$ counts recursion levels."
+   "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels."
   },
   {
    "symbol": "k",
    "name": "recursion levels",
    "meaning": "The number of recursion levels, with e = m^k.",
    "relation": "count",
-   "quote": "Let each chunk have $e=m^k$ digits, where $k$ counts recursion levels."
+   "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels."
   },
   {
    "symbol": "M",
@@ -131,21 +138,28 @@
    "name": "stream row",
    "meaning": "The row number within a role stream.",
    "relation": "direct",
-   "quote": "Within each prefix, [Elementary stream operations](stream-ops.md) split rows into role streams: row $Wx+w-1$ goes to stream $w$ as row $x$."
+   "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
+  },
+  {
+   "symbol": "j",
+   "name": "recursion level",
+   "meaning": "The index of a recursion level in the unrolled recurrence.",
+   "relation": "direct",
+   "quote": "Unrolled over the recursion levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$."
   },
   {
    "symbol": "k'",
    "name": "level count",
    "meaning": "The least integer with m^{k'} at least e, used for arbitrary widths.",
    "relation": "direct",
-   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$ and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
+   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
   },
   {
    "symbol": "\\nu",
    "name": "high digit count",
    "meaning": "The number of top digits of each chunk set aside to form the row field.",
    "relation": "count",
-   "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
   },
   {
    "symbol": "\\Lambda",
@@ -182,122 +196,18 @@
   },
   {
    "prerequisite": "stream-ops",
-   "predicate": "split rows into role streams by",
-   "quote": "Within each prefix, [Elementary stream operations](stream-ops.md) split rows into role streams: row $Wx+w-1$ goes to stream $w$ as row $x$."
+   "predicate": "are split into role streams by",
+   "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
   }
  ],
  "derivations": [
   {
    "step": "S1.5.2",
-   "quote": "So the time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md)."
-  },
-  {
-   "step": "S1.5.2.1",
-   "quote": "Cut it into $m$ fields of $b=e/m$ digits, so $H,D$ become vectors over $\\mathbb Z/q^b\\mathbb Z$."
-  },
-  {
-   "step": "S1.5.2.2",
-   "quote": "Within each prefix, [Elementary stream operations](stream-ops.md) split rows into role streams: row $Wx+w-1$ goes to stream $w$ as row $x$."
-  },
-  {
-   "step": "S1.5.2.3",
-   "quote": "Each stream has volume $V/W$ and row count divisible by $W^{k-1}$."
-  },
-  {
-   "step": "S1.5.2.4",
-   "quote": "The interchange performs each edge shear by [Matrix shear by triangular factorization](matrix-shear.md): if $A_i$ has rank $a$, then $\\Phi_{A_i}$ costs $a$ interchanges of $b$-digit fields"
-  },
-  {
-   "step": "S1.5.2.5a",
-   "quote": "The [Frames on wire arrays](array-frames.md) assign each vertex with matrix $M$ the frame $\\Phi_M$, so an edge changes the frame by $\\Phi_{M'-M}=\\Phi_{A_i}$. A common address permutation commutes with every pointwise bit gate."
-  },
-  {
-   "step": "S1.5.2.5b",
-   "quote": "By the composition rule and the contract, the output is $f'_{\\rho(w)}=\\Phi_{M_{\\mathrm{out}(\\rho(w))}}\\Phi_{-M_{\\mathrm{in}(w)}}f_w=\\Phi_{I_m}f_w$."
-  },
-  {
-   "step": "S1.5.2.5c",
-   "quote": "Merging rows back undoes $\\rho$, giving $H\\gets H+D$ on every original row."
-  },
-  {
-   "step": "S1.5.2.5d",
-   "quote": "The updates $D\\gets D-H$, $H\\gets H+D$, $D\\gets H-D$ send $(H,D)$ to $(H,D-H)$, then $(D,D-H)$, then $(D,H)$. Only the middle one, the shear $H\\gets H+D$, needs the circuit; the others are linear scans."
-  },
-  {
-   "step": "S1.5.2.5e",
-   "quote": ", so there are exactly $s$ smaller calls"
-  },
-  {
-   "step": "S1.5.2.5f",
-   "quote": "Each smaller call acts on volume $V/W$; splitting, merging, gates and scheduling cost $O(V)$ here."
-  },
-  {
-   "step": "S1.5.2.5g",
-   "quote": "So the time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md)."
-  },
-  {
-   "step": "S1.5.2.6",
-   "quote": "Unrolled, $F_k=O(\\sum_{j=0}^k (s/W)^j)$ over levels $j$. If $s/W\\le1$ this is at most $k+1=O(m^{k\\tau})$; otherwise it is $O((s/W)^k)$, below $m^{k\\tau}$. So $F_k=O(e^\\tau)$."
-  },
-  {
-   "step": "S1.5.2.6.1",
-   "quote": "Unrolled, $F_k=O(\\sum_{j=0}^k (s/W)^j)$ over levels $j$."
-  },
-  {
-   "step": "S1.5.2.6.2",
-   "quote": "If $s/W\\le1$ this is at most $k+1=O(m^{k\\tau})$"
-  },
-  {
-   "step": "S1.5.2.6.3",
-   "quote": "otherwise it is $O((s/W)^k)$, below $m^{k\\tau}$."
-  },
-  {
-   "step": "S1.5.2.6.4",
-   "quote": "So $F_k=O(e^\\tau)$."
+   "quote": "Suppose a row field ahead of both chunks has length divisible by $W^k$. Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$. Each stream has volume $V/W$ and row count divisible by $W^{k-1}$. Read wire $w$'s input $f_w$ as the logical array $\\Phi_{-M_{\\mathrm{in}(w)}}f_w$. By the composition rule and the contract, the output is $f'_{\\rho(w)}=\\Phi_{M_{\\mathrm{out}(\\rho(w))}}\\Phi_{-M_{\\mathrm{in}(w)}}f_w=\\Phi_{I_m}f_w$. Merging rows back undoes $\\rho$, giving $H\\gets H+D$ on every original row.\n\nEach smaller call acts on volume $V/W$; splitting, merging, gates and scheduling cost $O(V)$ here. So the time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md). Unrolled over the recursion levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$. If $s/W\\le1$ this is at most $k+1=O(m^{k\\tau})$; otherwise it is $O((s/W)^k)$, below $m^{k\\tau}$. So $F_k=O(e^\\tau)$. The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$."
   },
   {
    "step": "S1.5.3",
-   "quote": "For $u$-bit chunks, pad $[2^u]$ to $[q^e]$ with $e$ least such that $q^e\\ge2^u$, and scan the padding away. Since $e=O(u)$ the cost is $O(Vu^\\tau)$"
-  },
-  {
-   "step": "S1.5.3.1",
-   "quote": "Scan away padded rows and reverse the joining, giving $(d^+,d^-,g,h^+,h^-)$ at cost $O(V\\nu)=O(Ve^\\tau)$."
-  },
-  {
-   "step": "S1.5.3.2",
-   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$ and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
-  },
-  {
-   "step": "S1.5.3.3",
-   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$ and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
-  },
-  {
-   "step": "S1.5.3.4",
-   "quote": "Interchange the high digits and move $h^+$ next to $d^+$: $(h^+,h^-,g,d^+,d^-)$ becomes $(d^+,h^+,h^-,g,d^-)$."
-  },
-  {
-   "step": "S1.5.3.5",
-   "quote": "Now $d^+,h^+$ form a row field of range $\\Lambda=q^{2\\nu}\\ge W^{k'}$ before both remaining chunks."
-  },
-  {
-   "step": "S1.5.3.6",
-   "quote": "Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows, so the volume stays below $2V$."
-  },
-  {
-   "step": "S1.5.3.7",
-   "quote": "Write the remaining width in base $m$: $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$ with $0\\le a_j<m$, where the base-$m$ digit $a_j$ is the number of pieces of width $m^j$ into which each remaining chunk is cut."
-  },
-  {
-   "step": "S1.5.3.8",
-   "quote": "The total is $O(V)\\sum_ja_jm^{j\\tau}\\le O(V)\\,m\\sum_jm^{j\\tau}=O(Ve^\\tau)$"
-  },
-  {
-   "step": "S1.5.3.9",
-   "quote": "since $m^{k'}<me$ makes $\\sum_jm^{j\\tau}$ a geometric sum"
-  },
-  {
-   "step": "S1.5.3.10",
-   "quote": "For $u$-bit chunks, pad $[2^u]$ to $[q^e]$ with $e$ least such that $q^e\\ge2^u$, and scan the padding away."
+   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$. Split each chunk into its top digits and rest, $h^+,h^-$ and $d^+,d^-$. Interchange the high digits and move $h^+$ next to $d^+$: $(h^+,h^-,g,d^+,d^-)$ becomes $(d^+,h^+,h^-,g,d^-)$. Now $d^+,h^+$ form a row field of range $\\Lambda=q^{2\\nu}\\ge W^{k'}$ before both remaining chunks. Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows, so the volume stays below $2V$.\n\nWrite the remaining width in base $m$: $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$ with $0\\le a_j<m$, where the base-$m$ digit $a_j$ is the number of pieces of width $m^j$ into which each remaining chunk is cut. Interchange corresponding pieces. The total is $O(V)\\sum_ja_jm^{j\\tau}\\le O(V)\\,m\\sum_jm^{j\\tau}=O(Ve^\\tau)$, since $m^{k'}<me$ makes $\\sum_jm^{j\\tau}$ a geometric sum. Scan away padded rows and reverse the joining, giving $(d^+,d^-,g,h^+,h^-)$ at cost $O(V\\nu)=O(Ve^\\tau)$."
   }
  ]
 }
