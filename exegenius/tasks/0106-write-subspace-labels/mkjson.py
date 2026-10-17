@@ -8,7 +8,7 @@ def sent(start, end=None):
     j=stripped.index(end,i)+len(end)
     return stripped[i:j]
 S1="Nested subspace labels give each vertex of the [exchange network](exchange-network.md) a subspace of an $m$-dimensional space, nested along edges, whose dimension changes count each edge's *smaller calls*, recursive calls at an $m$ times smaller parameter."
-S2="They choose the frames of [Frames on wire arrays](array-frames.md) so that $W$ wires cost $s<Wm$ smaller calls."
+S2="The labelling chooses the frames of [Frames on wire arrays](array-frames.md) so that $W$ wires cost $s<Wm$ smaller calls."
 QF=sent("Bit labels live in", "with the dot product.")
 QT=sent("For *triples*", "\\bmod 2$.")
 QFF=sent("Labels are built as", "multiplies factorwise.")
@@ -27,7 +27,7 @@ def b(sym,name,meaning,rel,q): return dict(symbol=sym,name=name,meaning=meaning,
 symbols=[
  b("s","number of smaller calls","The total number of smaller calls that the edges of the network cost.","count",S2),
  b("W","wire count","The number of wires of the network under consideration.","count",S2),
- b("F","one-factor label space","The space $\\mathbb Q^h$ with the form $x^{\\mathsf T}y-\\frac19(\\sum_ix_i)(\\sum_iy_i)$ for the bit network, or $\\mathbb F_2^h$ with the dot product for the complex network.","direct",QF),
+ b("F","one-factor label space","The space $\\mathbb Q^h$ with the form $x\\cdot y-\\frac19(\\sum_ix_i)(\\sum_iy_i)$ for the bit network, or $\\mathbb F_2^h$ with the dot product for the complex network.","direct",QF),
  b("S","a triple","A three-element subset of $[h]$, used with $T$ to state the indicator inner products.","direct",QT),
  b("T","a triple","A three-element subset of $[h]$ (not the padded size used on other pages).","direct",QT),
  b("t_T","triple indicator","The indicator vector in $F$ of the triple $T$.","direct",QT),
@@ -56,7 +56,7 @@ symbols=[
 ]
 relations=[
  dict(prerequisite="array-frames",predicate="chooses the frames of",quote=S2),
- dict(prerequisite="tensor-product-of-spaces",predicate="builds its labels as",quote=QFF),
+ dict(prerequisite="tensor-product-of-spaces",predicate="has labels built as",quote=QFF),
 ]
 D=lambda st,q: dict(step=st,quote=q)
 derivations=[
