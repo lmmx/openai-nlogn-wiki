@@ -1,0 +1,110 @@
+{
+  "outcome": "answered",
+  "answer": "The cost per unit volume C(f) at parameter f satisfies C(mf) <= (s/W) C(f) + O(1) with C(1) = O(1). Each call at parameter mf makes s child calls at parameter f, each on a stream of volume V/W, so the recursive cost per unit volume is multiplied by s/W per factor m of the parameter. Unrolling over the log_m f levels gives C(f) = O(sum_{j=0}^{log_m f} (s/W)^j). If s/W < m^tau for a fixed tau < 1, the last term (s/W)^{log_m f} = f^{log_m(s/W)} lies below f^tau and dominates, so C(f) = O(f^tau): one power of f, strictly below the first. What must hold: the total rank s of the edge changes must be strictly below W*m (so s/W < m); with s/W a fixed constant this gives a fixed tau = log_m(s/W) < 1. For the bit network s = Wm - (N - 2L), so the saving needs N > 2L, i.e. L/N < 1/2, which holds because L/N = 100/539. How large: the relative deficit eta = (Wm - s)/(Wm) is 339/22587335000000, about 1.5e-11. The pages take tau = 1 - 2^-50, and m^tau > m(1 - 2^-50 ln m) > m(1 - 20*2^-50) > m(1 - eta) since eta is about 1.5e-11, far above 20*2^-50 (about 1.8e-14). So the cost is f^(1 - 2^-50) rather than f: the exponent gap is 2^-50, a tiny but sufficient margin. I checked the recurrence, the unrolling, the counting s = Wm - (N - 2L), and the numeric margin; I accepted the label-level facts (projection ranks, nondegeneracy, the wire-label chains) from the pages without verifying them.",
+  "citations": [
+    {
+      "page": "rut",
+      "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+    },
+    {
+      "page": "rut",
+      "quote": "\\mathcal C(mf)\\le\\frac{s}{W}\\mathcal C(f)+O(1)"
+    },
+    {
+      "page": "rut",
+      "quote": "so $\\mathcal C(f)=O\\big(\\sum_{j=0}^{\\log_m f}(s/W)^j\\big)$"
+    },
+    {
+      "page": "rut",
+      "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+    },
+    {
+      "page": "pid",
+      "quote": "Choose $\\tau$ with $s/W<m^\\tau$."
+    },
+    {
+      "page": "dol",
+      "quote": "So $s_{\\rm b}=(W_{\\rm b}m-2N+2L_{\\rm b})+N=W_{\\rm b}m-(N-2L_{\\rm b})<W_{\\rm b}m$."
+    },
+    {
+      "page": "dol",
+      "quote": "As $N=v^3$, $L_{\\rm b}/N=3c_{\\rm b}h/v=30000/161700=100/539$"
+    },
+    {
+      "page": "rut",
+      "quote": "Write $s/W=m(1-\\eta)$, with $\\eta$ now the relative deficit $(Wm-s)/(Wm)$."
+    },
+    {
+      "page": "rut",
+      "quote": "namely $339/22587335000000$ and $73/19906842167500$"
+    },
+    {
+      "page": "rut",
+      "quote": "Hence $\\tau=\\sigma=1-2^{-50}$ gives $s/W<m^\\tau$ (bit)"
+    },
+    {
+      "page": "rut",
+      "quote": "as the exponential lies above its tangent at $0$, $m^{1-2^{-50}}=m\\exp(-2^{-50}\\ln m)>m(1-2^{-50}\\ln m)>m(1-20\\cdot2^{-50})>m(1-\\eta)=s/W$ for either network."
+    },
+    {
+      "page": "pid",
+      "quote": "where $\\tau=1-2^{-50}$ is the saving exponent"
+    }
+  ],
+  "key_idea": {
+    "page": "rut",
+    "statement": "A call at parameter mf makes s smaller calls on streams of volume V/W, so the recursive cost per unit volume is multiplied by s/W, which is below m; this geometric recurrence gives a cost that is a power f^tau with tau < 1 once s/W < m^tau.",
+    "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+  },
+  "stuck": [
+    {
+      "page": "pid",
+      "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+      "note": "The page says tau is about 1 because s/W is near m, but does not say how the exponent is fixed; the exact value tau = 1 - 2^-50 is only stated elsewhere (intro and rut). I could not tell from this sentence what the saving exponent is.",
+      "level": "statement"
+    },
+    {
+      "page": "rut",
+      "quote": "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes.",
+      "note": "Why the number of smaller calls equals the total rank of the edge changes, and why each one is on exactly volume V/W, is not shown here; I followed it by trusting the rank-per-edge rule and the frame construction on the linked pages (kep, ber).",
+      "level": "chain"
+    },
+    {
+      "page": "rut",
+      "quote": "One data bank's $N$ wires start on a line and the other's stop one dimension short, saving $2N$; the bit network spends $N$ on extra source ranks, and shrinking edges, losing $L$ dimensions in all, cost back $2L<N$.",
+      "note": "I could not picture why the labels starting and stopping one dimension apart saves exactly 2N; I took the counting on trust from the linked page dol, where I checked the sums and they agree.",
+      "level": "step"
+    },
+    {
+      "page": "ber",
+      "quote": "The intermediate frames are therefore free, and can be chosen so that each edge change is cheap",
+      "note": "The page says the frames can be chosen to make each edge change cheap, and checks the telescoping of frames along a route. It does not show here why a free choice makes the rank small; I had to follow the reference to dol to see the labelling that does it.",
+      "level": "chain"
+    },
+    {
+      "page": "dol",
+      "quote": "has rank $\\dim V-\\dim U$, as does its negative.",
+      "note": "The projections Pi_U (onto U along U-perp) and the rank claim for Pi_V - Pi_U are not defined in enough detail to check here; I accepted the rank claim, which the s count depends on.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "0\\to B\\otimes F\\,(1)\\to A\\otimes F\\,(3)\\to B\\otimes F\\,(4)\\to A\\otimes F\\,(6)\\to\\mathcal F",
+      "note": "The timed wire-label chains (gate times 0 to 7, centre and side wires) are beyond what I know, and I could not connect them to anything I can check. I accepted only the conclusion that the centre 3 to 4 step drops a dimension of h, which gives L.",
+      "level": "beyond"
+    },
+    {
+      "page": "dol",
+      "quote": "so it is nondegenerate",
+      "note": "The claim that the form on Q^h with the 1/9 term is nondegenerate is stated without the check of its matrix; I accepted it.",
+      "level": "statement"
+    },
+    {
+      "page": "pid",
+      "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed",
+      "note": "I did not follow why the top digits nu are set aside and padded to W^k' rows; this padding paragraph is not needed for the question, so I skipped it rather than followed it.",
+      "level": "chain"
+    }
+  ],
+  "reason": "Answered, with fairly high confidence in the recurrence C(mf) <= (s/W) C(f) + O(1), its unrolling to f^tau with tau < 1, the counting s = Wm - (N - 2L) for the bit network, and the numeric margin, all of which I traced and checked on the pages. Medium confidence in the label-level facts (projection ranks, nondegeneracy of the form, the timed wire-label chains), which I accepted from the pages without verifying them. The statement 'tau approximately 1' on pid is vague, but the exact tau = 1 - 2^-50 is found on rut and pid."
+}

@@ -1,0 +1,108 @@
+{
+  "outcome": "answered",
+  "answer": "The saving comes from a per-level recurrence. A call at parameter mf splits its data into W streams of volume V/W and makes s smaller calls on them, where s is the total rank of the edge changes and each unit of rank is one smaller call. Writing C(f) for the time per unit volume at parameter f, the children cost s(V/W)C(f), so C(mf) <= (s/W)C(f) + O(1) with C(1) = O(1) (pipozop). Unrolling over the log_m f levels gives C(f) = O(sum_j (s/W)^j). If s/W < m^tau with a fixed tau < 1, the sum is O(f^tau), so an interchange costs O(V f^tau) (pipozop). For the bit network tau = 1 - 2^-50. The strict inequality s < Wm is what makes a tau < 1 available: the per-level factor s/W must be below the factor m by which the parameter shrinks. Pukezad gives s_b = Wm - (N - 2L_b) with L_b/N = 100/539 < 1/2, so the deficit N - 2L_b is positive (pukezad). Pipozop turns that deficit into a margin: s/W = m(1 - eta) with eta = 339/(22587335 m), about 1.5e-11, and the exponential estimate m^(1-2^-50) > m(1 - 20*2^-50) > m(1 - eta) = s/W holds because ln m < 20 and eta exceeds 20*2^-50 (pipozop). So the one strict inequality gives an exponent strictly below 1 by a small positive amount. Gap in the pages, which is my own reconstruction and not stated on any page: with s = Wm exactly, the unrolled sum is about sum_j m^j = O(f), i.e. linear, so no saving; the exponent of the last term is log_m(s/W), which is below 1 exactly when s/W < m.",
+  "citations": [
+    {
+      "page": "rut",
+      "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+    },
+    {
+      "page": "rut",
+      "quote": "\\mathcal C(mf)\\le\\frac{s}{W}\\mathcal C(f)+O(1)"
+    },
+    {
+      "page": "rut",
+      "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+    },
+    {
+      "page": "rut",
+      "quote": "So an interchange costs $O(Vf^\\tau)$"
+    },
+    {
+      "page": "dol",
+      "quote": "So $s_{\\rm b}=(W_{\\rm b}m-2N+2L_{\\rm b})+N=W_{\\rm b}m-(N-2L_{\\rm b})<W_{\\rm b}m$"
+    },
+    {
+      "page": "dol",
+      "quote": "The deficit $W_{\\rm b}m-s_{\\rm b}=N-2L_{\\rm b}=\\frac{339}{539}N$ is positive because $L_{\\rm b}/N<1/2$"
+    },
+    {
+      "page": "dol",
+      "quote": "$L_{\\rm b}/N=3c_{\\rm b}h/v=30000/161700=100/539$"
+    },
+    {
+      "page": "rut",
+      "quote": "Write $s/W=m(1-\\eta)$, with $\\eta$ now the relative deficit $(Wm-s)/(Wm)$"
+    },
+    {
+      "page": "rut",
+      "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$"
+    },
+    {
+      "page": "rut",
+      "quote": "Hence $\\tau=\\sigma=1-2^{-50}$ gives $s/W<m^\\tau$ (bit)"
+    }
+  ],
+  "key_idea": {
+    "page": "rut",
+    "statement": "Each recursion level multiplies the cost per unit volume by s/W, and since s/W is below m^tau with tau < 1, the unrolled geometric sum is only f^tau rather than linear in f.",
+    "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+  },
+  "stuck": [
+    {
+      "page": "pid",
+      "quote": "since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$",
+      "note": "The page says that s/W being near m makes tau near 1, but never shows how the exponent follows from the ratio. The fixed tau = 1 - 2^-50 only appears later, on the Pipozop page, so I could not tell where the closeness claim comes from.",
+      "level": "chain"
+    },
+    {
+      "page": "pid",
+      "quote": "so there are exactly $s$ smaller calls",
+      "note": "I could follow the count only by trusting the Pogotos page, which says a shear of rank a costs exactly a interchanges. The page itself does not say why the frame change of each edge is a shear of the right rank.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$",
+      "note": "The same letter m is the recursion fan-out and the label-space dimension 10^6. I could not tell whether the recurrence is meant for a general m or only for m = 10^6, so I took the identification as given.",
+      "level": "statement"
+    },
+    {
+      "page": "rut",
+      "quote": "the bit network spends $N$ on extra source ranks, and shrinking edges, losing $L$ dimensions in all, cost back $2L<N$",
+      "note": "The page asserts 2L < N without giving the value of L or N. I found the ratio L_b/N = 100/539 only on the Pukezad page.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$",
+      "note": "The page never says what happens at s/W = m, and never says that the exponent of the last term is log_m(s/W). I could not see why strictness is needed beyond this. I reconstructed it myself: at s/W = m the sum is linear in f, so there is no saving.",
+      "level": "chain"
+    },
+    {
+      "page": "dol",
+      "quote": "Only $X_a$'s first edge differs: at stage $1$ its first gate has label $U_a$, so $2\\Pi_{U_a}$ has rank one where the dimension change is zero",
+      "note": "The rank fact stated just before covers the difference Pi_V - Pi_U, not 2 Pi_U, so the rank-one claim for 2 Pi_U is a jump I could not check. I accepted it without verification.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "The same splitting shows every arrow is an inclusion except centre $3\\to4$",
+      "note": "I did not verify the inclusions or the loss count L_b = I c_b h. I accepted both on trust, so the value of L_b/N and hence the strict inequality rest on an unchecked count.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "Labels are built as [mugumez](vez) inside",
+      "note": "This concept is not in my background. I could decode it only by reading its page's factorwise definition of how the labels combine across three copies of one small space, and I could not check the dimension count without that page.",
+      "level": "symbol"
+    },
+    {
+      "page": "ber",
+      "quote": "The intermediate frames are therefore free, and can be chosen so that each edge change is cheap",
+      "note": "The page says the frames can be chosen to make edge changes cheap but does not say how. The link from this freedom to the rank counts appears only on the Pukezad page, where the labels are the frames.",
+      "level": "chain"
+    }
+  ],
+  "reason": "I am fairly sure of the recurrence C(mf) <= (s/W)C(f) + O(1) and of the numeric margin: I rechecked the arithmetic (339/539 and 22587335/539 agree, and the exponential bound holds given eta > 20*2^-50). I am less sure of the rank count s = Wm - (N - 2L_b), which I took on the word of the Pukezad page without checking the network. I also reconstructed, without a page, why s = Wm exactly would give no saving."
+}
