@@ -1,0 +1,123 @@
+{
+ "symbols": [
+  {
+   "symbol": "D",
+   "name": "transformed axes",
+   "meaning": "The number of transformed axes, d-1.",
+   "relation": "count",
+   "quote": "Write $\\ell=\\log_2 r$, the address bits of a long axis, and $D=d-1$, the number of transformed axes."
+  },
+  {
+   "symbol": "K",
+   "name": "chunk width",
+   "meaning": "The number of bits in an address chunk.",
+   "relation": "count",
+   "quote": "$K$ is the chunk width in bits; $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "The fixed exponent below 1 in the cost of the chunk interchange.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits; $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\lambda'",
+   "name": "layer exponent",
+   "meaning": "The fixed exponent below 1 in the cost of the simultaneous layer.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits; $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\ell",
+   "name": "long-axis address bits",
+   "meaning": "The base-2 logarithm of r, the number of address bits of a long axis.",
+   "relation": "count",
+   "quote": "Write $\\ell=\\log_2 r$, the address bits of a long axis, and $D=d-1$, the number of transformed axes."
+  },
+  {
+   "symbol": "\\boldsymbol t",
+   "name": "axis lengths",
+   "meaning": "The tuple (t_1,...,t_D) of the axis lengths.",
+   "relation": "direct",
+   "quote": "With $\\boldsymbol t=(t_1,\\dots,t_D)$, $F_{\\boldsymbol t}^-$ is the forward synthetic transform along all $D$ axes and $F_{\\boldsymbol t}^+$ its opposite."
+  },
+  {
+   "symbol": "F_{\\boldsymbol t}^-",
+   "name": "forward synthetic transform",
+   "meaning": "The forward synthetic transform along all D axes, axis i having length t_i.",
+   "relation": "direct",
+   "quote": "With $\\boldsymbol t=(t_1,\\dots,t_D)$, $F_{\\boldsymbol t}^-$ is the forward synthetic transform along all $D$ axes and $F_{\\boldsymbol t}^+$ its opposite."
+  },
+  {
+   "symbol": "F_{\\boldsymbol t}^+",
+   "name": "opposite transform",
+   "meaning": "The opposite of the forward synthetic transform along all D axes.",
+   "relation": "direct",
+   "quote": "With $\\boldsymbol t=(t_1,\\dots,t_D)$, $F_{\\boldsymbol t}^-$ is the forward synthetic transform along all $D$ axes and $F_{\\boldsymbol t}^+$ its opposite."
+  },
+  {
+   "symbol": "B",
+   "name": "bit reversal",
+   "meaning": "The bit-reversal permutation applied along every axis.",
+   "relation": "direct",
+   "quote": "Outputs keep the bit-reversed order of [retained frequency order](frequency-order.md), written $B$ along every axis."
+  },
+  {
+   "symbol": "b",
+   "name": "leftover low bits",
+   "meaning": "The number of low address bits of an axis left over after whole K-bit chunks.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$, so $\\ell-1=qK+b$ (new meanings: $b$ counts leftover low bits of an axis, $q$ its whole chunks)."
+  },
+  {
+   "symbol": "q",
+   "name": "whole chunks",
+   "meaning": "The number of whole K-bit chunks per axis.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$, so $\\ell-1=qK+b$ (new meanings: $b$ counts leftover low bits of an axis, $q$ its whole chunks)."
+  },
+  {
+   "symbol": "L",
+   "name": "layout permutation",
+   "meaning": "The record permutation made by the prefix moves and chunk exchanges.",
+   "relation": "direct",
+   "quote": "The prefix moves and exchanges define the record permutation $L$; reversing them gives $L^{-1}$."
+  },
+  {
+   "symbol": "z",
+   "name": "round input",
+   "meaning": "The array entering a round.",
+   "relation": "direct",
+   "quote": "Truncation toward zero is odd and acts separately on each real and imaginary part, so for the array $z$ entering a round $J_EQ_p(\\mathcal Hz)=Q_p(J_E\\mathcal Hz)$: one truncation follows the exact round."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "synthetic-transform",
+   "predicate": "arranges the address bits of",
+   "quote": "The tape layout arranges the address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis."
+  },
+  {
+   "prerequisite": "simultaneous-layer",
+   "predicate": "runs as one",
+   "quote": "The tape layout arranges the address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis."
+  },
+  {
+   "prerequisite": "address-interchange",
+   "predicate": "exchanges chunks by",
+   "quote": "This needs at most $Dq-1$ exchanges, each made by the [fast address-chunk interchange](address-interchange.md) at cost $O(TpK^\\tau)$, even for nonadjacent chunks"
+  },
+  {
+   "prerequisite": "frequency-order",
+   "predicate": "keeps the bit-reversed order of",
+   "quote": "Outputs keep the bit-reversed order of [retained frequency order](frequency-order.md), written $B$ along every axis."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S2.2",
+   "quote": "Call an axis long if it has $\\ell$ address bits and short if $\\ell-1$. Put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$, so $\\ell-1=qK+b$ (new meanings: $b$ counts leftover low bits of an axis, $q$ its whole chunks). Move to a prefix one at a time the top bit of each long axis and the $b$ lowest bits of each axis. At most $D(b+1)=O(dK)$ slots move, so the moves cost $O(TpdK)$\n\nTo group chunk 1 of every axis, then chunk 2, etc., scan target positions left to right, exchanging the chunk there with the required one if different. This needs at most $Dq-1$ exchanges, each made by the [fast address-chunk interchange](address-interchange.md) at cost $O(TpK^\\tau)$, even for nonadjacent chunks. Since $DqK\\le d\\ell=O(p)$, the exchanges cost $O(Tp\\,DqK^\\tau)=O(Tp\\,(DqK)K^{\\tau-1})=O(Tp\\,pK^{\\tau-1})$. The prefix moves and exchanges define the record permutation $L$; reversing them gives $L^{-1}$.\n\nThere are $b+1$ rounds on prefix slots and $qK$ on chunks, $\\ell$ in all. A chunk round's selected bits share an offset in $D$ consecutive chunks, so one layer does it at cost $O(Tpd^{\\lambda'})$; the chunk rounds cost $O(Tp\\ell d^{\\lambda'})$ in total A prefix round handles at most $D$ bits individually at $O(Tp)$ each, so costs $O(Tpd)$; at most $b+1\\le K$ such rounds cost $O(TpdK)$.\n\nEach round is the contraction $\\mathcal H$ (norm-nonincreasing), the signed coefficient permutation $J_E$, and one truncation $Q_p$. Truncation toward zero is odd and acts separately on each real and imaginary part, so for the array $z$ entering a round $J_EQ_p(\\mathcal Hz)=Q_p(J_E\\mathcal Hz)$: one truncation follows the exact round. The exact round does not increase the norm of the computed-versus-exact difference, and truncation moves each entry by less than $\\sqrt2\\,2^{-p}$; the permutations in $L$ are isometries and add no error. By the triangle inequality each round raises the error by less than $\\sqrt2\\,2^{-p}$, so from zero error the $\\ell$ rounds leave error below $\\sqrt2\\,\\ell\\,2^{-p}$.\n\nArithmetic on named slots after $L$ is conjugated by it. The forward procedure moves records by $L$ and then runs $BF_{\\boldsymbol t}^-$, giving $(LBF_{\\boldsymbol t}^-L^{-1})L=LBF_{\\boldsymbol t}^-$. The opposite procedure runs its arithmetic and restores by $L^{-1}$, giving $L^{-1}(LF_{\\boldsymbol t}^+B^{-1}L^{-1})=F_{\\boldsymbol t}^+B^{-1}L^{-1}$."
+  }
+ ]
+}
