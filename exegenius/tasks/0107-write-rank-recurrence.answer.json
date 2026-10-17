@@ -8,9 +8,23 @@
       "quote": "A call has a parameter $f$, the number of digits per interchanged chunk or of selected axes, and a volume $V$."
     },
     {
+      "symbol": "m",
+      "name": "slot count",
+      "meaning": "The number of size-f slots into which a call at parameter mf cuts its parameter, equal to 10^6, the label-space dimension.",
+      "relation": "count",
+      "quote": "A call at parameter $mf$, with $m=10^6$ (the label-space dimension) slots of size $f$, deals its rows into $W$ streams of volume $V/W$, one per wire of a fixed bit or complex [exchange network](exchange-network.md)."
+    },
+    {
+      "symbol": "s",
+      "name": "number of smaller calls",
+      "meaning": "The number of calls at parameter f made by a call at parameter mf: the total rank of the frame changes over all edges of the network.",
+      "relation": "count",
+      "quote": "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total edge rank."
+    },
+    {
       "symbol": "F",
       "name": "cost per unit volume",
-      "meaning": "The running time of a call at a given parameter divided by the volume of its data.",
+      "meaning": "F(f) is the running time of a call at parameter f divided by the volume of its data.",
       "relation": "direct",
       "quote": "With $F(f)$ the time per unit volume at parameter $f$, these cost $s(V/W)F(f)$."
     },
@@ -19,12 +33,19 @@
       "name": "recursion depth",
       "meaning": "The number of recursion levels between the top call and the nodes considered.",
       "relation": "count",
-      "quote": "At depth $j$ (now counting levels), the $(s/W)^j$ normalized overheads $O((f/m^j)^\\lambda)$ sum geometrically, with ratio $(s/W)/m^\\lambda<1$, to $O(f^\\lambda)$; leaves contribute $(s/W)^jf/m^j\\le f^\\sigma(f/m^j)^{1-\\sigma}<f^\\sigma d^{\\beta(1-\\sigma)}$."
+      "quote": "Unrolling through $\\log_m f$ levels ($f$ a power of $m$), with depth $j$ (here counting levels) contributing $(s/W)^j$, gives $F(f)=O\\big(\\sum_{j=0}^{\\log_m f}(s/W)^j\\big)$."
+    },
+    {
+      "symbol": "\\tau",
+      "name": "saving exponent",
+      "meaning": "A fixed exponent below 1 with s/W < m^tau, which makes an interchange cost O(V f^tau); here tau = 1 - 2^{-50}.",
+      "relation": "direct",
+      "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$: if $s/W\\le1$ there are $1+\\log_m f$ terms of at most $1$; otherwise the last term, below $m^{\\tau\\log_m f}=f^\\tau$, dominates the geometric sum."
     },
     {
       "symbol": "\\eta",
       "name": "relative rank deficit",
-      "meaning": "The relative deficit (Wm - s)/(Wm) of the total edge rank s below Wm.",
+      "meaning": "The fraction (Wm - s)/(Wm) by which the number of smaller calls s falls short of Wm.",
       "relation": "direct",
       "quote": "Write $s/W=m(1-\\eta)$, with $\\eta$ now the relative deficit $(Wm-s)/(Wm)$."
     }
@@ -43,7 +64,7 @@
     },
     {
       "step": "S1.4",
-      "quote": "Since $m<2^{20}$, $\\ln m<20\\ln 2<20$; as the exponential lies above its tangent at $0$, $m^{1-2^{-50}}=m\\exp(-2^{-50}\\ln m)>m(1-2^{-50}\\ln m)>m(1-20\\cdot2^{-50})>m(1-\\eta)=s/W$ for either network. Hence $\\tau=\\sigma=1-2^{-50}$ gives $s/W<m^\\tau$ for the bit network and $s/W<m^\\sigma$ for the complex one, exponents barely below $1$."
+      "quote": "Since $m<2^{20}$, $\\ln m<20\\ln 2<20$; as the exponential lies above its tangent at $0$, $m^{1-2^{-50}}=m\\exp(-2^{-50}\\ln m)>m(1-2^{-50}\\ln m)>m(1-20\\cdot2^{-50})>m(1-\\eta)=s/W$ for either network. Hence $\\tau=\\sigma=1-2^{-50}$ gives $s/W<m^\\tau$ (bit) and $s/W<m^\\sigma$ (complex), exponents barely below $1$."
     }
   ]
 }
