@@ -1,0 +1,95 @@
+{
+ "symbols": [
+  {
+   "symbol": "\\ell",
+   "name": "long-axis address bits",
+   "meaning": "The base-2 logarithm of r, the number of address bits of a long axis.",
+   "relation": "count",
+   "quote": "Write $\\ell=\\log_2 r$, the number of address bits of a long axis, and $D=d-1$, the number of transformed axes (not a chunk or a chunk count from the other pages)."
+  },
+  {
+   "symbol": "D",
+   "name": "transformed axis count",
+   "meaning": "The number of transformed axes, d-1.",
+   "relation": "count",
+   "quote": "Write $\\ell=\\log_2 r$, the number of address bits of a long axis, and $D=d-1$, the number of transformed axes (not a chunk or a chunk count from the other pages)."
+  },
+  {
+   "symbol": "b",
+   "name": "leftover low bits",
+   "meaning": "The number of leftover low bits of an axis, (l-1) mod K.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$, the number of leftover low bits of an axis, and $q=\\lfloor(\\ell-1)/K\\rfloor$, its number of whole chunks."
+  },
+  {
+   "symbol": "q",
+   "name": "whole chunks per axis",
+   "meaning": "The number of whole K-bit chunks of an axis.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$, the number of leftover low bits of an axis, and $q=\\lfloor(\\ell-1)/K\\rfloor$, its number of whole chunks."
+  },
+  {
+   "symbol": "K",
+   "name": "chunk width",
+   "meaning": "The chunk width in bits.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits, and $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "The exponent below 1 in the chunk interchange cost.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits, and $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\lambda'",
+   "name": "layer exponent",
+   "meaning": "The exponent below 1 in the layer cost.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits, and $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "B",
+   "name": "bit-reversal permutation",
+   "meaning": "The bit-reversal permutation on all axes.",
+   "relation": "direct",
+   "quote": "written $B$ here (the bit-reversal permutation on all axes)"
+  },
+  {
+   "symbol": "L",
+   "name": "record permutation",
+   "meaning": "The record permutation that moves the selected bits together.",
+   "relation": "direct",
+   "quote": "The record permutation $L$, built below, moves them together once."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "synthetic-transform",
+   "predicate": "reorders the address bits of",
+   "quote": "The tape layout reorders address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) on several axes runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis, which is where the transform's cost drops below the standard pass count."
+  },
+  {
+   "prerequisite": "simultaneous-layer",
+   "predicate": "runs as one",
+   "quote": "The tape layout reorders address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) on several axes runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis, which is where the transform's cost drops below the standard pass count."
+  },
+  {
+   "prerequisite": "address-interchange",
+   "predicate": "exchanges chunks by",
+   "quote": "This is at most $Dq-1$ exchanges, each done by the [fast address-chunk interchange](address-interchange.md) in $O(TpK^\\tau)$ even for nonadjacent chunks"
+  },
+  {
+   "prerequisite": "frequency-order",
+   "predicate": "consumes that order by",
+   "quote": "By [retained frequency order](frequency-order.md) the forward transform leaves its outputs in bit-reversed order, written $B$ here (the bit-reversal permutation on all axes), and the opposite transform consumes that order, so no reordering is executed."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S2.2",
+   "quote": "Adding the three costs, the moves, exchanges and rounds give $O(Tp[dK+pK^{\\tau-1}+\\ell d^{\\lambda'}])$."
+  }
+ ]
+}

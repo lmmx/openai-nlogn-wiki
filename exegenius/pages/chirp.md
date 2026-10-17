@@ -1,4 +1,4 @@
-The Bluestein chirp identity rewrites a permuted [Discrete Fourier transform](dft.md) as a pointwise chirp phase, a cyclic convolution, and another chirp phase. Gaussian resampling leaves a target permutation $Q$, a reordering of the output of a power-of-two transform; the identity absorbs $Q$ into a convolution, so it is never executed as a sort <cite data-source="paper">Bluestein's chirp identity converts the middle transform,</cite>.
+The Bluestein chirp identity rewrites a permuted [Discrete Fourier transform](dft.md) as a pointwise chirp phase, a cyclic convolution, and another chirp phase. Gaussian resampling leaves a target permutation $Q$, a reordering of the output of a power-of-two transform. The identity converts the transform together with $Q$ into a cyclic convolution <cite data-source="paper">including its target permutation, into normalized cyclic convolution.</cite>, so $Q$ never has to be executed as a sort.
 
 ## Why avoid executing the permutation
 
