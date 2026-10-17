@@ -6,7 +6,7 @@ The multiplier runs in the [Fixed finite-tape machine model](machine-model.md), 
 
 The multiplier is not the source of the saving. It is called on two kinds of product.
 
-The first kind arises once the new algorithm reduces its [Fourier transforms](dft.md) to polynomial products over $\mathbb C[y]/(y^r+1)$. These ring products go through signed packing <cite data-source="paper">use signed packing and the established $O(n\log n)$ multiplier as an</cite>: [Signed packing](signed-packing.md) turns each into four integer products on $O(rp)$ bits, where $r$ is the record length and $p$ the number of fractional bits.
+The multiplier is called on the first kind once the new algorithm reduces its [Fourier transforms](dft.md) to polynomial products over $\mathbb C[y]/(y^r+1)$. These ring products go through signed packing <cite data-source="paper">use signed packing and the established $O(n\log n)$ multiplier as an</cite>: [Signed packing](signed-packing.md) turns each into four integer products on $O(rp)$ bits, where $r$ is the record length and $p$ the number of fractional bits.
 
 The second kind is the chirp numerators, which have $O(p)$ bits and are squared and multiplied directly <cite data-source="paper">Computing their squares and products with the previously established $O(N\log(2N))$ multiplier</cite>.
 
