@@ -1,0 +1,95 @@
+{
+ "symbols": [
+  {
+   "symbol": "u",
+   "name": "first input",
+   "meaning": "The first of the two n-bit integers being multiplied.",
+   "relation": "direct",
+   "quote": "Call the two inputs $u$ and $u'$, each with $n$ bits."
+  },
+  {
+   "symbol": "u'",
+   "name": "second input",
+   "meaning": "The second of the two n-bit integers being multiplied.",
+   "relation": "direct",
+   "quote": "Call the two inputs $u$ and $u'$, each with $n$ bits."
+  },
+  {
+   "symbol": "b",
+   "name": "digit bits",
+   "meaning": "The number of bits in one radix-2^b digit.",
+   "relation": "count",
+   "quote": "Let $b=\\lceil\\log_2 n\\rceil$ be the number of bits in one digit, so $n\\le 2^b$."
+  },
+  {
+   "symbol": "S",
+   "name": "convolution length",
+   "meaning": "The length of the cyclic convolution, between T/2 and T, a product of distinct odd primes.",
+   "relation": "count",
+   "quote": "$S$ is the length of the cyclic convolution, with $T/2<S<T$."
+  },
+  {
+   "symbol": "x",
+   "name": "polynomial variable",
+   "meaning": "The variable of the digit polynomials, evaluated at 2^b to recover the integers.",
+   "relation": "direct",
+   "quote": "Let $x$ be a polynomial variable, and form the polynomials in $x$ with the $u_i$ and with the $u'_k$ as coefficients."
+  },
+  {
+   "symbol": "u_i",
+   "name": "digit of u",
+   "meaning": "The i-th radix-2^b digit of u, an integer from 0 to 2^b-1.",
+   "relation": "direct",
+   "quote": "Write $u=\\sum_{i=0}^{q-1}u_i2^{bi}$ and $u'=\\sum_{k=0}^{q-1}u'_k2^{bk}$, where the digits $u_i$ and $u'_k$ are integers with $0\\le u_i,u'_k<2^b$."
+  },
+  {
+   "symbol": "u'_k",
+   "name": "digit of u'",
+   "meaning": "The k-th radix-2^b digit of u', an integer from 0 to 2^b-1.",
+   "relation": "direct",
+   "quote": "Write $u=\\sum_{i=0}^{q-1}u_i2^{bi}$ and $u'=\\sum_{k=0}^{q-1}u'_k2^{bk}$, where the digits $u_i$ and $u'_k$ are integers with $0\\le u_i,u'_k<2^b$."
+  },
+  {
+   "symbol": "c_j",
+   "name": "product coefficient",
+   "meaning": "The coefficient of x^j in the product of the two digit polynomials.",
+   "relation": "direct",
+   "quote": "Let $c_j=\\sum_{i+k=j}u_iu'_k$ be the coefficient of $x^j$ in that product."
+  },
+  {
+   "symbol": "T",
+   "name": "padded length",
+   "meaning": "The number of coefficients of the padded array, a power of two between 4n/b and 8n/b.",
+   "relation": "count",
+   "quote": "$T$ is a power of two with $4n/b\\le T<8n/b$, the size of the padded array on which the later power-of-two transforms act."
+  },
+  {
+   "symbol": "q",
+   "name": "digit count",
+   "meaning": "The number of radix-2^b digits in each input.",
+   "relation": "count",
+   "quote": "Let $q=\\lceil n/b\\rceil$ be the number of digits in each input, padding with leading zeros."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S5.2.1",
+   "quote": "Each digit polynomial has degree at most $q-1$, so the product polynomial has degree at most $2q-2$."
+  },
+  {
+   "step": "S5.2.2",
+   "quote": "Since a ceiling is less than its argument plus 1, $q<n/b+1$ and so $2q-2<2n/b$. Also $2n/b\\le T/2$ because $T\\ge 4n/b$, and $T/2<S$."
+  },
+  {
+   "step": "S5.2.3",
+   "quote": "Each $c_j$ is a sum of at most $q$ products $u_iu'_k$, each between $0$ and $(2^b-1)^2$. Hence $0\\le c_j\\le q(2^b-1)^2$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "convolution",
+   "predicate": "is reduced to",
+   "quote": "Multiplication therefore reduces to a [Cyclic convolution](convolution.md) of length $S$ on short integer coefficients."
+  }
+ ]
+}

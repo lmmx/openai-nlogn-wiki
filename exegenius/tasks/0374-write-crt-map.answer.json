@@ -1,0 +1,149 @@
+{
+ "symbols": [
+  {
+   "symbol": "d",
+   "name": "axis count",
+   "meaning": "The number of prime cyclic axes, with no coefficient axis counted.",
+   "relation": "count",
+   "quote": "Let $d$ be the number of axes (unlike on the [Cyclic convolution](convolution.md) page, no coefficient axis is counted), let $i$ index them, let $s_i$ be the length of axis $i$, the lengths being pairwise coprime, and let $S=s_1\\cdots s_d$."
+  },
+  {
+   "symbol": "i",
+   "name": "axis index",
+   "meaning": "The index of an axis, from 1 to d.",
+   "relation": "direct",
+   "quote": "Let $d$ be the number of axes (unlike on the [Cyclic convolution](convolution.md) page, no coefficient axis is counted), let $i$ index them, let $s_i$ be the length of axis $i$, the lengths being pairwise coprime, and let $S=s_1\\cdots s_d$."
+  },
+  {
+   "symbol": "s_i",
+   "name": "axis length",
+   "meaning": "The length of source axis i, pairwise coprime with the other axis lengths.",
+   "relation": "direct",
+   "quote": "Let $d$ be the number of axes (unlike on the [Cyclic convolution](convolution.md) page, no coefficient axis is counted), let $i$ index them, let $s_i$ be the length of axis $i$, the lengths being pairwise coprime, and let $S=s_1\\cdots s_d$."
+  },
+  {
+   "symbol": "P_i",
+   "name": "prefix product",
+   "meaning": "The product of the lengths of the axes before axis i.",
+   "relation": "direct",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths of the axes before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "symbol": "\\mu_i",
+   "name": "exponent",
+   "meaning": "The inverse of P_i modulo s_i, the exponent of x_i in the image of x.",
+   "relation": "direct",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths of the axes before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "symbol": "\\Phi",
+   "name": "address map",
+   "meaning": "The algebra isomorphism from the cyclic ring of length S to the product of cyclic rings on the axes, sending x to the product of x_i^{mu_i}.",
+   "relation": "direct",
+   "quote": "Define $\\Phi:\\mathbb C[x]/(x^S-1)\\to\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$ by $x\\mapsto\\prod_i x_i^{\\mu_i}$, with one variable $x_i$ per axis."
+  },
+  {
+   "symbol": "x_i",
+   "name": "axis variable",
+   "meaning": "The polynomial variable of axis i.",
+   "relation": "direct",
+   "quote": "Define $\\Phi:\\mathbb C[x]/(x^S-1)\\to\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$ by $x\\mapsto\\prod_i x_i^{\\mu_i}$, with one variable $x_i$ per axis."
+  },
+  {
+   "symbol": "a_j",
+   "name": "mixed-radix digit",
+   "meaning": "The digit of the coefficient index k in position j, with 0 <= a_j < s_j.",
+   "relation": "direct",
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix, with digits $0\\le a_j<s_j$."
+  },
+  {
+   "symbol": "b_i",
+   "name": "axis coordinate",
+   "meaning": "The coordinate along axis i of the image of x^k.",
+   "relation": "direct",
+   "quote": "The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i$."
+  },
+  {
+   "symbol": "\\ell",
+   "name": "address bits",
+   "meaning": "The number of address bits of an axis of length r.",
+   "relation": "count",
+   "quote": "Pad axis $i$ with zero records to a length $t_i$, a power of two with $r/2\\le t_i\\le r$, where $r=2^\\ell$ and $\\ell$ is the number of address bits of an axis of length $r$."
+  },
+  {
+   "symbol": "T",
+   "name": "padded record count",
+   "meaning": "The number of padded records, the product of the padded axis lengths.",
+   "relation": "count",
+   "quote": "Let $T=\\prod_it_i$ be the number of padded records, each of $O(p)$ bits."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "A fixed exponent below 1 in the cost of the chunk interchange.",
+   "relation": "direct",
+   "quote": "Let $\\tau<1$ be a fixed exponent."
+  },
+  {
+   "symbol": "L",
+   "name": "address width",
+   "meaning": "The number of address bits of each of two equal-width axes being interchanged.",
+   "relation": "count",
+   "quote": "A [chunk interchange](address-interchange.md) exchanges two axes of equal address width $L$ in $O(VL^\\tau)$ time"
+  },
+  {
+   "symbol": "t_i",
+   "name": "padded axis length",
+   "meaning": "The length of axis i after padding with zero records, a power of two between r/2 and r.",
+   "relation": "direct",
+   "quote": "Pad axis $i$ with zero records to a length $t_i$, a power of two with $r/2\\le t_i\\le r$, where $r=2^\\ell$ and $\\ell$ is the number of address bits of an axis of length $r$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "convolution",
+   "predicate": "preserves",
+   "quote": "Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md), the product in the ring."
+  },
+  {
+   "prerequisite": "multidim-transform",
+   "predicate": "prepares the data for",
+   "quote": "This prepares the data for [Multidimensional transforms](multidim-transform.md), which act on one axis at a time."
+  },
+  {
+   "prerequisite": "controlled-shifts",
+   "predicate": "is implemented by",
+   "quote": "The map is implemented by these shifts, each of linear cost by [Controlled shifts and rational scalings](controlled-shifts.md), which includes computing the offsets."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S5.3.1",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths of the axes before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$. It is invertible because $P_i$ is coprime to $s_i$."
+  },
+  {
+   "step": "S5.3.2",
+   "quote": "Define $\\Phi:\\mathbb C[x]/(x^S-1)\\to\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$ by $x\\mapsto\\prod_i x_i^{\\mu_i}$, with one variable $x_i$ per axis. Since $s_i\\mid S$, each $x_i^{\\mu_iS}=1$, so $\\Phi$ respects $x^S=1$ and defines an algebra map."
+  },
+  {
+   "step": "S5.3.3",
+   "quote": "So the image of $x$ has order $S$ and its $S$ powers are distinct. The target has exactly $S$ monomials, so the powers run through all of them exactly once. Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md), the product in the ring."
+  },
+  {
+   "step": "S5.3.4",
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix, with digits $0\\le a_j<s_j$. The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i$."
+  },
+  {
+   "step": "S5.3.5",
+   "quote": "Terms with $j>i$ vanish modulo $s_i$, since $s_i$ divides $P_j$, and $\\mu_iP_i\\equiv1$ modulo $s_i$. Hence"
+  },
+  {
+   "step": "S5.3.6",
+   "quote": "Then update the targets in the order $i=d,d-1,\\dots,1$. When target $i$ is updated, none of its lower-index controls has yet changed, so the offset is computed from the original digits $a_j$ required by the formula. Each update is a prefix-controlled cyclic shift of the valid interval $[0,s_i)$ with identity on $[s_i,t_i)$, so zero padding stays zero."
+  },
+  {
+   "step": "S5.3.7",
+   "quote": "Reversing all axes uses $O(d^2)$ such moves. The shifts and scans cost only $O(dTp)$, so the map, its inverse and the padding cost"
+  }
+ ]
+}
