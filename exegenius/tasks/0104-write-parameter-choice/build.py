@@ -19,7 +19,7 @@ d("S5.1.10",seg("Let $r=2^{","=T$."))
 d("S5.1.11",seg("Thus $t_i\\in\\{r/2,r\\}$","$t_d=r$."))
 d("S5.1.12",seg("The lemmas assume","at once."))
 d("S5.1.13",seg("Put $\\alpha=\\lceil(12d^2b)^{1/4}\\rceil$."))
-d("S5.1.14",seg("Put $\\gamma=2d\\alpha^2$ and $\\eta=1/(4d)$."))
+d("S5.1.14",seg("Put $\\gamma=2d\\alpha^2$ and $\\eta=1/(4d)$"))
 d("S5.1.15",seg("As $\\lceil x\\rceil","$\\gamma=o(b)$."))
 d("S5.1.16",seg("; both $x=r/2$","o(\\log x)$."))
 d("S5.1.17",seg("Choose distinct odd primes","power of two."))
@@ -49,12 +49,13 @@ for s,n,m in [("a_d","lower axis constant","The constant in the lower bound a_d 
  ("b_r","upper record constant","The constant in the upper bound r <= 2^{b_r p/d}."),
  ("C_\\ell","address-bit constant","The constant in the bound d*ell <= C_ell p on the total address bits.")]:
     sym(s,n,m,"direct",Q2)
-sym("\\eta","relative gap","The relative gap of s_i below t_i, equal to 1/(4d).","direct",seg("Here $\\alpha$ sets","below $t_i$."))
+sym("\\eta","relative distance","The relative distance 1/(4d) of each prime s_i below t_i.","direct",seg("Put $\\gamma=2d","below $t_i$."))
 sym("\\theta_i","axis relative gap","The relative gap t_i/s_i - 1 of axis i.","direct",seg("With the relative gap","T<2^p$."))
-Q3=seg("Here $x$ is real","o(\\log x)$.")
-sym("x","real argument","A real number, the length at which the prime interval is taken.","direct",Q3)
+Q3=seg("By the prime-interval lemma","contains at least $\\eta x/(2\\log x)$ primes")
+Q4=seg("As $\\lceil x\\rceil","$\\gamma=o(b)$.")
+sym("x","real argument","A real number, the length at which the prime interval is taken.","direct",Q4)
 sym("q","integer in interval","An integer, in the prime interval.","direct",Q3)
-R=[{"prerequisite":"gaussian-resampling","predicate":"sets the Gaussian width of","quote":seg("Here $\\alpha$ sets","below $t_i$.")},
+R=[{"prerequisite":"gaussian-resampling","predicate":"sets the Gaussian width of","quote":seg("Here $\\alpha$ sets","(gaussian-resampling.md).")},
  {"prerequisite":"crt-map","predicate":"supplies the prime axis lengths of","quote":seg("Put $S=\\prod_is_i$","(crt-map.md).")},
  {"prerequisite":"fixed-point","predicate":"sets the precision of","quote":seg("So $p$ sets","counts the axes.")}]
 json.dump({"derivations":D,"symbols":S,"relations":R},open('0104-write-parameter-choice.answer.json','w'),indent=1)
