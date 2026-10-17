@@ -1249,10 +1249,6 @@
     "parameter-choice": [
       "The reader cannot follow this step: \"the relative distance of each prime $s_i$ below $t_i$\" (Wrong as stated. The primes are chosen with (1-2eta)t_i < s_i <= (1-eta)t_i, so the relative distance (t_i-s_i)/t_i lies in [eta, 2eta), not equal to eta. Eta is only a lower bound on the relative distance (and 2eta an upper bound); paper lines 4092 and 4135 define eta=1/(4d) only as the parameter of the prime interval.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
     ],
-    "phase-frames": [
-      "Say what $\\operatorname{supp}$ denotes where it is first used (for a size or count, what it counts): \"\\operatorname{supp}(z)\\cap\\operatorname{supp}(w)\" (The page never says what the support of a vector is (presumably the set of coordinates where it is 1).)",
-      "Explain \"support of a vector\" in a sentence where it is first used."
-    ],
     "precision-recovery": [
       "The reader cannot follow this step: \"leaves margin $2^{-b}$ against amplification up to $2^{5b+4}$\" (Not in the paper and not supported by the page's own bound. The amplification is 2^{2b+4}S with errors up to about 28*2^gamma*T^2*L, so 2^{5b+4}*2^{-6b}=2^{-b+4}, not 2^{-b}; the displayed bound actually obtained is 448 b 2^{-b+gamma}, which exceeds 2^{-b}. The correct statement is the displayed bound 448 b 2^{-b+gamma} <= 448 b 2^{-3b/4} < 1/2 (paper lines 4722-4727).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
       "The reader cannot follow this step: \"Its transforms and truncation err by under $3L+2$ before a final exact multiplication by $M=T/r$\" (The page never says what the ring convolution consists of (two forward synthetic transforms, a pointwise polynomial product with truncation under 2, one opposite transform), so the reader cannot check that three transforms at L each plus 2 gives 3L+2.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
@@ -2995,130 +2991,74 @@
     ],
     "phase-frames": [
       {
-        "symbol": "u",
-        "name": "vector",
-        "meaning": "A vector of F_2^m on this page.",
-        "relation": "direct",
-        "quote": "Labels are subspaces of $\\mathbb F_2^m$, and $u,v,w,z$ are vectors of $\\mathbb F_2^m$ here."
-      },
-      {
         "symbol": "v",
-        "name": "vector",
-        "meaning": "A vector of F_2^m on this page.",
+        "name": "binary vector",
+        "meaning": "A vector of F_2^m; in the main argument a basis vector of an edge residual. Here v does not mean the triple count.",
         "relation": "direct",
-        "quote": "Labels are subspaces of $\\mathbb F_2^m$, and $u,v,w,z$ are vectors of $\\mathbb F_2^m$ here."
-      },
-      {
-        "symbol": "w",
-        "name": "vector",
-        "meaning": "A vector of F_2^m on this page.",
-        "relation": "direct",
-        "quote": "Labels are subspaces of $\\mathbb F_2^m$, and $u,v,w,z$ are vectors of $\\mathbb F_2^m$ here."
-      },
-      {
-        "symbol": "z",
-        "name": "vector",
-        "meaning": "A vector of F_2^m on this page.",
-        "relation": "direct",
-        "quote": "Labels are subspaces of $\\mathbb F_2^m$, and $u,v,w,z$ are vectors of $\\mathbb F_2^m$ here."
-      },
-      {
-        "symbol": "x",
-        "name": "address",
-        "meaning": "An address, an element of F_2^m indexing the arrays.",
-        "relation": "direct",
-        "quote": "Write $\\operatorname{wt}(x)$ for the Hamming weight of an address $x\\in\\mathbb F_2^m$, $[b]\\in\\{0,1\\}$ for the integer representative of $b\\in\\mathbb F_2$, $P_U$ for projection onto a label $U$, and $z\\cdot w$ for the dot product, both over $\\mathbb F_2$, so $z\\cdot z\\equiv\\operatorname{wt}(z)\\pmod 2$."
+        "quote": "Labels are subspaces of $\\mathbb F_2^m$ ($m$ the label dimension), and $u,v,w,z$ are vectors of $\\mathbb F_2^m$ here."
       },
       {
         "symbol": "q_U",
         "name": "phase exponent",
-        "meaning": "The Hamming weight of the projection of x onto the label U, modulo 4.",
+        "meaning": "The weight modulo four of the projection of an address x onto the label U.",
         "relation": "direct",
-        "quote": "Put $q_U(x)=\\operatorname{wt}(P_Ux)\\bmod 4$."
+        "quote": "For a label $U$ put $q_U(x)=\\operatorname{wt}(P_Ux)\\bmod 4$, with the projection taken over $\\mathbb F_2$."
       },
       {
-        "symbol": "P_U",
-        "name": "projection",
-        "meaning": "The projection onto the label U over F_2.",
+        "symbol": "\\mathcal C_U",
+        "name": "phase frame",
+        "meaning": "The operator on arrays attached to the label U.",
         "relation": "direct",
-        "quote": "Write $\\operatorname{wt}(x)$ for the Hamming weight of an address $x\\in\\mathbb F_2^m$, $[b]\\in\\{0,1\\}$ for the integer representative of $b\\in\\mathbb F_2$, $P_U$ for projection onto a label $U$, and $z\\cdot w$ for the dot product, both over $\\mathbb F_2$, so $z\\cdot z\\equiv\\operatorname{wt}(z)\\pmod 2$."
+        "quote": "The phase frame is $\\mathcal C_U=H^{\\otimes m}\\operatorname{diag}_x(i^{q_U(x)})H^{\\otimes m}$, with Gaussian-dyadic entries."
       },
       {
-        "symbol": "E",
-        "name": "residual",
-        "meaning": "The part of V orthogonal to U on an edge from U to V.",
+        "symbol": "X_v",
+        "name": "translation",
+        "meaning": "The operator shifting an array by the vector v: (X_v f)(x)=f(x+v).",
         "relation": "direct",
-        "quote": "Take an edge from $U$ to $V=U\\perp E$, with the residual $E$ having orthonormal basis $\\mathcal B$."
+        "quote": "Let $X_v$ be the translation $(X_vf)(x)=f(x+v)$, and $C=H\\operatorname{diag}(1,i)H=aI+bX$ with $a=\\frac{1+i}{2}$, $b=\\frac{1-i}{2}$, where $H=\\tfrac1{\\sqrt2}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$."
       },
       {
         "symbol": "\\mathcal B",
         "name": "residual basis",
-        "meaning": "An orthonormal basis of the residual E.",
+        "meaning": "An orthonormal basis of the edge residual E.",
         "relation": "direct",
-        "quote": "Take an edge from $U$ to $V=U\\perp E$, with the residual $E$ having orthonormal basis $\\mathcal B$."
+        "quote": "Take an edge from $U$ to $V=U\\perp E$, where $E$, the edge residual, has orthonormal basis $\\mathcal B$."
+      },
+      {
+        "symbol": "E",
+        "name": "edge residual",
+        "meaning": "The subspace added to U to reach V, orthogonal to U; here E is not the first space of a tensor product.",
+        "relation": "direct",
+        "quote": "Take an edge from $U$ to $V=U\\perp E$, where $E$, the edge residual, has orthonormal basis $\\mathcal B$."
       },
       {
         "symbol": "\\varepsilon",
         "name": "phase sign",
-        "meaning": "The sign +1 or -1 of the phase coefficient of a basis vector, including the edge direction.",
+        "meaning": "The coefficient +1 or -1 modulo four of a basis vector's phase, including the edge direction.",
         "relation": "direct",
-        "quote": "Each term is thus $\\varepsilon[v\\cdot x]$ with $\\varepsilon=\\pm1$, including the edge direction."
-      },
-      {
-        "symbol": "L_{\\rm c}",
-        "name": "dimension loss",
-        "meaning": "The total dimension lost on decreasing edges of the complex network.",
-        "relation": "count",
-        "quote": "Let $L_{\\rm c}$ be the total dimension lost on decreasing edges of the complex network."
-      },
-      {
-        "symbol": "s_{\\rm c}",
-        "name": "kernel count",
-        "meaning": "The number of translation-kernel factors over the complex network.",
-        "relation": "count",
-        "quote": "So the number $s_{\\rm c}$ of translation-kernel factors is $W_{\\rm c}m-2N+2L_{\\rm c}=1873807244636671267308000000<W_{\\rm c}m$"
-      },
-      {
-        "symbol": "X_a",
-        "name": "data bank X",
-        "meaning": "The data-bank role indexed by a, with source label U_a and sink label the full space.",
-        "relation": "direct",
-        "quote": "Roles (wire names) are scratch wires and data banks $X_a,Y_a$, indexed by $a$ (not the coefficient)."
-      },
-      {
-        "symbol": "Y_a",
-        "name": "data bank Y",
-        "meaning": "The data-bank role indexed by a, with source label 0 and sink label U_a^perp.",
-        "relation": "direct",
-        "quote": "Roles (wire names) are scratch wires and data banks $X_a,Y_a$, indexed by $a$ (not the coefficient)."
-      },
-      {
-        "symbol": "u_a",
-        "name": "generator of U_a",
-        "meaning": "The vector t_{a_1} tensor t_{a_2} tensor t_{a_3} spanning the line U_a.",
-        "relation": "direct",
-        "quote": "Source to sink labels are $U_a\\to\\mathcal F$ on $X_a$, $0\\to U_a^\\perp$ on $Y_a$, and $0\\to\\mathcal F$ on scratch, with $U_a$ the line spanned by $u_a=t_{a_1}\\otimes t_{a_2}\\otimes t_{a_3}$, each $t_{a_j}$ the indicator of a triple."
-      },
-      {
-        "symbol": "k",
-        "name": "column count",
-        "meaning": "The number of columns, an address being a k-tuple of addresses.",
-        "relation": "count",
-        "quote": "For $k$ columns (addresses are $k$-tuples)"
+        "quote": "Each term is therefore $\\varepsilon[v\\cdot x]$ with $\\varepsilon=\\pm1$ modulo four, the sign including the edge direction."
       },
       {
         "symbol": "Z",
         "name": "sign matrix",
         "meaning": "The diagonal matrix diag(1,-1).",
         "relation": "direct",
-        "quote": "With $Z=\\operatorname{diag}(1,-1)$"
+        "quote": "With $Z=\\operatorname{diag}(1,-1)$ we have $ZXZ=-X$ and $C^{-1}=bI+aX$; since $ib=a$ and $ia=-b$, $C=iZC^{-1}Z$."
       },
       {
         "symbol": "Z_{a,k}",
-        "name": "column sign correction",
-        "meaning": "The tensor product of Z on the 27 coordinates of supp(u) in every column, identity elsewhere.",
+        "name": "sign correction",
+        "meaning": "The tensor product of Z on the 27 coordinates of supp(u) in every column and the identity elsewhere.",
         "relation": "direct",
         "quote": "Let $Z_{a,k}$ be $Z$ on those 27 coordinates in every column."
+      },
+      {
+        "symbol": "k",
+        "name": "column count",
+        "meaning": "The number of columns of an address; here k changes meaning from the fixed-point page.",
+        "relation": "count",
+        "quote": "For $k$ columns (an address is a $k$-tuple; $k$ changes meaning from the fixed-point page), [Frames on wire arrays](array-frames.md) gives each role the $k$th tensor power of the sink frame times the inverse source frame, with $X_a,Y_a$ exchanged."
       }
     ],
     "phase-kernel": [
@@ -4720,12 +4660,12 @@
     "phase-frames": [
       {
         "prerequisite": "subspace-labels",
-        "predicate": "attach a basis to",
-        "quote": "Binary phase frames attach a basis to each label of [Nested subspace labels and rank deficit](subspace-labels.md)"
+        "predicate": "is attached to the labels of",
+        "quote": "Binary phase frames are operators attached to the labels of [Nested subspace labels and rank deficit](subspace-labels.md) in the complex network, chosen so that every edge difference splits into one two-point kernel per dimension of change, which makes each residual dimension one smaller call of a butterfly-type operation, as the recursion needs."
       },
       {
         "prerequisite": "phase-kernel",
-        "predicate": "edge factor is a translate of",
+        "predicate": "has edge factors, a translate of",
         "quote": "Each edge factor is a translate $aI+bX_v$ of [Two-point kernel C](phase-kernel.md), one per basis vector."
       }
     ],
@@ -6048,75 +5988,11 @@
     ],
     "phase-frames": [
       {
-        "sentence": "md), so each edge is a product of two-point kernels, one per dimension of change, as the recursion needs.",
-        "depth": 1
-      },
-      {
-        "sentence": "Labels are subspaces of $\\mathbb F_2^m$, and $u,v,w,z$ are vectors of $\\mathbb F_2^m$ here.",
-        "depth": 1
-      },
-      {
-        "sentence": "Write $\\operatorname{wt}(x)$ for the Hamming weight of an address $x\\in\\mathbb F_2^m$, $[b]\\in\\{0,1\\}$ for the integer representative of $b\\in\\mathbb F_2$, $P_U$ for projection onto a label $U$, and $z\\cdot w$ for the dot product, both over $\\mathbb F_2$, so $z\\cdot z\\equiv\\operatorname{wt}(z)\\pmod 2$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Each term is thus $\\varepsilon[v\\cdot x]$ with $\\varepsilon=\\pm1$, including the edge direction.",
-        "depth": 1
-      },
-      {
         "sentence": "md), one per basis vector.",
         "depth": 1
       },
       {
-        "sentence": "Let $L_{\\rm c}$ be the total dimension lost on decreasing edges of the complex network.",
-        "depth": 1
-      },
-      {
-        "sentence": "Edge dimension changes sum to net gain plus twice the losses; data wires gain $m-1$, scratch wires $m$, net $W_{\\rm c}m-2N$.",
-        "depth": 1
-      },
-      {
-        "sentence": "The deficit of $s_{\\rm c}$ from $W_{\\rm c}m$ is $2N-2L_{\\rm c}>0$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Roles (wire names) are scratch wires and data banks $X_a,Y_a$, indexed by $a$ (not the coefficient).",
-        "depth": 1
-      },
-      {
-        "sentence": "Source to sink labels are $U_a\\to\\mathcal F$ on $X_a$, $0\\to U_a^\\perp$ on $Y_a$, and $0\\to\\mathcal F$ on scratch, with $U_a$ the line spanned by $u_a=t_{a_1}\\otimes t_{a_2}\\otimes t_{a_3}$, each $t_{a_j}$ the indicator of a triple.",
-        "depth": 1
-      },
-      {
-        "sentence": "For $k$ columns (addresses are $k$-tuples), [Frames on wire arrays](array-frames.",
-        "depth": 1
-      },
-      {
-        "sentence": "md) gives each role the $k$th tensor power of sink frame times inverse source frame, with $X_a,Y_a$ exchanged.",
-        "depth": 1
-      },
-      {
         "sentence": "Label $0$ has frame $I$.",
-        "depth": 1
-      },
-      {
-        "sentence": "So scratch roles and $Y_a\\to X_a$ get $C^{\\otimes m}$; only $X_a\\to Y_a$ differs.",
-        "depth": 1
-      },
-      {
-        "sentence": "The orthogonal parts of $x=P_{U_a}x+P_{U_a^\\perp}x$ give $\\operatorname{wt}(x)\\equiv q_{U_a}+q_{U_a^\\perp}$, hence $q_{U_a^\\perp}-q_{U_a}=\\operatorname{wt}(x)-2\\operatorname{wt}(u)[u\\cdot x]=\\operatorname{wt}(x)+2[u\\cdot x]\\pmod 4$.",
-        "depth": 1
-      },
-      {
-        "sentence": "As $2[u\\cdot x]\\equiv2\\sum_{j\\in\\operatorname{supp}(u)}x_j$, the phase per coordinate is $i^{-x_j}$ on the 27 coordinates of $\\operatorname{supp}(u)$ and $i^{x_j}$ elsewhere, so the operator is $C^{-1}$ there and $C$ elsewhere.",
-        "depth": 1
-      },
-      {
-        "sentence": "Apply $Z_{a,k}$ before the network at $X_a$ and $i^{27k}Z_{a,k}$ after it at $Y_a$: each of the $27k$ inverse factors becomes $C$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Negating the physical $X$ outputs, which carry the scalar exchange's minus sign, and renaming outputs to input roles leaves every role, scratch included, with $C^{\\otimes mk}$.",
         "depth": 1
       }
     ],
