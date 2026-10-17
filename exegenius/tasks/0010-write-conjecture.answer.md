@@ -1,0 +1,11 @@
+The Schönhage–Strassen optimality conjecture is the claim that $n\log n$ is the best possible order of growth for the time to multiply two integers, where $n$ is the number of bits in each, and it is the statement that the main result of this wiki disproves.
+
+In 1971 Schönhage and Strassen gave a multiplication algorithm running in $O(n\log n\log\log n)$ time. They went further and proposed $n\log n$ as the optimal order of growth <cite data-source="paper">and proposed $n\log n$ as the optimal order of growth</cite>. The proposal is a conjecture about an upper-bound question: it says that no algorithm can multiply in time $o(n\log n)$.
+
+The conjecture is stated for a particular machine. The conjecture concerns the [Fixed finite-tape machine model](machine-model.md): a multitape Turing machine with a fixed alphabet and a fixed number of one-dimensional tapes. Running time is counted in steps of such a machine, so a counterexample must be an algorithm for exactly this model; a speedup on a machine with, say, random access to memory would not refute it.
+
+For decades the gap between $n\log n\log\log n$ and $n\log n$ was the open part. After a sequence of improvements, Harvey and van der Hoeven reached an $O(n\log n)$ bound that holds without any unproved assumption <cite data-source="paper">Harvey and van der Hoeven reached the unconditional $O(n\log n)$ upper</cite>. That result matches the conjectured order, so the best known algorithms were consistent with the conjecture, and the remaining question was whether the factor $\log n$ could be beaten at all.
+
+The answer in the main result is yes. In the same model, multiplication runs in time $O(n(\lg n)^{1-\kappa})$, where $\kappa>0$ is a fixed constant, the amount by which the exponent of the logarithm is lowered. This is a strict power saving in the logarithmic factor: it is smaller than $n\log n$ by a factor $(\lg n)^{\kappa}$, not merely by a lower-order term. Hence the conjecture is false in this model, although the saving is tiny because $\kappa$ is extremely small.
+
+The remaining pages build the algorithm that achieves this. They begin with the model itself, because every cost claim there is a count of tape-machine steps.

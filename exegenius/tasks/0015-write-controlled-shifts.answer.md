@@ -1,0 +1,12 @@
+A controlled shift adds to one field of an array an offset computed from earlier fields, and a rational scaling multiplies that field by a fixed unit. Both run in time linear in the array's size.
+
+Fix a prime $q$, and let $b\ge1$ be the number of base-$q$ digits of a field. Put $Q=q^b$, the number of values a field can hold. The array has volume $V$, the number of stored data bits. Each record has a target field with value $y\in[Q]=\{0,\dots,Q-1\}$ that follows a fixed number of control fields. The update is
+$$y\longmapsto y+a \pmod Q,$$
+where $a$, the offset, is prepared from the control values. It may be a fixed rational linear combination of them, reduced modulo $Q$ (the coefficient denominators must be prime to $q$). The update costs $O(V)$ provided $a$ is computable in $b^{O(1)}$ time, whatever spectator fields lie between or after.
+
+**Why a shift is linear.** Fix everything before the target. If $B$ bits follow the target, the target field and its suffix form $Q$ consecutive blocks of $B$ bits. Adding $a$ modulo $Q$ rotates these blocks cyclically. Split them at $Q-a$, append the two pieces to two tapes, then merge by reading the second piece before the first. The pieces become the ranges $[0,a)$ and $[a,Q)$ of the new target coordinate. Each update is carried out by splitting into streams and merging back, as in [Elementary stream operations](stream-ops.md). Computing $a$ costs $b^{O(1)}=O(Q)$, which is absorbed by the $QB\ge Q$ bits of the block group.
+
+**Scaling.** Let $c$ be a fixed positive integer prime to $q$. The map $y\mapsto cy \pmod Q$ is a permutation of $[Q]$ made of $c$ increasing pieces, indexed by $j=\lfloor cy/Q\rfloor$. Split the blocks into $c$ streams by $j$. Then produce output coordinates $y'=0,\dots,Q-1$ in order, each time taking the next block from the unique stream $j$ with $y'+jQ\equiv 0\pmod c$, where $y=(y'+jQ)/c$. Uniqueness holds because $\gcd(Q,c)=1$, and a finite residue counter tracks the stream. Exchanging the roles of split and merge multiplies by $c^{-1}$. Negation and integer multiplications compose into any fixed rational unit, so multiplying by one, or by its inverse, also costs $O(V)$ <cite data-source="paper">Multiplication of $y$ by any of the specified rational units, and its
+inverse, also costs $O(V)$.</cite>
+
+**Example.** Take $q=2$, $b=2$, so $Q=4$, and offset $a=1$. Blocks $0,1,2,3$ split at $Q-a=3$ into $(0,1,2)$ and $(3)$; reading $(3)$ first gives $3,0,1,2$.
