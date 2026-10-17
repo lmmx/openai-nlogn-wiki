@@ -3,7 +3,7 @@ t=open('0111-write-simultaneous-layer.answer.md').read()
 S=[]
 def sym(name,symbol,meaning,quote,rel='direct'):
     S.append(dict(symbol=symbol,name=name,meaning=meaning,relation=rel,quote=quote))
-q1="applies $H_0$ coefficientwise to one bit of each of $D\\le d$ address chunks of $K$ bits at once"
+
 sym('selected chunk count','D','The number of address chunks carrying a selected bit.',"The simultaneous butterfly layer applies $H_0$ coefficientwise to one bit of each of $D\\le d$ address chunks of $K$ bits at once, in time $O(Vd^{\\lambda'})$ for fixed $\\lambda'<1$ rather than $D$ whole-array passes.",'count')
 sym('record array','z','The array of records, a function of the address x.',"Let $z$ be the array of records at addresses $x$, with selected bits $x_1,\\dots,x_D$.")
 sym('address','x','An address of the array, with selected bits x_1,...,x_D.',"Let $z$ be the array of records at addresses $x$, with selected bits $x_1,\\dots,x_D$.")

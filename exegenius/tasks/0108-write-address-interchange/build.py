@@ -6,7 +6,7 @@ def Q(s):
     return s
 S=lambda sym,name,mean,rel,q:{"symbol":sym,"name":name,"meaning":mean,"relation":rel,"quote":Q(q)}
 l1="An address is $(p,h,g,d,z)$: prefix $p$, chunks $h,d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
-hd="Write each chunk as top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+hd="Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
 ek="Let each chunk have $e=m^k$ digits ($k$ recursion levels)."
 op="Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (the volume)"
 aj="Write $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$, $0\\le a_j<m$."
@@ -33,7 +33,7 @@ S("w","wire index","The index of a wire of the network, 1 to W.","direct","The s
 S("\\Phi_M","shear permutation","The array permutation moving the entry at address (H,D) to (H+MD,D).","direct","Let $\\Phi_M$ move the entry at address $(H,D)$ to $(H+MD,D)$."),
 S("M'","other matrix","Another rational m by m matrix.","direct","For another matrix $M'$,"),
 S("x","stream row","The row number within a role stream.","direct","row $Wx+w-1$ goes to stream $w$ as row $x$"),
-S("f_w","input array","The physical input array on wire w.","direct","Wire $w$'s input $f_w$ is read as the logical array"),
+S("f_w","input array","The physical input array on wire w.","direct","Read wire $w$'s input $f_w$ as the logical array"),
 S("f'_{\\rho(w)}","output array","The physical output array at role rho(w).","direct","the output is $f'_{\\rho(w)}=\\Phi_{M_{\\mathrm{out}(\\rho(w))}}\\Phi_{-M_{\\mathrm{in}(w)}}f_w=\\Phi_{I_m}f_w$"),
 S("j","level","Index of a level of the unrolled recurrence.","direct","Unrolled over levels $j$,"),
 S("F_k","normalized cost","The time per unit volume of the interchange at width m^k.","direct","The time per unit volume $F_k$ at width $m^k$ obeys"),

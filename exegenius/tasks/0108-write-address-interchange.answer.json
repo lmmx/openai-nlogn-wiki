@@ -5,14 +5,14 @@
    "name": "chunk width",
    "meaning": "The number of bits in each of the two address chunks.",
    "relation": "count",
-   "quote": "Fast address-chunk interchange, a tape primitive behind the main result, swaps two disjoint $u$-bit address fields of a bit array of volume $V$ (stored bits)"
+   "quote": "Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (the volume)"
   },
   {
    "symbol": "V",
    "name": "volume",
    "meaning": "The number of stored bits of the array.",
    "relation": "count",
-   "quote": "Fast address-chunk interchange, a tape primitive behind the main result, swaps two disjoint $u$-bit address fields of a bit array of volume $V$ (stored bits)"
+   "quote": "Fast address-chunk interchange, a tape primitive for the main result, swaps two disjoint $u$-bit address fields of an array of $V$ bits (the volume)"
   },
   {
    "symbol": "\\tau",
@@ -61,7 +61,7 @@
    "name": "radix",
    "meaning": "The fixed prime used as digit radix.",
    "relation": "direct",
-   "quote": "Digits are radix $q$, a fixed prime."
+   "quote": "Digits are radix $q$ (a fixed prime)."
   },
   {
    "symbol": "H",
@@ -124,14 +124,14 @@
    "name": "identity matrix",
    "meaning": "The m by m identity matrix.",
    "relation": "direct",
-   "quote": "with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$ (the identity)"
+   "quote": "$M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$ (the identity)"
   },
   {
    "symbol": "w",
    "name": "wire index",
    "meaning": "The index of a wire of the network, 1 to W.",
    "relation": "direct",
-   "quote": "The shear contract says input wire $w$ ends at output role $\\rho(w)$"
+   "quote": "The shear contract: input wire $w$ ends at output role $\\rho(w)$"
   },
   {
    "symbol": "\\Phi_M",
@@ -152,14 +152,14 @@
    "name": "stream row",
    "meaning": "The row number within a role stream.",
    "relation": "direct",
-   "quote": "row $Wx+w-1$ is sent to role stream $w$ as row $x$"
+   "quote": "row $Wx+w-1$ goes to stream $w$ as row $x$"
   },
   {
    "symbol": "f_w",
    "name": "input array",
    "meaning": "The physical input array on wire w.",
    "relation": "direct",
-   "quote": "Wire $w$'s input $f_w$ is read as the logical array"
+   "quote": "Read wire $w$'s input $f_w$ as the logical array"
   },
   {
    "symbol": "f'_{\\rho(w)}",
@@ -201,28 +201,28 @@
    "name": "high part of h",
    "meaning": "The top nu digits of the first chunk.",
    "relation": "direct",
-   "quote": "Write each chunk as top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+   "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
   },
   {
    "symbol": "h^-",
    "name": "rest of h",
    "meaning": "The remaining digits of the first chunk.",
    "relation": "direct",
-   "quote": "Write each chunk as top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+   "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
   },
   {
    "symbol": "d^+",
    "name": "high part of d",
    "meaning": "The top nu digits of the second chunk.",
    "relation": "direct",
-   "quote": "Write each chunk as top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+   "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
   },
   {
    "symbol": "d^-",
    "name": "rest of d",
    "meaning": "The remaining digits of the second chunk.",
    "relation": "direct",
-   "quote": "Write each chunk as top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
+   "quote": "Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$."
   },
   {
    "symbol": "\\Lambda",
@@ -259,50 +259,18 @@
   },
   {
    "prerequisite": "stream-ops",
-   "predicate": "sends rows to role streams by",
-   "quote": "Within each prefix, row $Wx+w-1$ is sent to role stream $w$ as row $x$ by [stream scans](stream-ops.md)."
+   "predicate": "splits rows into role streams by",
+   "quote": "Within each prefix, rows are split into role streams by [stream scans](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
   }
  ],
  "derivations": [
   {
    "step": "S1.5.2",
-   "quote": "For chunk values $H,D$, $D\\gets D-H$, $H\\gets H+D$, $D\\gets H-D$ send $(H,D)$ to $(H,D-H)$, $(D,D-H)$, $(D,H)$. Only the middle shear needs the circuit."
-  },
-  {
-   "step": "S1.5.2",
-   "quote": "Let each chunk have $e=m^k$ digits ($k$ recursion levels). Cut it into $m$ fields of $b=e/m$ digits, so $H,D$ are vectors over $\\mathbb Z/q^b\\mathbb Z$."
-  },
-  {
-   "step": "S1.5.2",
-   "quote": "Within each prefix, row $Wx+w-1$ is sent to role stream $w$ as row $x$ by [stream scans](stream-ops.md). Each stream has volume $V/W$ and row count divisible by $W^{k-1}$, the hypothesis one level down."
-  },
-  {
-   "step": "S1.5.2",
-   "quote": "The [frame](array-frames.md) at a vertex with matrix $M$ is $\\Phi_M$; an edge to a vertex with matrix $M'$ changes it by $\\Phi_{M'-M}=\\Phi_{A_i}$. A common address permutation commutes with every pointwise bit gate."
-  },
-  {
-   "step": "S1.5.2",
-   "quote": "By the composition rule and the contract, the output is $f'_{\\rho(w)}=\\Phi_{M_{\\mathrm{out}(\\rho(w))}}\\Phi_{-M_{\\mathrm{in}(w)}}f_w=\\Phi_{I_m}f_w$. Merging rows back undoes $\\rho$, so $H\\gets H+D$ holds on every original row, scratch rows included."
-  },
-  {
-   "step": "S1.5.2",
-   "quote": "The time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md). Unrolled over levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$. If $s/W\\le1$ the sum is at most $k+1=O(m^{k\\tau})$; otherwise it is $O((s/W)^k)$, below $m^{k\\tau}$. Hence $F_k=O(e^\\tau)$."
+   "quote": "Suppose a row field ahead of both chunks has length divisible by $W^k$. Within each prefix, rows are split into role streams by [stream scans](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$. Each stream has volume $V/W$ and row count divisible by $W^{k-1}$. Read wire $w$'s input $f_w$ as the logical array $\\Phi_{-M_{\\mathrm{in}(w)}}f_w$. By the composition rule and the contract, the output is $f'_{\\rho(w)}=\\Phi_{M_{\\mathrm{out}(\\rho(w))}}\\Phi_{-M_{\\mathrm{in}(w)}}f_w=\\Phi_{I_m}f_w$. Merging rows back undoes $\\rho$, giving $H\\gets H+D$ on every original row.\n\nEach call acts on volume $V/W$; other work is $O(V)$. The time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md). Unrolled over levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$. If $s/W\\le1$ this is at most $k+1=O(m^{k\\tau})$; otherwise it is $O((s/W)^k)$, below $m^{k\\tau}$. So $F_k=O(e^\\tau)$."
   },
   {
    "step": "S1.5.3",
-   "quote": "For general large $e$, put $k'=\\lceil\\log_m e\\rceil$ and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$; small $e$ use single-digit interchanges."
-  },
-  {
-   "step": "S1.5.3",
-   "quote": "Interchange the high digits and move $h^+$ next to $d^+$: $(h^+,h^-,g,d^+,d^-)$ becomes $(d^+,h^+,h^-,g,d^-)$. Now $d^+,h^+$ form a row field of range $\\Lambda=q^{2\\nu}\\ge W^{k'}$ before both remaining chunks. Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows (volume below $2V$)."
-  },
-  {
-   "step": "S1.5.3",
-   "quote": "Write $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$, $0\\le a_j<m$. Split each remaining chunk into $a_j$ pieces of width $m^j$ and interchange corresponding pieces as above, all with this row field. The total $O(V)\\sum_ja_jm^{j\\tau}\\le O(V)\\,m\\sum_jm^{j\\tau}=O(Ve^\\tau)$, since $m^{k'}<me$."
-  },
-  {
-   "step": "S1.5.3",
-   "quote": "For $u$-bit chunks, pad $[2^u]$ to $[q^e]$ with least $e$ such that $q^e\\ge2^u$ and scan the padding away."
+   "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$ and $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$; small $e$ use single-digit interchanges. Split each chunk into top $\\nu$ digits and rest, $h^+,h^-$ and $d^+,d^-$. Interchange the high digits and move $h^+$ next to $d^+$: $(h^+,h^-,g,d^+,d^-)$ becomes $(d^+,h^+,h^-,g,d^-)$. Now $d^+,h^+$ form a row field of range $\\Lambda=q^{2\\nu}\\ge W^{k'}$ before both remaining chunks. Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows (volume below $2V$). Write $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$, $0\\le a_j<m$. Split each remaining chunk into $a_j$ pieces of width $m^j$ and interchange corresponding pieces as above. The total $O(V)\\sum_ja_jm^{j\\tau}\\le O(V)\\,m\\sum_jm^{j\\tau}=O(Ve^\\tau)$, since $m^{k'}<me$. Scan away padded rows and reverse the joining, giving $(d^+,d^-,g,h^+,h^-)$ at cost $O(V\\nu)=O(Ve^\\tau)$."
   }
  ]
 }

@@ -11,7 +11,7 @@ S1="Nested subspace labels give each vertex of the [exchange network](exchange-n
 S2="The labelling chooses the frames of [Frames on wire arrays](array-frames.md) so that $W$ wires cost $s<Wm$ smaller calls."
 QF=sent("Bit labels live in", "with the dot product.")
 QT=sent("For *triples*", "\\bmod 2$.")
-QFF=sent("Labels are built as", "multiplies factorwise.")
+QFF=sent("Labels are built as", "of dimension $m=h^3$;")
 QX=sent("Banks $X$ and $Y$", "of triples.")
 QU=sent("With $U_a=", "the terminal labels are")
 QL=sent("If decreasing edges lose", "keep $L$ small.")
@@ -20,7 +20,7 @@ QA=sent("In one invocation put", "(empty products are scalars).")
 QAp=sent("It is the next stage's", "are stage $j+1$'s inputs.")
 QtX=sent("Suppressing $K$", "(times bracketed) are")
 QLb=sent("With $I$ invocations", "both below $1/2$.")
-QPi=sent("Bit vertices labelled", "other sources ($0$).")
+QPi=sent("Bit vertices labelled", "else $0$.")
 Qsb=sent("So $s_{\\rm b}=", "<W_{\\rm b}m$.")
 Qsc=sent("[Binary phase frames](phase-frames.md) give", "<W_{\\rm c}m$.")
 def b(sym,name,meaning,rel,q): return dict(symbol=sym,name=name,meaning=meaning,relation=rel,quote=q)
@@ -62,10 +62,10 @@ D=lambda st,q: dict(step=st,quote=q)
 derivations=[
  D("S1.3.1", sent("For *triples*", "are orthogonal.")),
  D("S1.3.2", sent("Source dimensions total $N$", "=Wm-N$.")),
- D("S1.3.3", sent("A wire enters and leaves", "to $Wm-2N$.")),
+ D("S1.3.3", sent("Each wire enters and leaves", "to $Wm-2N$.")),
  D("S1.3.4", sent("Splitting $A=B", "are stage $j+1$'s inputs.")),
  D("S1.3.5", sent("The same splitting shows", "from $t_X\\perp t_Y$.")),
- D("S1.3.6", sent("The same splitting shows", "loses $L_{\\rm b}=Ic_{\\rm b}h$")),
+ D("S1.3.6", sent("The same splitting shows", "is $L_{\\rm b}=Ic_{\\rm b}h$")),
  D("S1.3.9", sent("as $I=3\\binom h3^2$", "both below $1/2$")),
  D("S1.3.7", sent("For $U\\subset V$", "<W_{\\rm b}m$")),
 ]
