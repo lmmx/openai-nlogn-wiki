@@ -29,7 +29,6 @@ symbols=[
  B("x_0","first-phase operand","The data operand after the first phase of the computed chirp transform.",chirp2),
  B("y_0","chirp convolution","The computed convolution of the approximate chirp with the data operand.",chirp2),
  B("\\widetilde{\\mathcal M}_{\\mathbb C}","computed convolution","The computed normalized complex cyclic convolution.",chirp2),
- B("\\mathscr F","exact source transform","The exact counterpart of the computed source transform, equal to R F_s.",exact),
  B("R","source permutation","The retained permutation of coordinates from resampling.",exact),
  B("\\widetilde{\\mathscr F}^{+}","computed opposite transform","The computed source transform with the opposite exponent sign.",opp),
  B("z","product array","The array given to the opposite transform: the truncated pointwise product of the two computed source transforms.",opp),
