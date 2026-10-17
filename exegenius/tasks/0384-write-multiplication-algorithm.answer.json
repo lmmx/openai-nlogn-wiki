@@ -2,55 +2,11 @@
  "derivations": [
   {
    "step": "S5.5",
-   "quote": "Replacing the computed pieces by exact ones and dropping $Q_p$ turns the three lines into the right side of the chirp identity, so the exact counterpart of $\\widetilde{\\mathscr C}$ is $QF_{\\boldsymbol t}$."
-  },
-  {
-   "step": "S5.5.1",
-   "quote": "Here $x_0$ is the data operand after the first endpoint phase, $y_0$ the computed convolution, and $\\widetilde a$ the convolution kernel."
-  },
-  {
-   "step": "S5.5.2",
-   "quote": "The computed chirp transform $\\widetilde{\\mathscr C}$ forms"
-  },
-  {
-   "step": "S5.5.3",
-   "quote": "Its exact counterpart is $\\mathscr F=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A=RF_{\\boldsymbol s}$."
+   "quote": "Its exact counterpart is $\\mathscr F=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A=RF_{\\boldsymbol s}$. The first equality substitutes each stage's exact counterpart; the second is the resampling identity between exact maps, with $R$ a retained permutation of coordinates."
   },
   {
    "step": "S5.6",
-   "quote": "The factor $2^{2b+4}$ cancels the $2^{-b-2}$ carried by each stored operand, and the inverse image under $\\Phi$ is the original integer coefficient convolution"
-  },
-  {
-   "step": "S5.6.1",
-   "quote": "Digit $a_j$ is stored with numerator $a_j2^{p-b-2}$ in a signed real word followed by a zero imaginary word, representing $a_j2^{-b-2}$, so the inputs have norm below $1/4$; $S-q$ zero records pad each array."
-  },
-  {
-   "step": "S5.6.2",
-   "quote": "Apply $\\Phi$ to obtain arrays $u,v$ of exact $p$-bit values (here $u,v$ are the scaled digit arrays, not the integers)."
-  },
-  {
-   "step": "S5.6.3",
-   "quote": "Compute $\\widetilde{\\mathscr F}(u)$ and $\\widetilde{\\mathscr F}(v)$."
-  },
-  {
-   "step": "S5.6.4",
-   "quote": "Multiply corresponding coefficients exactly and truncate toward zero to $p$ fractional bits, obtaining $z$."
-  },
-  {
-   "step": "S5.6.5",
-   "quote": "Compute $\\widetilde{\\mathscr F}^{+}(z)$ and multiply by $S$, obtaining $\\widetilde w$."
-  },
-  {
-   "step": "S5.6.6",
-   "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers, write each as a signed $(3b+1)$-bit word, and apply $\\Phi^{-1}$ removing the padding."
-  },
-  {
-   "step": "S5.6.7",
-   "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
-  },
-  {
-   "step": "S5.6.8",
-   "quote": "The exact counterpart after the three transforms is $(u*v)/S^2$, so after the first scale it is $w=(u*v)/S$, the exact array that $\\widetilde w$ approximates."
+   "quote": "The exact counterpart after the three transforms is $(u*v)/S^2$, so after the first scale it is $w=(u*v)/S$. The second scale gives $2^{2b+4}(u*v)$. The factor $2^{2b+4}$ cancels the $2^{-b-2}$ carried by each stored operand, and the inverse image under $\\Phi$ is the original integer coefficient convolution"
   }
  ],
  "symbols": [
@@ -59,28 +15,21 @@
    "name": "rounded chirp",
    "meaning": "The chirp array rounded to the p-bit grid, within 2\\cdot 2^{-p} of the exact chirp.",
    "relation": "direct",
-   "quote": "let $\\widetilde a$ be $a$ rounded to the $p$-bit grid, within $2\\cdot2^{-p}$ of $a$"
+   "quote": "Take $f$ of norm at most $.6$ and let $\\widetilde a$ be $a$ rounded to the $p$-bit grid, within $2\\cdot2^{-p}$ of $a$."
   },
   {
-   "symbol": "x",
-   "name": "target array",
-   "meaning": "An array of norm at most .6 to which the chirp transform is applied (not the polynomial variable).",
-   "relation": "direct",
-   "quote": "For an array $x$ of norm at most $.6$"
-  },
-  {
-   "symbol": "x_0",
+   "symbol": "f_0",
    "name": "phase-multiplied operand",
    "meaning": "The data operand after the first endpoint phase.",
    "relation": "direct",
-   "quote": "Here $x_0$ is the data operand after the first endpoint phase, $y_0$ the computed convolution, and $\\widetilde a$ the convolution kernel."
+   "quote": "Here $f_0$ is the data operand after the first endpoint phase, $f_1$ the computed convolution, and $\\widetilde a$ the convolution kernel."
   },
   {
-   "symbol": "y_0",
+   "symbol": "f_1",
    "name": "computed convolution",
    "meaning": "The computed convolution of the kernel with the data operand.",
    "relation": "direct",
-   "quote": "Here $x_0$ is the data operand after the first endpoint phase, $y_0$ the computed convolution, and $\\widetilde a$ the convolution kernel."
+   "quote": "Here $f_0$ is the data operand after the first endpoint phase, $f_1$ the computed convolution, and $\\widetilde a$ the convolution kernel."
   },
   {
    "symbol": "\\widetilde{\\mathscr C}",
@@ -101,56 +50,56 @@
    "name": "computed source transform",
    "meaning": "The computed source transform: resampling input map, chirp transform, output map, then exact scaling by 2^gamma.",
    "relation": "direct",
-   "quote": "The computed version $\\widetilde{\\mathscr F}$ applies the [Gaussian resampling](gaussian-resampling.md) input map $\\mathcal A$, then $\\widetilde{\\mathscr C}$, then the output map $\\mathcal B_0$, then multiplies exactly by $2^\\gamma$, the power of two that resampling introduces."
+   "quote": "The computed version $\\widetilde{\\mathscr F}$, with exact counterpart $\\mathscr F$, applies the [Gaussian resampling](gaussian-resampling.md) input map $\\mathcal A$, then $\\widetilde{\\mathscr C}$, then the output map $\\mathcal B_0$, then multiplies exactly by $2^\\gamma$, the power of two that resampling introduces."
   },
   {
    "symbol": "\\mathscr F",
    "name": "exact source transform",
    "meaning": "The exact counterpart of the computed source transform, equal to R F_s.",
    "relation": "direct",
-   "quote": "Its exact counterpart is $\\mathscr F=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A=RF_{\\boldsymbol s}$."
+   "quote": "The computed version $\\widetilde{\\mathscr F}$, with exact counterpart $\\mathscr F$, applies the [Gaussian resampling](gaussian-resampling.md) input map $\\mathcal A$, then $\\widetilde{\\mathscr C}$, then the output map $\\mathcal B_0$, then multiplies exactly by $2^\\gamma$, the power of two that resampling introduces."
   },
   {
    "symbol": "u",
    "name": "scaled first digits",
    "meaning": "The array of scaled digits of the first input after applying Phi (not the integer).",
    "relation": "direct",
-   "quote": "Apply $\\Phi$ to obtain arrays $u,v$ of exact $p$-bit values (here $u,v$ are the scaled digit arrays, not the integers)."
+   "quote": "Apply $\\Phi$ to obtain arrays $u,v$ of exact $p$-bit values (the scaled digit arrays, not the integers)."
   },
   {
    "symbol": "v",
    "name": "scaled second digits",
    "meaning": "The array of scaled digits of the second input after applying Phi (not the integer).",
    "relation": "direct",
-   "quote": "Apply $\\Phi$ to obtain arrays $u,v$ of exact $p$-bit values (here $u,v$ are the scaled digit arrays, not the integers)."
+   "quote": "Apply $\\Phi$ to obtain arrays $u,v$ of exact $p$-bit values (the scaled digit arrays, not the integers)."
   },
   {
    "symbol": "z",
    "name": "pointwise product array",
    "meaning": "The pointwise product of the two transformed arrays, truncated to p fractional bits.",
    "relation": "direct",
-   "quote": "Multiply corresponding coefficients exactly and truncate toward zero to $p$ fractional bits, obtaining $z$."
+   "quote": "For the opposite sign, on an array $z$, $\\widetilde{\\mathscr F}^{+}(z)=\\overline{\\widetilde{\\mathscr F}(\\overline z)}$ has exact counterpart $RF_{\\boldsymbol s}^{+}$, since $R$ is real and conjugation flips the exponent sign."
   },
   {
    "symbol": "\\widetilde w",
    "name": "computed scaled array",
    "meaning": "The computed result of the opposite transform of z multiplied by S.",
    "relation": "direct",
-   "quote": "Compute $\\widetilde{\\mathscr F}^{+}(z)$ and multiply by $S$, obtaining $\\widetilde w$."
+   "quote": "Compute $\\widetilde{\\mathscr F}^{+}(z)$ and multiply by $S$, obtaining $\\widetilde w$, which approximates the exact array $w$ defined below."
   },
   {
    "symbol": "w",
    "name": "exact scaled array",
    "meaning": "The exact array (u*v)/S that the computed array approximates.",
    "relation": "direct",
-   "quote": "so after the first scale it is $w=(u*v)/S$, the exact array that $\\widetilde w$ approximates"
+   "quote": "Compute $\\widetilde{\\mathscr F}^{+}(z)$ and multiply by $S$, obtaining $\\widetilde w$, which approximates the exact array $w$ defined below."
   }
  ],
  "relations": [
   {
    "prerequisite": "parameter-choice",
-   "predicate": "takes the sizes fixed by",
-   "quote": "[Parameter and prime-length choice](parameter-choice.md) fixes the sizes: $b=\\lceil\\log_2 n\\rceil$ bits per radix digit, $p=6b$ fractional bits for every stored value, distinct odd primes $s_i$ with product $S$, and powers of two $t_i$ just above $s_i$ with product $T$."
+   "predicate": "takes its sizes from",
+   "quote": "It takes its sizes from [Parameter and prime-length choice](parameter-choice.md): $b=\\lceil\\log_2 n\\rceil$ bits per radix digit, $p=6b$ fractional bits for every stored value, distinct odd primes $s_i$ with product $S$, and powers of two $t_i$ just above $s_i$ with product $T$."
   },
   {
    "prerequisite": "radix-digit-reduction",
@@ -159,8 +108,8 @@
   },
   {
    "prerequisite": "crt-map",
-   "predicate": "rewrites its coefficients by",
-   "quote": "The [Chinese-remainder address map](crt-map.md) $\\Phi$ rewrites a length-$S$ coefficient sequence as an array with one cyclic axis of each length $s_i$ and preserves convolution."
+   "predicate": "rewrites its coefficient sequence by",
+   "quote": "It rewrites a length-$S$ coefficient sequence by the [Chinese-remainder address map](crt-map.md) $\\Phi$ as an array with one cyclic axis of each length $s_i$, preserving convolution, so that the Fourier transform acts one short axis at a time."
   },
   {
    "prerequisite": "phase-twist",
@@ -180,7 +129,7 @@
   {
    "prerequisite": "precision-recovery",
    "predicate": "is shown exact by",
-   "quote": "[Error tracking and exact recovery](precision-recovery.md) shows that the error on the recovered coefficients is below $1/2$."
+   "quote": "The error on the recovered coefficients is below $1/2$, as shown by [Error tracking and exact recovery](precision-recovery.md) from each normalized transform and product being a contraction."
   }
  ]
 }

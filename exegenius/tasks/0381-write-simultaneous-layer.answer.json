@@ -1,0 +1,158 @@
+{
+ "derivations": [
+  {
+   "step": "S1.6.1",
+   "quote": "the [Two-point kernel C](phase-kernel.md) $C=aI+bX$, with $X$ the bit flip, satisfies $H_0=b\\,\\mathsf SC\\mathsf S$, $C^2=X$ and $C^4=I$"
+  },
+  {
+   "step": "S1.6.2",
+   "quote": "Apply $\\mathcal P_\\Gamma^{-1}$ to every column, then $(C^{\\pm1})^{\\otimes f}$ to the $f$ bits of slot $\\xi$, then $\\mathcal P_\\Gamma$: one child on $f=e/m$ axes per residual vector, exactly $s$ children in all. A negative power needs no extra child: $(C^{-1})^{\\otimes f}=(-i)^fZ^{\\otimes f}C^{\\otimes f}Z^{\\otimes f}$ with $Z=\\operatorname{diag}(1,-1)$."
+  },
+  {
+   "step": "S1.6.2b",
+   "quote": "Applying the identity on every selected bit gives $H_0^{\\otimes D}=b^D\\mathcal S_DC^{\\otimes D}\\mathcal S_D$, where the diagonal operator $\\mathcal S_D$ acts on an array $z$ by $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x)$."
+  },
+  {
+   "step": "S1.6.3b",
+   "quote": "As their number is fixed, the complete binary change of basis and its inverse on $e$ axis chunks cost"
+  },
+  {
+   "step": "S1.6.4",
+   "quote": "Writing $D-q_0$ in base $m$ cuts the other chunks into at most $(m-1)(1+\\lfloor\\log_md\\rfloor)$ pieces of $m^j$ chunks; adding the pieces gives $O(\\log(2d)[d^\\lambda+d^{\\sigma+\\beta(1-\\sigma)}+1])=O(d^{\\lambda'})$ for any fixed $\\lambda'<1$ above $\\lambda$ and $\\sigma+\\beta(1-\\sigma)$."
+  },
+  {
+   "step": "S1.6.5",
+   "quote": "A value after $\\ell$ operations lies in $2^{-(p+\\ell)}\\mathbb Z[i]$ with modulus at most $2^\\ell$ (addition doubles the modulus at most, halving adds a bit). So reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component represents every intermediate coefficient exactly"
+  },
+  {
+   "step": "S1.6.6",
+   "quote": "A row of $\\mathcal H$ consists of all products of $D$ entries of $H_0$, one per selected bit, so its absolute row sum is $(\\tfrac12+\\tfrac12)^D=1$. By the triangle inequality $\\mathcal H$ maps disk arrays (entries of modulus at most 1) to disk arrays"
+  },
+  {
+   "step": "S1.6.7",
+   "quote": "Truncation $Q_p$ toward zero cannot increase either component of an entry in absolute value, so it keeps the disk, and changes each by less than $2^{-p}$"
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "phase-frames",
+   "predicate": "is handled by the network of",
+   "quote": "The group is handled by the network of [Binary phase frames](phase-frames.md), with $W$ wires and $s$ smaller calls."
+  },
+  {
+   "prerequisite": "rank-recurrence",
+   "predicate": "follows the recursion of",
+   "quote": "The cost of the layer follows the recursion of [Recursive power saving](rank-recurrence.md): since $s<Wm$, $s/W\\le m^\\sigma$ for a fixed $\\sigma<1$, so each factor $m$ in $e$ multiplies the cost per unit volume by at most $m^\\sigma$, not $m$."
+  },
+  {
+   "prerequisite": "packed-bit-addition",
+   "predicate": "performs each row addition by",
+   "quote": "The layer performs each row addition by [Packed selected-bit addition](packed-bit-addition.md), which XORs them with a third chunk as restored scratch, by eight cyclic shifts of whole chunk ranges plus a repair of a bounded set of exceptional addresses."
+  },
+  {
+   "prerequisite": "fixed-point",
+   "predicate": "is evaluated in",
+   "quote": "The layer is evaluated in [Fixed-point Gaussian dyadic records](fixed-point.md)."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "D",
+   "name": "selected chunk count",
+   "meaning": "The number of selected address chunks (axes), at most d.",
+   "relation": "count",
+   "quote": "one bit of each of $D\\le d$ selected address chunks of $K$ bits"
+  },
+  {
+   "symbol": "e",
+   "name": "group axis count",
+   "meaning": "The number of selected axes in a group, e=mf.",
+   "relation": "count",
+   "quote": "Take $e=mf$ selected axes ($e$ counts axes here, not chunk digits as on"
+  },
+  {
+   "symbol": "f",
+   "name": "slot width",
+   "meaning": "The number of axes in each of the m slots of a group.",
+   "relation": "count",
+   "quote": "split into $m$ slots of $f$ axes."
+  },
+  {
+   "symbol": "\\Gamma",
+   "name": "basis-change matrix",
+   "meaning": "An invertible matrix over F_2 whose first columns are the residual basis vectors.",
+   "relation": "direct",
+   "quote": "Take an invertible $\\mathbb F_2$-matrix $\\Gamma$ whose first columns are the $v_\\xi$,"
+  },
+  {
+   "symbol": "\\xi",
+   "name": "residual index",
+   "meaning": "The index of a residual basis vector of an edge.",
+   "relation": "direct",
+   "quote": "over residual basis vectors $v_\\xi$, of kernels $C_{v_\\xi}^{\\pm1}$, where $C_v=aI+bX_v$ and $X_v$ adds $v$ to a column modulo 2."
+  },
+  {
+   "symbol": "\\mathcal P_\\Gamma",
+   "name": "address permutation",
+   "meaning": "The address permutation sending x to Gamma x.",
+   "relation": "direct",
+   "quote": "Take an invertible $\\mathbb F_2$-matrix $\\Gamma$ whose first columns are the $v_\\xi$, and the address permutation $\\mathcal P_\\Gamma:x\\mapsto\\Gamma x$."
+  },
+  {
+   "symbol": "\\mathcal S_D",
+   "name": "phase diagonal",
+   "meaning": "The diagonal operator multiplying the value at x by i to the power x_1+...+x_D.",
+   "relation": "direct",
+   "quote": "where the diagonal operator $\\mathcal S_D$ acts on an array $z$ by $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x)$."
+  },
+  {
+   "symbol": "q_0",
+   "name": "individual chunk count",
+   "meaning": "The number of leading chunks to which C is applied individually and whose bits form the row index.",
+   "relation": "count",
+   "quote": "the first $q_0=\\lceil\\log_2W\\rceil\\lceil\\log_m(2d)\\rceil$ chunks get individual $C$ kernels"
+  },
+  {
+   "symbol": "\\Xi",
+   "name": "time per unit volume",
+   "meaning": "The time for e axes divided by their stream volume, as a function of e.",
+   "relation": "direct",
+   "quote": "Let $\\Xi(e)$ be the time for the $e$ axes divided by their stream volume."
+  },
+  {
+   "symbol": "\\chi",
+   "name": "chain operation bound",
+   "meaning": "A bound on the number of arithmetic operations on a chain from an input coefficient to an intermediate one.",
+   "relation": "count",
+   "quote": "Let $\\chi(e)$ bound the operations on a chain from an input coefficient to an intermediate one."
+  },
+  {
+   "symbol": "E",
+   "name": "operation bound",
+   "meaning": "A bound on the operations of one network invocation, 64(W+m+1)^3.",
+   "relation": "count",
+   "quote": "below $E=64(W+m+1)^3$ since $s<Wm$ ($E$ is an operation bound here)"
+  },
+  {
+   "symbol": "\\Psi",
+   "name": "chain growth factor",
+   "meaning": "The sum s+E, the factor by which each recursion level multiplies the chain bound.",
+   "relation": "direct",
+   "quote": "With $\\Psi=s+E$, $s\\varphi+E\\le\\Psi\\varphi$ for $\\varphi\\ge1$, so each of at most $\\lceil\\log_md\\rceil$ levels multiplies the bound by at most $\\Psi$"
+  },
+  {
+   "symbol": "\\vartheta",
+   "name": "exponent of m",
+   "meaning": "The least j at least 1 with m^j at least Psi.",
+   "relation": "direct",
+   "quote": "where $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$"
+  },
+  {
+   "symbol": "C_0",
+   "name": "guard constant",
+   "meaning": "The constant 128 m Psi^2 in the guard width.",
+   "relation": "direct",
+   "quote": "where $C_0=128m\\Psi^2$ and $C_1=\\max\\{20,\\vartheta+3\\}$"
+  }
+ ]
+}
