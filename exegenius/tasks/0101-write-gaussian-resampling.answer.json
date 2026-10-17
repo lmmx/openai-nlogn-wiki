@@ -1,26 +1,27 @@
 {
   "symbols": [
-    {"symbol": "s", "name": "source length", "meaning": "The length of the Fourier transform to be replaced.", "relation": "direct", "quote": "Gaussian resampling expresses a Fourier transform of length $s$ (prime in the application) through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."},
+    {"symbol": "s", "name": "source length", "meaning": "The length of the Fourier transform to be replaced.", "relation": "direct", "quote": "Gaussian resampling expresses a Fourier transform of length $s$ through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."},
     {"symbol": "\\alpha", "name": "Gaussian width parameter", "meaning": "An integer, with 2 <= alpha < sqrt p, that is the width parameter of the Gaussian weights.", "relation": "direct", "quote": "and let $\\alpha$, the width parameter of the Gaussian weights below, be an integer with $2\\le\\alpha<\\sqrt p$."},
     {"symbol": "\\theta", "name": "relative gap", "meaning": "The relative gap t/s - 1 between the two lengths.", "relation": "direct", "quote": "Assume $\\theta:=t/s-1>p/\\alpha^4$."},
-    {"symbol": "C", "name": "coordinate selection", "meaning": "The map from C^t to C^s that selects coordinate q_j into position j.", "relation": "direct", "quote": "Let $C:\\mathbb C^t\\to\\mathbb C^s$ select coordinates, $(Cv)_j=v_{q_j}$, and $(\\mathsf Du)_j=e^{\\pi\\alpha^2\\beta_j^2}u_j$."},
-    {"symbol": "\\delta", "name": "exponent slack", "meaning": "A fixed constant 0 < delta < 1/8 that is the slack in the exponents of the time bounds.", "relation": "direct", "quote": "Fix $0<\\delta<1/8$, the slack in the time exponents."},
-    {"symbol": "k", "name": "series terms kept", "meaning": "The number of terms of the Neumann series that are kept.", "relation": "count", "quote": "Let $E=N-I$ and $k=\\lceil p/(\\alpha^2\\theta)\\rceil$, the number of series terms kept."},
+    {"symbol": "C", "name": "coordinate selection", "meaning": "The map from C^t to C^s that selects coordinate q_j into position j.", "relation": "direct", "quote": "Let $C$ select coordinates from length-$t$ to length-$s$ vectors, $(Cv)_j=v_{q_j}$, and $(\\mathsf Du)_j=e^{\\pi\\alpha^2\\beta_j^2}u_j$."},
+    {"symbol": "\\delta", "name": "exponent slack", "meaning": "A fixed constant 0 < delta < 1/8 that is the slack in the exponents of the time bounds.", "relation": "direct", "quote": "Fix $0<\\delta<1/8$, the time-exponent slack."},
+    {"symbol": "k", "name": "output coordinate index", "meaning": "A coordinate index of a vector in C^t, taken modulo t.", "relation": "direct", "quote": "Define the permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ (coordinate indices $j$, $k$ taken modulo $s$, $t$), which stay in the identity, never executed as sorts."},
+    {"symbol": "t", "name": "target length", "meaning": "The larger length, a power of two in the application, of the transform used instead of the length-s one.", "relation": "direct", "quote": "Gaussian resampling expresses a Fourier transform of length $s$ through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."},
     {"symbol": "\\widetilde E", "name": "approximate E", "meaning": "The numerical approximation of E = N - I computed on D_p records.", "relation": "direct", "quote": "Let $\\widetilde E$ be the approximation of $E$ on $\\mathbb D_p$ from the cited Lemma 4.11: for every $z\\in\\mathbb D_p^s$"}
   ],
   "relations": [
     {"prerequisite": "dft", "predicate": "expresses", "quote": "Here $F_q$ is the normalised [Discrete Fourier transform](dft.md) of length $q$, and the resampling expresses $F_s$ through $F_t$."},
-    {"prerequisite": "multidim-transform", "predicate": "is applied along each axis of", "quote": "Applied along each axis of a [Multidimensional transforms](multidim-transform.md), this replaces axis length $s$ by $t$."}
+    {"prerequisite": "multidim-transform", "predicate": "is applied along each axis of", "quote": "Applied along each axis of a [Multidimensional transforms](multidim-transform.md), it replaces $s$ by $t$."}
   ],
   "derivations": [
     {"step": "S4.1.1", "quote": "Assume $\\theta:=t/s-1>p/\\alpha^4$."},
-    {"step": "S4.1.2", "quote": "Define the permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ (indices modulo $s$, $t$), which stay in the identity, never executed as sorts."},
+    {"step": "S4.1.2", "quote": "Define the permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ (coordinate indices $j$, $k$ taken modulo $s$, $t$), which stay in the identity, never executed as sorts."},
     {"step": "S4.1.3", "quote": "There are linear contractions $A$, $B_0$ with $P_sF_s=2^{2\\alpha^2}B_0P_tF_tA$."},
     {"step": "S4.1.4", "quote": "In $(Nu)_j$, the summand with index $j$ is exactly $u_j$: the factor in $\\mathsf D$ cancels the Gaussian factor at the selected coordinate $q_j$, because $tj/s-q_j=\\beta_j$."},
     {"step": "S4.1.4b", "quote": "Since $\\alpha^2<p$ and $\\theta>p/\\alpha^4$, $\\alpha^2\\theta>p/\\alpha^2>1$, so $\\|N-I\\|<1/2$ and $N$ is invertible by the Neumann series $N^{-1}=\\sum_i(-1)^i(N-I)^i$."},
     {"step": "S4.1.4c", "quote": "Set $\\mathsf S'=\\mathsf S/2$, $\\mathsf J'=N^{-1}/2$, $\\mathsf D'=2^{-(2\\alpha^2-2)}\\mathsf D$, and put $A=\\mathsf S'$ and $B_0=\\mathsf D'\\mathsf J'C$."},
     {"step": "S4.1.4d", "quote": "The normalizations multiply to $2^{-(2\\alpha^2-2)}2^{-1}2^{-1}=2^{-2\\alpha^2}$, so $B_0P_tF_tA=2^{-2\\alpha^2}P_sF_s$."},
-    {"step": "S4.1.5", "quote": "The cited algorithms give ordered approximations $\\widetilde{\\mathsf S}'$, $\\widetilde{\\mathsf J}'$, $\\widetilde{\\mathsf D}'$ with errors $16p$, $3p^2/4$, $4$ and times $O(tp^{3/2+\\delta}\\alpha)$, $O(tp^{3/2+\\delta}\\alpha)$, $O(tp^{1+\\delta})$"},
+    {"step": "S4.1.5", "quote": "The cited algorithms give approximations $\\widetilde{\\mathsf S}'$, $\\widetilde{\\mathsf J}'$, $\\widetilde{\\mathsf D}'$ with errors $16p$, $3p^2/4$, $4$ and times $O(tp^{3/2+\\delta}\\alpha)$, $O(tp^{3/2+\\delta}\\alpha)$, $O(tp^{1+\\delta})$"},
     {"step": "S4.1.6", "quote": "The selection $C$ picks an ordered subsequence (since $t/s>1$), and the indices are generated in order with $O(p)$ work each, so $C$ takes $O(tp)$ time with zero error"},
     {"step": "S4.1.7", "quote": "Contraction of the exact maps yields errors less than $16p<p^2$ and $4+3p^2/4<p^2$ (as $p>100$), and the costs add to $O(tp^{3/2+\\delta}\\alpha)$."},
     {"step": "S4.1.8", "quote": "The Neumann series with $E=N-I$ and $k=\\lceil p/(\\alpha^2\\theta)\\rceil$ is evaluated as $\\widetilde{\\mathsf J}'u=\\sum_{j=0}^{k-1}(-1)^j\\widetilde v^{(j)}$ with every iterate kept in $\\mathbb D_p$."}
