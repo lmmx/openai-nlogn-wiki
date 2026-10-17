@@ -1223,9 +1223,6 @@
     }
   ],
   "rewrite": {
-    "rank-recurrence": [
-      "The reader cannot follow this step: \"other node work (splitting, gates, shears, stack parking) is $O(V)$\" (The page asserts that all non-recursive work at a node, including parking the inactive streams on a stack tape, costs O(V) on a fixed number of tapes. It gives no reason. The reader cannot check it from the page, and the recursion's additive O(1) term depends on it.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it."
-    ],
     "simultaneous-layer": [
       "The reader cannot follow this step: \"zero-padded at most doubling volume\" (The page never says what the padding is for (making the row count divisible by a power of W so each recursive split gives equal rows) or why it at most doubles the volume (fewer than W^{ceil(log_m d)} rows added to each block of at least that many rows). The reader cannot check the doubling or the claim that every child has volume exactly V/W.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
       "The reader cannot follow this step: \"One invocation adds fewer than $E=64(W+m+1)^3$\" (The page gives the value of E and the leaf bound A(e)<=8e without any count. The reader is not told the number of scalar gates (at most 12W), the cost of evaluating a gate (at most 2W^2 operations), the 4s operations for inverse-child corrections, the 4W+4 for endpoint and bank corrections, or that each individual C kernel costs 8 operations. The cubic bound cannot be checked from the page.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
@@ -3248,51 +3245,44 @@
     ],
     "rank-recurrence": [
       {
-        "symbol": "f",
-        "name": "call parameter",
-        "meaning": "The parameter of a recursive call: the number of digits per interchanged chunk, or the number of selected axes in a butterfly layer.",
-        "relation": "count",
-        "quote": "A call has a parameter $f$, the number of digits per interchanged chunk or of selected axes, and a volume $V$."
-      },
-      {
         "symbol": "m",
-        "name": "slot count",
-        "meaning": "The number of size-f slots into which a call at parameter mf cuts its parameter, equal to 10^6, the label-space dimension.",
+        "name": "label dimension",
+        "meaning": "The dimension of the label space, 10^6, which is also the number of slots a chunk is split into, so a parameter grows by the factor m per recursion level.",
         "relation": "count",
-        "quote": "A call at parameter $mf$, with $m=10^6$ (the label-space dimension) slots of size $f$, deals its rows into $W$ streams of volume $V/W$, one per wire of a fixed bit or complex [exchange network](exchange-network.md)."
+        "quote": "A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$."
       },
       {
         "symbol": "s",
         "name": "number of smaller calls",
-        "meaning": "The number of calls at parameter f made by a call at parameter mf: the total rank of the frame changes over all edges of the network.",
+        "meaning": "The number of calls at parameter f that one call at parameter mf makes, equal to the total rank of the frame changes over the network's edges.",
         "relation": "count",
-        "quote": "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total edge rank."
+        "quote": "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes."
+      },
+      {
+        "symbol": "f",
+        "name": "call parameter",
+        "meaning": "The size parameter of a call: the number of digits in each interchanged chunk, or the number of selected axes of a layer.",
+        "relation": "count",
+        "quote": "A call acts on a stream of volume $V$ and has a parameter $f$ (a number here, not an array): the digits per interchanged chunk, or the selected axes of a layer."
       },
       {
         "symbol": "F",
-        "name": "cost per unit volume",
-        "meaning": "F(f) is the running time of a call at parameter f divided by the volume of its data.",
+        "name": "time per unit volume",
+        "meaning": "The running time of a call at a given parameter divided by the volume of its stream.",
         "relation": "direct",
-        "quote": "With $F(f)$ the time per unit volume at parameter $f$, these cost $s(V/W)F(f)$."
+        "quote": "Let $F(f)$ be the time per unit volume at parameter $f$ ($F$ is not the label space here)."
       },
       {
         "symbol": "j",
         "name": "recursion depth",
-        "meaning": "The number of recursion levels between the top call and the nodes considered.",
+        "meaning": "The number of recursion levels between the top call and a given call.",
         "relation": "count",
-        "quote": "Unrolling through $\\log_m f$ levels ($f$ a power of $m$), with depth $j$ (here counting levels) contributing $(s/W)^j$, gives $F(f)=O\\big(\\sum_{j=0}^{\\log_m f}(s/W)^j\\big)$."
-      },
-      {
-        "symbol": "\\tau",
-        "name": "saving exponent",
-        "meaning": "A fixed exponent below 1 with s/W < m^tau, which makes an interchange cost O(V f^tau); here tau = 1 - 2^{-50}.",
-        "relation": "direct",
-        "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$: if $s/W\\le1$ there are $1+\\log_m f$ terms of at most $1$; otherwise the last term, below $m^{\\tau\\log_m f}=f^\\tau$, dominates the geometric sum."
+        "quote": "Unrolling $\\log_m f$ levels, depth $j$ (here counting levels) contributes $(s/W)^j$, so $F(f)=O\\big(\\sum_{j=0}^{\\log_m f}(s/W)^j\\big)$."
       },
       {
         "symbol": "\\eta",
-        "name": "relative rank deficit",
-        "meaning": "The fraction (Wm - s)/(Wm) by which the number of smaller calls s falls short of Wm.",
+        "name": "relative deficit",
+        "meaning": "The relative rank deficit (Wm - s)/(Wm) of a network, the fraction by which the number of smaller calls falls short of Wm.",
         "relation": "direct",
         "quote": "Write $s/W=m(1-\\eta)$, with $\\eta$ now the relative deficit $(Wm-s)/(Wm)$."
       }
@@ -4464,7 +4454,7 @@
       {
         "prerequisite": "subspace-labels",
         "predicate": "gets its strict inequality from",
-        "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](subspace-labels.md): an edge costs the dimension change of its nested labels, so a wire climbing from $0$ to $m$ dimensions costs $m$."
+        "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](subspace-labels.md): an edge costs the dimension change of its nested labels, and each route's endpoint frames differ by all $m$ dimensions, so a wire climbing from $0$ to $m$ costs $m$."
       }
     ],
     "retained-permutations": [
@@ -6023,35 +6013,7 @@
     ],
     "rank-recurrence": [
       {
-        "sentence": "Recursive power saving is the recurrence making both tape procedures (chunk interchange, butterfly layer) cost volume times a power below one of their parameter.",
-        "depth": 1
-      },
-      {
-        "sentence": "A call at parameter $mf$, with $m=10^6$ (the label-space dimension) slots of size $f$, deals its rows into $W$ streams of volume $V/W$, one per wire of a fixed bit or complex [exchange network](exchange-network.",
-        "depth": 1
-      },
-      {
-        "sentence": "md).",
-        "depth": 1
-      },
-      {
-        "sentence": "Crossing a network edge changes the stream's frame ([Frames on wire arrays](array-frames.",
-        "depth": 1
-      },
-      {
-        "sentence": "For interchange, other node work (splitting, gates, shears, stack parking) is $O(V)$, and one digit swaps in linear time:",
-        "depth": 1
-      },
-      {
         "sentence": "$$F(mf)\\le\\frac{s}{W}F(f)+O(1),\\qquad F(1)=O(1).",
-        "depth": 1
-      },
-      {
-        "sentence": "Unrolling through $\\log_m f$ levels ($f$ a power of $m$), with depth $j$ (here counting levels) contributing $(s/W)^j$, gives $F(f)=O\\big(\\sum_{j=0}^{\\log_m f}(s/W)^j\\big)$.",
-        "depth": 1
-      },
-      {
-        "sentence": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$: if $s/W\\le1$ there are $1+\\log_m f$ terms of at most $1$; otherwise the last term, below $m^{\\tau\\log_m f}=f^\\tau$, dominates the geometric sum.",
         "depth": 1
       },
       {
@@ -6059,43 +6021,7 @@
         "depth": 1
       },
       {
-        "sentence": "For the layer (complex network), node overhead grows: frame changes are row additions on slots of $(f/m)K$ address bits ($K$ bits per address chunk), each costing $O(V((fK)^\\tau+1))$ through chunk interchanges ([Packed selected-bit addition](packed-bit-addition.",
-        "depth": 1
-      },
-      {
-        "sentence": "Recursion stops below $d^\\beta$ axes, $\\beta=1/2$, applying the $f$ two-point kernels singly:",
-        "depth": 1
-      },
-      {
         "sentence": "$$F(f)\\le\\frac{s}{W}F(f/m)+O((fK)^\\tau+1),\\qquad F(f)=O(f)\\quad(f<d^\\beta).",
-        "depth": 1
-      },
-      {
-        "sentence": "Fix $\\sigma<1$ with $s/W\\le m^\\sigma$, and $\\lambda<1$ above $\\sigma$ and $\\tau(1+c/\\beta)$, where $K\\le d^c$, $c$ fixed.",
-        "depth": 1
-      },
-      {
-        "sentence": "Internal nodes have $f\\ge d^\\beta$, so $K\\le f^{c/\\beta}$ and overhead $O(f^\\lambda)$.",
-        "depth": 1
-      },
-      {
-        "sentence": "At depth $j$, the $(s/W)^j$ normalized overheads $O((f/m^j)^\\lambda)$ sum geometrically, with ratio $(s/W)/m^\\lambda<1$, to $O(f^\\lambda)$; leaves contribute $(s/W)^jf/m^j\\le f^\\sigma(f/m^j)^{1-\\sigma}<f^\\sigma d^{\\beta(1-\\sigma)}$.",
-        "depth": 1
-      },
-      {
-        "sentence": "With $f\\le d$, and a $\\log d$ factor from splitting into powers of $m$, the layer costs $O(Vd^{\\lambda'})$ for fixed $\\lambda'$ between $\\max\\{\\lambda,\\sigma+\\beta(1-\\sigma)\\}$ and $1$ (cited)",
-        "depth": 1
-      },
-      {
-        "sentence": "One data bank's $N$ wires start on a line and the other's stop one dimension short, saving $2N$; the bit network spends $N$ on extra source ranks, and shrinking edges cost back $2L<N$.",
-        "depth": 1
-      },
-      {
-        "sentence": "Both ($\\approx1.",
-        "depth": 1
-      },
-      {
-        "sentence": "5\\cdot10^{-11}$, $3.",
         "depth": 1
       },
       {
@@ -6105,6 +6031,58 @@
       {
         "sentence": "Hence $\\tau=\\sigma=1-2^{-50}$ gives $s/W<m^\\tau$ (bit) and $s/W<m^\\sigma$ (complex), exponents barely below $1$.",
         "depth": 1
+      },
+      {
+        "sentence": "A call acts on a stream of volume $V$ and has a parameter $f$ (a number here, not an array): the digits per interchanged chunk, or the selected axes of a layer.",
+        "depth": 2
+      },
+      {
+        "sentence": "md), and applies the network's gates pointwise.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each vertex carries a [frame](array-frames.",
+        "depth": 2
+      },
+      {
+        "sentence": "md), and an edge's frame change costs one call at parameter $f$ on its stream per unit of rank: in the bit network, one interchange of a pair of slots ([matrix shear](matrix-shear.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $F(f)$ be the time per unit volume at parameter $f$ ($F$ is not the label space here).",
+        "depth": 2
+      },
+      {
+        "sentence": "Splitting into streams and merging are linear passes ([stream operations](stream-ops.",
+        "depth": 2
+      },
+      {
+        "sentence": "md)); each of the fixed number of gates makes one pointwise pass, and each edge's triangular factors are linear-time field updates.",
+        "depth": 2
+      },
+      {
+        "sentence": "All depths reuse one fixed set of tapes: before each child call, the $W-1$ idle streams are pushed onto a stack tape and the active one copied to the child's input; afterwards the result is copied back and the idle streams popped.",
+        "depth": 2
+      },
+      {
+        "sentence": "Each push, pop or copy scans $O(V)$ cells, never an ancestor's parked data, since the stack head stays at the top; with $s$ fixed, this totals $O(V)$.",
+        "depth": 2
+      },
+      {
+        "sentence": "The layer's recurrence differs in two ways: frame changes are row additions costing $O(V((fK)^\\tau+1))$ at a node through chunk interchanges, and recursion stops below $d^\\beta$ axes, applying the remaining two-point kernels singly:",
+        "depth": 2
+      },
+      {
+        "sentence": "With $s/W\\le m^\\sigma$ for a fixed $\\sigma<1$, the overheads again sum geometrically, and the [simultaneous butterfly layer](simultaneous-layer.",
+        "depth": 2
+      },
+      {
+        "sentence": "md) page obtains cost $O(Vd^{\\lambda'})$ for a fixed $\\lambda'<1$ (cited)",
+        "depth": 2
+      },
+      {
+        "sentence": "By the rank counts it is $(N-2L)/(Wm)$ (bit) or $(2N-2L)/(Wm)$ (complex), namely $339/22587335000000$ and $73/19906842167500$ (cited).",
+        "depth": 2
       }
     ],
     "retained-permutations": [
@@ -6669,7 +6647,6 @@
     ]
   },
   "note_depth": {
-    "rank-recurrence": 1,
     "simultaneous-layer": 1,
     "subspace-labels": 1
   },
