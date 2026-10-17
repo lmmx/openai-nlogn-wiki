@@ -1224,25 +1224,6 @@
     }
   ],
   "rewrite": {
-    "address-interchange": [
-      "$u$ means chunk width here, but input sequence on [Discrete Fourier transform](dft.md), which this page builds on: Use another letter, or say that u here is not an input sequence of the DFT.",
-      "$V$ means array volume here, but larger label on [Nested subspace labels and rank deficit](subspace-labels.md), which this page builds on: Use another letter, or say that V here is a volume and not a label.",
-      "$p$ means prefix here, but fractional bits on [Fixed-point Gaussian dyadic records](fixed-point.md), which this page builds on: Use another letter, or say that p here is a prefix of an address, not the number of fractional bits.",
-      "$h$ means first chunk here, but remaining index on [Butterflies and the fast transform](butterfly.md), which this page builds on: Use another letter, or say that h here is not the other page's meaning of h.",
-      "$h$ means first chunk here, but ground-set size on [Linear exchange network with restored scratch wires](exchange-network.md), which this page builds on: Use another letter, or say that h here is not the other page's meaning of h.",
-      "$d$ means second chunk here, but axis count on [Cyclic convolution](convolution.md), which this page builds on: Use another letter, or say that d is the second address chunk here, not the axis count.",
-      "$q$ means digit radix here, but sequence length on [Discrete Fourier transform](dft.md), which this page builds on: Say that q is the digit radix here, not a sequence length, or use another letter.",
-      "$q$ means digit radix here, but sequence length on [Cyclic convolution](convolution.md), which this page builds on: Say that q is the digit radix here, not a sequence length, or use another letter.",
-      "$k$ means recursion levels here, but depth on [Fixed-point Gaussian dyadic records](fixed-point.md), which this page builds on: Use another letter, or say that k here counts recursion levels, not the depth of a value.",
-      "$M$ means vertex matrix here, but address count on [Cyclic convolution](convolution.md), which this page builds on: Use another letter, or say that M here is the vertex matrix, not an address count.",
-      "$x$ means stream row here, but vector of F on [Nested subspace labels and rank deficit](subspace-labels.md), which this page builds on: Use another letter, or say that x is a stream row number here, not a vector of F.",
-      "$j$ means recursion level here, but wrap count on [Controlled shifts and rational scalings](controlled-shifts.md), which this page builds on: Use another letter, or say that j here is not the other page's j.",
-      "$j$ means recursion level here, but stage number on [Nested subspace labels and rank deficit](subspace-labels.md), which this page builds on: Use another letter, or say that j here is not the other page's j."
-    ],
-    "precision-recovery": [
-      "$L$ means log of padded length here, but linear map on [Contractions and bilinear contractions](contraction-maps.md), which this page builds on: Use another letter, or say that L here is not the other page's L.",
-      "$u$ means scaled digit array here, but first input on [Multiplication as radix-digit convolution](radix-digit-reduction.md), which this page builds on: The page already says u is the scaled digit array and not the integer; keep that remark or use another letter for the array."
-    ],
     "simultaneous-layer": [
       "$D$ means selected chunk count here, but source group on [Matrix shear by triangular factorization](matrix-shear.md), which this page builds on: Use another letter, or say that D here is not the other page's D.",
       "$z$ means array here, but suffix on [Fast address-chunk interchange](address-interchange.md), which this page builds on: Say that z is not the other page's z here, or use another letter.",
@@ -1268,100 +1249,107 @@
       {
         "symbol": "u",
         "name": "chunk width",
-        "meaning": "The number of bits in each of the two interchanged address chunks.",
+        "meaning": "The number of bits in each of the two chunks.",
         "relation": "count",
-        "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each in an array of $V$ stored bits (the volume) in $O(Vu^\\tau)$ time on fixed tapes"
+        "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each (a chunk width, not a DFT input sequence) in an array of $V$ stored bits (a volume, not a label) in $O(Vu^\\tau)$ time on fixed tapes"
       },
       {
         "symbol": "V",
         "name": "array volume",
         "meaning": "The number of bits stored in the array.",
         "relation": "count",
-        "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each in an array of $V$ stored bits (the volume) in $O(Vu^\\tau)$ time on fixed tapes"
+        "quote": "it swaps two disjoint address fields, chunks, of $u$ bits each (a chunk width, not a DFT input sequence) in an array of $V$ stored bits (a volume, not a label) in $O(Vu^\\tau)$ time on fixed tapes"
       },
       {
         "symbol": "\\tau",
         "name": "saving exponent",
-        "meaning": "The fixed exponent below 1 in the cost, equal to 1 - 2^{-50}.",
+        "meaning": "The fixed exponent below 1 in the cost of the interchange.",
         "relation": "direct",
-        "quote": "where $\\tau=1-2^{-50}$ is the saving exponent."
+        "quote": ", where $\\tau=1-2^{-50}$ is the saving exponent."
       },
       {
         "symbol": "p",
-        "name": "prefix",
-        "meaning": "The part of an address before the first chunk.",
+        "name": "address prefix",
+        "meaning": "The prefix part of an address, before the first chunk.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$ (an address prefix, not a count of fractional bits), chunks $h$ and $d$ (not an index or an axis count), gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "h",
         "name": "first chunk",
-        "meaning": "The first of the two address chunks being interchanged.",
+        "meaning": "The first of the two address chunks to be interchanged.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
-      },
-      {
-        "symbol": "g",
-        "name": "gap",
-        "meaning": "The part of an address between the two chunks.",
-        "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$ (an address prefix, not a count of fractional bits), chunks $h$ and $d$ (not an index or an axis count), gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "d",
         "name": "second chunk",
-        "meaning": "The second of the two address chunks being interchanged.",
+        "meaning": "The second of the two address chunks to be interchanged.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$ (an address prefix, not a count of fractional bits), chunks $h$ and $d$ (not an index or an axis count), gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+      },
+      {
+        "symbol": "g",
+        "name": "gap",
+        "meaning": "The part of the address between the two chunks.",
+        "relation": "direct",
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$ (an address prefix, not a count of fractional bits), chunks $h$ and $d$ (not an index or an axis count), gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "z",
         "name": "suffix",
-        "meaning": "The part of an address after the second chunk.",
+        "meaning": "The part of the address after the second chunk.",
         "relation": "direct",
-        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$, chunks $h$ and $d$, gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
+        "quote": "An address is $(p,h,g,d,z)$ with prefix $p$ (an address prefix, not a count of fractional bits), chunks $h$ and $d$ (not an index or an axis count), gap $g$, suffix $z$; the goal is $(p,h,g,d,z)\\mapsto(p,d,g,h,z)$."
       },
       {
         "symbol": "q",
         "name": "digit radix",
-        "meaning": "The fixed prime that is the radix of the digits.",
+        "meaning": "The fixed prime radix of the digits.",
         "relation": "direct",
-        "quote": "Digits are radix $q$, a fixed prime."
+        "quote": "Digits are radix $q$, a fixed prime, not a sequence length."
+      },
+      {
+        "symbol": "H",
+        "name": "first chunk value",
+        "meaning": "The value of the first chunk, the target of the shear.",
+        "relation": "direct",
+        "quote": "For chunk values $H,D$, the updates $D\\gets D-H$, $H\\gets H+D$, $D\\gets H-D$ send $(H,D)$ to $(H,D-H)$, then $(D,D-H)$, then $(D,H)$. Only the middle one, the shear $H\\gets H+D$, needs the circuit; the others are scans."
+      },
+      {
+        "symbol": "D",
+        "name": "second chunk value",
+        "meaning": "The value of the second chunk, the source of the shear.",
+        "relation": "direct",
+        "quote": "For chunk values $H,D$, the updates $D\\gets D-H$, $H\\gets H+D$, $D\\gets H-D$ send $(H,D)$ to $(H,D-H)$, then $(D,D-H)$, then $(D,H)$. Only the middle one, the shear $H\\gets H+D$, needs the circuit; the others are scans."
       },
       {
         "symbol": "e",
         "name": "chunk digit count",
-        "meaning": "The number of radix-q digits in a chunk.",
+        "meaning": "The number of digits in each chunk.",
         "relation": "count",
-        "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels."
+        "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels (not the depth of a value)."
       },
       {
         "symbol": "k",
         "name": "recursion levels",
         "meaning": "The number of recursion levels, with e = m^k.",
         "relation": "count",
-        "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels."
+        "quote": "Let each chunk have $e=m^k$ digits, with $k$ recursion levels (not the depth of a value)."
       },
       {
         "symbol": "M",
         "name": "vertex matrix",
-        "meaning": "The rational m by m matrix carried by a terminal or gate of the network.",
+        "meaning": "The rational m by m matrix carried by a vertex of the network.",
         "relation": "direct",
-        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
-      },
-      {
-        "symbol": "A_i",
-        "name": "edge matrix",
-        "meaning": "The difference of the matrices at the head and tail of edge i.",
-        "relation": "direct",
-        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
+        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$ (a vertex matrix, not an address count), and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
       },
       {
         "symbol": "i",
         "name": "edge index",
         "meaning": "The index of an edge of the network.",
         "relation": "direct",
-        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
+        "quote": "The [Linear exchange network with restored scratch wires](exchange-network.md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$ (a vertex matrix, not an address count), and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$."
       },
       {
         "symbol": "w",
@@ -1372,70 +1360,105 @@
       },
       {
         "symbol": "\\rho",
-        "name": "role map",
-        "meaning": "The map sending input wire w to its output role.",
+        "name": "output role map",
+        "meaning": "The map sending input wire w to its output role rho(w).",
         "relation": "direct",
         "quote": "The shear contract: input wire $w$ is routed to an output role $\\rho(w)$ with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$, the identity, and $s<Wm$ by [Nested subspace labels and rank deficit](subspace-labels.md)."
       },
       {
         "symbol": "I_m",
-        "name": "identity",
+        "name": "identity matrix",
         "meaning": "The m by m identity matrix.",
         "relation": "direct",
         "quote": "The shear contract: input wire $w$ is routed to an output role $\\rho(w)$ with $M_{\\mathrm{out}(\\rho(w))}-M_{\\mathrm{in}(w)}=I_m$, the identity, and $s<Wm$ by [Nested subspace labels and rank deficit](subspace-labels.md)."
       },
       {
-        "symbol": "\\Phi_M",
-        "name": "address shear",
-        "meaning": "The array permutation moving the entry at address (H,D) to (H+MD,D).",
+        "symbol": "\\Phi",
+        "name": "address-shear permutation",
+        "meaning": "The array permutation moving the entry at address (H,D) to (H+MD,D) for a matrix M.",
         "relation": "direct",
         "quote": "Let $\\Phi_M$ move the entry at address $(H,D)$ to $(H+MD,D)$; then $\\Phi_{M'}\\Phi_M=\\Phi_{M'+M}$."
       },
       {
+        "symbol": "x",
+        "name": "stream row number",
+        "meaning": "The row number within a role stream.",
+        "relation": "direct",
+        "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$ ($x$ is a row number, not a vector of $F$)."
+      },
+      {
         "symbol": "f_w",
-        "name": "wire input",
+        "name": "input array",
         "meaning": "The physical input array of wire w.",
         "relation": "direct",
         "quote": "Read wire $w$'s input $f_w$ as the logical array $\\Phi_{-M_{\\mathrm{in}(w)}}f_w$."
       },
       {
-        "symbol": "x",
-        "name": "stream row",
-        "meaning": "The row number within a role stream.",
+        "symbol": "F_k",
+        "name": "time per unit volume",
+        "meaning": "The running time divided by the volume for chunks of m^k digits.",
         "relation": "direct",
-        "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
+        "quote": "So the time per unit volume $F_k$ at width $m^k$ obeys $F_0=O(1)$, $F_k\\le(s/W)F_{k-1}+O(1)$, the recurrence of [Recursive power saving](rank-recurrence.md)."
       },
       {
         "symbol": "j",
-        "name": "recursion level",
-        "meaning": "The index of a recursion level in the unrolled recurrence.",
+        "name": "level index",
+        "meaning": "An index of recursion levels in the unrolled sum.",
         "relation": "direct",
-        "quote": "Unrolled over the recursion levels $j$, $F_k=O(\\sum_{j=0}^k (s/W)^j)$."
+        "quote": "Unrolled over the recursion levels $j$ (not a stage number or wrap count), $F_k=O(\\sum_{j=0}^k (s/W)^j)$."
       },
       {
         "symbol": "k'",
-        "name": "level count",
-        "meaning": "The least integer with m^{k'} at least e, used for arbitrary widths.",
-        "relation": "direct",
+        "name": "levels needed",
+        "meaning": "The number of recursion levels needed for chunks of e digits.",
+        "relation": "count",
         "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
       },
       {
         "symbol": "\\nu",
-        "name": "high digit count",
+        "name": "set-aside digit count",
         "meaning": "The number of top digits of each chunk set aside to form the row field.",
         "relation": "count",
         "quote": "For large $e$, put $k'=\\lceil\\log_m e\\rceil$, the number of levels needed, and let $\\nu=\\lceil k'\\log W/(2\\log q)\\rceil$ be the number of top digits of each chunk set aside, so $q^{2\\nu}\\ge W^{k'}$, $1\\le\\nu<e$ and $\\nu=O(\\log 2e)$."
       },
       {
+        "symbol": "h^+",
+        "name": "top digits of h",
+        "meaning": "The top digits of h after splitting each chunk into its top digits and rest.",
+        "relation": "direct",
+        "quote": "Split each chunk into its top digits and rest, $h^+,h^-$ and $d^+,d^-$."
+      },
+      {
+        "symbol": "h^-",
+        "name": "rest of h",
+        "meaning": "The rest of h after splitting each chunk into its top digits and rest.",
+        "relation": "direct",
+        "quote": "Split each chunk into its top digits and rest, $h^+,h^-$ and $d^+,d^-$."
+      },
+      {
+        "symbol": "d^+",
+        "name": "top digits of d",
+        "meaning": "The top digits of d after splitting each chunk into its top digits and rest.",
+        "relation": "direct",
+        "quote": "Split each chunk into its top digits and rest, $h^+,h^-$ and $d^+,d^-$."
+      },
+      {
+        "symbol": "d^-",
+        "name": "rest of d",
+        "meaning": "The rest of d after splitting each chunk into its top digits and rest.",
+        "relation": "direct",
+        "quote": "Split each chunk into its top digits and rest, $h^+,h^-$ and $d^+,d^-$."
+      },
+      {
         "symbol": "\\Lambda",
-        "name": "row range",
-        "meaning": "The number of values of the row field formed by the high parts of both chunks.",
+        "name": "row field range",
+        "meaning": "The range of the row field formed by the two sets of top digits.",
         "relation": "count",
         "quote": "Now $d^+,h^+$ form a row field of range $\\Lambda=q^{2\\nu}\\ge W^{k'}$ before both remaining chunks."
       },
       {
         "symbol": "\\Lambda'",
-        "name": "padded row range",
+        "name": "padded row count",
         "meaning": "The row count after padding with zero rows to a multiple of W^{k'}.",
         "relation": "count",
         "quote": "Pad with zero rows to $\\Lambda'=W^{k'}\\lceil \\Lambda/W^{k'}\\rceil<2\\Lambda$ rows, so the volume stays below $2V$."
@@ -1443,7 +1466,7 @@
       {
         "symbol": "a_j",
         "name": "piece count",
-        "meaning": "The number of pieces of width m^j into which each remaining chunk is cut.",
+        "meaning": "The number of pieces of width m^j into which each remaining chunk is cut, a base-m digit.",
         "relation": "count",
         "quote": "Write the remaining width in base $m$: $e-\\nu=\\sum_{j=0}^{k'}a_jm^j$ with $0\\le a_j<m$, where the base-$m$ digit $a_j$ is the number of pieces of width $m^j$ into which each remaining chunk is cut."
       }
@@ -2903,56 +2926,161 @@
       {
         "symbol": "h_p",
         "name": "grid spacing",
-        "meaning": "The spacing $2^{-p}$ of the fractional-bit grid, the unit in which errors are measured.",
+        "meaning": "The spacing $2^{-p}$ of the fixed-point grid.",
         "relation": "direct",
-        "quote": "Write $h_p=2^{-p}$ and $L=\\log_2T$."
+        "quote": "Write $h_p=2^{-p}$ and $L=\\log_2T$ (this $L$ is not the linear map $L$ of the contractions page)."
       },
       {
         "symbol": "L",
         "name": "log of padded length",
-        "meaning": "The base-2 logarithm of the padded length $T$.",
+        "meaning": "The base-2 logarithm of the padded length $T$; not the linear map $L$ of the contractions page.",
         "relation": "direct",
-        "quote": "Write $h_p=2^{-p}$ and $L=\\log_2T$."
+        "quote": "Write $h_p=2^{-p}$ and $L=\\log_2T$ (this $L$ is not the linear map $L$ of the contractions page)."
+      },
+      {
+        "symbol": "a",
+        "name": "error size",
+        "meaning": "The size of an error, counted in grid spacings $h_p$.",
+        "relation": "direct",
+        "quote": "Norms are sup norms, an error of $a$ means error below $ah_p$, and every array stays in the unit disk (norm $\\le1$)."
+      },
+      {
+        "symbol": "e",
+        "name": "unit phase",
+        "meaning": "A phase of modulus one that multiplies an array.",
+        "relation": "direct",
+        "quote": "For a unit phase $e$, an approximation $\\widetilde e$ with $|\\widetilde e-e|<2h_p$"
+      },
+      {
+        "symbol": "\\widetilde e",
+        "name": "phase approximation",
+        "meaning": "A grid approximation of the unit phase $e$ within $2h_p$.",
+        "relation": "direct",
+        "quote": "For a unit phase $e$, an approximation $\\widetilde e$ with $|\\widetilde e-e|<2h_p$"
+      },
+      {
+        "symbol": "x",
+        "name": "disk operand",
+        "meaning": "An array in the unit disk to which a phase or chirp transform is applied; not the digit-polynomial variable.",
+        "relation": "direct",
+        "quote": "For a unit phase $e$, an approximation $\\widetilde e$ with $|\\widetilde e-e|<2h_p$ and a disk operand $x$"
+      },
+      {
+        "symbol": "E_{\\rm ring}",
+        "name": "ring convolution error",
+        "meaning": "The error bound $M(3L+2)$ of the returned ring convolution, in units of $h_p$.",
+        "relation": "direct",
+        "quote": "Together they err by under $3L+2$. An exact multiplication by $M=T/r$ then gives $(f*g)/T$ and\n$$E_{\\rm ring}:=M(3L+2)<5TL$$"
       },
       {
         "symbol": "E_s",
-        "name": "source error",
-        "meaning": "The factor $9\\cdot2^\\gamma TL$ such that a computed source transform has error under $E_sh_p$.",
+        "name": "source transform error",
+        "meaning": "The error bound $9\\cdot2^\\gamma TL$ of the computed source transform, in units of $h_p$.",
         "relation": "direct",
         "quote": "As $2dp^2<TL$ eventually, scaling gives error under $E_sh_p$ with"
       },
       {
+        "symbol": "\\widetilde{\\mathscr C}",
+        "name": "computed chirp transform",
+        "meaning": "The computed chirp transform built from phase products and a complex convolution.",
+        "relation": "direct",
+        "quote": "The computed chirp transform $\\widetilde{\\mathscr C}$ is built from the [Bluestein chirp identity](chirp.md): a phase product, a complex convolution with the chirp kernel, and a last phase product."
+      },
+      {
+        "symbol": "\\widetilde{\\mathscr F}",
+        "name": "computed source transform",
+        "meaning": "The computed source transform: expansion, chirp transform, compression, then scaling by $2^\\gamma$.",
+        "relation": "direct",
+        "quote": "The computed source transform $\\widetilde{\\mathscr F}$ applies the expansion map $\\mathcal A$ of [Gaussian resampling](gaussian-resampling.md), then $\\widetilde{\\mathscr C}$, then the compression map $\\mathcal B_0$, then an exact scaling by $2^\\gamma$."
+      },
+      {
         "symbol": "u",
         "name": "scaled digit array",
-        "meaning": "The array of scaled radix digits of the first input, each stored as its value times $2^{-b-2}$ (not the integer).",
+        "meaning": "The array of scaled radix digits of the first input, each digit stored as its value times $2^{-b-2}$; not the integer.",
         "relation": "direct",
-        "quote": "Now $u,v$ are scaled digit arrays: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$."
+        "quote": "Now $u,v$ are scaled digit arrays, not the integers of the radix-digit page: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$."
       },
       {
         "symbol": "v",
         "name": "scaled digit array",
-        "meaning": "The array of scaled radix digits of the second input (not the integer).",
+        "meaning": "The array of scaled radix digits of the second input, each digit stored as its value times $2^{-b-2}$; not the integer.",
         "relation": "direct",
-        "quote": "Now $u,v$ are scaled digit arrays: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$."
+        "quote": "Now $u,v$ are scaled digit arrays, not the integers of the radix-digit page: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$."
+      },
+      {
+        "symbol": "U",
+        "name": "exact first transform",
+        "meaning": "The exact source transform of the first digit array.",
+        "relation": "direct",
+        "quote": "Let $U=RF_{\\boldsymbol s}u$ and $V_1=RF_{\\boldsymbol s}v$ be the exact source transforms and $\\widetilde U,\\widetilde V_1$ the computed ones, of norm under $1/4+E_sh_p<.26$."
+      },
+      {
+        "symbol": "V_1",
+        "name": "exact second transform",
+        "meaning": "The exact source transform of the second digit array.",
+        "relation": "direct",
+        "quote": "Let $U=RF_{\\boldsymbol s}u$ and $V_1=RF_{\\boldsymbol s}v$ be the exact source transforms and $\\widetilde U,\\widetilde V_1$ the computed ones, of norm under $1/4+E_sh_p<.26$."
+      },
+      {
+        "symbol": "\\widetilde U",
+        "name": "computed first transform",
+        "meaning": "The computed source transform of the first digit array.",
+        "relation": "direct",
+        "quote": "Let $U=RF_{\\boldsymbol s}u$ and $V_1=RF_{\\boldsymbol s}v$ be the exact source transforms and $\\widetilde U,\\widetilde V_1$ the computed ones, of norm under $1/4+E_sh_p<.26$."
+      },
+      {
+        "symbol": "\\widetilde V_1",
+        "name": "computed second transform",
+        "meaning": "The computed source transform of the second digit array.",
+        "relation": "direct",
+        "quote": "Let $U=RF_{\\boldsymbol s}u$ and $V_1=RF_{\\boldsymbol s}v$ be the exact source transforms and $\\widetilde U,\\widetilde V_1$ the computed ones, of norm under $1/4+E_sh_p<.26$."
+      },
+      {
+        "symbol": "z",
+        "name": "truncated product",
+        "meaning": "The truncated pointwise product of the two computed source transforms.",
+        "relation": "direct",
+        "quote": "Then $z=Q_p(\\widetilde U\\cdot\\widetilde V_1)$ has norm under $.26^2<.5$, and"
+      },
+      {
+        "symbol": "G",
+        "name": "exact opposite transform",
+        "meaning": "The exact opposite-sign source transform $RF_{\\boldsymbol s}^+$, a contraction.",
+        "relation": "direct",
+        "quote": "With $F_{\\boldsymbol s}$ the transform with factor $1/S$ and $F_{\\boldsymbol s}^+$ its opposite-sign version, the retained permutation cancels ([Retained permutation cancellation](retained-permutations.md)) and the exact opposite transform $G=RF_{\\boldsymbol s}^+$ gives $G(U\\cdot V_1)=(u*v)/S^2$"
+      },
+      {
+        "symbol": "w",
+        "name": "first scaled result",
+        "meaning": "The convolution $(u*v)/S$ of the digit arrays divided by $S$, whose scaling by $2^{2b+4}S$ gives the integer coefficients.",
+        "relation": "direct",
+        "quote": "Exact multiplication by $S$ makes $\\widetilde w$ approximate $w=(u*v)/S$ with error under $E_wh_p$, where"
+      },
+      {
+        "symbol": "\\widetilde w",
+        "name": "computed first scaled result",
+        "meaning": "The computed approximation of $w$ after exact multiplication by $S$.",
+        "relation": "direct",
+        "quote": "Exact multiplication by $S$ makes $\\widetilde w$ approximate $w=(u*v)/S$ with error under $E_wh_p$, where"
+      },
+      {
+        "symbol": "E_w",
+        "name": "scaled error",
+        "meaning": "The error bound $S(3E_s+2)$ of $\\widetilde w$, in units of $h_p$.",
+        "relation": "direct",
+        "quote": "Exact multiplication by $S$ makes $\\widetilde w$ approximate $w=(u*v)/S$ with error under $E_wh_p$, where"
       },
       {
         "symbol": "Q_0",
-        "name": "carry base",
-        "meaning": "The radix $2^b$ of the digits during carry propagation.",
+        "name": "radix",
+        "meaning": "The radix $2^b$ of the digits used in carry propagation.",
         "relation": "direct",
         "quote": "Put $Q_0=2^b$ and $k_0=0$; $k_j$ is the carry into position $j$ and $d_j$ the $j$-th output digit:"
       },
       {
-        "symbol": "j",
-        "name": "coefficient index",
-        "meaning": "The index of the product coefficient being processed during carry propagation.",
-        "relation": "direct",
-        "quote": "Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), indexed by $j$, with $c_j\\le q(2^b-1)^2$ and $q\\le2^b$."
-      },
-      {
         "symbol": "k_j",
         "name": "carry",
-        "meaning": "The carry into position $j$ from the lower coefficients.",
+        "meaning": "The carry into position $j$ in carry propagation.",
         "relation": "direct",
         "quote": "Put $Q_0=2^b$ and $k_0=0$; $k_j$ is the carry into position $j$ and $d_j$ the $j$-th output digit:"
       },
@@ -2962,13 +3090,6 @@
         "meaning": "The $j$-th radix-$2^b$ digit of the product.",
         "relation": "direct",
         "quote": "Put $Q_0=2^b$ and $k_0=0$; $k_j$ is the carry into position $j$ and $d_j$ the $j$-th output digit:"
-      },
-      {
-        "symbol": "\\boldsymbol t",
-        "name": "axis lengths",
-        "meaning": "The tuple of padded axis lengths of the array.",
-        "relation": "direct",
-        "quote": "With $\\boldsymbol t$ the axis lengths, $F_{\\boldsymbol t}$ the exact transform and $Q$ the target permutation, the errors $2$ (kernel), $4$, $6TL$ and $4$ give"
       }
     ],
     "radix-digit-reduction": [
@@ -3790,12 +3911,12 @@
       {
         "prerequisite": "matrix-shear",
         "predicate": "performs each edge shear by",
-        "quote": "The interchange performs each edge shear by [Matrix shear by triangular factorization](matrix-shear.md): if $A_i$ has rank $a$, then $\\Phi_{A_i}$ costs $a$ interchanges of $b$-digit fields"
+        "quote": "The interchange performs each edge shear by [Matrix shear by triangular factorization](matrix-shear.md)"
       },
       {
         "prerequisite": "stream-ops",
-        "predicate": "are split into role streams by",
-        "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md): row $Wx+w-1$ goes to stream $w$ as row $x$."
+        "predicate": "splits rows into streams by",
+        "quote": "Rows are split into role streams by [Elementary stream operations](stream-ops.md)"
       }
     ],
     "array-frames": [
@@ -4071,7 +4192,12 @@
       {
         "prerequisite": "fixed-point",
         "predicate": "runs on",
-        "quote": "The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md) with $p=6b$ fractional bits, where $b=\\lceil\\log_2n\\rceil$ is the digit width."
+        "quote": "The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md) with $p=6b$ fractional bits"
+      },
+      {
+        "prerequisite": "radix-digit-reduction",
+        "predicate": "rebuilds the binary product from",
+        "quote": "Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md)"
       },
       {
         "prerequisite": "contraction-maps",
@@ -4081,12 +4207,7 @@
       {
         "prerequisite": "chirp",
         "predicate": "is built from",
-        "quote": "The computed chirp transform $\\widetilde{\\mathscr C}$ is built from the [Bluestein chirp identity](chirp.md): a phase product, a complex convolution with the chirp kernel, and a last phase product."
-      },
-      {
-        "prerequisite": "radix-digit-reduction",
-        "predicate": "rebuilds the binary product from",
-        "quote": "Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), indexed by $j$, with $c_j\\le q(2^b-1)^2$ and $q\\le2^b$."
+        "quote": "The computed chirp transform $\\widetilde{\\mathscr C}$ is built from the [Bluestein chirp identity](chirp.md)"
       }
     ],
     "radix-digit-reduction": [
@@ -4233,15 +4354,7 @@
   "added": {
     "address-interchange": [
       {
-        "sentence": "md) has $W$ wires; each terminal and gate carries a rational $m\\times m$ matrix $M$, and edge $i$ carries $A_i=M_{\\mathrm{head}(i)}-M_{\\mathrm{tail}(i)}$, with $s=\\sum_i\\operatorname{rank}A_i$.",
-        "depth": 1
-      },
-      {
         "sentence": "Suppose a row field ahead of both chunks has length divisible by $W^k$.",
-        "depth": 1
-      },
-      {
-        "sentence": "md): row $Wx+w-1$ goes to stream $w$ as row $x$.",
         "depth": 1
       },
       {
@@ -5421,10 +5534,6 @@
         "depth": 1
       },
       {
-        "sentence": "Write $h_p=2^{-p}$ and $L=\\log_2T$.",
-        "depth": 2
-      },
-      {
         "sentence": "Norms are sup norms, an error of $a$ means error below $ah_p$, and every array stays in the unit disk (norm $\\le1$).",
         "depth": 2
       },
@@ -5490,10 +5599,6 @@
       },
       {
         "sentence": "(cited) where $b\\ge2^{24}$ gives $\\gamma\\le b/4$ (cited) and keeps $E_sh_p<10^{-3}$.",
-        "depth": 2
-      },
-      {
-        "sentence": "Now $u,v$ are scaled digit arrays: each digit is stored as its value times $2^{-b-2}$, so norms are below $1/4$.",
         "depth": 2
       },
       {
