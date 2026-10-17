@@ -2,13 +2,13 @@ The negacyclic ring is a way of storing a list of complex numbers so that multip
 
 Write $\mathcal R_r=\mathbb C[y]/(y^r+1)$ for it, where $y$ is the ring variable, the indeterminate of the polynomials, and $r$ is the record length, the number of complex coefficients in a polynomial of the ring, always a power of two with $r\geq 2$. An element is
 $$z=\sum_{k=0}^{r-1}z_k y^k,\qquad z_k\in\mathbb C,$$
-so it is just a record of $r$ complex numbers. Addition is coefficientwise. Multiplication is ordinary polynomial multiplication followed by the rule $y^r=-1$, that is, $y^{r+j}=-y^j$: any term of degree $r$ or more wraps around to the front with its sign flipped. This is arithmetic modulo $y^r+1$, and for that reason the ring is also called the negacyclic ring. We always keep the representative of degree below $r$.
+so it is just a record of $r$ complex numbers. Addition is coefficientwise. Multiplication is ordinary polynomial multiplication followed by the rule $y^r=-1$. A term of degree $r+j$, where $j\geq 0$ is the number of places its degree exceeds $r-1$, is therefore replaced using $y^{r+j}=-y^j$: it wraps around to the front with its sign flipped. This is arithmetic modulo $y^r+1$, and for that reason the ring is also called the negacyclic ring. We always keep the representative of degree below $r$.
 
 ## Powers of $y$ are signed shifts
 
 Multiplying by $y$ moves each coefficient up one place and sends the top coefficient $z_{r-1}$ to the bottom as $-z_{r-1}$. For $r=4$:
 $$y\,(z_0+z_1y+z_2y^2+z_3y^3)=-z_3+z_0y+z_1y^2+z_2y^3 .$$
-Since $y^r=-1$, we get $y^{2r}=1$, so $y$ is a $2r$-th root of unity and $y^a$ depends only on $a$ modulo $2r$. Multiplying by $y^a$ for any integer $a$ rotates the coefficient list by $a$ places and negates the coefficients that wrap past the end, and also negates everything if $a \bmod 2r\geq r$. It permutes the coefficients and changes some signs, so it is a linear-time pass over the list.
+Since $y^r=-1$, we get $y^{2r}=1$, so $y$ is a $2r$-th root of unity. Let $a$ be any integer exponent. Multiplying by $y^a$ applies the one-place move $a$ times (for negative $a$, the inverse move). It sends coefficient $z_k$ to position $(k+a)\bmod r$, with its sign multiplied by $(-1)^{\lfloor (k+a)/r\rfloor}$, one flip for each time it wraps past the end. It permutes the coefficients and changes some signs, so it is a linear-time pass over the list.
 
 The size of an element is measured by the largest coefficient modulus,
 $$\|z\|_\infty=\max_{0\leq k<r}|z_k|.$$

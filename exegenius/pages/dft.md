@@ -15,8 +15,8 @@ A convolution is thus computed by two forward transforms, a pointwise product, o
 
 ## Example
 
-For $q=2$ we have $\omega=-1$ and
+Take sequences of length $q=2$, so $\omega=-1$ and $F_2$ is the transform $F_q$ with $q=2$:
 $$F_2(u_0,u_1)=\Bigl(\frac{u_0+u_1}{2},\ \frac{u_0-u_1}{2}\Bigr),$$
-a sum and a difference. The cyclic convolution of $(1,2)$ with $(3,4)$ is $(1\cdot3+2\cdot4,\ 1\cdot4+2\cdot3)=(11,10)$. The two transforms are $(1.5,-0.5)$ and $(3.5,-0.5)$, with pointwise product $(5.25,0.25)$. Applying $F_2^+$, which here coincides with $F_2$, gives $(2.75,2.5)=(11,10)/4$, as the identity predicts.
+a sum and a difference. Since $\omega^{-1}=\omega=-1$, the opposite transform $F_2^+$ has the same formula. The cyclic convolution of $(1,2)$ with $(3,4)$ is $(1\cdot3+2\cdot4,\ 1\cdot4+2\cdot3)=(11,10)$. The two forward transforms are $(1.5,-0.5)$ and $(3.5,-0.5)$, with pointwise product $(5.25,0.25)$. Applying $F_2^+$ gives $(2.75,2.5)=(11,10)/4$, as the identity predicts.
 
 Computing $F_q$ directly takes $O(q^2)$ operations. Repeated two-point steps like the one above reduce this to $O(q\log q)$ when $q$ is a power of two, as described in [Butterflies and the fast transform](butterfly.md).

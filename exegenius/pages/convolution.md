@@ -6,11 +6,17 @@ with $k-j$ taken modulo $q$. Equivalently, $f*g$ is the product of the polynomia
 
 Take $q=3$, $f=1+2x+3x^2$ and $g=1+x$. The ordinary product is $1+3x+5x^2+3x^3$, and the wrapped term $3x^3$ becomes $3$, giving $4+3x+5x^2$. The formula agrees: $(f*g)_0=f_0g_0+f_1g_2+f_2g_1=1+0+3=4$. If the ordinary product has degree below $q$, nothing wraps and $f*g$ is the ordinary product.
 
-## Several axes and the negacyclic ring
+## Arrays over the negacyclic ring
 
-The algorithm uses arrays with $d$ axes, where $t_i$ is the length of axis $i$, so the index is a tuple in $\prod_i\mathbb Z/t_i\mathbb Z$. Convolution sums over all index tuples, and the index wraps independently on each axis. On the last axis, $t_d=r$, each entry is a polynomial in the ring of [Polynomial ring modulo y^r + 1](ring-y.md), and the product of entries there is the ring product, where wrapping past $y^r$ flips the sign (this is what "negacyclic" means).
+The algorithm uses arrays with $d-1$ cyclic axes, where $d$ is one more than the number of cyclic axes and $t_i$ is the length of cyclic axis $i$. An array $f$ assigns to each address in $\prod_{i<d}\mathbb Z/t_i\mathbb Z$ one entry of the ring of [Polynomial ring modulo y^r + 1](ring-y.md). The last axis is not a further cyclic axis: it is the coefficient index inside each entry. The convolution $f*g$ wraps each cyclic axis independently, and multiplies entries by the ring product, where wrapping past $y^r$ flips the sign (this is what "negacyclic" means).
 
-Let $M=\prod_{i<d}t_i$ be the number of cyclic addresses on the first $d-1$ axes, and $T=rM$ the total number of complex coefficients in an array. The normalized convolution of arrays over the ring is
+Let $M=\prod_{i<d}t_i$ be the number of cyclic addresses, and $T=rM$ the total number of complex coefficients in an array. The normalized convolution is
 $$\mathcal M_r(f,g)=\frac{f*g}{rM}=\frac{f*g}{T}.$$
 
-Division by $T$ keeps values bounded. A fixed output coefficient is a sum of exactly $rM$ signed scalar products, so it is their average <cite data-source="paper">Thus that coefficient averages $rM$ signed scalar products, and $\mathcal M_r$ is a bilinear contraction</cite>. An average of products of numbers of size at most $\|f\|_\infty$ and $\|g\|_\infty$ has size at most $\|f\|_\infty\|g\|_\infty$, where $\|\cdot\|_\infty$ is the largest modulus of a coefficient. Fixed-point arithmetic therefore needs no extra bits for growth, and rounding errors in the operands change the output by at most the size of the change.
+Fix one output address and one output coefficient. Each of the $M$ addresses of $f$ determines the address of $g$ it pairs with, and each of the $r$ coefficient indices of $f$ determines the index of $g$ modulo $r$, with a sign $\pm1$ from the wrap. So the output coefficient is a sum of $rM$ signed products of one coefficient of $f$ and one of $g$, divided by $rM$: an average <cite data-source="paper">Thus that coefficient averages $rM$ signed scalar products, and $\mathcal M_r$ is a bilinear contraction</cite>.
+
+Write $\|\cdot\|_\infty$ for the largest modulus of a coefficient. Each product has modulus at most $\|f\|_\infty\|g\|_\infty$, hence so does the average:
+$$\|\mathcal M_r(f,g)\|_\infty\le\|f\|_\infty\|g\|_\infty.$$
+Values therefore do not grow, and fixed-point arithmetic needs no extra bits.
+
+The same bound controls errors. The map $\mathcal M_r$ is linear in each argument, so if $f'$ is $f$ with rounding errors, then $\mathcal M_r(f,g)-\mathcal M_r(f',g)=\mathcal M_r(f-f',g)$, of size at most $\|f-f'\|_\infty\|g\|_\infty$. This is at most $\|f-f'\|_\infty$ only when $\|g\|_\infty\le1$, that is, when $g$ is a disk array (all coefficients of modulus at most $1$) <cite data-source="paper">If the other operand is a disk array, replacing one operand changes the output by at most the norm distance between its two values.</cite>
