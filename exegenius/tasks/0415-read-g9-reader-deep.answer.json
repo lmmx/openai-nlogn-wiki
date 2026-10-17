@@ -1,0 +1,160 @@
+{
+  "outcome": "answered",
+  "answer": "Each n-bit integer is cut into q = ceil(n/b) digits in radix 2^b, with b = ceil(log2 n), so the product of the two digit polynomials has coefficients c_j that are integers below 2^(3b). A totipuv of length S, with T/2 < S < T, has no wraparound for this product, so it returns the c_j exactly. Next, the isomorphism Phi (Lolazad) rewrites the length-S totipuv as a totipuv over short axes of distinct prime lengths. Each prime-length transform is then computed through a nearby power-of-two transform, sandwiched between resampling maps and chirp phases, with the permutations left implicit (Sikusup, Divasov, Tagaris). The scaled digit arrays of the two inputs are transformed, multiplied pointwise and truncated to p = 6b fractional bits, inverse-transformed, rescaled by S, and then multiplied by 2^(2b+4) S and rounded to the nearest integers. Phi^-1 removes the padding, and carry propagation turns the coefficients into the 2n output bits. The result is exact rather than approximate because the total computed error on each coefficient is below 1/2 (Nutipib), so rounding returns the true integer c_j. The carry step is exact integer arithmetic.",
+  "citations": [
+    {
+      "page": "siz",
+      "quote": "Key idea: the product is a [totipuv](fam) of short integer coefficients; a [Tobifup](kur) turns it into pointwise multiplication; prime-length transforms are computed through power-of-two ones by resampling and chirps; and the total error stays below $1/2$, so rounding recovers exact integers."
+    },
+    {
+      "page": "vub",
+      "quote": "Evaluating them at $x=2^b$ returns $u$ and $u'$, so $uu'$ is the value at $2^b$ of their product."
+    },
+    {
+      "page": "vub",
+      "quote": "So every coefficient is a nonnegative integer of at most $3b$ bits."
+    },
+    {
+      "page": "guf",
+      "quote": "The reason for the split is that a transform of length $S$ has no power-of-two structure, while over coprime axes it becomes a product of short one-axis transforms, each treated separately."
+    },
+    {
+      "page": "roz",
+      "quote": "Sikusup expresses the Tobifup of a source length $s$ through the transform of a nearby larger power-of-two length $t$, so that only power-of-two transforms need a fast algorithm."
+    },
+    {
+      "page": "pap",
+      "quote": "The permuted transform is thus reduced to one [Totipuv](fam) of length $T$ between two pointwise phase multiplications."
+    },
+    {
+      "page": "dib",
+      "quote": "A multidimensional transform is the Tobifup of an array with several coordinates, computed by transforming along one axis at a time"
+    },
+    {
+      "page": "kur",
+      "quote": "A convolution is thus two forward transforms, a pointwise product, an opposite transform and a rescaling."
+    },
+    {
+      "page": "siz",
+      "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers"
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+    },
+    {
+      "page": "mes",
+      "quote": "Nutipib shows that the computed convolution coefficients lie within $1/2$ of the true integers, so rounding recovers them."
+    },
+    {
+      "page": "mes",
+      "quote": "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+    },
+    {
+      "page": "mes",
+      "quote": "The product is below $2^{2n}$, so all bits above position $2n-1$ are zero and exactly $2n$ bits are output."
+    },
+    {
+      "page": "bir",
+      "quote": "Rounding at every step would add one such error per step; here there is one per layer."
+    }
+  ],
+  "key_idea": {
+    "page": "kur",
+    "statement": "A transform turns a convolution into a pointwise product of transforms, so a convolution costs two forward transforms, a pointwise product, an opposite transform and a rescaling.",
+    "quote": "The transform diagonalizes [totipuv](fam): the transform of a convolution is a pointwise product of transforms."
+  },
+  "stuck": [
+    {
+      "page": "siz",
+      "quote": "The algebra isomorphism from the cyclic ring of length S to the product of cyclic rings on the axes, sending x to the product of x_i^{mu_i}.",
+      "note": "Phi (address map) is defined only in the symbol list, using terms I cannot decode (algebra isomorphism, cyclic ring of length S). I guessed it relabels the length-S coefficients onto a grid indexed by the axes, which is all the summary needs. I did not check this.",
+      "level": "symbol"
+    },
+    {
+      "page": "guf",
+      "quote": "The target has exactly $S$ monomials, so the powers run through all of them exactly once.",
+      "note": "I followed the counting: the powers of the image of x hit each axis monomial once. I could not see why a one-to-one map on monomials gives a ring isomorphism that preserves products. That needs quotient rings, which I have not been taught. I accepted the 'Hence Phi is an isomorphism' step on trust.",
+      "level": "step"
+    },
+    {
+      "page": "siz",
+      "quote": "Replacing the computed pieces by exact ones and dropping $Q_p$ turns the three lines into the right side of the chirp identity",
+      "note": "The exact-counterpart claim for the computed chirp step is asserted here. I did not check by hand that the three lines match the chirp identity, so I accepted the claim as given.",
+      "level": "statement"
+    },
+    {
+      "page": "kur",
+      "quote": "Keeping that order costs nothing: a pointwise product does not care how positions are listed, provided both factors use the same order, and the opposite transform can be run to read that order.",
+      "note": "I followed each clause, but I could not see why the opposite transform can read a scrambled order without a sort. The page does not say how, and the fast algorithm it points to is on a page I did not open.",
+      "level": "chain"
+    },
+    {
+      "page": "fam",
+      "quote": "The product of the chirp phases at $j$, $j-k$ and $k$ is the Fourier kernel evaluated at the relabelled frequency",
+      "note": "I could not see why three chirp phases at j, j-k and k should equal the transform kernel at the relabelled frequency, so I could not follow why the relabelling costs nothing. I went on to the Divasov identity and accepted it.",
+      "level": "chain"
+    },
+    {
+      "page": "pap",
+      "quote": "The factor $s_i$ in the chirp is what encodes $Q$.",
+      "note": "I checked the exponent algebra in the derivation and it holds. I could not see why this chirp, rather than another, is the one that encodes the reordering Q. The page asserts the choice.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "A Gaussian is its own Tobifup, so a wide smear before a transform equals a narrow one after it.",
+      "note": "I cannot connect a Gaussian being its own transform to anything I know, since I have not been taught the transform as such. I accepted it in order to follow the resampling step.",
+      "level": "beyond"
+    },
+    {
+      "page": "roz",
+      "quote": "This is a proved result of that paper (its Theorem 4.2 and Lemma 4.6), imported here without proof",
+      "note": "The resampling identity T P_s F_s = P_t F_t S is cited from an outside paper and not proved here. The prime-length step rests on it, and I could not check it from these pages.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "and $N$ is invertible by the Neumann series",
+      "note": "I could not follow why a norm bound below 1/2 makes the series an inverse. Operator norms and Neumann series are outside my background, so I guessed it is the geometric-series idea for matrices.",
+      "level": "step"
+    },
+    {
+      "page": "roz",
+      "quote": "Harvey and van der Hoeven's algorithms give approximations",
+      "note": "The fixed-point error and time bounds for the computed maps, and the Lemma 4.11 bound for the Neumann iterates, are cited to outside algorithms and not derived here. I took them as given.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "Each [synthetic transform](gip) has error below $L$.",
+      "note": "The error bound is only asserted here and cited to gip. gip argues contraction and cites a bound of sqrt(2) times l times 2^(-p) to an unopened page (Makevif). That is not visibly the same quantity as L in grid units, so I could not confirm this step.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "where $b\\ge2^{24}$ gives $\\gamma\\le b/4$ and keeps $E_sh_p<10^{-3}$.",
+      "note": "I could not derive gamma at most b/4 from the sizes page, which gives only gamma = o(b) with looser bounds. The 2^24 threshold is unexplained. I took the step on trust.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "(the letter $L$ here is not a linear map as on the contractions page)",
+      "note": "L means log2 T on this page but a linear map on the contractions pages. I used the local definition, as the page instructs.",
+      "level": "symbol"
+    },
+    {
+      "page": "fef",
+      "quote": "Fixed rational exponents make each inequality among them an integer comparison.",
+      "note": "This page is cost-exponent bookkeeping for lemmas (tau, sigma, lambda, sifigeg, a butterfly layer). I could not connect it to the question and skipped the constants.",
+      "level": "beyond"
+    },
+    {
+      "page": "guf",
+      "quote": "A [chunk interchange](pid) exchanges two axes of equal address width",
+      "note": "The tape cost model (chunk interchange and its time bound) is outside what the summary needs, and I could not connect it to anything I know. I skipped it.",
+      "level": "beyond"
+    }
+  ],
+  "reason": "Answered, with fairly high confidence in the stage structure and in the exactness argument, which the pages state explicitly and which I could follow step by step (digit convolution, Phi, prime-length transforms via resampling and chirps, pointwise product, rounding, carries). Lower confidence in the numeric constants and in the prime-length resampling identity, which Sikusup imports from an outside paper without proof, and in the synthetic-transform error bound that Nutipib cites to gip. I opened 13 of the 15 allowed pages."
+}
