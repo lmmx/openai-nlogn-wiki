@@ -1185,6 +1185,36 @@
       "term": "rectangle",
       "page": "packed-bit-addition",
       "quote": "hence a bijection of the rectangle"
+    },
+    {
+      "term": "tensor product of subspaces",
+      "page": "subspace-labels",
+      "quote": "forms multiply factorwise and $\\dim(U\\otimes V)=\\dim U\\dim V$"
+    },
+    {
+      "term": "bilinear contraction",
+      "page": "precision-recovery",
+      "quote": "Replacing the operands of a bilinear contraction $\\mathcal B$"
+    },
+    {
+      "term": "synthetic transform error",
+      "page": "precision-recovery",
+      "quote": "Each synthetic transform has error less than"
+    },
+    {
+      "term": "chirp transform",
+      "page": "precision-recovery",
+      "quote": "The chirp transform has error"
+    },
+    {
+      "term": "source transform error",
+      "page": "precision-recovery",
+      "quote": "The source transform (error $2dp^2+8TL$ before scaling, then multiplied by $2^\\gamma$)"
+    },
+    {
+      "term": "contraction",
+      "page": "multidim-transform",
+      "quote": "Both $\\mathcal A$ and $\\mathcal B_0$ are contractions (cited)."
     }
   ],
   "rewrite": {
@@ -1219,6 +1249,11 @@
       "The reader cannot follow this step: \"rounding errors in the operands change the output by at most the size of the change\" (Missing hypothesis. Only the bound ||M_r(f,g)|| <= ||f|| ||g|| is derived on the page; it gives ||M_r(f,g)-M_r(f',g)|| <= ||f-f'|| ||g||, which is at most ||f-f'|| only if the other operand has norm at most 1 (a disk array). Paper lines 3385-3390: 'If the other operand is a disk array, replacing one operand changes the output by at most the norm distance between its two values.' The page states it for arbitrary operands.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
       "The reader cannot follow this step: \"Convolution sums over all index tuples, and the index wraps independently on each axis.\" (Inconsistent with the next sentences. The page says the index tuple runs over all d axes including the last one with t_d=r, yet also says each entry is a polynomial in the ring and M, the number of cyclic addresses, uses only the first d-1 axes. In the paper (lines 3371-3383, 4321-4327) the ring-valued array is indexed by the d-1 cyclic axes only, and the last axis of length r is the polynomial coefficient axis inside each ring entry; M_r convolves only the first d-1 axes over the ring, and the negacyclic wrap on y^r replaces the cyclic wrap on the last axis. Summing over all d index tuples with polynomial entries would double count the last axis. The reader cannot tell which description is meant.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
     ],
+    "crt-map": [
+      "The reader cannot follow this step: \"Reorder the padded axes to $(a_1,\\dots,a_d)$, so controls precede their target.\" (The page never says how the coefficient stream is laid out as a padded array nor in which axis order it starts (the paper, line 4231, says numerical order of k is lexicographic in (a_d,...,a_1), with padding inserted by a nested scan, lines 4232-4247). Without this the reader cannot see why a reordering, or why a reversal of all axes, is needed, nor that the padding scan costs O(Tp).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"cost $O(Tp\\,d^2(1+\\ell^\\tau))$ (cited)\" (The page does not say what one equal-width chunk interchange costs (O(Tp ell^tau)), nor how the O(d^2) swaps, the linear passes, the shifts and the padding scans combine into the stated bound; the reader cannot check the formula from the page. It also omits the paper's hypotheses for the shift offsets to cost o(Tp) (t_i >= r/2 and r exceeding every fixed power of p, paper lines 4278-4281).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $i$ denotes where it is first used: the page uses it before saying so in \"be the product of the lengths before axis $i$\""
+    ],
     "dft": [
       "Say what $F_2$ denotes where it is first used: the page uses it before saying so in \"which here coincides with $F_2$\""
     ],
@@ -1239,6 +1274,18 @@
     ],
     "matrix-shear": [
       "The reader cannot follow this step: \"temporary tapes do not multiply that count\" (The page never introduces temporary tapes or says where any are used, so the reader cannot check that they add no interchanges. The paper (line 1445) gives the same remark without more support, but the page does not explain why the other operations need no interchanges beyond the a pivot swaps.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "multidim-transform": [
+      "The reader cannot follow this step: \"in $O(q_i\\log q_i)$ operations\" (The page defines F_q for arbitrary axis lengths q_i, but the butterfly (fast) transform computes F_q in O(q log q) only for power-of-two q (the page's own opening quote says 'axis lengths are powers of two'; the paper, line 80, likewise). The claim is missing the hypothesis that each q_i is a power of two; for general q_i, such as the prime lengths s_i used below, it is not justified.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"by an identity with permutations $P_{s_i},P_{t_i}$\" (The page never states the one-dimensional identity (paper line 3558: P_s F_s = 2^{2 alpha^2} B_0 P_t F_t A, with (P_s u)_j = u_{tj}, (P_t v)_k = v_{-sk}, hypotheses gcd(s,t)=1, s<t), nor what P, A, B_0 are, so the reader cannot check that tensoring gives the displayed identity or that the scalar becomes 2^gamma.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"The errors of the $d$ passes add, giving error less than $dp^2$.\" (The page never says what error means (scaled by 2^p, for approximate implementations of A and B_0 on fixed-point inputs), nor that one pass has error less than p^2 (paper lines 3559-3561 and 3857-3861). Without the per-pass p^2 bound, which comes from the cited one-dimensional lemma, the sum d p^2 cannot be checked. The paper states it for the linewise implementations of A and B_0 each, not for the identity.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $F_{\\boldsymbol q}$ denotes where it is first used: the page uses it before saying so in \"so $F_{\\boldsymbol q}$ is a tensor product of them\"",
+      "Say what $F_{q_i}$ denotes where it is first used: the page uses it before saying so in \"it transforms each factor $u^{(i)}$ by its own $F_{q_i}$\"",
+      "Say what $A$ denotes where it is first used (for a size or count, what it counts): \"Since $(A\\otimes B)(C\\otimes D)=AC\\otimes BD$\" (A is never said to denote anything; it is an arbitrary operator in the mixed-product identity, and the A of earlier pages (exposed factor space) is a different object.)",
+      "Say what $B$ denotes where it is first used (for a size or count, what it counts): \"Since $(A\\otimes B)(C\\otimes D)=AC\\otimes BD$\" (B is never said to denote anything; it is an arbitrary operator in the identity.)",
+      "Say what $C$ denotes where it is first used (for a size or count, what it counts): \"Since $(A\\otimes B)(C\\otimes D)=AC\\otimes BD$\" (C is never said to denote anything; it is an arbitrary operator in the identity.)",
+      "Say what $D$ denotes where it is first used (for a size or count, what it counts): \"Since $(A\\otimes B)(C\\otimes D)=AC\\otimes BD$\" (D is never said to denote anything; it is an arbitrary operator in the identity.)",
+      "Say what $\\alpha$ denotes where it is first used (for a size or count, what it counts): \"scalar $2^{2\\alpha^2}$\" (The page only says alpha is a parameter fixed on the Gaussian resampling page; that page is not among the pages that bind symbols, and this page never says what alpha denotes.)"
     ],
     "packed-bit-addition": [
       "The reader cannot follow this step: \"u\\mathrel{-}=c[w\\%2=0]\" (The page never says what c[P] means (presumably c times the 0/1 truth value of the predicate P, so the update happens only when c=1 and P holds). The eight additions, the cycle claims and the identity (u',w') all depend on this unstated convention.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
@@ -1261,6 +1308,22 @@
       "Say what $\\mathcal R_r$ denotes where it is first used (for a size or count, what it counts): \"Define the ring map $\\Theta$ from $\\mathbb C[x_d]/(x_d^r-1)$ to $\\mathcal R_r$ by $x_d\\mapsto\\zeta y$.\" (The introduction links the ring page but never says that the notation R_r denotes that ring.)",
       "Say what $g$ denotes where it is first used (for a size or count, what it counts): \"Twisting $(f_0,f_1)$ and $(g_0,g_1)$ gives\" (The page never says that g is the second array being convolved with f.)"
     ],
+    "precision-recovery": [
+      "The reader cannot follow this step: \"for unit phase $e,$ approximation $\\widetilde e,$ disk operand $x.$\" (Missing hypothesis: the paper (lines 4568-4576) requires the approximation to be a disk-grid number with |e~ - e| < 2h_p (so |e~| <= 1). Without that the bounds 4h_p and ||Q_p(e~x)|| <= ||x|| do not follow.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"With $M=T/r$ the ring record count, the ring convolution error is $E_{\\rm ring}:=M(3L+2)<5TL,$\" (The page does not say why the transform errors are multiplied by M (the normalized result is rescaled by an exact multiplication by M, paper lines 4582-4592), nor what the ring convolution is.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"its output has norm below $.701$ when one operand has norm at most $.7.$\" (No reason is given: it needs the bilinear contraction bound (<= .7) plus the error 5TL*h_p being tiny for large n (paper 4593-4596). Neither the contraction bound nor the largeness condition appears on the page.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"The opposite transform gives error less than $(3E_s+2)h_p$\" (The page gives no derivation: it is E_s (computed opposite transform vs exact G applied to z) plus (2E_s+2) (G is a contraction applied to z - U.V_1), and it needs ||z|| < .5 so the computed transform is defined (paper 4695-4704).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"$G(U\\cdot V_1)=(u*v)/S^2,$\" (An identity about the transforms that the page never states or justifies; it is the chirp-permutation lemma in the paper (4689-4694). The reader cannot see why three transforms of the convolution give (u*v)/S^2.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"undoing $1/S$ and the input scales\" (The page never says the digit arrays u,v are scaled (each by 2^-(b+2), giving norm < 1/4), so the factor 2^{2b+4} and the norm bounds needed to stay in the disk are unexplained.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Using $S\\le T<2^b,$ $L<b$\" (The page never relates T, S, L to b, so the reader cannot check T < 2^b and L < b. Both hold only eventually for large n (paper 4722).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"$4b$ spare bits remain; scaling spends $3b+4.$\" (Inconsistent arithmetic: with p=6b and scaling spending 3b+4 bits, 6b-(3b+4)=3b-4 bits remain, not 4b. The paper has no such statement (the scaling widths are at lines 4737-4743), so the '(cited)' attribution is also unsupported.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Dividing by $Q_0$ and $q\\le n\\le Q_0$ finish the step.\" (The page never says why n <= 2^b (b is only called the bits per digit); this comes from the parameter choice (paper 4193). Without it q(Q_0-1) < Q_0^2 does not follow.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"each step adds $c_jQ_0^j=(d_j+Q_0k_{j+1})Q_0^j;$\" (False: from c_j+k_j=d_j+Q_0k_{j+1} (paper 4785) one gets c_j = d_j+Q_0k_{j+1}-k_j, so c_jQ_0^j=(d_j+Q_0k_{j+1}-k_j)Q_0^j. The -k_jQ_0^j term is what cancels the old k_jQ_0^j on the right side; as written the invariant would not carry from j to j+1.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $Q$ denotes where it is first used (for a size or count, what it counts): \"-QF_{\\boldsymbol t}x\\|\" (Q is not defined on the page; the reader cannot tell what Q denotes (it is not the truncation Q_p).)",
+      "Say what $F_{\\boldsymbol t}$ denotes where it is first used (for a size or count, what it counts): \"-QF_{\\boldsymbol t}x\\|\" (F_t is not defined on the page; presumably an exact transform, but nothing says so.)",
+      "Say what $\\boldsymbol t$ denotes where it is first used (for a size or count, what it counts): \"-QF_{\\boldsymbol t}x\\|\" (The subscript t is never defined.)",
+      "Say what $n$ denotes where it is first used: the page uses it before saying so in \"the digits in an $n$-bit input\""
+    ],
     "rank-recurrence": [
       "The reader cannot follow this step: \"The complex variant's overhead is sublinear.\" (The page gives one recurrence F(mf) <= (s/W)F(f)+O(1) for both networks, but for the complex layer the overhead is not O(1). The paper (lines 2406-2415) has F(e) <= (s/W)F(e/m)+O((eK)^tau+1), with F(e)=O(e) at leaves e<d^beta, so the overhead grows with e. The page only says it is 'sublinear', which does not support the O(1) term or the unrolled sum.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
       "The reader cannot follow this step: \"A call thus costs $O(Vf^\\tau)$\" (This holds for the bit-network interchange (paper line 1486, Proposition power-interchange, with O(Ve^tau)). For the complex layer the paper's unrolling (lines 2393-2445) gives a larger exponent lambda' > max{lambda, sigma+beta(1-sigma)}, still below 1, because of the K-dependent overhead and the leaf cost. So it is not O(Vf^tau) with the same tau. The page also leaves out the base case F(1)=O(1) that the unrolling needs.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
@@ -1279,6 +1342,12 @@
     ],
     "stream-ops": [
       "The reader cannot follow this step: \"a scan at each of $\\Theta(\\log n)$ transform levels already costs $\\Theta(n\\log n)$\" (Stated without the hypothesis that the array scanned has Theta(n) stored bits. A scan costs time proportional to V, so Theta(log n) scans cost Theta(n log n) only when V = Theta(n). The paper (line 90-91) says 'Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ transform levels already costs $\\Theta(n\\log n)$'. The page never says what V is relative to n.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "subspace-labels": [
+      "The reader cannot follow this step: \"are stage $j+1$'s inputs\" (The page writes the Y output as (P⊗⟨t⟩)^⊥ inside A⊗F, the next stage's B' uses that, and the side/Y rows of the stage table give the same label at time 5 as (B⊗F)⊥(P⊗t_Y^⊥). The page never states that (P⊗⟨t⟩)^⊥_{A⊗F} = (B⊗F)⊥(P⊗t^⊥) (paper lines 921-930), so the reader cannot check that the table's time-5 label matches the Y output or the next stage's input.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $T$ denotes where it is first used: the page uses it before saying so in \"Indicator vectors $t_S,t_T$ of triples $S,T$\"",
+      "Say what $X$ denotes where it is first used: the page uses it before saying so in \"$t_X,t_Y$ the $X$ and $Y$ triples a side wire joins\"",
+      "Say what $Y$ denotes where it is first used: the page uses it before saying so in \"$t_X,t_Y$ the $X$ and $Y$ triples a side wire joins\""
     ],
     "synthetic-transform": [
       "The reader cannot follow this step: \"every power of $\\omega_t$ preserves their size; each entry is an average of $t$ such images, hence both transforms are contractions (cited)\" (The page never defines the size (norm) of a ring element or a list of them (the paper uses the maximum modulus of the coefficients, line 2779, and of all coefficients for arrays), nor what a contraction is (a map that does not increase this norm). Without the norm the reader cannot check that a signed shift preserves size, or that an average of t images of norm at most that of z has norm at most that of z.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
@@ -4076,15 +4145,19 @@
     "conjecture": 0,
     "controlled-shifts": 0,
     "convolution": 0,
+    "crt-map": 0,
     "exchange-network": 0,
     "fixed-point": 0,
     "hvdh-multiplier": 0,
     "matrix-shear": 0,
+    "multidim-transform": 0,
     "packed-bit-addition": 0,
     "phase-twist": 0,
+    "precision-recovery": 0,
     "rank-recurrence": 0,
     "signed-packing": 0,
     "stream-ops": 0,
+    "subspace-labels": 0,
     "synthetic-transform": 0
   },
   "background": {
