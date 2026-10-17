@@ -8,13 +8,13 @@ Let $\mathcal C(f)$ be the time per unit volume at parameter $f$: the running ti
 
 For interchange, the node's other work is $O(V)$. Splitting into streams and merging are linear passes ([stream operations](stream-ops.md)); each of the fixed number of gates makes one pointwise pass, and each edge's triangular factors are linear-time field updates. All depths reuse one fixed set of tapes: before each child call, the $W-1$ idle streams are pushed onto a stack tape and the active one copied to the child's input; afterwards the result is copied back and the idle streams popped. Each push, pop or copy scans $O(V)$ cells, never an ancestor's parked data, since the stack head stays at the top; with $s$ fixed, this totals $O(V)$. A single digit swaps in linear time:
 
-$$\mathcal C(mf)\le\frac{s}{W}\mathcal C(f)+O(1),\qquad \mathcal C(1)=O(1).$$
+$$\mathcal C(mf)\le\frac{s}{W}\mathcal C(f)+O(1),\qquad \mathcal C(1)=O(1)$$
 
 Here $j$ means the recursion depth, the number of levels below the top call, not the stage number as on [Nested subspace labels and rank deficit](subspace-labels.md): unrolling $\log_m f$ levels, depth $j$ contributes $(s/W)^j$, so $\mathcal C(f)=O\big(\sum_{j=0}^{\log_m f}(s/W)^j\big)$. If $s/W<m^\tau$ with fixed $\tau<1$, this is $O(f^\tau)$: for $s/W\le1$ it has $1+\log_m f$ terms of at most $1$; otherwise its last term, below $m^{\tau\log_m f}=f^\tau$, dominates. So an interchange costs $O(Vf^\tau)$ <cite data-source="paper">The chunks can be interchanged in $O(Ve^\tau)$ time</cite>.
 
 The layer's recurrence differs in two ways: frame changes are row additions costing $O(V((fK)^\tau+1))$ at a node through chunk interchanges, and recursion stops below $d^\beta$ axes, applying the remaining two-point kernels singly:
 
-$$\mathcal C(f)\le\frac{s}{W}\mathcal C(f/m)+O((fK)^\tau+1),\qquad \mathcal C(f)=O(f)\quad(f<d^\beta).$$
+$$\mathcal C(f)\le\frac{s}{W}\mathcal C(f/m)+O((fK)^\tau+1),\qquad \mathcal C(f)=O(f)\quad(f<d^\beta)$$
 
 With $s/W\le m^\sigma$ for a fixed $\sigma<1$, the overheads again sum geometrically, and the [simultaneous butterfly layer](simultaneous-layer.md) page obtains cost $O(Vd^{\lambda'})$ for a fixed $\lambda'<1$ <cite data-source="paper">\max\{\lambda,\sigma+\beta(1-\sigma)\}<\lambda'<1.</cite>
 

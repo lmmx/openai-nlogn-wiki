@@ -1,0 +1,49 @@
+{
+ "symbols": [
+  {
+   "symbol": "f",
+   "name": "call parameter",
+   "meaning": "The parameter of a recursive call: the number of digits per interchanged chunk, or the number of selected axes of a layer.",
+   "relation": "direct",
+   "quote": "A call acts on a stream of volume $V$ and has a parameter $f$ (a number here, not an array): the digits per interchanged chunk, or the selected axes of a layer."
+  },
+  {
+   "symbol": "\\mathcal C",
+   "name": "time per unit volume",
+   "meaning": "The running time of a call at a given parameter, divided by the volume of its stream.",
+   "relation": "direct",
+   "quote": "Let $\\mathcal C(f)$ be the time per unit volume at parameter $f$: the running time of a call at parameter $f$, divided by the volume of its stream."
+  },
+  {
+   "symbol": "j",
+   "name": "recursion depth",
+   "meaning": "The number of recursion levels below the top call, indexing the terms of the unrolled sum; here not the stage number of the subspace-labels page.",
+   "relation": "count",
+   "quote": "Here $j$ means the recursion depth, the number of levels below the top call, not the stage number as on [Nested subspace labels and rank deficit](subspace-labels.md): unrolling $\\log_m f$ levels, depth $j$ contributes $(s/W)^j$, so $\\mathcal C(f)=O\\big(\\sum_{j=0}^{\\log_m f}(s/W)^j\\big)$."
+  },
+  {
+   "symbol": "\\eta",
+   "name": "relative rank deficit",
+   "meaning": "The relative deficit (Wm-s)/(Wm) by which the number of smaller calls falls short of Wm.",
+   "relation": "direct",
+   "quote": "Write $s/W=m(1-\\eta)$, with $\\eta$ now the relative deficit $(Wm-s)/(Wm)$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "subspace-labels",
+   "predicate": "gets its strict inequality from",
+   "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](subspace-labels.md): an edge costs the dimension change of its nested labels, and each route's endpoint frames differ by all $m$ dimensions, so a wire climbing from $0$ to $m$ costs $m$."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S1.0",
+   "quote": "A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$. It deals its rows into $W$ streams of volume $V/W$, one per wire of a fixed bit or complex [exchange network](exchange-network.md), and applies the network's gates pointwise. Each vertex carries a [frame](array-frames.md), and an edge's frame change costs one call at parameter $f$ on its stream per unit of rank: in the bit network, one interchange of a pair of slots ([matrix shear](matrix-shear.md)). So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes."
+  },
+  {
+   "step": "S1.4",
+   "quote": "Write $s/W=m(1-\\eta)$, with $\\eta$ now the relative deficit $(Wm-s)/(Wm)$. By the rank counts it is $(N-2L)/(Wm)$ (bit) or $(2N-2L)/(Wm)$ (complex), namely $339/22587335000000$ and $73/19906842167500$. Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$ Since $m<2^{20}$, $\\ln m<20\\ln 2<20$; as the exponential lies above its tangent at $0$, $m^{1-2^{-50}}=m\\exp(-2^{-50}\\ln m)>m(1-2^{-50}\\ln m)>m(1-20\\cdot2^{-50})>m(1-\\eta)=s/W$ for either network. Hence $\\tau=\\sigma=1-2^{-50}$ gives $s/W<m^\\tau$ (bit) and $s/W<m^\\sigma$ (complex), exponents barely below $1$."
+  }
+ ]
+}
