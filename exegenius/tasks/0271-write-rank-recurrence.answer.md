@@ -1,0 +1,25 @@
+Recursive power saving is the recurrence that makes both tape procedures, the interchange of two address chunks and the simultaneous butterfly layer, cost the volume times a power below one of their parameter.
+
+A call acts on a stream of volume $V$ and has a parameter $f$ (a number here, not an array): the digits per interchanged chunk, or the selected axes of a layer. A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$. It deals its rows into $W$ streams of volume $V/W$, one per wire of a fixed bit or complex [exchange network](exchange-network.md), which swaps two data banks and restores every scratch wire, and applies the network's gates pointwise. Each vertex carries a [frame](array-frames.md), an invertible operator on its wire's array; a route then applies only its endpoint frames, so each edge must apply the change between its two vertices' frames, and that costs one call at parameter $f$ on its stream per unit of rank: in the bit network, one interchange of a pair of slots ([matrix shear](matrix-shear.md)). So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes.
+
+The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](subspace-labels.md). There an edge costs the dimension change of its nested labels, and along a wire these changes add up to at least its sink dimension minus its source dimension: $m$ for a wire climbing from $0$ to the whole space, so $W$ such wires would cost $Wm$. One data bank's $N$ wires start on a line and the other's stop one dimension short, saving $2N$; the bit network spends $N$ on extra source ranks, and shrinking edges, losing $L$ dimensions in all, cost back $2L<N$.
+
+Write $F(f)$ for the largest time per unit volume of a call at parameter $f$; this $F$ is a time, not the space $F$ of labels on the subspace-label and tensor-product pages. The $s$ children cost at most $s(V/W)F(f)$, so dividing by the parent's volume $V$ gives the recursive part $(s/W)F(f)$ of $F(mf)$. Multiplying the parameter by $m$ thus multiplies the recursive contribution by $s/W$, which is less than $m$ <cite data-source="paper">After dividing cost by volume, multiplying the parameter by $m$ increases the recursive contribution by $s/W<m$.</cite> Were the factor $m$, the time per unit volume would grow like the first power of the parameter; a smaller factor gives a smaller power.
+
+For interchange, the node's other work is $O(V)$. Splitting into streams and merging are linear passes ([stream operations](stream-ops.md)); each of the fixed number of gates makes one pointwise pass, and each edge's triangular factors are linear-time field updates. All depths reuse one fixed set of tapes: before each child call, the $W-1$ idle streams are pushed onto a stack tape and the active one copied to the child's input; afterwards the result is copied back and the idle streams popped. Each push, pop or copy scans $O(V)$ cells, never an ancestor's parked data, since the stack head stays at the top; with $s$ fixed, this totals $O(V)$. A single digit swaps in linear time:
+
+$$F(mf)\le\frac{s}{W}F(f)+O(1),\qquad F(1)=O(1).$$
+
+For $f$ a power of $m$, unrolling down to parameter $1$ weights the $O(1)$ work of each level of the recursion tree by a power of $s/W$:
+
+$$F(f)=O\Big(1+\frac{s}{W}+\Big(\frac{s}{W}\Big)^2+\dots+\Big(\frac{s}{W}\Big)^{\log_m f}\Big).$$
+
+If $s/W<m^\tau$ with fixed $\tau<1$, this is $O(f^\tau)$: for $s/W\le1$ it has $1+\log_m f$ terms of at most $1$; otherwise it is a constant times its last term, below $m^{\tau\log_m f}=f^\tau$. So an interchange costs $O(Vf^\tau)$ <cite data-source="paper">The chunks can be interchanged in $O(Ve^\tau)$ time</cite>.
+
+The layer's recurrence differs in two ways: frame changes are row additions costing $O(V((fK)^\tau+1))$ at a node through chunk interchanges, and recursion stops below $d^\beta$ axes, applying the remaining two-point kernels singly:
+
+$$F(f)\le\frac{s}{W}F(f/m)+O((fK)^\tau+1),\qquad F(f)=O(f)\quad(f<d^\beta).$$
+
+With $s/W\le m^\sigma$ for a fixed $\sigma<1$, the overheads again sum geometrically, and the [simultaneous butterfly layer](simultaneous-layer.md) page obtains cost $O(Vd^{\lambda'})$ for a fixed $\lambda'<1$ <cite data-source="paper">\max\{\lambda,\sigma+\beta(1-\sigma)\}<\lambda'<1.</cite>
+
+Write $s/W=m(1-\eta)$, with $\eta$ now the relative deficit $(Wm-s)/(Wm)$, not a prime-window offset. By the rank counts it is $(N-2L)/(Wm)$ (bit) or $(2N-2L)/(Wm)$ (complex), namely $339/22587335000000\approx1.5\cdot10^{-11}$ and $73/19906842167500\approx3.7\cdot10^{-12}$ <cite data-source="paper">=\frac{339}{22587335000000}</cite>. Both exceed $20\cdot2^{-50}\approx1.8\cdot10^{-14}$. Since $m<2^{20}$, $\ln m<20\ln 2<20$; as the exponential lies above its tangent at $0$, $m^{1-2^{-50}}=m\exp(-2^{-50}\ln m)>m(1-2^{-50}\ln m)>m(1-20\cdot2^{-50})>m(1-\eta)=s/W$ for either network. Hence $\tau=\sigma=1-2^{-50}$ gives $s/W<m^\tau$ (bit) and $s/W<m^\sigma$ (complex): exponents barely below $1$, resting entirely on the strict inequality $s<Wm$.
