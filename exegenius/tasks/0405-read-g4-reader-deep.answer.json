@@ -2,22 +2,70 @@
   "outcome": "answered",
   "answer": "The chain has five stages. Each stage turns the problem into one that the next stage can use.\n\n1. Radix digits (Lekavon). Write each n-bit input in radix 2^b, with b = ceil(log2 n) and q = ceil(n/b) digits. The product of the two digit polynomials is a totipuv of length S with integer coefficients below 2^(3b), and its degree is below S, so nothing wraps. The integer product is thereby reduced to one totipuv of length S on small integers. Later stages only have to compute that totipuv, and an approximation with error below 1/2 rounds to the exact coefficients.\n\n2. Address map (Lolazad). S is a product of pairwise coprime lengths s_1, ..., s_d (distinct odd primes). The map x to the product of x_i^(mu_i), where mu_i is the inverse of P_i modulo s_i, is an isomorphism that preserves totipuv. It sends the length-S totipuv to a totipuv on d separate cyclic axes of lengths s_i. This is needed because a transform of length S has no power-of-two structure, whereas over coprime axes each one-axis transform can be treated on its own, one axis at a time.\n\n3. Resampling with chirps (Sikusup, Divasov, Nizizag). Each prime-length transform F_s is rewritten through a power-of-two transform F_t, with t somewhat larger than s: P_s F_s = 2^(2 alpha^2) B_0 P_t F_t A, where A and B_0 are contractions (A resamples the input, B_0 the output). The permutations P_s and P_t are never executed, because a sort would cost a log factor that cancels the power saving. The remaining target permutation Q inside P_t F_t is absorbed by the chirp identity Q F_t u = conj(a) . (a * (conj(a) . u)) / T, with a_j = exp(-pi i sum_i s_i j_i^2 / t_i). So Q becomes one totipuv of length T between two pointwise phase multiplications. The retained source permutation R cancels across the two forward transforms, their pointwise product and the opposite transform: (R F_s^+)[(R F_s u) . (R F_s v)] = u*v/S^2, with no sort. This is needed because the next stage computes totipuvs over axes whose lengths are powers of two.\n\n4. Twist to the polynomial ring (Babuzif). The last cyclic axis, of length r, is mapped to the coordinate y of the ring C[y]/(y^r+1) by x_d -> zeta*y, with zeta = e^(pi i/r). This is a diagonal phase that multiplies coefficient k by zeta^k, and it is undone at the end. The phase cancels the sign that the wrap would otherwise introduce, so the totipuv on that axis is reproduced. This is needed because the transforms over that ring (Libakur) have roots of unity that are powers of y, so every twiddle multiplication is a signed shift of coefficients.\n\n5. Synthetic-transform convolution (Muzilef). On the remaining d-1 axes, the normalized totipuv over the ring is computed from two forward synthetic transforms, record-by-record products and an opposite transform, with the transform layout kept so that no reordering is executed. Undoing the twist gives the normalized complex totipuv f*g/T. The algorithm then multiplies by S, multiplies by 2^(2b+4)S, rounds to integers, and propagates radix-2^b carries to output the exact 2n-bit product.\n\nI checked the wiki's own worked examples by hand: the q = 2 transform example on the Tobifup page, the d = 1 chirp example on the Divasov page, the r = 2 twist example on the Babuzif page, and the s = (3,5) address-map example on the Lolazad page.",
   "citations": [
-    {"page": "siz", "quote": "Pegapev is the full procedure that turns two $n$-bit integers into their exact $2n$-bit product."},
-    {"page": "vub", "quote": "Multiplication therefore reduces to a [Totipuv](fam) of length $S$ on short integer coefficients."},
-    {"page": "vub", "quote": "Every exponent $j$ is at most $2q-2<S$, so nothing folds."},
-    {"page": "guf", "quote": "The reason for the split is that a transform of length $S$ has no power-of-two structure, while over coprime axes it becomes a product of short one-axis transforms, each treated separately."},
-    {"page": "guf", "quote": "Hence $\\Phi$ is an isomorphism and preserves [Totipuv](fam), the product in the ring."},
-    {"page": "roz", "quote": "carrying them out would sort $t$ records of about $p$ bits on a tape, costing about $tp\\log t$, which would cancel the power saving."},
-    {"page": "roz", "quote": "linear contractions $A$ from length-$s$ to length-$t$ vectors and $B_0$ from length-$t$ to length-$s$ vectors, with $P_sF_s=2^{2\\alpha^2}B_0P_tF_tA$"},
-    {"page": "pap", "quote": "so the target permutation $Q$ is absorbed into a totipuv of length $T$ and never executed."},
-    {"page": "zom", "quote": "The product then reads $(RF_{\\boldsymbol s}^+)[(RF_{\\boldsymbol s}u)\\cdot(RF_{\\boldsymbol s}v)]=u*v/S^2$, with no $R$ left to execute."},
-    {"page": "taf", "quote": "The twist converts the last cyclic axis into the coordinate of the [Satumig](reb), and the sign is repaired by a phase."},
-    {"page": "taf", "quote": "whereas in $\\mathcal R_r=\\mathbb C[y]/(y^r+1)$ the wrap changes sign."},
-    {"page": "gip", "quote": "so every twiddle multiplication (multiplication by a root of unity) is a signed shift of a coefficient list."},
-    {"page": "tab", "quote": "Muzilef computes the normalized convolution over $\\mathcal R_r=\\mathbb C[y]/(y^r+1)$ on the remaining axes: transform both operands, multiply records pointwise, transform back."},
-    {"page": "siz", "quote": "The two scalings by $S$ undo different normalizations."},
-    {"page": "siz", "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers"},
-    {"page": "siz", "quote": "Propagate radix-$2^b$ carries in increasing coefficient order"}
+    {
+      "page": "siz",
+      "quote": "Pegapev is the full procedure that turns two $n$-bit integers into their exact $2n$-bit product."
+    },
+    {
+      "page": "vub",
+      "quote": "Multiplication therefore reduces to a [Totipuv](fam) of length $S$ on short integer coefficients."
+    },
+    {
+      "page": "vub",
+      "quote": "Every exponent $j$ is at most $2q-2<S$, so nothing folds."
+    },
+    {
+      "page": "guf",
+      "quote": "The reason for the split is that a transform of length $S$ has no power-of-two structure, while over coprime axes it becomes a product of short one-axis transforms, each treated separately."
+    },
+    {
+      "page": "guf",
+      "quote": "Hence $\\Phi$ is an isomorphism and preserves [Totipuv](fam), the product in the ring."
+    },
+    {
+      "page": "roz",
+      "quote": "carrying them out would sort $t$ records of about $p$ bits on a tape, costing about $tp\\log t$, which would cancel the power saving."
+    },
+    {
+      "page": "roz",
+      "quote": "linear contractions $A$ from length-$s$ to length-$t$ vectors and $B_0$ from length-$t$ to length-$s$ vectors, with $P_sF_s=2^{2\\alpha^2}B_0P_tF_tA$"
+    },
+    {
+      "page": "pap",
+      "quote": "so the target permutation $Q$ is absorbed into a totipuv of length $T$ and never executed."
+    },
+    {
+      "page": "zom",
+      "quote": "The product then reads $(RF_{\\boldsymbol s}^+)[(RF_{\\boldsymbol s}u)\\cdot(RF_{\\boldsymbol s}v)]=u*v/S^2$, with no $R$ left to execute."
+    },
+    {
+      "page": "taf",
+      "quote": "The twist converts the last cyclic axis into the coordinate of the [Satumig](reb), and the sign is repaired by a phase."
+    },
+    {
+      "page": "taf",
+      "quote": "the wrap is cyclic"
+    },
+    {
+      "page": "gip",
+      "quote": "so every twiddle multiplication (multiplication by a root of unity) is a signed shift of a coefficient list."
+    },
+    {
+      "page": "tab",
+      "quote": "Muzilef computes the normalized convolution over $\\mathcal R_r=\\mathbb C[y]/(y^r+1)$ on the remaining axes: transform both operands, multiply records pointwise, transform back."
+    },
+    {
+      "page": "siz",
+      "quote": "The two scalings by $S$ undo different normalizations."
+    },
+    {
+      "page": "siz",
+      "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers"
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order"
+    }
   ],
   "key_idea": {
     "page": "siz",
@@ -64,7 +112,7 @@
     {
       "page": "dib",
       "quote": "Tagaris *is the mugumez of* [Tobifup](kur)",
-      "note": "'mugumez' is a new word that the page never defines. I got past it by guessing from the formula that follows, a tensor product applied line by line along each axis.",
+      "note": "'mugumez' is a new word that the page never defines. I got past it by guessing from the formula that follows, a product applied line by line along each axis.",
       "level": "symbol"
     },
     {
