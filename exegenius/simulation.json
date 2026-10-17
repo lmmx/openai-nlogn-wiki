@@ -4267,6 +4267,445 @@
         "statement": "The cost of the recursion is a geometric sum over its levels with ratio s/W, so it grows as a power f^(log_m(s/W)) of the parameter, and that power is below one exactly when the number of smaller calls s is below W times m.",
         "quote": "The deepest term is $(s/W)^{\\log_m f}=f^{\\log_m(s/W)}$; for $s/W>1$ the geometric sum is a constant times it, and for $s/W\\le1$ it is $O(\\log f)$. If $s=Wm$, depth $j$ contributes $m^j$, the sum is about $f$, and the cost is proportional to $Vf$: no saving."
       }
+    },
+    {
+      "task": "0414-read-g9-reader-home",
+      "round": 2,
+      "goal": 8,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "multiplication-algorithm",
+        "convolution",
+        "dft",
+        "precision-recovery",
+        "radix-digit-reduction",
+        "crt-map",
+        "chirp",
+        "gaussian-resampling"
+      ],
+      "searches": [],
+      "answer": "Split each n-bit input into q = ceil(n/b) digits in radix 2^b, with b = ceil(log2 n). Viewing the product of the two digit sequences as a Cyclic convolution of a chosen length S (between T/2 and T, with T a power of two near 4n/b to 8n/b) means nothing wraps around, and every coefficient is a non-negative integer of at most 3b bits. Next, the Chinese-remainder address map map, a triangular set of controlled shifts, rewrites that length-S Cyclic convolution as one over several axes of pairwise coprime prime lengths. Each prime-length Discrete Fourier transform is then computed from power-of-two Discrete Fourier transforms by the Gaussian resampling identity (resampling plus a Bluestein chirp identity phase-convolution-phase identity), with the target permutation absorbed into the identity and the source permutation cancelling across the transforms, so no sort is executed. The two scaled digit arrays are transformed forward, multiplied pointwise, sent through the opposite transform, rescaled, and each coefficient is rounded to the nearest integer; the Chinese-remainder address map map is then undone. Finally carries are propagated in radix 2^b to write the exact 2n-bit product. The answer is exact rather than approximate because every stored value keeps p = 6b fractional bits and the accumulated error on each recovered coefficient is below 1/2; since the true coefficients are integers, rounding returns each one exactly, and carry propagation then gives the exact binary number. Confidence: the stages and the exactness argument agree across the pages I opened, but I did not re-derive the numeric constants and I did not open the pages for the synthetic transform, ring convolution, parameter choice or cost accounting that the error bounds cite.",
+      "citations": [
+        [
+          "radix-digit-reduction",
+          "Splitting each input into digits in a large power-of-two radix turns the integer product into a convolution of short integer sequences"
+        ],
+        [
+          "radix-digit-reduction",
+          "Each digit polynomial has degree at most $q-1$, so the product polynomial has degree at most $2q-2$."
+        ],
+        [
+          "radix-digit-reduction",
+          "So every coefficient is a nonnegative integer of at most $3b$ bits."
+        ],
+        [
+          "multiplication-algorithm",
+          "$p=6b$ fractional bits for every stored value"
+        ],
+        [
+          "crt-map",
+          "The Chinese-remainder address map rewrites one Cyclic convolution of length $S$ as a convolution on several short axes of pairwise coprime lengths"
+        ],
+        [
+          "gaussian-resampling",
+          "Gaussian resampling expresses the Discrete Fourier transform of a source length $s$ through the transform of a nearby larger power-of-two length $t$, so that only power-of-two transforms need a fast algorithm."
+        ],
+        [
+          "chirp",
+          "The identity converts the transform together with $Q$ into a Cyclic convolution, so $Q$ never has to be executed as a sort."
+        ],
+        [
+          "convolution",
+          "because Fourier-type transforms turn it into pointwise multiplication"
+        ],
+        [
+          "convolution",
+          "Cyclic convolution is the product of two sequences whose indices wrap around"
+        ],
+        [
+          "multiplication-algorithm",
+          "Multiply corresponding coefficients exactly and truncate toward zero to $p$ fractional bits, obtaining the array $z$."
+        ],
+        [
+          "multiplication-algorithm",
+          "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+        ],
+        [
+          "precision-recovery",
+          "Error tracking and exact recovery shows that the computed convolution coefficients lie within $1/2$ of the true integers, so rounding recovers them."
+        ],
+        [
+          "precision-recovery",
+          "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "home",
+          "quote": "is turned into pointwise multiplication by the [Discrete Fourier transform](kur)",
+          "note": "Two invented names on the front page with no definition. I could not tell what Cyclic convolution or Discrete Fourier transform stood for from this page alone; I had to follow the links to fam and kur to learn that Cyclic convolution is a wrap-around product and Discrete Fourier transform a transform.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "computed through the [Phase twist](taf) and [Convolution from the retained transform layout](tab)",
+          "note": "The complex Cyclic convolution is said to equal f*g/T, with T the padded length, and the page says it is computed through two other pages. I did not open those pages, so I could not tell whether the division by T is a definition or a result that rests on them. I accepted it from this page.",
+          "level": "statement"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "Digit $a_j$ is stored with numerator $a_j2^{p-b-2}$ in a signed real word followed by a zero imaginary word",
+          "note": "The scaling by 2^(-b-2) is applied and undone by a 2^(2b+4) factor, which I could follow. The reason for it (keeping every stored value in the unit disk so the error bounds apply) is not given here; I only found it on the mes page.",
+          "level": "chain"
+        },
+        {
+          "page": "radix-digit-reduction",
+          "quote": "It is a product of distinct odd primes, each slightly below a power of two",
+          "note": "Why the length S must be a product of distinct primes that sit just below powers of two is only forward-referenced here. I got the reason from the guf and roz pages, which I followed, but I did not see why the choice is needed until I reached roz.",
+          "level": "chain"
+        },
+        {
+          "page": "convolution",
+          "quote": "The resampling permutation multiplies indices by a unit modulo the length",
+          "note": "The page asserts that for this permutation the opposite transform satisfies a commutation identity, so the permutation cancels. The identity is stated without proof on this page and I could not check it, so I took the cancellation on trust.",
+          "level": "statement"
+        },
+        {
+          "page": "chirp",
+          "quote": "expanding the square leaves the cross term",
+          "note": "I could check each exponent identity line by line and the coefficient match, but I could not see why this particular chirp, with the factor s_i, is the right device for relabelling the output. The page says the factor s_i encodes the target permutation, and I accepted that.",
+          "level": "chain"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "A Gaussian is its own Discrete Fourier transform, so a wide smear before a transform equals a narrow one after it.",
+          "note": "The fact that a Gaussian is its own transform is outside my background, so I could not connect it to anything I know and could not see why the smearing step gives the resampling identity.",
+          "level": "beyond"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "This is a proved result of that paper (its Theorem 4.2 and Lemma 4.6), imported here without proof",
+          "note": "The identity that the resampling maps satisfy is cited from another paper and not proved here. I could not tell whether the wiki's claim was proved in the wiki or only cited, so its status is a claim I accepted.",
+          "level": "statement"
+        },
+        {
+          "page": "precision-recovery",
+          "quote": "Each [synthetic transform](gip) has error below $L$.",
+          "note": "The whole error budget rests on this per-transform bound, stated here with the referenced page not yet opened by me. I took the bound on the page's word.",
+          "level": "statement"
+        },
+        {
+          "page": "precision-recovery",
+          "quote": "where $b\\ge2^{24}$ gives $\\gamma\\le b/4$ and keeps $E_sh_p<10^{-3}$.",
+          "note": "The final inequality needs gamma at most b/4, and this page gets that from an assumption that b is at least 2^24. gamma is a scalar exponent defined on another page that I did not open, so I could not check whether this is a choice the algorithm makes or a hypothesis of the theorem.",
+          "level": "statement"
+        },
+        {
+          "page": "precision-recovery",
+          "quote": "Here $2^{2b+4}ST^2<2^{5b+4}$ uses about $5b$ of the $6b$ fractional bits.",
+          "note": "The constants 28, 9 and 448 in the final error bound come from earlier bounds on the transforms and products. I could follow the chain of multiplications but could not reproduce those constants, so I accepted the final inequality below 1/2 without checking the arithmetic.",
+          "level": "step"
+        }
+      ],
+      "reason": "Answered from 9 of the 15 allowed pages: the front page, siz, fam, kur, vub, mes, guf, pap and roz. My confidence is moderate. The stages and the exactness argument (fixed-point precision of 6b bits, error below 1/2 per coefficient, rounding, then carries) agree across the pages I read, but I did not re-derive the numeric error constants, and I did not open the pages (gip, taf, tab, Multidimensional transforms, fef) that the error and parameter bounds cite.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "precision-recovery",
+        "statement": "Every computed coefficient stays within 1/2 of the integer it approximates, so rounding gives that integer exactly and carrying then gives the exact product.",
+        "quote": "Error tracking and exact recovery shows that the computed convolution coefficients lie within $1/2$ of the true integers, so rounding recovers them."
+      }
+    },
+    {
+      "task": "0398-read-g1-reader-home",
+      "round": 2,
+      "goal": 0,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "machine-model",
+        "conjecture",
+        "main-result",
+        "convolution",
+        "dft",
+        "rank-recurrence",
+        "multiplication-algorithm",
+        "subspace-labels",
+        "simultaneous-layer"
+      ],
+      "searches": [],
+      "answer": "Main result: a single deterministic Turing machine with a fixed finite alphabet and a fixed finite number of one-dimensional tapes multiplies two n-bit integers exactly in O(n(lg n)^{1-kappa}) worst-case time with kappa = 2^{-182}. Its time divided by n lg n tends to zero, so it refutes the conjecture of Schonhage and Strassen that n log n is the best possible order of growth in this model. Plan: the integer product is turned into a Cyclic convolution of short digit coefficients, and the Discrete Fourier transform turns a Cyclic convolution into pointwise multiplication. On a tape machine each transform level costs a full pass, so two primitives (chunk interchange and Simultaneous butterfly layer) are made to cost volume times a power below one of their width: a call at parameter mf makes s < Wm smaller calls, using nested subspace labels on a fixed linear exchange network. These speed up the synthetic transforms and the ring convolution. Prime-length transforms are reduced to power-of-two ones by Gaussian resampling and Bluestein chirps, with permutations kept inside the identities rather than executed. The exact 2n-bit product is then assembled by two forward transforms, a pointwise product, the opposite transform, rescaling, rounding and carry propagation, with total error below 1/2. Cost accounting divides every cost by the volume and shows that a power of lg n is saved.",
+      "citations": [
+        [
+          "home",
+          "The target is a deterministic Turing machine, with a fixed alphabet and a fixed number of tapes, that multiplies two $n$-bit integers exactly in $O(n(\\lg n)^{1-\\kappa})$ time with $\\kappa = 2^{-182}$."
+        ],
+        [
+          "home",
+          "that $n\\log n$ is the best possible in the"
+        ],
+        [
+          "machine-model",
+          "A machine has a single finite alphabet and a finite number of one-dimensional tapes, both fixed independently of the input."
+        ],
+        [
+          "conjecture",
+          "In 1971 Schönhage and Strassen gave a multiplication algorithm running in $O(n\\log n\\log\\log n)$ time, and proposed $n\\log n$ as the optimal order of growth."
+        ],
+        [
+          "main-result",
+          "The machine is deterministic, with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, and is correct for every $n\\ge1$."
+        ],
+        [
+          "main-result",
+          "The multiplication reduces to transforms on arrays of polynomials over $\\mathbb C[y]/(y^r+1)$, whose calculation consists of address rearrangements, signed shifts and two-point butterflies."
+        ],
+        [
+          "main-result",
+          "On a tape machine that is one pass over the whole stored volume of $\\Theta(n)$ bits per level, so the levels cost $\\Theta(n\\log n)$."
+        ],
+        [
+          "main-result",
+          "The remedy is to let one pass do the work of many levels, which needs cheaper movement and cheaper arithmetic together"
+        ],
+        [
+          "simultaneous-layer",
+          "The Simultaneous butterfly layer applies the two-point step $H_0(u,v)=((u+v)/2,(u-v)/2)$ to one bit of each of $D\\le d$ selected address chunks"
+        ],
+        [
+          "rank-recurrence",
+          "so the cost per unit volume grows by $s/W<m$ per factor $m$ of the parameter."
+        ],
+        [
+          "rank-recurrence",
+          "So any fixed $\\tau<1$ with $s/W<m^\\tau$ gives $\\mathcal C(f)=O(f^\\tau)$, and an interchange costs $O(Vf^\\tau)$."
+        ],
+        [
+          "subspace-labels",
+          "Source dimensions sum to $N$, sink dimensions to $Nm+N(m-1)+(W-2N)m=Wm-N$."
+        ],
+        [
+          "home",
+          "The exact $2n$-bit product of the two inputs is obtained from the radix-digit convolution by the chain"
+        ],
+        [
+          "convolution",
+          "The error on the recovered integer coefficients is below $1/2$, so rounding gives the exact integer coefficients, and carry propagation yields the exact binary product."
+        ],
+        [
+          "convolution",
+          "Cyclic convolution is the product of two sequences whose indices wrap around"
+        ],
+        [
+          "dft",
+          "the transform of a convolution is a pointwise product of transforms."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "home",
+          "quote": "is turned into pointwise multiplication by the",
+          "note": "The names Cyclic convolution and Discrete Fourier transform are invented and the front page does not say what they are. I could decode them only by following the links to the Cyclic convolution and Discrete Fourier transform pages.",
+          "level": "symbol"
+        },
+        {
+          "page": "main-result",
+          "quote": "The margins come from the fixed exponents of",
+          "note": "The values tau = 1 - 2^{-50}, c = 2^{-56} and epsilon = 2^{-75} are stated with no derivation on this page. I did not open the Parameter and prime-length choice page, so I cannot tell whether these were chosen or derived, and I took the value kappa = 2^{-182} on trust.",
+          "level": "statement"
+        },
+        {
+          "page": "main-result",
+          "quote": "which cost $p$ levels times $K^{\\tau-1}$ per bit",
+          "note": "I followed the arithmetic that gives g_2 = 2^{-181}, but I could not see why a chunk exchange costs p levels times K^{tau-1} per bit. That cost is not justified on this page.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "so if every wire climbed from dimension $0$ to $m$ the total would be exactly $Wm$, which, as shown below, saves nothing.",
+          "note": "I could follow the dimension count, but not why a total of exactly Wm means no saving. The link to the cost of a call only appears later, on this same page.",
+          "level": "chain"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "Bit-network edges cost their absolute change plus one call per input $X_a$ (below)",
+          "note": "The extra rank from the source wires comes from a 2 Pi_U matrix on the first edge of each X_a. I followed it only after reading the fine print, and the extra call is what separates s_b from the plain absolute-change count.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "With $N=v^3$, $L_{\\rm b}/N=3c_{\\rm b}h/v=30000/161700=100/539$ and $L_{\\rm c}/N=101/539$.",
+          "note": "The constants 539, 100 and 101 depend on v, h and the wire counts from the Linear exchange network with restored scratch wires page, which I did not open. I accepted them without checking the arithmetic. The conclusion that both ratios are below 1/2 depends on them.",
+          "level": "statement"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "with the form $x\\cdot y-\\frac19(x\\cdot\\mathbf 1)(y\\cdot\\mathbf 1)$ for vectors $x,y\\in F$",
+          "note": "I could check that this form is nondegenerate from the page, but I could not see why this particular form, with the constant 1/9, is the right choice, or what it buys the construction.",
+          "level": "beyond"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "The paper takes $\\lambda'=1-2^{-54}$, barely below $D\\le d$ passes",
+          "note": "The wiki never identifies which paper is meant, so I could not tell whether this value is a claim from the literature or a choice made in this wiki.",
+          "level": "statement"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "An invocation takes $24W^3+4s+4W+4$ operations, below $E=64(W+m+1)^3$ since $s<Wm$",
+          "note": "The operation count of an invocation is asserted without derivation, and I could not tell where it comes from.",
+          "level": "statement"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "where $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$",
+          "note": "I followed the recursion that gives chi(e) at most 8 Psi^2 d^{theta+1}, but I could not see why the threshold level theta, defined as the least j with m^j at least Psi, is the right quantity to use there.",
+          "level": "chain"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "For the opposite sign, on an array $z$, $\\widetilde{\\mathscr F}^{+}(z)=\\overline{\\widetilde{\\mathscr F}(\\overline z)}$",
+          "note": "I accepted the conjugation identity for the opposite transform without checking it against the Retained permutation cancellation or Gaussian resampling pages, which I did not open. I guessed that it holds.",
+          "level": "step"
+        },
+        {
+          "page": "convolution",
+          "quote": "so the relabelling sits in the phases and costs nothing beyond a convolution the algorithm performs anyway.",
+          "note": "I could not follow why the product of the three chirp phases at j, j-k and k gives the Fourier kernel at the relabelled frequency. I accepted the claim from this page and did not open the Bluestein chirp identity page that gives the chirp identity.",
+          "level": "step"
+        }
+      ],
+      "reason": "Fairly confident in the statement and the overall plan, which I took from the front page, the Power-saving integer multiplication main result page, the The multiplication algorithm page and the Cyclic convolution and Discrete Fourier transform pages. Not verified: the specific exponents (epsilon, c, tau), the derivation of kappa = 2^{-182} from them (Parameter and prime-length choice and Cost accounting and the exponent κ pages not opened), the chirp and conjugation identities (Bluestein chirp identity, Retained permutation cancellation and Gaussian resampling pages not opened), and the wire-count constants (Linear exchange network with restored scratch wires page not opened). I opened 10 of the 15 permitted pages.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "main-result",
+        "statement": "The saving comes from letting one tape pass do the work of many transform levels, which is only possible if both address movement and butterfly arithmetic become cheaper.",
+        "quote": "The remedy is to let one pass do the work of many levels, which needs cheaper movement and cheaper arithmetic together"
+      }
+    },
+    {
+      "task": "0407-read-g5-reader-deep",
+      "round": 2,
+      "goal": 4,
+      "persona": "reader",
+      "start": "main-result",
+      "outcome": "answered",
+      "path": [
+        "main-result",
+        "cost-accounting",
+        "parameter-choice",
+        "address-interchange",
+        "exchange-network",
+        "subspace-labels"
+      ],
+      "searches": [],
+      "answer": "kappa = 2^-182 is half of the smallest margin in the cost table. After dividing every cost by V = Tp, the seven dominant normalized costs are powers p^(1-g_i) of p. The smallest margin is g_2 = eps*c*(1-tau) = 2^-75 * 2^-56 * 2^-50 = 2^-181. It belongs to the chunk exchanges: their normalized cost p*K^(tau-1), with K = Theta(p^(eps*c)), is a power 1 - eps*c*(1-tau) of p. So every dominant term is at most p^(1-2kappa). The margin is taken to be 2kappa because one kappa pays for the fixed powers of log p (any fixed power of log p is at most p^kappa for large p) and the other kappa is the saving: p^(1-2kappa) * p^kappa = p^(1-kappa), and Tp * p^(1-kappa) = O(n (lg n)^(1-kappa)). The Parameter and prime-length choice page says that 2kappa may not exceed the smallest margin, so 2^-182 is the largest power of two that fits. The Cost accounting and the exponent κ page says any kappa below 2^-181 would pass the same test, and I could not reconcile these two statements from the pages. The exponents eps = 2^-75, c = 2^-56 and 1-tau = 2^-50 are described as conservative fixed choices, and their product fixes the scale of kappa.",
+      "citations": [
+        [
+          "main-result",
+          "$\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$"
+        ],
+        [
+          "parameter-choice",
+          "Divided by $V=Tp$, the cost of each of seven kinds of operation is a power of $p$, and each of these exponents is at most $1-2\\kappa$."
+        ],
+        [
+          "parameter-choice",
+          "The smallest margin belongs to the chunk exchanges, whose normalized cost $pK^{\\tau-1}$ is a power $1-\\epsilon c(1-\\tau)$ of $p$ because $K=\\Theta(p^{\\epsilon c})$."
+        ],
+        [
+          "parameter-choice",
+          "Its margin is $\\epsilon c(1-\\tau)=2^{-75}\\cdot2^{-56}\\cdot2^{-50}=2^{-181}$."
+        ],
+        [
+          "parameter-choice",
+          "So the total is, up to a constant, $Tp\\cdot p^{1-2\\kappa}p^{\\kappa}=Tp\\cdot p^{1-\\kappa}$, which is"
+        ],
+        [
+          "parameter-choice",
+          "one $\\kappa$ of the margin absorbs the logarithmic factors and the other is the saving."
+        ],
+        [
+          "parameter-choice",
+          "Hence $2\\kappa$ may not exceed the smallest margin below one."
+        ],
+        [
+          "parameter-choice",
+          "and $2^{-182}$ is the largest power of two allowed."
+        ],
+        [
+          "cost-accounting",
+          "Half the smallest margin pays for logarithms and half remains as the saving."
+        ],
+        [
+          "cost-accounting",
+          "Any positive $\\kappa$ below $2^{-181}$ would pass the same test; $g_2$ sets the scale of $\\kappa$."
+        ],
+        [
+          "parameter-choice",
+          "The constants are conservative: no optimization is claimed."
+        ],
+        [
+          "subspace-labels",
+          "a relative deficit of $\\frac{339}{22587335000000}\\approx1.5\\cdot10^{-11}$"
+        ],
+        [
+          "address-interchange",
+          "For the actual network $\\eta$ exceeds $20\\cdot2^{-50}$"
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "cost-accounting",
+          "quote": "Any positive $\\kappa$ below $2^{-181}$ would pass the same test; $g_2$ sets the scale of $\\kappa$.",
+          "note": "This page says any positive kappa below 2^-181 would pass. But the halving it describes requires 2kappa to stay within the margin, and the Parameter and prime-length choice page says 2kappa may not exceed the smallest margin and that 2^-182 is the largest power of two allowed. I could not tell whether 2^-182 is forced by the argument or is a convention, and the two pages disagree.",
+          "level": "statement"
+        },
+        {
+          "page": "parameter-choice",
+          "quote": "The constants are conservative: no optimization is claimed. They only need to give some fixed $\\kappa>0$, and $\\kappa$ is then forced by the cost accounting.",
+          "note": "The page says kappa is forced by the cost accounting, but also that the constants are conservative and that none is optimized. I could not see what fixes kappa at exactly 2^-182 rather than some value below the margin, because the choices eps = 2^-75 and c = 2^-56 are not justified beyond being conservative.",
+          "level": "statement"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "Half the smallest margin pays for logarithms and half remains as the saving.",
+          "note": "I followed the arithmetic p^(1-2kappa) * p^kappa = p^(1-kappa), but not why the log allowance is kappa rather than some other amount, so the equal split is asserted, not derived.",
+          "level": "chain"
+        },
+        {
+          "page": "parameter-choice",
+          "quote": "The product of three small exponents is unavoidably tiny",
+          "note": "I could trace eps(2-tau) < 1-tau to the axis-layout margin g4 on the Cost accounting and the exponent κ page, and tau(1+c/beta) < 1 to the layer conditions on this page. But the claim that the product is unavoidably tiny is not argued, and the page does not say why eps and c are these particular powers of two.",
+          "level": "statement"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "for subspaces $E,E',G$ of tensor powers of $F$, $\\dim(E\\otimes G)=\\dim E\\cdot\\dim G$",
+          "note": "Tensor products are outside my background. I got past this by guessing that the dimension of a tensor product is the product of the dimensions, and then followed the dimension count without seeing the underlying construction.",
+          "level": "symbol"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "to save, the labels must confine all loss to one small edge.",
+          "note": "I followed the sink-minus-source count that gives s = Wm - (N - 2L), but I could not see why the labels have to be chosen so that all loss falls on one small edge. The page states this as a requirement without a reason.",
+          "level": "chain"
+        }
+      ],
+      "reason": "Fairly sure of the arithmetic and of the structure. g_2 = 2^-75 * 2^-56 * 2^-50 = 2^-181, and kappa = 2^-182 is half of that; the table on the Cost accounting and the exponent κ page and the explanation on the Parameter and prime-length choice page agree on these numbers. The chunk-exchange margin in turn rests on tau = 1 - 2^-50, which the Fast address-chunk interchange page says is chosen rather than derived. I checked its support against the dol page: the relative rank deficit of the bit network is about 1.5e-11, which exceeds 20*2^-50, so the stated condition holds. Less sure of why the margin is split in halves, and of why 2^-182 rather than a larger value below 2^-181: the Parameter and prime-length choice page says 2kappa may not exceed the margin, while the Cost accounting and the exponent κ page says any kappa below 2^-181 passes, and the pages do not settle this. I did not open the pages for the Simultaneous butterfly layer, the power-saving recurrence, or the Schönhage–Strassen optimality conjecture conjecture, since the question did not need them.",
+      "leaks": [
+        "tensor-product-of-spaces"
+      ],
+      "covered": null,
+      "wrong": []
     }
   ],
   "baselines": [
