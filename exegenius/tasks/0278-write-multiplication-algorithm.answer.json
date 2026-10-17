@@ -15,42 +15,42 @@
    "name": "digit width",
    "meaning": "The number of bits in one radix digit, not a lowest bit or kernel coefficient.",
    "relation": "count",
-   "quote": "$b=\\lceil\\log_2 n\\rceil$ is the digit width, $p=6b$ is the number of fractional bits, $s_i$ are distinct odd prime axis lengths with product $S$, and $t_i$ are power-of-two axis lengths with product $T$."
+   "quote": "It takes its sizes from [Parameter and prime-length choice](parameter-choice.md): $b=\\lceil\\log_2 n\\rceil$ is the digit width (the number of bits in one radix digit, not a lowest bit or kernel coefficient), $p=6b$ is the number of fractional bits, $s_i$ are distinct odd prime axis lengths with product $S$, and $t_i$ are power-of-two axis lengths with product $T$."
   },
   {
    "symbol": "u",
    "name": "first source array",
    "meaning": "The array obtained by applying Phi to the scaled digits of the first input; not an integer.",
    "relation": "direct",
-   "quote": "$u,v$ are arrays obtained from the digits, not integers or DFT inputs."
+   "quote": "Apply $\\Phi$ to obtain source arrays $u,v$ (arrays, not integers or DFT inputs)."
   },
   {
    "symbol": "v",
    "name": "second source array",
    "meaning": "The array obtained by applying Phi to the scaled digits of the second input; not an integer.",
    "relation": "direct",
-   "quote": "$u,v$ are arrays obtained from the digits, not integers or DFT inputs."
+   "quote": "Apply $\\Phi$ to obtain source arrays $u,v$ (arrays, not integers or DFT inputs)."
   },
   {
    "symbol": "z",
    "name": "pointwise product array",
-   "meaning": "The array of pointwise products of the two transforms, truncated to p fractional bits.",
+   "meaning": "An array of complex numbers fed to the opposite-sign procedure; in step 3 the truncated pointwise product of the two transforms.",
    "relation": "direct",
-   "quote": "$z$ and $w$ are arrays defined in steps 3 and 4, and $R$ is a permutation defined below, not a scalar ring or row count."
+   "quote": "For an array $z$ (not a round input or suffix), the opposite-sign procedure is $\\widetilde{\\mathscr F}^{+}(z)=\\overline{\\widetilde{\\mathscr F}(\\overline z)}$; $R$ is real and conjugation flips the exponent sign, so its exact counterpart is $RF_{\\boldsymbol s}^{+}$."
   },
   {
    "symbol": "w",
    "name": "scaled exact array",
    "meaning": "The exact array (u*v)/S that the computed array after step 4 approximates.",
    "relation": "direct",
-   "quote": "$z$ and $w$ are arrays defined in steps 3 and 4, and $R$ is a permutation defined below, not a scalar ring or row count."
+   "quote": "Compute $\\widetilde{\\mathscr F}^{+}(z)$ and multiply by $S$, obtaining $\\widetilde w$, which approximates the exact array $w=(u*v)/S$."
   },
   {
    "symbol": "R",
    "name": "retained permutation",
    "meaning": "The permutation of coordinates retained inside the exact source transform.",
    "relation": "direct",
-   "quote": "Its exact counterpart $\\mathscr F$ replaces each numerical routine by the exact map it approximates, so $\\mathscr F=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A=RF_{\\boldsymbol s}$, where $R$ is a retained permutation of coordinates."
+   "quote": "Its exact counterpart $\\mathscr F$ replaces each numerical routine by the exact map it approximates, so $\\mathscr F=2^\\gamma\\mathcal B_0QF_{\\boldsymbol t}\\mathcal A=RF_{\\boldsymbol s}$, where $R$ is a retained permutation of coordinates, not a scalar ring or row count."
   },
   {
    "symbol": "\\gamma",
@@ -76,41 +76,41 @@
   {
    "symbol": "\\widetilde a",
    "name": "approximate chirp",
-   "meaning": "An approximation of the chirp array a on the p-bit grid.",
+   "meaning": "An approximation of the chirp array a.",
    "relation": "direct",
-   "quote": "The computed version uses an approximation $\\widetilde a$ of $a$ and truncation $Q_p$ to $p$ fractional bits on [Fixed-point Gaussian dyadic records](fixed-point.md)."
+   "quote": "The computed version uses an approximation $\\widetilde a$ of $a$ and truncation $Q_p$ to $p$ fractional bits."
   }
  ],
  "relations": [
   {
    "prerequisite": "radix-digit-reduction",
-   "predicate": "is reduced to",
+   "predicate": "splits inputs into digits as in",
    "quote": "Each input splits into $q=\\lceil n/b\\rceil$ radix-$2^b$ digits $a_j$, and the product is their convolution modulo $x^S-1$, as in [Multiplication as radix-digit convolution](radix-digit-reduction.md)."
   },
   {
    "prerequisite": "crt-map",
-   "predicate": "places its convolution on prime axes by",
+   "predicate": "places convolution on prime axes by",
    "quote": "The convolution is placed on the prime axes by the [Chinese-remainder address map](crt-map.md) $\\Phi$."
   },
   {
    "prerequisite": "retained-permutations",
-   "predicate": "cancels its source permutation by",
+   "predicate": "drops permutation by",
    "quote": "Permutations commute with pointwise products, and $RF_{\\boldsymbol s}^{+}R=F_{\\boldsymbol s}^{+}$ by [Retained permutation cancellation](retained-permutations.md), so $R$ drops out."
   },
   {
    "prerequisite": "phase-twist",
-   "predicate": "computes its convolution through",
+   "predicate": "computes convolution through",
    "quote": "Let $\\mathcal M_{\\mathbb C}(f,g)=f*g/T$ be the normalized cyclic convolution, computed through the [Phase twist](phase-twist.md) and [Convolution from the retained transform layout](ring-convolution.md)."
   },
   {
    "prerequisite": "ring-convolution",
-   "predicate": "computes its convolution through",
+   "predicate": "computes convolution through",
    "quote": "Let $\\mathcal M_{\\mathbb C}(f,g)=f*g/T$ be the normalized cyclic convolution, computed through the [Phase twist](phase-twist.md) and [Convolution from the retained transform layout](ring-convolution.md)."
   },
   {
    "prerequisite": "parameter-choice",
-   "predicate": "takes its sizes from",
-   "quote": "It takes its sizes from [Parameter and prime-length choice](parameter-choice.md): $b=\\lceil\\log_2 n\\rceil$ is the digit width, $p=6b$ is the number of fractional bits, $s_i$ are distinct odd prime axis lengths with product $S$, and $t_i$ are power-of-two axis lengths with product $T$."
+   "predicate": "takes sizes from",
+   "quote": "It takes its sizes from [Parameter and prime-length choice](parameter-choice.md): $b=\\lceil\\log_2 n\\rceil$ is the digit width (the number of bits in one radix digit, not a lowest bit or kernel coefficient), $p=6b$ is the number of fractional bits, $s_i$ are distinct odd prime axis lengths with product $S$, and $t_i$ are power-of-two axis lengths with product $T$."
   },
   {
    "prerequisite": "precision-recovery",
