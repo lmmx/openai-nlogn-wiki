@@ -1,0 +1,58 @@
+{"goals":[
+{"question":"Summarise in a few sentences what the main theorem says about multiplying two n-bit integers, in which machine model it holds, which earlier conjecture it refutes, and the overall plan the proof follows to get there.",
+"kind":"summary",
+"key_points":[
+{"point":"One deterministic machine with a fixed alphabet and a fixed number of one-dimensional tapes multiplies two n-bit numbers exactly in time O(n (log n)^(1-kappa)), with kappa = 2^-182 > 0.","role":"claim"},
+{"point":"This is asymptotically faster than n log n, so it refutes the 1971 Schoenhage-Strassen guess that n log n is optimal for multitape machines.","role":"conclusion"},
+{"point":"The plan is to build two cheaper tape primitives (swapping address chunks and a combined butterfly layer), use them to speed up Fourier-style transforms and ring convolution, and reduce the integer product to such convolutions.","role":"claim"},
+{"point":"The result is exact because the accumulated numerical error on the recovered coefficients is below 1/2, so rounding gives the true integers; the cost total then shows a power of log n is saved.","role":"reason"}
+],
+"pages":["main-result","machine-model","conjecture","multiplication-algorithm","precision-recovery","cost-accounting"]},
+{"question":"Why can the log n factor in n log n only be beaten here by making address movement and butterfly arithmetic cheaper, rather than by some other tweak of a standard FFT-style multiplier? What accounting of a standard transform on a tape machine leads to this?",
+"kind":"motivation",
+"key_points":[
+{"point":"A transform on Theta(n) stored bits has about log n levels, and a tape machine must scan the whole array to do each level.","role":"background"},
+{"point":"Each full scan costs time linear in the data, so scanning per level adds up to n log n for the whole transform.","role":"reason"},
+{"point":"So to get below n log n, many levels must be handled in one pass: moving data between address positions and doing butterfly arithmetic on several address bits together must cost less than one pass each.","role":"conclusion"},
+{"point":"This is why the proof builds the chunk-interchange and simultaneous-layer primitives with sub-linear cost per unit of data per level.","role":"conclusion"}
+],
+"pages":["main-result","machine-model","conjecture","butterfly","address-interchange","simultaneous-layer"]},
+{"question":"The two tape primitives get a saving that is tiny yet strictly positive (an exponent just below 1). Explain why the recursive construction produces a genuine power saving, and why the whole thing hinges on one strict inequality between the number of smaller calls s and W times m.",
+"kind":"justification",
+"key_points":[
+{"point":"A call at parameter m times f is implemented by s calls at parameter f, each on a stream holding only 1/W of the data volume.","role":"background"},
+{"point":"So per unit of data, going up by a factor m in the parameter multiplies the recursive cost by s/W, whereas a linear-cost operation would multiply it by m.","role":"reason"},
+{"point":"If s < W*m then s/W < m, so the recursion solves to a power of the parameter strictly below the first power; if s were equal to W*m there would be no saving.","role":"reason"},
+{"point":"The strict inequality comes from the network labels: the total dimension is fixed by telescoping and only a small number L of unavoidable decreases occur, with L/N < 1/2, leaving s a little under W*m.","role":"reason"},
+{"point":"Hence the exponent is only barely below 1 (about 1 - 2^-50), but it is still a power saving.","role":"conclusion"}
+],
+"pages":["rank-recurrence","subspace-labels","exchange-network","array-frames","address-interchange"]},
+{"question":"Explain how the algorithm turns a product of two integers into transforms of power-of-two length, in order: what each stage in the chain (radix digits, address map, resampling with chirps, twist to the polynomial ring, synthetic-transform convolution) accomplishes and why it is needed for the next stage.",
+"kind":"structure",
+"key_points":[
+{"point":"Cutting each integer into radix-2^b digits makes the product a convolution of short integer coefficients, and the padded length S exceeds the product's degree so cyclic wraparound does nothing.","role":"claim"},
+{"point":"The Chinese-remainder address map re-lays a cyclic convolution of length S as a convolution over several axes of pairwise coprime prime lengths, via cheap triangular controlled shifts.","role":"claim"},
+{"point":"Prime-length transforms are not directly available from the fast power-of-two machinery, so Gaussian resampling approximates them through nearby power-of-two lengths and the chirp identity converts the remaining permuted transform into a cyclic convolution.","role":"reason"},
+{"point":"A phase twist converts the last cyclic axis into the ring modulo y^r + 1, where roots of unity are powers of y, so the synthetic transform needs only signed shifts and can use the fast primitives.","role":"reason"},
+{"point":"After the pointwise product and the opposite transform, rescaling and rounding recover the integer coefficients and carry propagation yields the binary product.","role":"conclusion"}
+],
+"pages":["radix-digit-reduction","crt-map","gaussian-resampling","chirp","phase-twist","ring-convolution","multiplication-algorithm"]},
+{"question":"Why does kappa equal 2^-182 and not some larger constant? Which part of the cost accounting fixes it, and why is the margin taken to be twice kappa?",
+"kind":"justification",
+"key_points":[
+{"point":"After dividing each cost by the volume V = Tp (which is of order n), seven operations dominate, each costing a power of p below 1 with some margin g_i.","role":"background"},
+{"point":"The smallest margin is 2^-181, coming from the chunk-exchange row, where it is the product of three tiny fixed exponents: epsilon, c and 1 - tau (2^-75 * 2^-56 * 2^-50).","role":"reason"},
+{"point":"Leftover powers of log p must be absorbed, and any fixed power of log p is eventually below p raised to a small positive exponent, so a margin of 2*kappa leaves room for that.","role":"reason"},
+{"point":"Taking the margin 2^-181 as twice kappa gives kappa = 2^-182 and total time O(n (log n)^(1-kappa)); setup and prime search cost o(V) and do not affect it.","role":"conclusion"}
+],
+"pages":["cost-accounting","parameter-choice","address-interchange","transform-layout","main-result"]},
+{"question":"Gaussian resampling is used so that Fourier transforms of prime length can be done with power-of-two transforms. Why does the algorithm leave the coordinate permutations inside the transform identities instead of executing them, and why do the source permutation and the target permutation both disappear without any sorting?",
+"kind":"justification",
+"key_points":[
+{"point":"Executing the permutations would mean sorting data on a tape, costing about t p log t per line, which would cancel the power saving.","role":"reason"},
+{"point":"The target permutation is absorbed by the chirp identity, because the chirp convolution already reads the permuted frequencies.","role":"reason"},
+{"point":"The source permutation is attached to both forward transforms and the opposite transform; dilating by a unit modulo s just permutes frequencies in the Fourier sum, so the opposite transform undoes it.","role":"reason"},
+{"point":"Pointwise products commute with applying the same permutation to both operands, so the product can be formed in permuted order and the permutation cancels, giving the plain convolution divided by S squared.","role":"conclusion"}
+],
+"pages":["retained-permutations","gaussian-resampling","chirp","dft","convolution"]}
+]}

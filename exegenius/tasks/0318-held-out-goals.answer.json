@@ -1,0 +1,29 @@
+{"goals":[
+{"question":"The classical FFT-style approach to multiplying n-bit integers does Theta(log n) levels of butterfly work over Theta(n) stored bits. Why does that alone suggest n log n on a tape machine, and where does the new algorithm look for savings to get below it?",
+"kind":"motivation",
+"key_points":[
+{"point":"On a tape machine every level of the transform must sweep through all the Theta(n) stored bits, so Theta(log n) levels cost Theta(n log n) in total.","role":"reason"},
+{"point":"So the log factor can only be beaten by making each level cost less than a full pass: cheaper movement of data between addresses on the tapes, and cheaper butterfly arithmetic that handles several address bits together.","role":"claim"},
+{"point":"The algorithm builds two such faster tape procedures (exchanging address chunks, and a combined butterfly layer over many axes) and plugs them into the transforms.","role":"conclusion"},
+{"point":"The machine has a fixed alphabet, a fixed number of tapes and heads that move one cell per step, so data cannot be reached at random and cost counts moves.","role":"background"}
+],
+"pages":["main-result","machine-model","conjecture","butterfly","rank-recurrence","address-interchange","simultaneous-layer"]},
+{"question":"Why does a recursive scheme where one call on parameter m*f makes s calls on parameter f, each working on 1/W of the data, give a cost per unit of data that is a power of the parameter strictly below the first power? What exactly must hold for the saving, and how large is it?",
+"kind":"justification",
+"key_points":[
+{"point":"Each call splits the data over W streams, so each of its s sub-calls handles only 1/W of the volume. Per unit of data, going from f to m*f therefore multiplies the cost by s/W.","role":"reason"},
+{"point":"A saving needs s/W to be strictly smaller than m, the factor by which the parameter grew, i.e. s < W*m. If s/W were m, cost would just be linear in the parameter and nothing would be gained.","role":"reason"},
+{"point":"Solving the recurrence gives cost per unit of data about (s/W)^k for parameter m^k, which is below the parameter raised to a fixed exponent smaller than 1.","role":"conclusion"},
+{"point":"The saving is tiny: s/W is only a relative 10^-11 or so below m, so the exponent is just under 1 (1 - 2^-50), but it is positive, and the whole power saving rests on that strict inequality.","role":"claim"}
+],
+"pages":["rank-recurrence","subspace-labels","address-interchange","exchange-network","array-frames"]},
+{"question":"Summarise in a few sentences how the algorithm turns two n-bit integers into their exact product, naming the main stages in order and saying why the final answer is exact rather than approximate.",
+"kind":"summary",
+"key_points":[
+{"point":"The inputs are cut into digits of about log n bits, so the product becomes a cyclic convolution of short integer coefficients. The length is chosen so that nothing wraps around.","role":"claim"},
+{"point":"A Chinese-remainder re-addressing places this length-S convolution on several axes of pairwise coprime prime lengths, and Gaussian resampling plus chirp identities express the prime-length Fourier transforms through power-of-two transforms, with the awkward coordinate permutations kept inside the identities and never executed.","role":"claim"},
+{"point":"The convolution is carried out by two forward transforms, a pointwise product and an opposite transform, using synthetic polynomial transforms over y^r+1 whose twiddle factors are cheap signed shifts. A phase twist converts the last cyclic axis to that ring.","role":"claim"},
+{"point":"After rescaling, the accumulated rounding error on each coefficient is below 1/2 because the working precision has spare bits. Rounding therefore gives the exact integer coefficients, and carry propagation produces the exact 2n-bit product.","role":"reason"}
+],
+"pages":["multiplication-algorithm","radix-digit-reduction","crt-map","gaussian-resampling","chirp","phase-twist","ring-convolution","synthetic-transform","precision-recovery"]}
+]}
