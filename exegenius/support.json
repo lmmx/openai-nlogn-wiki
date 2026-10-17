@@ -1770,6 +1770,39 @@
       },
       "label": "unsupported",
       "reason": "The quotation only names tools (an equal-width chunk-swap bound O(Vu^tau) and a fixed-digit movement primitive); it gives no cost O(Tp d^2(1+l^tau)) for exposing and restoring all lines, nor the t_i in {r/2,r} or O(p)-bit setting."
+    },
+    {
+      "mark": {
+        "page": "controlled-shifts",
+        "source": "paper",
+        "claim": "The update costs $O(V)$",
+        "quote": "costs $O(V)$ if the offset can be prepared in $b^{O(1)}$ time from the fixed number of control values",
+        "paragraph": "Fix a prime $q$, the radix of the stored digits; this $q$ is a prime radix, not a sequence length as on the cyclic convolution and discrete Fourier transform pages. Let $b\\ge1$ be the number of base-$q$ digits of a field; this $b$ is not the lowest bit of an output index as on the butterfly page. Put $Q=q^b$, the number of values a field can take. The target field has value $y\\in\\{0,\\dots,Q-1\\}$; here $y$ is a field value, not the ring variable. It follows a fixed number of control fields. The update is\n$$y\\longmapsto y+a \\pmod Q,$$\nwhere $a$ is the offset prepared from the control values; this $a$ is not a bank index. The update costs $O(V)$ when each control used in the offset has $O(b)$ digits and the offset can be prepared in $b^{O(1)}$ time from the fixed number of control values. A fixed rational linear combination of the controls, reduced modulo $Q$, qualifies."
+      },
+      "label": "partial",
+      "reason": "The quotation gives O(V) only conditionally (offset preparable in b^{O(1)} time from a fixed number of control values); the claim states the cost with no such condition."
+    },
+    {
+      "mark": {
+        "page": "crt-map",
+        "source": "paper",
+        "claim": "The parameters of [Parameter and prime-length choice](parameter-choice.md) give $T<2^p$",
+        "quote": "$t_i\\leq r\\leq T<8n/b<2^{6b}=2^p$",
+        "paragraph": "The scan keeps one binary counter per axis, so the counters have $\\log_2T$ bits in total. The parameters of [Parameter and prime-length choice](parameter-choice.md) give $T<2^p$, so the counters and stored bounds $s_i$ have $O(p)$ bits. At each of the $T$ addresses, updating counters, testing validity and copying a record take $O(p)$ steps, so a scan costs $O(Tp)$."
+      },
+      "label": "supported",
+      "reason": ""
+    },
+    {
+      "mark": {
+        "page": "crt-map",
+        "source": "paper",
+        "claim": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because",
+        "quote": "$t_i\\ge r/2$ and $r$ exceeds every fixed power of $p$",
+        "paragraph": "In this order the controls $a_j$, $j<i$, follow the target $a_i$. Reversing the axis order to $(a_1,\\dots,a_d)$ puts the controls first. Update the targets for $i=d,d-1,\\dots,1$, so no lower-index control has yet changed when axis $i$ is updated and the offset is computed from the original digits. Each update is a prefix-controlled cyclic shift of the valid interval $[0,s_i)$ and the identity on $[s_i,t_i)$, so zero padding stays zero. The map is implemented by these shifts, each of linear cost by [Controlled shifts and rational scalings](controlled-shifts.md). Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because."
+      },
+      "label": "partial",
+      "reason": "The quotation gives t_i >= r/2 (so T/t_i <= 2T/r) with r beyond every fixed power of p, but it says nothing about the per-prefix cost of computing an offset, which is needed to conclude the total is negligible next to Tp."
     }
   ],
   "second": [
@@ -1814,10 +1847,10 @@
     "chirp": 1,
     "conjecture": 1,
     "contraction-maps": 2,
-    "controlled-shifts": 1,
+    "controlled-shifts": 2,
     "convolution": 1,
     "cost-accounting": 1,
-    "crt-map": 1,
+    "crt-map": 2,
     "dft": 1,
     "exchange-network": 2,
     "fixed-point": 1,
