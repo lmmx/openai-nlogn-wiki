@@ -127,7 +127,8 @@
       "gloss": "The earlier Harvey–van der Hoeven multitape algorithm multiplying N-bit integers in O(N log N) time, used here only as an ordinary subroutine.",
       "requires": [
         "machine-model",
-        "big-o"
+        "big-o",
+        "dft"
       ],
       "known": false,
       "evidence": [
@@ -1169,6 +1170,100 @@
       "evidence": []
     }
   ],
+  "candidates": [
+    {
+      "term": "transform levels",
+      "page": "stream-ops",
+      "quote": "transform levels"
+    },
+    {
+      "term": "Z[i,1/2]",
+      "page": "exchange-network",
+      "quote": "scalars lie in $\\mathbb Z[i,1/2]$"
+    }
+  ],
+  "rewrite": {
+    "address-interchange": [
+      "The reader cannot follow this step: \"By the endpoint contract the physical output is\" (The condition called the endpoint contract is never stated on the page (the paper's condition M_out(rho(w)) - M_in(w) = I_m, line 1467, plus s<Wm), nor the composition rule Phi_{M'}Phi_M = Phi_{M'+M} (paper line 1508), so the reader cannot check that the product of frames equals Phi_{I_m}.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Each stream has volume $V/W$ and row count divisible by $W^{k-1}$\" (The page never introduces a row field preceding both chunks, nor the hypothesis that its length is divisible by W^k (paper lines 1482-1484, 1502). Without it the cyclic split and the divisibility by W^{k-1} do not follow; the reader cannot tell what rows are.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Joining them, the high parts form a row field of range $R=q^{2\\rho}\\ge W^{k'}$ before both remaining chunks.\" (The page never gives the field-order construction (paper lines 1660-1676): split each chunk into top rho digits and rest, exchange the high digits, move h+ next to d+. Nor does it say that padded rows are scanned away and the joining moves reversed at the end (lines 1708-1713), nor that this movement costs O(V rho) = O(V log(2e)), absorbed into O(V e^tau). The reader cannot see how the pieces give the full interchange or why the total is O(V e^tau).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Write $e-\\rho=\\sum_{j=0}^{k'} a_jm^j$, $0\\le a_j<m$\" (This needs 1 <= rho < e, which the paper (line 1656) only gets for sufficiently large e, handling the bounded set of small widths by individual digit interchanges (line 1657). The page states it for every e, where e-rho could be negative.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $M'$ denotes where it is first used (for a size or count, what it counts): \"edges change it by $\\Phi_{M'-M}$\" (The page never says what M' is (presumably the matrix at the other end of the edge); it is not bound on an earlier page.)",
+      "Say what $w$ denotes where it is first used: the page uses it before saying so in \"$f_w$ is wire $w$'s input\"",
+      "Say what $g$ denotes where it is first used: the page uses it before saying so in \"(prefix $p$, chunks $h,d$, gap $g$, suffix $z$)\""
+    ],
+    "array-frames": [
+      "Say what $t$ denotes where it is first used (for a size or count, what it counts): \"$G(D_vg_1,\\dots,D_vg_t)=D_vG(g_1,\\dots,g_t)$\" (The gate formula uses t as the number of inputs of the gate without saying so; later the page uses t for a sink (D_t), a different meaning that also comes after this first use.)",
+      "Say what $s$ denotes where it is first used: the page uses it before saying so in \"On a route from a source $s$ through gates $a$ and $b$\""
+    ],
+    "butterfly": [
+      "The reader cannot follow this step: \"Each output therefore lands at the bit-reversed position of its index.\" (Only the first layer is described: it fixes the lowest bit b of the output index in the highest address bit. That does not give the conclusion that the whole index is bit-reversed. The page never says that later layers place the next frequency bits in the next lower address slots (paper lines 2848-2868, where slot rev_a(j) is derived by induction over the levels). The page also never says that the array's address slots are numbered or that the two paired inputs differ in the top address bit.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $m$ denotes where it is first used: the page uses it before saying so in \"Write the output index as $m=2h+b$\""
+    ],
+    "chirp": [
+      "Say what $\\boldsymbol f$ denotes where it is first used: the page uses it before saying so in \"output position $\\boldsymbol j$ reads frequency $\\boldsymbol f=(-s_ij_i)_i$\""
+    ],
+    "conjecture": [
+      "The reader cannot follow this step: \"The proposal is a conjecture about an upper-bound question\" (Wrong label. The conjecture that no algorithm runs in o(n log n) (equivalently, that n log n is an eventual lower bound c*n*lg n for every machine) is a lower-bound statement, not an upper-bound question. The paper (around line 379-382, 'Lower-bound scope') treats it as an eventual lower bound for every multiplication machine, whose negation needs one machine with liminf T(n)/(n lg n)=0. The page's own next clause (no algorithm can be faster) is a lower-bound claim, so the sentence is also internally inconsistent.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "controlled-shifts": [
+      "The reader cannot follow this step: \"Negation and integer multiplications compose into any fixed rational unit, so multiplying by one, or by its inverse, also costs $O(V)$ (cited)\" (The page never says how negation is implemented (the paper, line 606-614, fixes block 0 and reverses the other Q-1 blocks, re-reversing bits inside each block), nor that a rational unit is a signed ratio of integers whose numerator and denominator must both be prime to q (paper lines 558-560, 613). The reader cannot check the composition claim from what the page gives.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"The update costs $O(V)$ provided $a$ is computable in $b^{O(1)}$ time\" (The paper's lemma (lines 561-568) also requires each control used in the offset to have O(b) digits, and the target to follow its controls. The page omits the O(b)-digit hypothesis on the controls, so the stated condition alone is weaker than what the claim needs.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "convolution": [
+      "The reader cannot follow this step: \"rounding errors in the operands change the output by at most the size of the change\" (Missing hypothesis. Only the bound ||M_r(f,g)|| <= ||f|| ||g|| is derived on the page; it gives ||M_r(f,g)-M_r(f',g)|| <= ||f-f'|| ||g||, which is at most ||f-f'|| only if the other operand has norm at most 1 (a disk array). Paper lines 3385-3390: 'If the other operand is a disk array, replacing one operand changes the output by at most the norm distance between its two values.' The page states it for arbitrary operands.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Convolution sums over all index tuples, and the index wraps independently on each axis.\" (Inconsistent with the next sentences. The page says the index tuple runs over all d axes including the last one with t_d=r, yet also says each entry is a polynomial in the ring and M, the number of cyclic addresses, uses only the first d-1 axes. In the paper (lines 3371-3383, 4321-4327) the ring-valued array is indexed by the d-1 cyclic axes only, and the last axis of length r is the polynomial coefficient axis inside each ring entry; M_r convolves only the first d-1 axes over the ring, and the negacyclic wrap on y^r replaces the cyclic wrap on the last axis. Summing over all d index tuples with polynomial entries would double count the last axis. The reader cannot tell which description is meant.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "dft": [
+      "Say what $F_2$ denotes where it is first used: the page uses it before saying so in \"which here coincides with $F_2$\""
+    ],
+    "exchange-network": [
+      "The reader cannot follow this step: \"the inverse schedule $Y\\to X$ at stage 2\" (The page never states the forward schedule's row order or what the inverse schedule does. The step (x,y+x) to (-y,y+x) needs that it performs X <- X - Y, and this is not given.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $S$ denotes where it is first used: the page uses it before saying so in \"two triples $S,S'$ are neighbours when $|S\\cap S'|=1$\"",
+      "Say what $S'$ denotes where it is first used: the page uses it before saying so in \"two triples $S,S'$ are neighbours when $|S\\cap S'|=1$\"",
+      "Say what $\\mathbb Z[i,1/2]$ denotes where it is first used (for a size or count, what it counts): \"scalars lie in $\\mathbb Z[i,1/2]$\" (The page never says what this ring is (Gaussian integers with denominators powers of two); the bracket notation for adjoining i and 1/2 is not covered by the profile.)",
+      "Say what $x$ denotes where it is first used (for a size or count, what it counts): \"adds $\\mathcal J(a+\\mathcal Vx)+\\mathcal R(c+\\mathcal Gx)$\" (The bare vector x (all the x_S) is never defined; the reader must guess it collects the values x_S.)",
+      "Say what $y$ denotes where it is first used (for a size or count, what it counts): \"subtracts $\\mathcal Ja+\\mathcal Rc$ from $y$\" (The bare vector y (all the y_S) is never defined; the reader must guess it collects the values y_S.)"
+    ],
+    "fixed-point": [
+      "The reader cannot follow this step: \"a value lies in $2^{-(p+k)}\\mathbb Z[i]$ and has modulus at most $2^k$\" (Missing hypothesis: the modulus bound 2^k holds only if the values at the start of the layer have modulus at most 1 (disk-valued, in 2^{-p}Z[i]). The page only says stored values lie on the grid 2^{-p}Z[i], which puts no bound on their modulus, so the induction (doubling per addition) has no base case. The paper (line 2563) says 'start with disk-valued coefficients in 2^{-p}Z[i]' before concluding depth l gives modulus at most 2^l. The page's later claim that Delta+3 integer bits suffice depends on this hypothesis.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "hvdh-multiplier": [
+      "[Discrete Fourier transform](dft.md) is now a prerequisite: link it where \"Fourier transforms\" is used: \"The new algorithm reduces its Fourier transforms to polynomial products\"",
+      "The reader cannot follow this step: \"The new algorithm therefore never calls itself on smaller inputs, so no recurrence is needed for it\" (This does not follow and is too strong. That the multiplier calls do not invoke the improved theorem recursively (paper lines 328-329) only shows the subroutine is not the improved algorithm. It does not show that the algorithm has no recursion. The paper's saving comes from recursive calls inside its networks and layers: a call at parameter mf uses s calls at parameter f with s/W<m (paper lines 118-175), and it analyses explicit recurrences (lines 1317-1353, 2393, 4914-4920). So the algorithm does have recurrences, only not through the integer multiplier. The correct statement is that the multiplier calls add no recursion, and their costs are charged separately (line 4917).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "matrix-shear": [
+      "The reader cannot follow this step: \"temporary tapes do not multiply that count\" (The page never introduces temporary tapes or says where any are used, so the reader cannot check that they add no interchanges. The paper (line 1445) gives the same remark without more support, but the page does not explain why the other operations need no interchanges beyond the a pivot swaps.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "phase-twist": [
+      "The reader cannot follow this step: \"The maps $D_\\pm$ and $\\iota^{\\pm1}$ are isometries, so $\\mathcal M_{\\mathbb C}$ is a bilinear contraction (cited)\" (The page never says what a bilinear contraction is (norm of the output at most the product of the operand norms). It also never says that M_r is itself a bilinear contraction, which the conclusion needs, since isometries around M_r give a contraction only if M_r is one. It does not say which norm is meant on records or arrays, so the claim that iota is an isometry cannot be checked. The cited claim has no stated content or role. The paper (line 4345-4347) has the same sentence, but it is a step for this reader.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $\\mathcal R_r$ denotes where it is first used (for a size or count, what it counts): \"Define the ring map $\\Theta$ from $\\mathbb C[x_d]/(x_d^r-1)$ to $\\mathcal R_r$ by $x_d\\mapsto\\zeta y$.\" (The introduction links the ring page but never says that the notation R_r denotes that ring.)",
+      "Say what $g$ denotes where it is first used (for a size or count, what it counts): \"Twisting $(f_0,f_1)$ and $(g_0,g_1)$ gives\" (The page never says that g is the second array being convolved with f.)"
+    ],
+    "rank-recurrence": [
+      "The reader cannot follow this step: \"The complex variant's overhead is sublinear.\" (The page gives one recurrence F(mf) <= (s/W)F(f)+O(1) for both networks, but for the complex layer the overhead is not O(1). The paper (lines 2406-2415) has F(e) <= (s/W)F(e/m)+O((eK)^tau+1), with F(e)=O(e) at leaves e<d^beta, so the overhead grows with e. The page only says it is 'sublinear', which does not support the O(1) term or the unrolled sum.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"A call thus costs $O(Vf^\\tau)$\" (This holds for the bit-network interchange (paper line 1486, Proposition power-interchange, with O(Ve^tau)). For the complex layer the paper's unrolling (lines 2393-2445) gives a larger exponent lambda' > max{lambda, sigma+beta(1-sigma)}, still below 1, because of the K-dependent overhead and the leaf cost. So it is not O(Vf^tau) with the same tau. The page also leaves out the base case F(1)=O(1) that the unrolling needs.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "ring-y": [
+      "Say what $j$ denotes where it is first used (for a size or count, what it counts): \"that is, $y^{r+j}=-y^j$\" (The page never says what j denotes (presumably a nonnegative exponent offset).)",
+      "Say what $a$ denotes where it is first used: the page uses it before saying so in \"Multiplying by $y^a$ for any integer $a$ rotates the coefficient list by $a$ places\""
+    ],
+    "signed-packing": [
+      "The reader cannot follow this step: \"take $f,g$ with coefficients $2^{-p}$ times Gaussian integers of modulus at most 1\" (Wrong scale. The coefficients are 2^{-p} times Gaussian integers of modulus at most 2^p (so the coefficients themselves have modulus at most 1). With modulus at most 1 inside, the integers a,b,c,e would be bounded by 1, contradicting the later bound 2^p and the final claim of modulus at most 2^p for input coefficients. Paper line 3237-3240 and 3340 state modulus at most 2^p.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Let $Z$ be a signed product integer with $|Z|<B_0^{2r}/4$.\" (The page never says Z equals h(B_0) = sum of h_j B_0^j for the corresponding product polynomial h, nor that h is padded with h_{2r-1}=0 so the sum over j<2r and the separation bound cover every block. The congruence q_j+rho_j = h_j mod B_0 depends on this identity, which the paper states at lines 3286-3289 and 3316-3321.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"with error less than $\\sqrt2\\,2^{-p}$ from $fg/r$ (cited)\" (The page never describes the output being computed (truncation of H_j/2^{p+ell} to a p-bit grid) or why that gives this error, though it counts truncation in the cost. The role of the cited result is not stated, so the reader cannot tell what is returned or why the error is sqrt2 * 2^{-p}. Paper lines 3229-3231 and 3352-3361.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "Say what $Z$ denotes where it is first used: the page uses it before saying so in \"Let $Z$ be a signed product integer with $|Z|<B_0^{2r}/4$.\"",
+      "Say what $j_1$ denotes where it is first used (for a size or count, what it counts): \"For each $j_1\\in\\{0,\\dots,r-1\\}$ exactly one $j_2$ has $j_1+j_2\\equiv j\\pmod r$\" (Only a range is given; the page never says j_1 indexes the coefficient of the first factor.)",
+      "Say what $j_2$ denotes where it is first used (for a size or count, what it counts): \"exactly one $j_2$ has $j_1+j_2\\equiv j\\pmod r$\" (The page never says j_2 indexes the coefficient of the second factor.)"
+    ],
+    "stream-ops": [
+      "The reader cannot follow this step: \"a scan at each of $\\Theta(\\log n)$ transform levels already costs $\\Theta(n\\log n)$\" (Stated without the hypothesis that the array scanned has Theta(n) stored bits. A scan costs time proportional to V, so Theta(log n) scans cost Theta(n log n) only when V = Theta(n). The paper (line 90-91) says 'Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ transform levels already costs $\\Theta(n\\log n)$'. The page never says what V is relative to n.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ],
+    "synthetic-transform": [
+      "The reader cannot follow this step: \"every power of $\\omega_t$ preserves their size; each entry is an average of $t$ such images, hence both transforms are contractions (cited)\" (The page never defines the size (norm) of a ring element or a list of them (the paper uses the maximum modulus of the coefficients, line 2779, and of all coefficients for arrays), nor what a contraction is (a map that does not increase this norm). Without the norm the reader cannot check that a signed shift preserves size, or that an average of t images of norm at most that of z has norm at most that of z.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
+      "The reader cannot follow this step: \"Instead the cancellation of sums of powers of $\\omega_t$ is verified directly (cited).\" (The page does not state what the cited result says (for integer j, the sum of omega_t^{jk} over k is t if t divides j and 0 otherwise, so that F_t^+ F_t^- = I/t; paper lines 2810-2817) nor why it is needed, namely that it shows F_t^+ undoes F_t^- up to the factor 1/t. The reader cannot tell what 'cancellation' refers to or what replaces the division.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step."
+    ]
+  },
   "bindings": {
     "address-interchange": [
       {
@@ -3953,6 +4048,22 @@
         "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
       }
     ]
+  },
+  "note_depth": {
+    "address-interchange": 0,
+    "butterfly": 0,
+    "conjecture": 0,
+    "controlled-shifts": 0,
+    "convolution": 0,
+    "exchange-network": 0,
+    "fixed-point": 0,
+    "hvdh-multiplier": 0,
+    "matrix-shear": 0,
+    "phase-twist": 0,
+    "rank-recurrence": 0,
+    "signed-packing": 0,
+    "stream-ops": 0,
+    "synthetic-transform": 0
   },
   "background": {
     "summary": "The reader is a computer science undergraduate: they have taken discrete mathematics, an algorithms course (asymptotics, divide and conquer, schoolbook and Karatsuba multiplication, sorting), a first linear algebra course (vector spaces, subspaces, dimension, rank, matrices as linear maps, inverses, triangular matrices, orthogonality, bilinear forms at a basic level), calculus, elementary number theory (primes, gcd, modular arithmetic) and basic machine-level binary representation (XOR, two's complement). They have seen Turing machines with tapes only at an introductory level. They have not been taught the discrete Fourier transform or FFT as such, abstract algebra beyond basic definitions (quotient rings, finite fields as a theory), tensor products, numerical error analysis, or the specific literature on fast integer multiplication.",
