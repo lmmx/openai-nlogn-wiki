@@ -4706,6 +4706,113 @@
       ],
       "covered": null,
       "wrong": []
+    },
+    {
+      "task": "0413-read-g8-reader-deep",
+      "round": 2,
+      "goal": 7,
+      "persona": "reader",
+      "start": "address-interchange",
+      "outcome": "answered",
+      "path": [
+        "address-interchange",
+        "rank-recurrence",
+        "subspace-labels",
+        "matrix-shear",
+        "array-frames",
+        "exchange-network",
+        "stream-ops",
+        "tensor-product-of-spaces"
+      ],
+      "searches": [],
+      "answer": "A call at parameter mf makes s smaller calls at parameter f, each on a stream of volume V/W, so the cost per unit of data C satisfies C(mf) <= (s/W) C(f) + O(1), with C(1) = O(1). Unrolling this over the log_m f levels gives a sum of powers (s/W)^j, and its largest term is (s/W)^(log_m f) = f^(log_m(s/W)) when s/W > 1. Since s/W < m, the exponent log_m(s/W) is strictly below 1, so C(f) = O(f^tau) for any fixed tau < 1 with s/W < m^tau. What must hold: the total rank s of the edge changes must be strictly below W*m, so that s/W = m(1 - eta) for a fixed eta > 0 set by the network; the Nested subspace labels and rank deficit page gets this strict inequality by counting ranks, s_b = W_b m - (N - 2 L_b) with L_b/N = 100/539 < 1/2. How large: the page fixes tau = 1 - 2^(-50), which works once eta > 20 * 2^(-50), and the actual bit-network deficit is eta = 339/22587335000000, about 1.5 * 10^(-11). So the exponent is 1 + log_m(1 - eta), a little below 1. (By my own arithmetic it is about 1 - 10^(-12); that number is not on any page.)",
+      "citations": [
+        [
+          "rank-recurrence",
+          "Unrolling $\\log_m f$ levels, depth $j$ (the number of levels below the top call, not a stage number) contributes $(s/W)^j$"
+        ],
+        [
+          "rank-recurrence",
+          "The deepest term is $(s/W)^{\\log_m f}=f^{\\log_m(s/W)}$; for $s/W>1$ the geometric sum is a constant times it, and for $s/W\\le1$ it is $O(\\log f)$."
+        ],
+        [
+          "rank-recurrence",
+          "If $s=Wm$, depth $j$ contributes $m^j$, the sum is about $f$, and the cost is proportional to $Vf$: no saving."
+        ],
+        [
+          "rank-recurrence",
+          "The exponent $\\log_m(s/W)=1+\\log_m(1-\\eta)$ is below $1$ exactly when $\\eta>0$, and $\\eta$ is fixed with the network."
+        ],
+        [
+          "rank-recurrence",
+          "So any fixed $\\tau<1$ with $s/W<m^\\tau$ gives $\\mathcal C(f)=O(f^\\tau)$, and an interchange costs $O(Vf^\\tau)$."
+        ],
+        [
+          "subspace-labels",
+          "Source dimensions sum to $N$, sink dimensions to $Nm+N(m-1)+(W-2N)m=Wm-N$."
+        ],
+        [
+          "rank-recurrence",
+          "Hence $s_{\\rm b}=W_{\\rm b}m-(N-2L_{\\rm b})$ and $s_{\\rm c}=W_{\\rm c}m-(2N-2L_{\\rm c})$, both below $Wm$ because $L_{\\rm b}/N=100/539$ and $L_{\\rm c}/N=101/539$ are below $1/2$."
+        ],
+        [
+          "matrix-shear",
+          "For $A$ in a fixed finite set, it can be performed with exactly $a$ interchanges of $b$-digit fields and $O(V)$ further work."
+        ],
+        [
+          "rank-recurrence",
+          "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$, by a factor over $200$."
+        ],
+        [
+          "rank-recurrence",
+          "is $339/22587335000000\\approx1.5\\cdot10^{-11}$"
+        ],
+        [
+          "rank-recurrence",
+          "Hence $\\tau=\\sigma=1-2^{-50}$ gives $s_{\\rm b}/W_{\\rm b}<m^\\tau$ and $s_{\\rm c}/W_{\\rm c}<m^\\sigma$, with $0<\\tau=\\sigma<1$."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "rank-recurrence",
+          "quote": "A call at parameter $mf$ cuts each chunk into $m$ slots of parameter $f$, one per coordinate of the label space.",
+          "note": "I followed that a call at mf makes m slots and that an edge costs one interchange per unit of rank. I could not see on this page why the m slots are the same m as the label-space dimension. I got past it only by matching m across pages: the Fast address-chunk interchange page has the frame matrices as m x m, and the Tensor products of subspaces page gives the label space as F tensor F tensor F of dimension h^3 = m. The page asserts the identification.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The call deals its rows into $W$ streams of volume $V/W$, one per wire of the bit or complex network, and runs each gate pointwise.",
+          "note": "The step that one edge's frame change of rank r is r calls on the same V/W stream is not spelled out. I got past it by assuming each frame change acts only on the array carried by that wire, which the Frames on wire arrays page supports only indirectly.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "Comparing entries, every arrow is an inclusion except centre $3\\to4$, which drops $P\\otimes F\\otimes Q$ of dimension $h$",
+          "note": "The label table for the gates is given as facts with no derivation. I could check the dimension h of P tensor F tensor Q from the Tensor products of subspaces page, but I could not tell from this page why these labels are the right ones, so I took the table on trust.",
+          "level": "statement"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "Every route must change frame in all $m$ dimensions, so if every wire climbed from dimension $0$ to $m$ the total would be exactly $Wm$, which, as shown below, saves nothing.",
+          "note": "I could not tell whether 'every route must change frame in all m dimensions' is derived anywhere I opened or is only motivation. The page gives no reason for it.",
+          "level": "statement"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The gap $2^{-50}$ is a choice: the chain needs only $20\\cdot2^{-50}<\\eta$, and a power of two keeps the exponent simple.",
+          "note": "The page gives tau = 1 - 2^(-50) as a valid bound, not as the exponent. It never states the actual exponent 1 + log_m(1 - eta) as a number, so 'how large is it' has to be read off eta. I could not tell whether the rounded tau is meant as the answer to 'how large' or only as a bound. I worked out the actual exponent myself, and that is not on any page.",
+          "level": "statement"
+        }
+      ],
+      "reason": "Answered. The recurrence on the Recursive power saving page (rut) gives the exponent log_m(s/W), which is below 1 once s < Wm. The strict inequality is the rank count on the Nested subspace labels and rank deficit page (dol), with L_b/N = 100/539 < 1/2. The explicit size is the page's tau = 1 - 2^(-50) and deficit eta about 1.5e-11. I recomputed L_b/N = 100/539, W_b = (22587335/539) N, and eta_b = 339/22587335000000 by hand, and they agree with the pages. I found no inconsistency. Confidence is moderate: the link between the m of the slots and the m of the label space, and the claim that a frame change touches only one V/W stream, were matched across pages rather than stated on one page. I did not check the complex-network numbers or the Simultaneous butterfly layer and Packed selected-bit addition pages. I opened 8 of the 15 allowed pages.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "rank-recurrence",
+        "statement": "Each recursion level multiplies the cost per unit of data by s/W, which is below m, so after log_m f levels the cost is f raised to the power log_m(s/W), a power strictly below the first.",
+        "quote": "The deepest term is $(s/W)^{\\log_m f}=f^{\\log_m(s/W)}$; for $s/W>1$ the geometric sum is a constant times it, and for $s/W\\le1$ it is $O(\\log f)$."
+      }
     }
   ],
   "baselines": [
