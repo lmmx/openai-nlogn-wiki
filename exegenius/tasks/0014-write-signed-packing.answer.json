@@ -1,0 +1,82 @@
+{
+ "derivations": [
+  {
+   "step": "S3.1.1",
+   "quote": "Write $f=2^{-p}(a+ib)$ and $g=2^{-p}(c+ie)$, where $a,b,c,e$ are integer-coefficient polynomials of degree below $r$ with coefficients of absolute value at most $2^p$. Set $B_0=2^{4p}$, the packing base."
+  },
+  {
+   "step": "S3.1.2",
+   "quote": "Since $|u_j|\\le2^p$ and $2^{p+1}<B_0-1$, the geometric sum gives $|A_u|\\le2^p(B_0^r-1)/(B_0-1)<B_0^r/2$, so its magnitude fits in $4pr$ bits."
+  },
+  {
+   "step": "S3.1.3",
+   "quote": "Multiplying the four pairs of absolute values and restoring each sign gives $A_aA_c,A_bA_e,A_aA_e,A_bA_c$; for $h=ac$ in $\\mathbb Z[y]$, $A_aA_c=(ac)(B_0)=\\sum_{j=0}^{2r-2}h_jB_0^j$."
+  },
+  {
+   "step": "S3.1.4",
+   "quote": "Each $h_j$ sums at most $r$ products of coefficients of size at most $2^p$, so $|h_j|\\le r2^{2p}<2^{3p}<B_0/2$. Hence after removing lower coefficients, the next is identified by its centered residue modulo $B_0$"
+  },
+  {
+   "step": "S3.1.5",
+   "quote": "Since $-B_0<u_j+\\gamma_j<B_0$ whenever $\\gamma_j\\in\\{-1,0\\}$, the carry stays in $\\{-1,0\\}$. Telescoping gives $A_u=\\sum_{j<r}d_jB_0^j+\\gamma_rB_0^r$, so the blocks $d_j$ are a fixed-width two's-complement encoding of $A_u$."
+  },
+  {
+   "step": "S3.1.6",
+   "quote": "Then $\\widehat h_j$ is the unique integer in $[-B_0/2,B_0/2)$ congruent to $q_j+\\rho_j$ modulo $B_0$, with carry $\\rho_{j+1}=(q_j+\\rho_j-\\widehat h_j)/B_0\\in\\{0,1\\}$, because $0\\le q_j+\\rho_j\\le B_0$. If $\\widehat h_i=h_i$ for $i<j$, then $\\sum_{i<j}q_iB_0^i=\\sum_{i<j}h_iB_0^i+\\rho_jB_0^j$, so $q_j+\\rho_j\\equiv h_j$ modulo $B_0$ and, by the separation bound, $\\widehat h_j=h_j$."
+  },
+  {
+   "step": "S3.1.7",
+   "quote": "The real and imaginary numerator streams are $ac-be$ and $ae+bc$. Signed packing reduces its numerator streams to $\\mathcal R_r$ by subtracting the coefficient at $j+r$ from the one at $j$ for $0\\le j<r$, since $y^{j+r}=-y^j$."
+  },
+  {
+   "step": "S3.1.8",
+   "quote": "So $H_j$ is a sum of exactly $r$ signed products of coefficients of modulus at most $2^p$, hence $|H_j|\\le r2^{2p}$, so $|2^{-2p}H_j/r|\\le1$ and the normalized product $fg/r$ of disk polynomials lies in the disk."
+  },
+  {
+   "step": "S3.1.9",
+   "quote": "Four exact integer products dominate the linear packing, extraction, combination, wrapping and truncation costs, so the total is $O(rp\\log(rp))$"
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "p",
+   "name": "precision bits",
+   "meaning": "The number of fractional bits in each coefficient component.",
+   "relation": "count",
+   "quote": "Let $p$ be the number of fractional bits in each coefficient component, with $r<2^p$."
+  },
+  {
+   "symbol": "B_0",
+   "name": "packing base",
+   "meaning": "The power of two $2^{4p}$ at which the polynomials are evaluated.",
+   "relation": "direct",
+   "quote": "Set $B_0=2^{4p}$, the packing base."
+  },
+  {
+   "symbol": "A_u",
+   "name": "evaluation integer",
+   "meaning": "The signed integer obtained by evaluating the polynomial u at B_0.",
+   "relation": "direct",
+   "quote": "For $u\\in\\{a,b,c,e\\}$ let $A_u=u(B_0)=\\sum_{j=0}^{r-1}u_jB_0^j$ be the signed evaluation integer."
+  },
+  {
+   "symbol": "H_j",
+   "name": "numerator coefficient",
+   "meaning": "The Gaussian integer coefficient of y^j after reduction modulo y^r+1.",
+   "relation": "direct",
+   "quote": "Let $H_j$ be the resulting Gaussian integer coefficient of $y^j$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "hvdh-multiplier",
+   "predicate": "computes its integer products by",
+   "quote": "Signed packing computes its integer products by the [Established O(n log n) multiplier](hvdh-multiplier.md)."
+  },
+  {
+   "prerequisite": "ring-y",
+   "predicate": "multiplies polynomials in",
+   "quote": "Signed packing multiplies polynomials in the [Polynomial ring modulo y^r + 1](ring-y.md), $\\mathcal R_r$: take $f,g$ with coefficients $2^{-p}$ times Gaussian integers of modulus at most 1."
+  }
+ ]
+}

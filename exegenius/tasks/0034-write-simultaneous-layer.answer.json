@@ -1,0 +1,102 @@
+{
+ "derivations": [
+  {
+   "step": "S1.6.1",
+   "quote": "As $\\mathsf SI\\mathsf S=\\operatorname{diag}(1,-1)$, $\\mathsf SX\\mathsf S=iX$, $ab=ib^2=\\frac12$, direct multiplication gives $H_0=b\\,\\mathsf SC\\mathsf S$, $C^2=X$, $C^4=I$"
+  },
+  {
+   "step": "S1.6.2",
+   "quote": "Gaussian elimination writes $M$ as at most $m(m-1)+3m$ row additions (a swap is three). So apply $\\mathcal P_M^{-1}$ to each column, then $(C^{\\epsilon_h})^{\\otimes f}$ to the $f$ bits of slot $h$, then $\\mathcal P_M$: one child on $f$ axes per residual vector. A negative kernel needs no inverse child, since $(C^{-1})^{\\otimes f}=(-i)^fZ^{\\otimes f}C^{\\otimes f}Z^{\\otimes f}$, $Z=\\operatorname{diag}(1,-1)$. Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
+  },
+  {
+   "step": "S1.6.2b",
+   "quote": "With $x_1,\\dots,x_D$ the selected bits of an address $x$, this yields $H_0^{\\otimes D}=b^D\\mathcal S_DC^{\\otimes D}\\mathcal S_D$, $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x)$. The phases and $b^D=(-i/2)^{\\lfloor D/2\\rfloor}b^{D\\bmod2}$ are exact Gaussian dyadic operations."
+  },
+  {
+   "step": "S1.6.3b",
+   "quote": "Each row addition XORs selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md). So the basis change and its inverse cost $O(V((eK)^\\tau+1))$"
+  },
+  {
+   "step": "S1.6.4",
+   "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume. Apply $C$ individually to the first $q_0=\\lceil\\log_2W\\rceil\\lceil\\log_m(2d)\\rceil$ chunks and use their bits as a row index, padded to a multiple of $W^{k_0}$, $k_0=\\lceil\\log_md\\rceil$. Row $Wg+w$ goes to wire $w$, so each child has volume $V/W$. The recurrence is solved as in [Recursive power saving](rank-recurrence.md): for $e\\ge d^\\beta$, $\\beta=\\frac12$, $F(e)\\le(s/W)F(e/m)+O((eK)^\\tau+1)$, and $F(e)=O(e)$ below. As $K\\le d^c\\le e^{c/\\beta}$, the overhead is $O(e^\\lambda)$ for fixed $\\max\\{\\tau,\\sigma\\}<\\lambda<1$. With $a=s/W\\le m^\\sigma<m^\\lambda$, internal levels sum to $Ce^\\lambda\\sum_{j\\ge0}(a/m^\\lambda)^j=O(e^\\lambda)$; leaves add $O(a^ju)\\le O(e^\\sigma u^{1-\\sigma})\\le O(e^\\sigma d^{\\beta(1-\\sigma)})$. Base-$m$ pieces of the remaining chunks give $O(\\log(2d)[d^\\lambda+d^{\\sigma+\\beta(1-\\sigma)}+1])=O(d^{\\lambda'})$"
+  },
+  {
+   "step": "S1.6.5",
+   "quote": "Let $A(e)$ bound arithmetic operations along a chain: $A(e)\\le sA(e/m)+E$, $E=64(W+m+1)^3$, and $A(e)\\le8e$ at leaves. As $sx+E\\le Bx$ for $B=s+E$, $A(e)\\le8B^2d^{\\nu+1}$ with $\\nu=\\min\\{j\\ge1:m^j\\ge B\\}$. After $\\ell$ operations a value lies in $2^{-(p+\\ell)}\\mathbb Z[i]$ with modulus at most $2^\\ell$: addition doubles modulus, halving adds a denominator bit. So with $\\Delta=\\lceil C_0d^{C_1}\\rceil$, reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly. If $d=\\Theta(p^\\epsilon)$ and $\\epsilon C_1<1$, then $\\Delta=o(p)$ and the width is $O(p)$."
+  },
+  {
+   "step": "S1.6.6",
+   "quote": "Each row of $H_0$ has entries $\\pm\\frac12$, and row sums multiply under tensor products, so every row of $\\mathcal H$ has absolute row sum one, hence $\\mathcal H$ maps disk arrays (coefficients of modulus at most $1$) to disk arrays"
+  },
+  {
+   "step": "S1.6.7",
+   "quote": "$Q_p$ truncates each real component toward zero, which keeps the disk and changes each component by less than $2^{-p}$, so $\\|Q_p(\\mathcal Hz)-\\mathcal Hz\\|_\\infty<\\sqrt2\\,2^{-p}$"
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "phase-frames",
+   "predicate": "is applied by the network of",
+   "quote": "On $e=mf$ axes, arranged as $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md); its edges are products of kernels $C^{\\epsilon_h}$ along residual vectors $v_h\\in\\mathbb F_2^m$."
+  },
+  {
+   "prerequisite": "packed-bit-addition",
+   "predicate": "has its row additions done by",
+   "quote": "Each row addition XORs selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md)."
+  },
+  {
+   "prerequisite": "rank-recurrence",
+   "predicate": "solves its recurrence as in",
+   "quote": "The recurrence is solved as in [Recursive power saving](rank-recurrence.md)"
+  },
+  {
+   "prerequisite": "fixed-point",
+   "predicate": "represents its intermediate coefficients exactly as in",
+   "quote": "So with $\\Delta=\\lceil C_0d^{C_1}\\rceil$, reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "V",
+   "name": "stream volume",
+   "meaning": "The volume of the stream in bits.",
+   "relation": "direct",
+   "quote": "$V$ is the stream volume in bits, $K$ the bits per chunk, $p$ the fractional bits per coefficient."
+  },
+  {
+   "symbol": "K",
+   "name": "chunk width",
+   "meaning": "The number of bits in an address chunk.",
+   "relation": "count",
+   "quote": "$V$ is the stream volume in bits, $K$ the bits per chunk, $p$ the fractional bits per coefficient."
+  },
+  {
+   "symbol": "p",
+   "name": "fractional bits",
+   "meaning": "The number of fractional bits of each coefficient.",
+   "relation": "count",
+   "quote": "$V$ is the stream volume in bits, $K$ the bits per chunk, $p$ the fractional bits per coefficient."
+  },
+  {
+   "symbol": "W",
+   "name": "wire count",
+   "meaning": "The number of wires of the network.",
+   "relation": "count",
+   "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume."
+  },
+  {
+   "symbol": "F(e)",
+   "name": "normalized time",
+   "meaning": "The time divided by the stream volume.",
+   "relation": "direct",
+   "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume."
+  },
+  {
+   "symbol": "s",
+   "name": "child count",
+   "meaning": "The number of children, the total of residual dimensions over the network.",
+   "relation": "count",
+   "quote": "Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
+  }
+ ]
+}

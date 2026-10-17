@@ -1,0 +1,142 @@
+{
+ "derivations": [
+  {
+   "step": "S5.3.1",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "step": "S5.3.2",
+   "quote": "Map $\\mathbb C[x]/(x^S-1)$ to $\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$, with one variable $x_i$ per axis $i$, by $\\Phi:x\\mapsto\\prod_i x_i^{\\mu_i}$. It respects $x^S=1$, because $s_i\\mid S$ makes every $x_i^{\\mu_iS}=1$, so it defines an algebra map."
+  },
+  {
+   "step": "S5.3.3",
+   "quote": "Now $\\Phi(x^k)=1$ exactly when $s_i\\mid\\mu_ik$ for every $i$; as $\\mu_i$ is a unit modulo $s_i$ this means $s_i\\mid k$ for every $i$, and as the $s_i$ are pairwise coprime, $S\\mid k$. So the image of $x$ has order $S$ and its $S$ powers are distinct; the target has exactly $S$ monomials, so the powers run through all of them exactly once. Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md), because multiplication in each ring is cyclic convolution of coefficients."
+  },
+  {
+   "step": "S5.3.4",
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix, with digits $0\\le a_j<s_j$. The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i=\\mu_i\\sum_ja_jP_j\\bmod s_i$. Terms with $j>i$ vanish modulo $s_i$, since $s_i$ divides $P_j$, and $\\mu_iP_i\\equiv1$ modulo $s_i$. Hence $b_i=a_i+\\mu_i\\sum_{j<i}a_jP_j\\pmod{s_i}$."
+  },
+  {
+   "step": "S5.3.5",
+   "quote": "Terms with $j>i$ vanish modulo $s_i$, since $s_i$ divides $P_j$, and $\\mu_iP_i\\equiv1$ modulo $s_i$."
+  },
+  {
+   "step": "S5.3.6",
+   "quote": "Reorder the padded axes to $(a_1,\\dots,a_d)$, so controls precede their target. Update targets in the order $i=d,d-1,\\dots,1$, so no lower-index control has yet changed when axis $i$ is updated. Each update is a prefix-controlled cyclic shift of the valid interval $[0,s_i)$ and the identity on $[s_i,t_i)$, so zero padding stays zero."
+  },
+  {
+   "step": "S5.3.7",
+   "quote": "Reversing all axes takes $O(d^2)$ adjacent swaps. Each swap is an equal-width [chunk interchange](address-interchange.md) of cost governed by a fixed exponent $\\tau\\in(0,1)$, plus a fixed number of linear passes if widths differ, so the map, its inverse and the padding cost $O(Tp\\,d^2(1+\\ell^\\tau))$"
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "convolution",
+   "predicate": "preserves",
+   "quote": "Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md), because multiplication in each ring is cyclic convolution of coefficients."
+  },
+  {
+   "prerequisite": "multidim-transform",
+   "predicate": "prepares",
+   "quote": "This prepares [Multidimensional transforms](multidim-transform.md)."
+  },
+  {
+   "prerequisite": "controlled-shifts",
+   "predicate": "is implemented by",
+   "quote": "The map is implemented by these shifts, each of linear cost by [Controlled shifts and rational scalings](controlled-shifts.md)."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "S",
+   "name": "convolution length",
+   "meaning": "The length of the cyclic convolution, the product of the axis lengths.",
+   "relation": "direct",
+   "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$, where the axis lengths $s_i$, $1\\le i\\le d$, are pairwise coprime and $d$ is the number of axes, as a multidimensional one, using only controlled shifts on tape."
+  },
+  {
+   "symbol": "s_i",
+   "name": "axis length",
+   "meaning": "The length of axis i; the lengths are pairwise coprime.",
+   "relation": "direct",
+   "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$, where the axis lengths $s_i$, $1\\le i\\le d$, are pairwise coprime and $d$ is the number of axes, as a multidimensional one, using only controlled shifts on tape."
+  },
+  {
+   "symbol": "d",
+   "name": "number of axes",
+   "meaning": "The number of axes.",
+   "relation": "count",
+   "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$, where the axis lengths $s_i$, $1\\le i\\le d$, are pairwise coprime and $d$ is the number of axes, as a multidimensional one, using only controlled shifts on tape."
+  },
+  {
+   "symbol": "P_i",
+   "name": "prefix product",
+   "meaning": "The product of the lengths of axes before axis i.",
+   "relation": "direct",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "symbol": "\\mu_i",
+   "name": "axis exponent",
+   "meaning": "The inverse of P_i modulo s_i.",
+   "relation": "direct",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "symbol": "x_i",
+   "name": "axis variable",
+   "meaning": "The variable of axis i in the target ring.",
+   "relation": "direct",
+   "quote": "Map $\\mathbb C[x]/(x^S-1)$ to $\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$, with one variable $x_i$ per axis $i$, by $\\Phi:x\\mapsto\\prod_i x_i^{\\mu_i}$."
+  },
+  {
+   "symbol": "a_j",
+   "name": "mixed-radix digit",
+   "meaning": "The j-th mixed-radix digit of the index k.",
+   "relation": "direct",
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix, with digits $0\\le a_j<s_j$."
+  },
+  {
+   "symbol": "b_i",
+   "name": "axis coordinate",
+   "meaning": "The axis-i coordinate of the image of x^k.",
+   "relation": "direct",
+   "quote": "The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i=\\mu_i\\sum_ja_jP_j\\bmod s_i$. Terms with $j>i$ vanish modulo $s_i$, since $s_i$ divides $P_j$, and $\\mu_iP_i\\equiv1$ modulo $s_i$. Hence $b_i=a_i+\\mu_i\\sum_{j<i}a_jP_j\\pmod{s_i}$."
+  },
+  {
+   "symbol": "t_i",
+   "name": "padded length",
+   "meaning": "The padded length of axis i, a power of two at least s_i.",
+   "relation": "direct",
+   "quote": "Pad axis $i$ with zero records to a length $t_i\\ge s_i$, a power of two of $\\ell$ or $\\ell-1$ bits, where $\\ell$ is the bit width of the widest axis."
+  },
+  {
+   "symbol": "\\ell",
+   "name": "axis bit width",
+   "meaning": "The number of bits of the widest axis.",
+   "relation": "count",
+   "quote": "Pad axis $i$ with zero records to a length $t_i\\ge s_i$, a power of two of $\\ell$ or $\\ell-1$ bits, where $\\ell$ is the bit width of the widest axis."
+  },
+  {
+   "symbol": "T",
+   "name": "padded array size",
+   "meaning": "The number of records in the padded array.",
+   "relation": "count",
+   "quote": "Let $T=\\prod_it_i$ be the number of records in the padded array, each of $O(p)$ bits, where $p$ is the number of bits of precision per record."
+  },
+  {
+   "symbol": "p",
+   "name": "record precision",
+   "meaning": "The number of bits of precision per record.",
+   "relation": "count",
+   "quote": "Let $T=\\prod_it_i$ be the number of records in the padded array, each of $O(p)$ bits, where $p$ is the number of bits of precision per record."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "chunk-swap exponent",
+   "meaning": "The fixed exponent in (0,1) governing the cost of a chunk interchange.",
+   "relation": "direct",
+   "quote": "Each swap is an equal-width [chunk interchange](address-interchange.md) of cost governed by a fixed exponent $\\tau\\in(0,1)$, plus a fixed number of linear passes if widths differ, so"
+  }
+ ]
+}

@@ -1,0 +1,131 @@
+{
+ "symbols": [
+  {
+   "symbol": "t",
+   "name": "transform length",
+   "meaning": "The number of ring elements transformed along one axis, a power of two dividing 2r.",
+   "relation": "count",
+   "quote": "It orders the outputs of the [synthetic polynomial transform](synthetic-transform.md) $F_t^-$ over $\\mathcal R_r$, where $t$ is the transform length and $a=\\log_2t$ the number of rounds."
+  },
+  {
+   "symbol": "a",
+   "name": "number of rounds",
+   "meaning": "The number log_2 t of rounds of the fast algorithm.",
+   "relation": "count",
+   "quote": "It orders the outputs of the [synthetic polynomial transform](synthetic-transform.md) $F_t^-$ over $\\mathcal R_r$, where $t$ is the transform length and $a=\\log_2t$ the number of rounds."
+  },
+  {
+   "symbol": "\\omega_t",
+   "name": "root of unity",
+   "meaning": "The power y^{2r/t} of the ring variable used as the t-th root of unity.",
+   "relation": "direct",
+   "quote": "For $t$ a power of two dividing $2r$, define $\\omega_t=y^{2r/t}$; every power of $\\omega_t$ is an isometry, so each entry is an average of $t$ isometric images and both normalized transforms are contractions."
+  },
+  {
+   "symbol": "H_0",
+   "name": "two-point butterfly",
+   "meaning": "The 2x2 matrix (1/2)[[1,1],[1,-1]] applied to each pair of entries.",
+   "relation": "direct",
+   "quote": "With $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ the two-point butterfly, apply $H_0$ to each pair, multiply the $b=1$ output by $\\omega_t^{-k}$, and recurse on the two length-$t/2$ branches."
+  },
+  {
+   "symbol": "B_t",
+   "name": "bit-reversal permutation",
+   "meaning": "The permutation of records moving the entry at j to rev_a(j).",
+   "relation": "direct",
+   "quote": "Let $B_t$ be the permutation moving the entry at $j$ to $\\operatorname{rev}_a(j)$"
+  },
+  {
+   "symbol": "\\mathcal H",
+   "name": "parallel butterfly",
+   "meaning": "The butterfly layer applying H_0 on every participating axis at once.",
+   "relation": "direct",
+   "quote": "With several axes, a round applies $H_0$ on every axis at once, one parallel butterfly $\\mathcal H$."
+  },
+  {
+   "symbol": "J_E",
+   "name": "recordwise monomial",
+   "meaning": "The operation multiplying the record at each address by y^E.",
+   "relation": "direct",
+   "quote": "Each axis's twiddle depends only on its own address bits, so twiddles commute with the other axes' butterflies and group into one recordwise monomial $J_E$ that multiplies the record by $y^E$, with"
+  },
+  {
+   "symbol": "u_i",
+   "name": "current length",
+   "meaning": "The current recursive length of axis i.",
+   "relation": "direct",
+   "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+  },
+  {
+   "symbol": "b_i",
+   "name": "branch bit",
+   "meaning": "The newly written branch bit of axis i.",
+   "relation": "direct",
+   "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+  },
+  {
+   "symbol": "k_i",
+   "name": "encoded index",
+   "meaning": "The index encoded by the still unprocessed slots of axis i.",
+   "relation": "direct",
+   "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "synthetic-transform",
+   "predicate": "orders the outputs of",
+   "quote": "It orders the outputs of the [synthetic polynomial transform](synthetic-transform.md) $F_t^-$ over $\\mathcal R_r$, where $t$ is the transform length and $a=\\log_2t$ the number of rounds."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S2.1.1",
+   "quote": "For $t$ a power of two dividing $2r$, define $\\omega_t=y^{2r/t}$; every power of $\\omega_t$ is an isometry, so each entry is an average of $t$ isometric images and both normalized transforms are contractions."
+  },
+  {
+   "step": "S2.1.2",
+   "quote": "The ring has zero divisors, so one cannot divide by $\\omega_t^j-1$; instead $\\sum_{k=0}^{t-1}\\omega_t^{jk}$ equals $t$ if $t\\mid j$ and $0$ otherwise."
+  },
+  {
+   "step": "S2.1.3",
+   "quote": "Replacing $k$ by $k+t/2^{v+1}$ modulo $t$ permutes the summands and multiplies the sum $S$ by $y^{rj_0}=-1$."
+  },
+  {
+   "step": "S2.1.4",
+   "quote": "Hence the sum is zero, since the additive group of $\\mathcal R_r$ has no two-torsion"
+  },
+  {
+   "step": "S2.1.5",
+   "quote": "With $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ the two-point butterfly, apply $H_0$ to each pair, multiply the $b=1$ output by $\\omega_t^{-k}$, and recurse on the two length-$t/2$ branches."
+  },
+  {
+   "step": "S2.1.6",
+   "quote": "After all $a$ rounds the named slots from high to low hold the frequency bits from low to high, so $(F_t^-z)_j$ is stored at slot $\\operatorname{rev}_a(j)$, where $\\operatorname{rev}_a$ reverses the $a$ binary digits."
+  },
+  {
+   "step": "S2.1.7",
+   "quote": "The opposite procedure runs the levels backwards; since $H_0^2=I/2$, each reversed level is half the inverse of the forward level, over $a=\\log_2t$ levels."
+  },
+  {
+   "step": "S2.1.8",
+   "quote": "The reverse procedure composed with $B_tF_t^-$ is $2^{-a}I=I/t$, and as $F_t^+B_t^{-1}B_tF_t^-=F_t^+F_t^-=I/t$ by character cancellation, the two reverse operators agree."
+  },
+  {
+   "step": "S2.1.9",
+   "quote": "So the two exact procedures implement $B_tF_t^-$ and $F_t^+B_t^{-1}$."
+  },
+  {
+   "step": "S2.1.10",
+   "quote": "With several axes, a round applies $H_0$ on every axis at once, one parallel butterfly $\\mathcal H$. Each axis's twiddle depends only on its own address bits, so twiddles commute with the other axes' butterflies and group into one recordwise monomial $J_E$ that multiplies the record by $y^E$, with"
+  },
+  {
+   "step": "S2.1.11",
+   "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+  },
+  {
+   "step": "S2.1.12",
+   "quote": "Each $\\mathcal H$ is a contraction and each $J_E$ an isometry, so every completed round is a contraction."
+  }
+ ]
+}

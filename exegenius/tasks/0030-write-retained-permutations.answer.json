@@ -1,0 +1,117 @@
+{
+ "derivations": [
+  {
+   "step": "S4.2",
+   "quote": "Both $\\mathcal A$ and $\\mathcal B_0$ are contractions, each applied one line (entries along one axis) at a time in a padded box of $T$ entries. Axis $i$ has $T/t_i$ lines of cost $O(t_ip^{3/2+\\delta}\\alpha)$. Errors and times add over $d$ passes: error less than $dp^2$, time $O(dTp^{3/2+\\delta}\\alpha)$ with a constant independent of $d$."
+  },
+  {
+   "step": "S4.4",
+   "quote": "For a unit $c$ modulo $q$, let $(R_cz)_j=z_{cj}$. Substituting $h=ck$ in the Fourier sum gives $F_q^+R_c=R_c^{-1}F_q^+$. Each $t_i$ is a unit modulo $s_i$, so tensoring gives $RF_{\\boldsymbol s}^+R=F_{\\boldsymbol s}^+$. A permutation commutes with pointwise products, so the left side is $RF_{\\boldsymbol s}^+R(F_{\\boldsymbol s}u\\cdot F_{\\boldsymbol s}v)=F_{\\boldsymbol s}^+(F_{\\boldsymbol s}u\\cdot F_{\\boldsymbol s}v)$. The normalized convolution rule is $F_{\\boldsymbol s}(u*v)=S(F_{\\boldsymbol s}u)\\cdot(F_{\\boldsymbol s}v)$ and $F_{\\boldsymbol s}^+F_{\\boldsymbol s}=I/S$, so this equals $\\frac1SF_{\\boldsymbol s}^+F_{\\boldsymbol s}(u*v)=u*v/S^2$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "gaussian-resampling",
+   "predicate": "computes prime-length transforms by",
+   "quote": "Each prime-length transform is computed through a power-of-two one by [Gaussian resampling](gaussian-resampling.md)."
+  },
+  {
+   "prerequisite": "chirp",
+   "predicate": "absorbs target permutation by",
+   "quote": "The target permutation $Q$ is absorbed by the [Bluestein chirp identity](chirp.md), which for even $t_i$ and $a_{\\boldsymbol j}=\\exp(-\\pi i\\sum_is_ij_i^2/t_i)$ gives $QF_{\\boldsymbol t}u=\\overline a\\cdot\\bigl(a*(\\overline a\\cdot u)\\bigr)/T$, with $*$ the [cyclic convolution](convolution.md) and a dot coordinatewise multiplication."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "d",
+   "name": "number of axes",
+   "meaning": "The number of coordinate axes.",
+   "relation": "count",
+   "quote": "Take $d$ axes with pairwise coprime prime lengths $s_i$ and power-of-two lengths $t_i>s_i$."
+  },
+  {
+   "symbol": "s_i",
+   "name": "prime length",
+   "meaning": "The prime length of axis i.",
+   "relation": "direct",
+   "quote": "Take $d$ axes with pairwise coprime prime lengths $s_i$ and power-of-two lengths $t_i>s_i$."
+  },
+  {
+   "symbol": "t_i",
+   "name": "power-of-two length",
+   "meaning": "The power-of-two length of axis i.",
+   "relation": "direct",
+   "quote": "Take $d$ axes with pairwise coprime prime lengths $s_i$ and power-of-two lengths $t_i>s_i$."
+  },
+  {
+   "symbol": "S",
+   "name": "product of prime lengths",
+   "meaning": "The product of the prime lengths.",
+   "relation": "direct",
+   "quote": "Let $F_{\\boldsymbol q}=\\bigotimes_iF_{q_i}$ be the normalized [discrete Fourier transform](dft.md) along every axis, $F_{\\boldsymbol q}^+$ its opposite, $S=\\prod_is_i$ and $T=\\prod_it_i$."
+  },
+  {
+   "symbol": "T",
+   "name": "padded box size",
+   "meaning": "The number of entries in the padded box, the product of the power-of-two lengths.",
+   "relation": "count",
+   "quote": "Let $F_{\\boldsymbol q}=\\bigotimes_iF_{q_i}$ be the normalized [discrete Fourier transform](dft.md) along every axis, $F_{\\boldsymbol q}^+$ its opposite, $S=\\prod_is_i$ and $T=\\prod_it_i$."
+  },
+  {
+   "symbol": "p",
+   "name": "bit precision",
+   "meaning": "The number of bits of precision of each coordinate.",
+   "relation": "count",
+   "quote": "Let $p$ be the bit precision of each coordinate, $\\alpha$ an integer width of the Gaussian weights, and $\\delta$ a fixed exponent."
+  },
+  {
+   "symbol": "\\alpha",
+   "name": "Gaussian width",
+   "meaning": "An integer width parameter of the Gaussian weights.",
+   "relation": "direct",
+   "quote": "Let $p$ be the bit precision of each coordinate, $\\alpha$ an integer width of the Gaussian weights, and $\\delta$ a fixed exponent."
+  },
+  {
+   "symbol": "\\delta",
+   "name": "time exponent",
+   "meaning": "A fixed exponent in the time bound.",
+   "relation": "direct",
+   "quote": "Let $p$ be the bit precision of each coordinate, $\\alpha$ an integer width of the Gaussian weights, and $\\delta$ a fixed exponent."
+  },
+  {
+   "symbol": "R",
+   "name": "source permutation",
+   "meaning": "The source coordinate permutation, tensor product of the one-axis permutations P_{s_i}.",
+   "relation": "direct",
+   "quote": "Tensoring over the axes, put $R=\\bigotimes_iP_{s_i}$, $Q=\\bigotimes_iP_{t_i}$, $\\mathcal A=\\bigotimes_iA_i$, $\\mathcal B_0=\\bigotimes_iB_{0,i}$."
+  },
+  {
+   "symbol": "Q",
+   "name": "target permutation",
+   "meaning": "The target coordinate permutation, tensor product of the one-axis permutations P_{t_i}.",
+   "relation": "direct",
+   "quote": "Tensoring over the axes, put $R=\\bigotimes_iP_{s_i}$, $Q=\\bigotimes_iP_{t_i}$, $\\mathcal A=\\bigotimes_iA_i$, $\\mathcal B_0=\\bigotimes_iB_{0,i}$."
+  },
+  {
+   "symbol": "w",
+   "name": "chunk width",
+   "meaning": "The width in bits of the chunks swapped.",
+   "relation": "count",
+   "quote": "Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), which swaps chunks of $w$ bits within $V$ bits in $O(Vw^\\tau)$ time for a fixed $\\tau<1$."
+  },
+  {
+   "symbol": "V",
+   "name": "total bits",
+   "meaning": "The total number of bits within which chunks are swapped.",
+   "relation": "count",
+   "quote": "Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), which swaps chunks of $w$ bits within $V$ bits in $O(Vw^\\tau)$ time for a fixed $\\tau<1$."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "chunk-swap exponent",
+   "meaning": "The fixed exponent below 1 in the chunk-swap time bound.",
+   "relation": "direct",
+   "quote": "Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), which swaps chunks of $w$ bits within $V$ bits in $O(Vw^\\tau)$ time for a fixed $\\tau<1$."
+  }
+ ]
+}

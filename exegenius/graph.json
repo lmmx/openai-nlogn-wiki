@@ -1272,6 +1272,50 @@
         "quote": "Write the output index as $m=2h+b$, where $b\\in\\{0,1\\}$ is its lowest bit and $h$ is the remaining index."
       }
     ],
+    "chirp": [
+      {
+        "symbol": "d",
+        "name": "number of axes",
+        "meaning": "The number of axes (coordinates) of an index.",
+        "relation": "count",
+        "quote": "where $d$ is the number of axes."
+      },
+      {
+        "symbol": "t_i",
+        "name": "axis length",
+        "meaning": "The even number of entries along axis i.",
+        "relation": "count",
+        "quote": "On axis $i$, $t_i$ is the even number of entries along that axis and $s_i$ is an integer coprime to $t_i$."
+      },
+      {
+        "symbol": "s_i",
+        "name": "coprime integer",
+        "meaning": "An integer coprime to t_i, scaling the frequency read along axis i.",
+        "relation": "direct",
+        "quote": "On axis $i$, $t_i$ is the even number of entries along that axis and $s_i$ is an integer coprime to $t_i$."
+      },
+      {
+        "symbol": "T",
+        "name": "total entries",
+        "meaning": "The total number of entries, the product of the t_i.",
+        "relation": "count",
+        "quote": "Put $T=\\prod_i t_i$, the total number of entries."
+      },
+      {
+        "symbol": "Q",
+        "name": "target permutation",
+        "meaning": "The target permutation, reading frequency (-s_i j_i)_i at output position j.",
+        "relation": "direct",
+        "quote": "The permutation $Q$ is the target permutation: output position $\\boldsymbol j$ reads frequency $\\boldsymbol f=(-s_ij_i)_i$."
+      },
+      {
+        "symbol": "a",
+        "name": "chirp",
+        "meaning": "The chirp, a quadratic-phase array exp(-pi i sum s_i j_i^2/t_i).",
+        "relation": "direct",
+        "quote": "Define the chirp $a_{\\boldsymbol j}=\\exp\\left(-\\pi i\\sum_{i=1}^d s_ij_i^2/t_i\\right)$, a phase quadratic in the index, and let $\\overline a$ be its complex conjugate."
+      }
+    ],
     "conjecture": [
       {
         "symbol": "n",
@@ -1369,6 +1413,213 @@
         "quote": "Let $M=\\prod_{i<d}t_i$ be the number of cyclic addresses on the first $d-1$ axes, and $T=rM$ the total number of complex coefficients in an array."
       }
     ],
+    "cost-accounting": [
+      {
+        "symbol": "\\kappa",
+        "name": "saved exponent",
+        "meaning": "The exponent saved below one in the time bound, 2^{-182}.",
+        "relation": "direct",
+        "quote": "Cost accounting totals the running time of every step of [The multiplication algorithm](multiplication-algorithm.md) and shows that it is $O(n(\\lg n)^{1-\\kappa})$, where $\\kappa=2^{-182}$ is the saved exponent."
+      },
+      {
+        "symbol": "T",
+        "name": "coefficient count",
+        "meaning": "The number of coefficients in the padded array.",
+        "relation": "count",
+        "quote": "Let $T$ be the number of coefficients in the array, $p$ the precision in bits per coefficient, and $V=Tp=\\Theta(n)$ the volume."
+      },
+      {
+        "symbol": "p",
+        "name": "precision",
+        "meaning": "The number of bits per coefficient.",
+        "relation": "count",
+        "quote": "Let $T$ be the number of coefficients in the array, $p$ the precision in bits per coefficient, and $V=Tp=\\Theta(n)$ the volume."
+      },
+      {
+        "symbol": "V",
+        "name": "volume",
+        "meaning": "The number of stored bits, Tp = Theta(n).",
+        "relation": "count",
+        "quote": "Let $T$ be the number of coefficients in the array, $p$ the precision in bits per coefficient, and $V=Tp=\\Theta(n)$ the volume."
+      },
+      {
+        "symbol": "d",
+        "name": "axis count",
+        "meaning": "The number of transform axes.",
+        "relation": "count",
+        "quote": "Here $d$ is the number of transform axes, $K$ the width of an exchanged address chunk, $\\ell=\\log_2 r$ the number of address bits of a record, $\\alpha$ the Gaussian window width, and $t_i$ the length of axis $i$."
+      },
+      {
+        "symbol": "K",
+        "name": "chunk width",
+        "meaning": "The width of an exchanged address chunk.",
+        "relation": "direct",
+        "quote": "Here $d$ is the number of transform axes, $K$ the width of an exchanged address chunk, $\\ell=\\log_2 r$ the number of address bits of a record, $\\alpha$ the Gaussian window width, and $t_i$ the length of axis $i$."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "record address bits",
+        "meaning": "The number of address bits of a record, log_2 r.",
+        "relation": "count",
+        "quote": "Here $d$ is the number of transform axes, $K$ the width of an exchanged address chunk, $\\ell=\\log_2 r$ the number of address bits of a record, $\\alpha$ the Gaussian window width, and $t_i$ the length of axis $i$."
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "Gaussian window width",
+        "meaning": "The width of the Gaussian window in resampling.",
+        "relation": "direct",
+        "quote": "Here $d$ is the number of transform axes, $K$ the width of an exchanged address chunk, $\\ell=\\log_2 r$ the number of address bits of a record, $\\alpha$ the Gaussian window width, and $t_i$ the length of axis $i$."
+      },
+      {
+        "symbol": "t_i",
+        "name": "axis length",
+        "meaning": "The length of axis i.",
+        "relation": "direct",
+        "quote": "Here $d$ is the number of transform axes, $K$ the width of an exchanged address chunk, $\\ell=\\log_2 r$ the number of address bits of a record, $\\alpha$ the Gaussian window width, and $t_i$ the length of axis $i$."
+      },
+      {
+        "symbol": "\\epsilon",
+        "name": "axis exponent",
+        "meaning": "Fixed exponent 2^{-75} with d = Theta(p^epsilon).",
+        "relation": "direct",
+        "quote": "The fixed exponents of [Parameter and prime-length choice](parameter-choice.md) are $\\epsilon=2^{-75}$, $c=2^{-56}$, $\\delta=1/16$, $\\tau=1-2^{-50}$ and $\\lambda'=1-2^{-54}$, giving $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$ and $\\alpha=\\Theta(p^{1/4+\\epsilon/2})$."
+      },
+      {
+        "symbol": "c",
+        "name": "chunk exponent",
+        "meaning": "Fixed exponent 2^{-56} with K = Theta(p^{epsilon c}).",
+        "relation": "direct",
+        "quote": "The fixed exponents of [Parameter and prime-length choice](parameter-choice.md) are $\\epsilon=2^{-75}$, $c=2^{-56}$, $\\delta=1/16$, $\\tau=1-2^{-50}$ and $\\lambda'=1-2^{-54}$, giving $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$ and $\\alpha=\\Theta(p^{1/4+\\epsilon/2})$."
+      },
+      {
+        "symbol": "\\delta",
+        "name": "resampling exponent",
+        "meaning": "Fixed exponent 1/16 in the Gaussian resampling cost.",
+        "relation": "direct",
+        "quote": "The fixed exponents of [Parameter and prime-length choice](parameter-choice.md) are $\\epsilon=2^{-75}$, $c=2^{-56}$, $\\delta=1/16$, $\\tau=1-2^{-50}$ and $\\lambda'=1-2^{-54}$, giving $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$ and $\\alpha=\\Theta(p^{1/4+\\epsilon/2})$."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "interchange exponent",
+        "meaning": "Fixed exponent 1-2^{-50} of the chunk interchange cost.",
+        "relation": "direct",
+        "quote": "The fixed exponents of [Parameter and prime-length choice](parameter-choice.md) are $\\epsilon=2^{-75}$, $c=2^{-56}$, $\\delta=1/16$, $\\tau=1-2^{-50}$ and $\\lambda'=1-2^{-54}$, giving $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$ and $\\alpha=\\Theta(p^{1/4+\\epsilon/2})$."
+      },
+      {
+        "symbol": "\\lambda'",
+        "name": "butterfly exponent",
+        "meaning": "Fixed exponent 1-2^{-54} of the simultaneous butterfly layer cost.",
+        "relation": "direct",
+        "quote": "The fixed exponents of [Parameter and prime-length choice](parameter-choice.md) are $\\epsilon=2^{-75}$, $c=2^{-56}$, $\\delta=1/16$, $\\tau=1-2^{-50}$ and $\\lambda'=1-2^{-54}$, giving $d=\\Theta(p^\\epsilon)$, $K=\\Theta(p^{\\epsilon c})$, $\\ell=\\Theta(p^{1-\\epsilon})$ and $\\alpha=\\Theta(p^{1/4+\\epsilon/2})$."
+      },
+      {
+        "symbol": "A",
+        "name": "visit exponent",
+        "meaning": "Fixed exponent bounding the number of recursion visits by p^A.",
+        "relation": "direct",
+        "quote": "Fixed exponents $A$ and $C$ bound the recursion visits by $p^A$ and the setup per visit by $p^C$, so the total is small"
+      },
+      {
+        "symbol": "C",
+        "name": "setup exponent",
+        "meaning": "Fixed exponent bounding the setup per visit by p^C.",
+        "relation": "direct",
+        "quote": "Fixed exponents $A$ and $C$ bound the recursion visits by $p^A$ and the setup per visit by $p^C$, so the total is small"
+      }
+    ],
+    "crt-map": [
+      {
+        "symbol": "S",
+        "name": "convolution length",
+        "meaning": "The length of the cyclic convolution, the product of the axis lengths.",
+        "relation": "direct",
+        "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$, where the axis lengths $s_i$, $1\\le i\\le d$, are pairwise coprime and $d$ is the number of axes, as a multidimensional one, using only controlled shifts on tape."
+      },
+      {
+        "symbol": "s_i",
+        "name": "axis length",
+        "meaning": "The length of axis i; the lengths are pairwise coprime.",
+        "relation": "direct",
+        "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$, where the axis lengths $s_i$, $1\\le i\\le d$, are pairwise coprime and $d$ is the number of axes, as a multidimensional one, using only controlled shifts on tape."
+      },
+      {
+        "symbol": "d",
+        "name": "number of axes",
+        "meaning": "The number of axes.",
+        "relation": "count",
+        "quote": "The Chinese-remainder address map rewrites a cyclic convolution of length $S=s_1\\cdots s_d$, where the axis lengths $s_i$, $1\\le i\\le d$, are pairwise coprime and $d$ is the number of axes, as a multidimensional one, using only controlled shifts on tape."
+      },
+      {
+        "symbol": "P_i",
+        "name": "prefix product",
+        "meaning": "The product of the lengths of axes before axis i.",
+        "relation": "direct",
+        "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+      },
+      {
+        "symbol": "\\mu_i",
+        "name": "axis exponent",
+        "meaning": "The inverse of P_i modulo s_i.",
+        "relation": "direct",
+        "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+      },
+      {
+        "symbol": "x_i",
+        "name": "axis variable",
+        "meaning": "The variable of axis i in the target ring.",
+        "relation": "direct",
+        "quote": "Map $\\mathbb C[x]/(x^S-1)$ to $\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$, with one variable $x_i$ per axis $i$, by $\\Phi:x\\mapsto\\prod_i x_i^{\\mu_i}$."
+      },
+      {
+        "symbol": "a_j",
+        "name": "mixed-radix digit",
+        "meaning": "The j-th mixed-radix digit of the index k.",
+        "relation": "direct",
+        "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix, with digits $0\\le a_j<s_j$."
+      },
+      {
+        "symbol": "b_i",
+        "name": "axis coordinate",
+        "meaning": "The axis-i coordinate of the image of x^k.",
+        "relation": "direct",
+        "quote": "The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i=\\mu_i\\sum_ja_jP_j\\bmod s_i$. Terms with $j>i$ vanish modulo $s_i$, since $s_i$ divides $P_j$, and $\\mu_iP_i\\equiv1$ modulo $s_i$. Hence $b_i=a_i+\\mu_i\\sum_{j<i}a_jP_j\\pmod{s_i}$."
+      },
+      {
+        "symbol": "t_i",
+        "name": "padded length",
+        "meaning": "The padded length of axis i, a power of two at least s_i.",
+        "relation": "direct",
+        "quote": "Pad axis $i$ with zero records to a length $t_i\\ge s_i$, a power of two of $\\ell$ or $\\ell-1$ bits, where $\\ell$ is the bit width of the widest axis."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "axis bit width",
+        "meaning": "The number of bits of the widest axis.",
+        "relation": "count",
+        "quote": "Pad axis $i$ with zero records to a length $t_i\\ge s_i$, a power of two of $\\ell$ or $\\ell-1$ bits, where $\\ell$ is the bit width of the widest axis."
+      },
+      {
+        "symbol": "T",
+        "name": "padded array size",
+        "meaning": "The number of records in the padded array.",
+        "relation": "count",
+        "quote": "Let $T=\\prod_it_i$ be the number of records in the padded array, each of $O(p)$ bits, where $p$ is the number of bits of precision per record."
+      },
+      {
+        "symbol": "p",
+        "name": "record precision",
+        "meaning": "The number of bits of precision per record.",
+        "relation": "count",
+        "quote": "Let $T=\\prod_it_i$ be the number of records in the padded array, each of $O(p)$ bits, where $p$ is the number of bits of precision per record."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "chunk-swap exponent",
+        "meaning": "The fixed exponent in (0,1) governing the cost of a chunk interchange.",
+        "relation": "direct",
+        "quote": "Each swap is an equal-width [chunk interchange](address-interchange.md) of cost governed by a fixed exponent $\\tau\\in(0,1)$, plus a fixed number of linear passes if widths differ, so"
+      }
+    ],
     "dft": [
       {
         "symbol": "q",
@@ -1390,6 +1641,85 @@
         "meaning": "The primitive q-th root of unity e^{2 pi i/q} whose powers are the transform weights.",
         "relation": "direct",
         "quote": "Writing $\\omega = e^{2\\pi i/q}$ for the primitive $q$-th root of unity, the weights are the powers $\\omega^{-jk}$."
+      }
+    ],
+    "exchange-network": [
+      {
+        "symbol": "h",
+        "name": "ground-set size",
+        "meaning": "The size of the ground set $[h]$ whose three-element subsets index the banks.",
+        "relation": "direct",
+        "quote": "Fix the ground-set size $h=100$ and let $v=\\binom h3=161700$ be the number of three-element subsets of $[h]$, and let $\\mathcal T$ be the set of these subsets."
+      },
+      {
+        "symbol": "v",
+        "name": "number of triples",
+        "meaning": "The number of three-element subsets of $[h]$.",
+        "relation": "count",
+        "quote": "Fix the ground-set size $h=100$ and let $v=\\binom h3=161700$ be the number of three-element subsets of $[h]$, and let $\\mathcal T$ be the set of these subsets."
+      },
+      {
+        "symbol": "N",
+        "name": "bank size",
+        "meaning": "The number of wires in each data bank.",
+        "relation": "count",
+        "quote": "Set $N=v^3=4227952113000000$ for the size of each data bank, and $m=h^3=1000000$ for the dimension of the label space used later."
+      },
+      {
+        "symbol": "m",
+        "name": "label-space dimension",
+        "meaning": "The dimension of the label space used later.",
+        "relation": "direct",
+        "quote": "Set $N=v^3=4227952113000000$ for the size of each data bank, and $m=h^3=1000000$ for the dimension of the label space used later."
+      },
+      {
+        "symbol": "I",
+        "name": "invocation count",
+        "meaning": "The number of invocations.",
+        "relation": "count",
+        "quote": "Three stages each run $v^2$ invocations with their own scratch wires, so $I=3v^2=78440670000$ is the number of invocations."
+      },
+      {
+        "symbol": "z_{\\rm b}",
+        "name": "bit neighbour count",
+        "meaning": "The number of neighbours of a fixed triple in the bit construction.",
+        "relation": "count",
+        "quote": "A fixed triple has $z_{\\rm b}=3\\binom{97}{2}=13968$ neighbours in the bit construction"
+      },
+      {
+        "symbol": "z_{\\rm c}",
+        "name": "complex neighbour count",
+        "meaning": "The number of neighbours of a fixed triple in the complex construction.",
+        "relation": "count",
+        "quote": "It has $z_{\\rm c}=\\binom{97}{3}+3\\cdot97=147731$ neighbours in the complex construction (intersection zero plus intersection two)."
+      },
+      {
+        "symbol": "c_{\\rm b}",
+        "name": "bit central wires",
+        "meaning": "The number of central wires per invocation in the bit network.",
+        "relation": "count",
+        "quote": "There are $c_{\\rm b}=100$ central wires per invocation in the bit network and $c_{\\rm c}=101$ in the complex one."
+      },
+      {
+        "symbol": "c_{\\rm c}",
+        "name": "complex central wires",
+        "meaning": "The number of central wires per invocation in the complex network.",
+        "relation": "count",
+        "quote": "There are $c_{\\rm b}=100$ central wires per invocation in the bit network and $c_{\\rm c}=101$ in the complex one."
+      },
+      {
+        "symbol": "W_{\\rm b}",
+        "name": "bit wire count",
+        "meaning": "The total number of wires in the bit network.",
+        "relation": "count",
+        "quote": "The bit network has $W_{\\rm b}=2N+I(vz_{\\rm b}+c_{\\rm b})=177176569091445000000$ wires"
+      },
+      {
+        "symbol": "W_{\\rm c}",
+        "name": "complex wire count",
+        "meaning": "The total number of wires in the complex network.",
+        "relation": "count",
+        "quote": "The complex network has $W_{\\rm c}=2N+I(vz_{\\rm c}+c_{\\rm c})=1873807244643542670000$ wires; all these numbers are fixed, independent of the input length."
       }
     ],
     "fixed-point": [
@@ -1422,6 +1752,122 @@
         "quote": "The truncation $Q_p$ drops the bits below $2^{-p}$ in each real and imaginary part, returning the record to the $p$-bit grid, with error below $\\sqrt2\\,2^{-p}$ per complex coefficient."
       }
     ],
+    "frequency-order": [
+      {
+        "symbol": "t",
+        "name": "transform length",
+        "meaning": "The number of ring elements transformed along one axis, a power of two dividing 2r.",
+        "relation": "count",
+        "quote": "It orders the outputs of the [synthetic polynomial transform](synthetic-transform.md) $F_t^-$ over $\\mathcal R_r$, where $t$ is the transform length and $a=\\log_2t$ the number of rounds."
+      },
+      {
+        "symbol": "a",
+        "name": "number of rounds",
+        "meaning": "The number log_2 t of rounds of the fast algorithm.",
+        "relation": "count",
+        "quote": "It orders the outputs of the [synthetic polynomial transform](synthetic-transform.md) $F_t^-$ over $\\mathcal R_r$, where $t$ is the transform length and $a=\\log_2t$ the number of rounds."
+      },
+      {
+        "symbol": "\\omega_t",
+        "name": "root of unity",
+        "meaning": "The power y^{2r/t} of the ring variable used as the t-th root of unity.",
+        "relation": "direct",
+        "quote": "For $t$ a power of two dividing $2r$, define $\\omega_t=y^{2r/t}$; every power of $\\omega_t$ is an isometry, so each entry is an average of $t$ isometric images and both normalized transforms are contractions."
+      },
+      {
+        "symbol": "H_0",
+        "name": "two-point butterfly",
+        "meaning": "The 2x2 matrix (1/2)[[1,1],[1,-1]] applied to each pair of entries.",
+        "relation": "direct",
+        "quote": "With $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ the two-point butterfly, apply $H_0$ to each pair, multiply the $b=1$ output by $\\omega_t^{-k}$, and recurse on the two length-$t/2$ branches."
+      },
+      {
+        "symbol": "B_t",
+        "name": "bit-reversal permutation",
+        "meaning": "The permutation of records moving the entry at j to rev_a(j).",
+        "relation": "direct",
+        "quote": "Let $B_t$ be the permutation moving the entry at $j$ to $\\operatorname{rev}_a(j)$"
+      },
+      {
+        "symbol": "\\mathcal H",
+        "name": "parallel butterfly",
+        "meaning": "The butterfly layer applying H_0 on every participating axis at once.",
+        "relation": "direct",
+        "quote": "With several axes, a round applies $H_0$ on every axis at once, one parallel butterfly $\\mathcal H$."
+      },
+      {
+        "symbol": "J_E",
+        "name": "recordwise monomial",
+        "meaning": "The operation multiplying the record at each address by y^E.",
+        "relation": "direct",
+        "quote": "Each axis's twiddle depends only on its own address bits, so twiddles commute with the other axes' butterflies and group into one recordwise monomial $J_E$ that multiplies the record by $y^E$, with"
+      },
+      {
+        "symbol": "u_i",
+        "name": "current length",
+        "meaning": "The current recursive length of axis i.",
+        "relation": "direct",
+        "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+      },
+      {
+        "symbol": "b_i",
+        "name": "branch bit",
+        "meaning": "The newly written branch bit of axis i.",
+        "relation": "direct",
+        "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+      },
+      {
+        "symbol": "k_i",
+        "name": "encoded index",
+        "meaning": "The index encoded by the still unprocessed slots of axis i.",
+        "relation": "direct",
+        "quote": "Here $u_i$ is axis $i$'s current length, $b_i$ its new branch bit and $k_i$ the index encoded by its unprocessed slots, so $E$ depends on the address, not on coefficient values."
+      }
+    ],
+    "gaussian-resampling": [
+      {
+        "symbol": "s",
+        "name": "prime length",
+        "meaning": "The prime length of the Fourier transform to be resampled, the number of complex coordinates it acts on.",
+        "relation": "count",
+        "quote": "Gaussian resampling expresses a Fourier transform of prime length $s$ through one of nearby power-of-two length $t$, so only power-of-two transforms need a fast algorithm."
+      },
+      {
+        "symbol": "t",
+        "name": "power-of-two length",
+        "meaning": "The power-of-two length of the nearby transform, the number of complex coordinates it acts on.",
+        "relation": "count",
+        "quote": "Gaussian resampling expresses a Fourier transform of prime length $s$ through one of nearby power-of-two length $t$, so only power-of-two transforms need a fast algorithm."
+      },
+      {
+        "symbol": "p",
+        "name": "precision bits",
+        "meaning": "The number of bits of precision of each real and imaginary component.",
+        "relation": "count",
+        "quote": "Here $s<t<2^p$ are coprime integers, $p$ is the number of bits of precision of each real and imaginary component, and $\\alpha$ is an integer with $2\\le\\alpha<\\sqrt p$."
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "Gaussian parameter",
+        "meaning": "An integer with 2 <= alpha < sqrt p that sets the Gaussian width.",
+        "relation": "direct",
+        "quote": "Here $s<t<2^p$ are coprime integers, $p$ is the number of bits of precision of each real and imaginary component, and $\\alpha$ is an integer with $2\\le\\alpha<\\sqrt p$."
+      },
+      {
+        "symbol": "\\theta",
+        "name": "relative gap",
+        "meaning": "The relative gap t/s - 1 between t and s, assumed larger than p/alpha^4.",
+        "relation": "direct",
+        "quote": "Assume the relative gap $\\theta:=t/s-1>p/\\alpha^4$."
+      },
+      {
+        "symbol": "k",
+        "name": "coordinate index",
+        "meaning": "An index of a coordinate of a vector in C^t, taken modulo t.",
+        "relation": "direct",
+        "quote": "Define the permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ (coordinate indices $j$, $k$ taken modulo $s$, $t$), never executed as sorts."
+      }
+    ],
     "hvdh-multiplier": [
       {
         "symbol": "N",
@@ -1429,6 +1875,312 @@
         "meaning": "The number of bits in each of the two integers being multiplied.",
         "relation": "count",
         "quote": "where $N$ is the number of bits in each of the two integers being multiplied;"
+      }
+    ],
+    "main-result": [
+      {
+        "symbol": "n",
+        "name": "input length",
+        "meaning": "The number of bits in each input integer.",
+        "relation": "count",
+        "quote": "Power-saving integer multiplication is the main result: for $n$, the number of bits in each input, and $\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$, a fixed Turing machine multiplies two $n$-bit integers exactly in time $O(n(\\lg n)^{1-\\kappa})$, which is $o(n\\log n)$, so it refutes the [Schönhage–Strassen optimality conjecture](conjecture.md) in this model."
+      },
+      {
+        "symbol": "\\kappa",
+        "name": "power-saving exponent",
+        "meaning": "The exponent $2^{-182}$ saved from the power of $\\lg n$.",
+        "relation": "direct",
+        "quote": "Power-saving integer multiplication is the main result: for $n$, the number of bits in each input, and $\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$, a fixed Turing machine multiplies two $n$-bit integers exactly in time $O(n(\\lg n)^{1-\\kappa})$, which is $o(n\\log n)$, so it refutes the [Schönhage–Strassen optimality conjecture](conjecture.md) in this model."
+      },
+      {
+        "symbol": "p",
+        "name": "coefficient precision",
+        "meaning": "The number of bits of precision of each stored coefficient.",
+        "relation": "count",
+        "quote": "Let $p$ be the number of bits of precision of each stored coefficient, of order $\\lg n$, and $V=\\Theta(n)$ the volume of stored data."
+      },
+      {
+        "symbol": "V",
+        "name": "data volume",
+        "meaning": "The volume of stored data, of order $n$.",
+        "relation": "direct",
+        "quote": "Let $p$ be the number of bits of precision of each stored coefficient, of order $\\lg n$, and $V=\\Theta(n)$ the volume of stored data."
+      }
+    ],
+    "matrix-shear": [
+      {
+        "symbol": "A",
+        "name": "shear matrix",
+        "meaning": "The fixed rational m by m matrix whose action AD is added to H.",
+        "relation": "direct",
+        "quote": "The shear is $(H,D)\\mapsto(H+AD,D)$, where $A$ is a rational $m\\times m$ matrix of rank $a$, and $m$ is the number of fields in each group $H=(H_1,\\dots,H_m)$ and $D=(D_1,\\dots,D_m)$, with $H$ before $D$."
+      },
+      {
+        "symbol": "m",
+        "name": "fields per group",
+        "meaning": "The number of fields in each of the groups H and D.",
+        "relation": "count",
+        "quote": "The shear is $(H,D)\\mapsto(H+AD,D)$, where $A$ is a rational $m\\times m$ matrix of rank $a$, and $m$ is the number of fields in each group $H=(H_1,\\dots,H_m)$ and $D=(D_1,\\dots,D_m)$, with $H$ before $D$."
+      },
+      {
+        "symbol": "a",
+        "name": "rank",
+        "meaning": "The rank of the matrix A.",
+        "relation": "direct",
+        "quote": "The shear is $(H,D)\\mapsto(H+AD,D)$, where $A$ is a rational $m\\times m$ matrix of rank $a$, and $m$ is the number of fields in each group $H=(H_1,\\dots,H_m)$ and $D=(D_1,\\dots,D_m)$, with $H$ before $D$."
+      },
+      {
+        "symbol": "H",
+        "name": "H group",
+        "meaning": "The ordered group of m fields H_1..H_m that receives the update.",
+        "relation": "direct",
+        "quote": "The shear is $(H,D)\\mapsto(H+AD,D)$, where $A$ is a rational $m\\times m$ matrix of rank $a$, and $m$ is the number of fields in each group $H=(H_1,\\dots,H_m)$ and $D=(D_1,\\dots,D_m)$, with $H$ before $D$."
+      },
+      {
+        "symbol": "D",
+        "name": "D group",
+        "meaning": "The ordered group of m fields D_1..D_m that is added into H.",
+        "relation": "direct",
+        "quote": "The shear is $(H,D)\\mapsto(H+AD,D)$, where $A$ is a rational $m\\times m$ matrix of rank $a$, and $m$ is the number of fields in each group $H=(H_1,\\dots,H_m)$ and $D=(D_1,\\dots,D_m)$, with $H$ before $D$."
+      },
+      {
+        "symbol": "q",
+        "name": "base prime",
+        "meaning": "A fixed odd prime; fields are residues modulo q^b.",
+        "relation": "direct",
+        "quote": "Each field is a residue modulo $q^b$, where $q$ is a fixed odd prime and $b$ is the number of base-$q$ digits per field; $V$ is the volume of data."
+      },
+      {
+        "symbol": "b",
+        "name": "digits per field",
+        "meaning": "The number of base-q digits in a field.",
+        "relation": "count",
+        "quote": "Each field is a residue modulo $q^b$, where $q$ is a fixed odd prime and $b$ is the number of base-$q$ digits per field; $V$ is the volume of data."
+      },
+      {
+        "symbol": "V",
+        "name": "data volume",
+        "meaning": "The volume of data being processed.",
+        "relation": "direct",
+        "quote": "Each field is a residue modulo $q^b$, where $q$ is a fixed odd prime and $b$ is the number of base-$q$ digits per field; $V$ is the volume of data."
+      },
+      {
+        "symbol": "E_1",
+        "name": "left factor",
+        "meaning": "An invertible lower triangular factor of A.",
+        "relation": "direct",
+        "quote": "Every such $A$ factors as $A=E_1\\Pi E_2$, where $E_1,E_2$ are invertible lower triangular and $\\Pi$ has exactly $a$ ones, at most one per row and column"
+      },
+      {
+        "symbol": "E_2",
+        "name": "right factor",
+        "meaning": "An invertible lower triangular factor of A.",
+        "relation": "direct",
+        "quote": "Every such $A$ factors as $A=E_1\\Pi E_2$, where $E_1,E_2$ are invertible lower triangular and $\\Pi$ has exactly $a$ ones, at most one per row and column"
+      },
+      {
+        "symbol": "\\Pi",
+        "name": "partial permutation",
+        "meaning": "A matrix with exactly a ones, at most one per row and column, and zeros elsewhere.",
+        "relation": "direct",
+        "quote": "Every such $A$ factors as $A=E_1\\Pi E_2$, where $E_1,E_2$ are invertible lower triangular and $\\Pi$ has exactly $a$ ones, at most one per row and column"
+      },
+      {
+        "symbol": "i",
+        "name": "row index",
+        "meaning": "The row of a one of Pi.",
+        "relation": "direct",
+        "quote": "Each one of $\\Pi$, in row $i$ and column $j$, calls for $H_i\\gets H_i+D_j$."
+      },
+      {
+        "symbol": "j",
+        "name": "column index",
+        "meaning": "The column of a one of Pi.",
+        "relation": "direct",
+        "quote": "Each one of $\\Pi$, in row $i$ and column $j$, calls for $H_i\\gets H_i+D_j$."
+      },
+      {
+        "symbol": "h",
+        "name": "value of H_i",
+        "meaning": "The initial value of the field H_i.",
+        "relation": "direct",
+        "quote": "If $H_i=h$ and $D_j=d$, the pair becomes $(h,d+h)$, then $(d+h,h)$, then $(h+d,d)$."
+      },
+      {
+        "symbol": "d",
+        "name": "value of D_j",
+        "meaning": "The initial value of the field D_j.",
+        "relation": "direct",
+        "quote": "If $H_i=h$ and $D_j=d$, the pair becomes $(h,d+h)$, then $(d+h,h)$, then $(h+d,d)$."
+      }
+    ],
+    "multidim-transform": [
+      {
+        "symbol": "d",
+        "name": "number of axes",
+        "meaning": "The number of axes (coordinates) of the array.",
+        "relation": "count",
+        "quote": "Let $d$ be the number of axes and $q_i$ the number of positions along axis $i$, so $\\boldsymbol q=(q_1,\\dots,q_d)$."
+      },
+      {
+        "symbol": "q_i",
+        "name": "axis length",
+        "meaning": "The number of positions along axis i.",
+        "relation": "count",
+        "quote": "Let $d$ be the number of axes and $q_i$ the number of positions along axis $i$, so $\\boldsymbol q=(q_1,\\dots,q_d)$."
+      },
+      {
+        "symbol": "N",
+        "name": "number of entries",
+        "meaning": "The number of entries of the array, the product of the axis lengths.",
+        "relation": "count",
+        "quote": "Let $N=\\prod_i q_i$ be the number of entries."
+      }
+    ],
+    "multiplication-algorithm": [
+      {
+        "symbol": "b",
+        "name": "digit width",
+        "meaning": "The number of bits in each radix digit, $\\lceil\\log_2 n\\rceil$.",
+        "relation": "count",
+        "quote": "Here $b=\\lceil\\log_2 n\\rceil$ is the digit width in bits and $p=6b$ is the number of fractional bits kept."
+      },
+      {
+        "symbol": "p",
+        "name": "precision",
+        "meaning": "The number of fractional bits kept, $6b$.",
+        "relation": "count",
+        "quote": "Here $b=\\lceil\\log_2 n\\rceil$ is the digit width in bits and $p=6b$ is the number of fractional bits kept."
+      },
+      {
+        "symbol": "s_i",
+        "name": "prime axis length",
+        "meaning": "The length of the i-th prime axis; their product is S.",
+        "relation": "direct",
+        "quote": "Axis lengths are primes $s_i$ with product $S$, and padded lengths $t_i$ with product $T$."
+      },
+      {
+        "symbol": "S",
+        "name": "cyclic length",
+        "meaning": "The product of the prime axis lengths, the length of the cyclic convolution.",
+        "relation": "direct",
+        "quote": "Axis lengths are primes $s_i$ with product $S$, and padded lengths $t_i$ with product $T$."
+      },
+      {
+        "symbol": "t_i",
+        "name": "padded axis length",
+        "meaning": "The padded power-of-two length of the i-th axis; their product is T.",
+        "relation": "direct",
+        "quote": "Axis lengths are primes $s_i$ with product $S$, and padded lengths $t_i$ with product $T$."
+      },
+      {
+        "symbol": "T",
+        "name": "padded size",
+        "meaning": "The product of the padded axis lengths.",
+        "relation": "direct",
+        "quote": "Axis lengths are primes $s_i$ with product $S$, and padded lengths $t_i$ with product $T$."
+      },
+      {
+        "symbol": "q",
+        "name": "digit count",
+        "meaning": "The number of radix-$2^b$ digits of each input, $\\lceil n/b\\rceil$.",
+        "relation": "count",
+        "quote": "Each input splits into $q=\\lceil n/b\\rceil$ radix-$2^b$ digits $a_j$, and the product is their convolution modulo $x^S-1$, as in [Multiplication as radix-digit convolution](radix-digit-reduction.md)."
+      },
+      {
+        "symbol": "a_j",
+        "name": "radix digit",
+        "meaning": "The j-th radix-$2^b$ digit of an input.",
+        "relation": "direct",
+        "quote": "Each input splits into $q=\\lceil n/b\\rceil$ radix-$2^b$ digits $a_j$, and the product is their convolution modulo $x^S-1$, as in [Multiplication as radix-digit convolution](radix-digit-reduction.md)."
+      },
+      {
+        "symbol": "\\widetilde a",
+        "name": "stored chirp",
+        "meaning": "The stored approximation of the chirp array a.",
+        "relation": "direct",
+        "quote": "With $\\widetilde a$ the approximation of $a$ and $Q_p$ truncation to $p$ fractional bits, the computed version forms $x_0=Q_p(\\overline{\\widetilde a}\\cdot x)$, the data operand after the first endpoint phase."
+      },
+      {
+        "symbol": "\\gamma",
+        "name": "scale exponent",
+        "meaning": "The number of zero bits appended to each word by the exact scale $2^\\gamma$.",
+        "relation": "count",
+        "quote": "The source transform $\\widetilde{\\mathscr F}$ applies the [Gaussian resampling](gaussian-resampling.md) map $\\mathcal A$, then $\\widetilde{\\mathscr C}$, then the resampling map $\\mathcal B_0$, then multiplies exactly by $2^\\gamma$, where $\\gamma$ counts the zero bits appended to each word."
+      }
+    ],
+    "phase-frames": [
+      {
+        "symbol": "m",
+        "name": "address length",
+        "meaning": "The number of binary coordinates of an address.",
+        "relation": "count",
+        "quote": "Here $m$ is the number of binary coordinates of an address $x$, and a label $U$ is a subspace of $\\mathbb F_2^m$."
+      },
+      {
+        "symbol": "U",
+        "name": "label",
+        "meaning": "A subspace of the binary address space.",
+        "relation": "direct",
+        "quote": "Here $m$ is the number of binary coordinates of an address $x$, and a label $U$ is a subspace of $\\mathbb F_2^m$."
+      },
+      {
+        "symbol": "W_{\\rm c}",
+        "name": "complex wire count",
+        "meaning": "The number of wires of the complex network.",
+        "relation": "count",
+        "quote": "Here $W_{\\rm c}$ is the number of wires of the complex network, and $N$, $L_{\\rm c}$ are constants of the labels page."
+      },
+      {
+        "symbol": "k",
+        "name": "column count",
+        "meaning": "The number of columns, parallel copies of the array.",
+        "relation": "count",
+        "quote": "For $k$ columns, let $Z_{a,k}$ be $Z$ on those 27 coordinates in every column."
+      }
+    ],
+    "phase-kernel": [
+      {
+        "symbol": "X",
+        "name": "bit flip",
+        "meaning": "The 2x2 matrix that swaps the two entries of a pair.",
+        "relation": "direct",
+        "quote": "Let $X=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$ be the bit flip, which swaps the two entries of a pair $(u,v)$."
+      },
+      {
+        "symbol": "a",
+        "name": "kernel coefficient a",
+        "meaning": "The complex constant (1+i)/2, the coefficient of I in C.",
+        "relation": "direct",
+        "quote": "Let $a=\\frac{1+i}{2}$ and $b=\\frac{1-i}{2}$ be two complex constants."
+      },
+      {
+        "symbol": "b",
+        "name": "kernel coefficient b",
+        "meaning": "The complex constant (1-i)/2, the coefficient of X in C.",
+        "relation": "direct",
+        "quote": "Let $a=\\frac{1+i}{2}$ and $b=\\frac{1-i}{2}$ be two complex constants."
+      },
+      {
+        "symbol": "C",
+        "name": "two-point kernel",
+        "meaning": "The matrix aI + bX, a square root of the bit flip.",
+        "relation": "direct",
+        "quote": "The kernel is $C=aI+bX$, where $I$ is the $2\\times 2$ identity."
+      },
+      {
+        "symbol": "\\mathsf S",
+        "name": "phase matrix",
+        "meaning": "The diagonal matrix diag(1, i) that multiplies the second entry of a pair by i.",
+        "relation": "direct",
+        "quote": "Let $\\mathsf S=\\operatorname{diag}(1,i)$ be the phase matrix that multiplies the second entry of a pair by $i$."
+      },
+      {
+        "symbol": "H_0",
+        "name": "butterfly matrix",
+        "meaning": "The matrix of the averaging and differencing step (u,v) -> ((u+v)/2, (u-v)/2).",
+        "relation": "direct",
+        "quote": "Let $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ be the matrix of the averaging and differencing step $(u,v)\\mapsto\\bigl(\\tfrac{u+v}{2},\\tfrac{u-v}{2}\\bigr)$."
       }
     ],
     "phase-twist": [
@@ -1501,6 +2253,92 @@
         "meaning": "The composite D_-\\iota^{-1}\\mathcal M_r(\\iota D_+ f,\\iota D_+ g), equal to f*g/T.",
         "relation": "direct",
         "quote": "Call the composite $\\mathcal M_{\\mathbb C}$, the normalized complex cyclic convolution:"
+      }
+    ],
+    "precision-recovery": [
+      {
+        "symbol": "b",
+        "name": "digit width",
+        "meaning": "The number of bits in a radix digit.",
+        "relation": "count",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "p",
+        "name": "fractional bits",
+        "meaning": "The number of fractional bits of the fixed-point grid, equal to $6b$.",
+        "relation": "count",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "T",
+        "name": "padded array size",
+        "meaning": "The number of records in the padded array.",
+        "relation": "count",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "S",
+        "name": "convolution length",
+        "meaning": "The length of the cyclic convolution.",
+        "relation": "count",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "L",
+        "name": "log of T",
+        "meaning": "The base-2 logarithm of $T$.",
+        "relation": "direct",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "\\gamma",
+        "name": "source scale exponent",
+        "meaning": "The exponent of the source-transform scale $2^\\gamma$.",
+        "relation": "direct",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "d",
+        "name": "axis count",
+        "meaning": "The number of transform axes.",
+        "relation": "count",
+        "quote": "Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\\le T$ the convolution length, $L=\\log_2T,$ $\\gamma$ the source scale exponent, $d$ the axis count."
+      },
+      {
+        "symbol": "h_p",
+        "name": "grid step",
+        "meaning": "The grid step $2^{-p}$.",
+        "relation": "direct",
+        "quote": "Use $h_p=2^{-p}$ and the sup norm throughout; an error of $a$ means error less than $ah_p.$"
+      },
+      {
+        "symbol": "\\ell",
+        "name": "log of r",
+        "meaning": "The base-2 logarithm of the record length $r$.",
+        "relation": "direct",
+        "quote": "Each synthetic transform has error less than $\\sqrt2\\ell\\,2^{-p}<L2^{-p}$ with $L=\\log_2T,$ where $\\ell=\\log_2r.$"
+      },
+      {
+        "symbol": "M",
+        "name": "ring record count",
+        "meaning": "The ratio $T/r$, the number of ring records.",
+        "relation": "direct",
+        "quote": "With $M=T/r$ the ring record count, the ring convolution error is $E_{\\rm ring}:=M(3L+2)<5TL,$ and its output has norm below $.701$ when one operand has norm at most $.7.$"
+      },
+      {
+        "symbol": "q",
+        "name": "digit count",
+        "meaning": "The number of radix digits of an $n$-bit input.",
+        "relation": "count",
+        "quote": "We recover the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), which satisfy $c_j\\le q(2^b-1)^2,$ with $q=\\lceil n/b\\rceil$ the digits in an $n$-bit input."
+      },
+      {
+        "symbol": "Q_0",
+        "name": "radix",
+        "meaning": "The radix $2^b$ of the digits.",
+        "relation": "direct",
+        "quote": "The carries obey $k_0=0,$ $d_j=(c_j+k_j)\\bmod Q_0,$ $k_{j+1}=\\lfloor(c_j+k_j)/Q_0\\rfloor$ with $Q_0=2^b.$"
       }
     ],
     "radix-digit-reduction": [
@@ -1582,6 +2420,150 @@
         "quote": "Let $c_j=\\sum_{i+k=j}u_iv_k$ be the coefficient of $x^j$ in that product."
       }
     ],
+    "retained-permutations": [
+      {
+        "symbol": "d",
+        "name": "number of axes",
+        "meaning": "The number of coordinate axes.",
+        "relation": "count",
+        "quote": "Take $d$ axes with pairwise coprime prime lengths $s_i$ and power-of-two lengths $t_i>s_i$."
+      },
+      {
+        "symbol": "s_i",
+        "name": "prime length",
+        "meaning": "The prime length of axis i.",
+        "relation": "direct",
+        "quote": "Take $d$ axes with pairwise coprime prime lengths $s_i$ and power-of-two lengths $t_i>s_i$."
+      },
+      {
+        "symbol": "t_i",
+        "name": "power-of-two length",
+        "meaning": "The power-of-two length of axis i.",
+        "relation": "direct",
+        "quote": "Take $d$ axes with pairwise coprime prime lengths $s_i$ and power-of-two lengths $t_i>s_i$."
+      },
+      {
+        "symbol": "S",
+        "name": "product of prime lengths",
+        "meaning": "The product of the prime lengths.",
+        "relation": "direct",
+        "quote": "Let $F_{\\boldsymbol q}=\\bigotimes_iF_{q_i}$ be the normalized [discrete Fourier transform](dft.md) along every axis, $F_{\\boldsymbol q}^+$ its opposite, $S=\\prod_is_i$ and $T=\\prod_it_i$."
+      },
+      {
+        "symbol": "T",
+        "name": "padded box size",
+        "meaning": "The number of entries in the padded box, the product of the power-of-two lengths.",
+        "relation": "count",
+        "quote": "Let $F_{\\boldsymbol q}=\\bigotimes_iF_{q_i}$ be the normalized [discrete Fourier transform](dft.md) along every axis, $F_{\\boldsymbol q}^+$ its opposite, $S=\\prod_is_i$ and $T=\\prod_it_i$."
+      },
+      {
+        "symbol": "p",
+        "name": "bit precision",
+        "meaning": "The number of bits of precision of each coordinate.",
+        "relation": "count",
+        "quote": "Let $p$ be the bit precision of each coordinate, $\\alpha$ an integer width of the Gaussian weights, and $\\delta$ a fixed exponent."
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "Gaussian width",
+        "meaning": "An integer width parameter of the Gaussian weights.",
+        "relation": "direct",
+        "quote": "Let $p$ be the bit precision of each coordinate, $\\alpha$ an integer width of the Gaussian weights, and $\\delta$ a fixed exponent."
+      },
+      {
+        "symbol": "\\delta",
+        "name": "time exponent",
+        "meaning": "A fixed exponent in the time bound.",
+        "relation": "direct",
+        "quote": "Let $p$ be the bit precision of each coordinate, $\\alpha$ an integer width of the Gaussian weights, and $\\delta$ a fixed exponent."
+      },
+      {
+        "symbol": "R",
+        "name": "source permutation",
+        "meaning": "The source coordinate permutation, tensor product of the one-axis permutations P_{s_i}.",
+        "relation": "direct",
+        "quote": "Tensoring over the axes, put $R=\\bigotimes_iP_{s_i}$, $Q=\\bigotimes_iP_{t_i}$, $\\mathcal A=\\bigotimes_iA_i$, $\\mathcal B_0=\\bigotimes_iB_{0,i}$."
+      },
+      {
+        "symbol": "Q",
+        "name": "target permutation",
+        "meaning": "The target coordinate permutation, tensor product of the one-axis permutations P_{t_i}.",
+        "relation": "direct",
+        "quote": "Tensoring over the axes, put $R=\\bigotimes_iP_{s_i}$, $Q=\\bigotimes_iP_{t_i}$, $\\mathcal A=\\bigotimes_iA_i$, $\\mathcal B_0=\\bigotimes_iB_{0,i}$."
+      },
+      {
+        "symbol": "w",
+        "name": "chunk width",
+        "meaning": "The width in bits of the chunks swapped.",
+        "relation": "count",
+        "quote": "Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), which swaps chunks of $w$ bits within $V$ bits in $O(Vw^\\tau)$ time for a fixed $\\tau<1$."
+      },
+      {
+        "symbol": "V",
+        "name": "total bits",
+        "meaning": "The total number of bits within which chunks are swapped.",
+        "relation": "count",
+        "quote": "Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), which swaps chunks of $w$ bits within $V$ bits in $O(Vw^\\tau)$ time for a fixed $\\tau<1$."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "chunk-swap exponent",
+        "meaning": "The fixed exponent below 1 in the chunk-swap time bound.",
+        "relation": "direct",
+        "quote": "Exposing each axis as the innermost field uses the [fast address-chunk interchange](address-interchange.md), which swaps chunks of $w$ bits within $V$ bits in $O(Vw^\\tau)$ time for a fixed $\\tau<1$."
+      }
+    ],
+    "ring-convolution": [
+      {
+        "symbol": "M",
+        "name": "number of records",
+        "meaning": "The number of polynomial records, one per cyclic address of the remaining axes.",
+        "relation": "count",
+        "quote": "Let $M=\\prod_i t_i$ be the number of records, $T=rM$ the number of complex coefficients, and $*$ cyclic convolution."
+      },
+      {
+        "symbol": "T",
+        "name": "number of coefficients",
+        "meaning": "The number of complex coefficients in an array, T = rM.",
+        "relation": "count",
+        "quote": "Let $M=\\prod_i t_i$ be the number of records, $T=rM$ the number of complex coefficients, and $*$ cyclic convolution."
+      },
+      {
+        "symbol": "\\ell",
+        "name": "log of record length",
+        "meaning": "The base-2 logarithm of the record length r.",
+        "relation": "direct",
+        "quote": "Each transform costs $O(Tp[dK+pK^{\\tau-1}+\\ell d^{\\lambda'}])$, where $\\ell=\\log_2r$, $K$ is the layout chunk width, and $\\tau,\\lambda'$ are exponents from the cost lemma."
+      },
+      {
+        "symbol": "K",
+        "name": "layout chunk width",
+        "meaning": "The width of the address chunks used by the tape layout.",
+        "relation": "direct",
+        "quote": "Each transform costs $O(Tp[dK+pK^{\\tau-1}+\\ell d^{\\lambda'}])$, where $\\ell=\\log_2r$, $K$ is the layout chunk width, and $\\tau,\\lambda'$ are exponents from the cost lemma."
+      },
+      {
+        "symbol": "P",
+        "name": "pointwise product",
+        "meaning": "The pointwise product of records, P(u,v) = uv/r.",
+        "relation": "direct",
+        "quote": "Write $P(u,v)=uv/r$ for the pointwise product."
+      },
+      {
+        "symbol": "\\delta",
+        "name": "transform error",
+        "meaning": "The error bound sqrt2 * l * 2^{-p} for each forward transform.",
+        "relation": "direct",
+        "quote": "Put $\\delta=\\sqrt2\\ell\\,2^{-p}$ for each forward transform error and $\\eta=\\sqrt2\\,2^{-p}$ for one truncation."
+      },
+      {
+        "symbol": "\\eta",
+        "name": "truncation error",
+        "meaning": "The error bound sqrt2 * 2^{-p} for one truncation.",
+        "relation": "direct",
+        "quote": "Put $\\delta=\\sqrt2\\ell\\,2^{-p}$ for each forward transform error and $\\eta=\\sqrt2\\,2^{-p}$ for one truncation."
+      }
+    ],
     "ring-y": [
       {
         "symbol": "y",
@@ -1596,6 +2578,36 @@
         "meaning": "The number of complex coefficients in a polynomial of the ring, always a power of two.",
         "relation": "count",
         "quote": "Write $\\mathcal R_r=\\mathbb C[y]/(y^r+1)$ for it, where $y$ is the ring variable, the indeterminate of the polynomials, and $r$ is the record length, the number of complex coefficients in a polynomial of the ring, always a power of two with $r\\geq 2$."
+      }
+    ],
+    "signed-packing": [
+      {
+        "symbol": "p",
+        "name": "precision bits",
+        "meaning": "The number of fractional bits in each coefficient component.",
+        "relation": "count",
+        "quote": "Let $p$ be the number of fractional bits in each coefficient component, with $r<2^p$."
+      },
+      {
+        "symbol": "B_0",
+        "name": "packing base",
+        "meaning": "The power of two $2^{4p}$ at which the polynomials are evaluated.",
+        "relation": "direct",
+        "quote": "Set $B_0=2^{4p}$, the packing base."
+      },
+      {
+        "symbol": "A_u",
+        "name": "evaluation integer",
+        "meaning": "The signed integer obtained by evaluating the polynomial u at B_0.",
+        "relation": "direct",
+        "quote": "For $u\\in\\{a,b,c,e\\}$ let $A_u=u(B_0)=\\sum_{j=0}^{r-1}u_jB_0^j$ be the signed evaluation integer."
+      },
+      {
+        "symbol": "H_j",
+        "name": "numerator coefficient",
+        "meaning": "The Gaussian integer coefficient of y^j after reduction modulo y^r+1.",
+        "relation": "direct",
+        "quote": "Let $H_j$ be the resulting Gaussian integer coefficient of $y^j$."
       }
     ],
     "stream-ops": [
@@ -1636,6 +2648,134 @@
         "relation": "direct",
         "quote": "Define $\\omega_t=y^{2r/t}$"
       }
+    ],
+    "transform-layout": [
+      {
+        "symbol": "\\ell",
+        "name": "address bits per record",
+        "meaning": "The number of address bits within a record, log base 2 of r.",
+        "relation": "count",
+        "quote": "Let $\\ell=\\log_2 r$ be the number of address bits within a record."
+      },
+      {
+        "symbol": "D",
+        "name": "number of axes",
+        "meaning": "The number of axes, d-1.",
+        "relation": "count",
+        "quote": "The $D=d-1$ axes have lengths $t_i\\in\\{2^{\\ell-1},2^\\ell\\}$, where $d$ is a size parameter with $d\\ell=O(p)$."
+      },
+      {
+        "symbol": "d",
+        "name": "size parameter",
+        "meaning": "A size parameter one more than the number of axes, with d times ell of order p.",
+        "relation": "direct",
+        "quote": "The $D=d-1$ axes have lengths $t_i\\in\\{2^{\\ell-1},2^\\ell\\}$, where $d$ is a size parameter with $d\\ell=O(p)$."
+      },
+      {
+        "symbol": "t_i",
+        "name": "axis length",
+        "meaning": "The length of axis i, either 2^(ell-1) or 2^ell.",
+        "relation": "direct",
+        "quote": "The $D=d-1$ axes have lengths $t_i\\in\\{2^{\\ell-1},2^\\ell\\}$, where $d$ is a size parameter with $d\\ell=O(p)$."
+      },
+      {
+        "symbol": "M",
+        "name": "record count",
+        "meaning": "The number of polynomial records, the product of the axis lengths.",
+        "relation": "count",
+        "quote": "$M$, the product of the $t_i$, is the number of records and $T=rM$ the number of complex coefficients."
+      },
+      {
+        "symbol": "T",
+        "name": "coefficient count",
+        "meaning": "The number of complex coefficients, r times M.",
+        "relation": "count",
+        "quote": "$M$, the product of the $t_i$, is the number of records and $T=rM$ the number of complex coefficients."
+      },
+      {
+        "symbol": "p",
+        "name": "precision",
+        "meaning": "The precision in bits: coefficient parts are multiples of 2^-p.",
+        "relation": "direct",
+        "quote": "Coefficients are [fixed-point Gaussian dyadic records](fixed-point.md) with parts multiples of $2^{-p}$, where $p$ is the precision in bits."
+      },
+      {
+        "symbol": "K",
+        "name": "chunk width",
+        "meaning": "The width in bits of an address chunk.",
+        "relation": "direct",
+        "quote": "Chunks are $K$ bits wide, $1\\le K\\le\\ell-1$."
+      },
+      {
+        "symbol": "\\tau",
+        "name": "interchange exponent",
+        "meaning": "The fixed exponent below 1 in the cost of chunk interchange.",
+        "relation": "direct",
+        "quote": "The fixed exponents $\\tau,\\lambda'<1$ are those of chunk interchange and the layer."
+      },
+      {
+        "symbol": "\\lambda'",
+        "name": "layer exponent",
+        "meaning": "The fixed exponent below 1 in the cost of the simultaneous layer.",
+        "relation": "direct",
+        "quote": "The fixed exponents $\\tau,\\lambda'<1$ are those of chunk interchange and the layer."
+      },
+      {
+        "symbol": "B",
+        "name": "bit reversal",
+        "meaning": "The bit-reversal order in which forward outputs are written.",
+        "relation": "direct",
+        "quote": "Outputs come in bit-reversal order $B$, which the pointwise product keeps."
+      },
+      {
+        "symbol": "L",
+        "name": "layout permutation",
+        "meaning": "The permutation of records built by the prefix moves and chunk exchanges.",
+        "relation": "direct",
+        "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
+      },
+      {
+        "symbol": "j",
+        "name": "frequency address",
+        "meaning": "A frequency address of an output entry.",
+        "relation": "direct",
+        "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
+      },
+      {
+        "symbol": "b",
+        "name": "low-bit remainder",
+        "meaning": "(ell-1) mod K, the number of low bits per axis beyond whole chunks.",
+        "relation": "direct",
+        "quote": "Call an axis long if it has $\\ell$ address bits and short if $\\ell-1$; put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$."
+      },
+      {
+        "symbol": "q",
+        "name": "chunks per axis",
+        "meaning": "The number of whole K-bit chunks in ell-1 bits.",
+        "relation": "count",
+        "quote": "Call an axis long if it has $\\ell$ address bits and short if $\\ell-1$; put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$."
+      },
+      {
+        "symbol": "\\mathcal H",
+        "name": "round contraction",
+        "meaning": "The contraction applied by one round.",
+        "relation": "direct",
+        "quote": "Each round applies a contraction $\\mathcal H$ and a signed coefficient permutation $J_E$, then truncates with $Q_p$ toward zero."
+      },
+      {
+        "symbol": "J_E",
+        "name": "signed permutation",
+        "meaning": "The signed coefficient permutation applied in a round.",
+        "relation": "direct",
+        "quote": "Each round applies a contraction $\\mathcal H$ and a signed coefficient permutation $J_E$, then truncates with $Q_p$ toward zero."
+      },
+      {
+        "symbol": "Q_p",
+        "name": "truncation",
+        "meaning": "Truncation toward zero of real and imaginary parts to the 2^-p grid.",
+        "relation": "direct",
+        "quote": "Each round applies a contraction $\\mathcal H$ and a signed coefficient permutation $J_E$, then truncates with $Q_p$ toward zero."
+      }
     ]
   },
   "relations": {
@@ -1653,6 +2793,18 @@
         "quote": "Repeated over the address bits of an array, with twiddle multiplications between layers, it computes the [Discrete Fourier transform](dft.md) of an array in $\\log_2 t$ layers instead of $t^2$ operations."
       }
     ],
+    "chirp": [
+      {
+        "prerequisite": "dft",
+        "predicate": "rewrites",
+        "quote": "The Bluestein chirp identity rewrites a permuted [Discrete Fourier transform](dft.md) as a pointwise chirp phase, a [cyclic convolution](convolution.md), and another chirp phase, so the target permutation of resampling is absorbed into the convolution and never executed as a sort."
+      },
+      {
+        "prerequisite": "convolution",
+        "predicate": "is reduced to",
+        "quote": "The permuted transform is thus reduced to one [Cyclic convolution](convolution.md) of length $T$ between two pointwise phase multiplications."
+      }
+    ],
     "conjecture": [
       {
         "prerequisite": "machine-model",
@@ -1665,6 +2817,40 @@
         "prerequisite": "stream-ops",
         "predicate": "is carried out by",
         "quote": "Each update is carried out by splitting into streams and merging back, as in [Elementary stream operations](stream-ops.md)."
+      }
+    ],
+    "cost-accounting": [
+      {
+        "prerequisite": "multiplication-algorithm",
+        "predicate": "totals the running time of",
+        "quote": "Cost accounting totals the running time of every step of [The multiplication algorithm](multiplication-algorithm.md) and shows that it is $O(n(\\lg n)^{1-\\kappa})$, where $\\kappa=2^{-182}$ is the saved exponent."
+      },
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "bounds each cost in",
+        "quote": "The layout needs $O(p/K)$ chunk exchanges, since $d\\ell=O(p)$, each cost bounded by $O(VK^\\tau)$ in [Fast address-chunk interchange](address-interchange.md), so the normalized total is $O(p/K)K^\\tau=O(pK^{\\tau-1})$."
+      },
+      {
+        "prerequisite": "simultaneous-layer",
+        "predicate": "bounds rounds in",
+        "quote": "Each of at most $\\ell$ rounds is bounded by $O(Vd^{\\lambda'})$ in [Simultaneous butterfly layer](simultaneous-layer.md)."
+      }
+    ],
+    "crt-map": [
+      {
+        "prerequisite": "convolution",
+        "predicate": "preserves",
+        "quote": "Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md), because multiplication in each ring is cyclic convolution of coefficients."
+      },
+      {
+        "prerequisite": "multidim-transform",
+        "predicate": "prepares",
+        "quote": "This prepares [Multidimensional transforms](multidim-transform.md)."
+      },
+      {
+        "prerequisite": "controlled-shifts",
+        "predicate": "is implemented by",
+        "quote": "The map is implemented by these shifts, each of linear cost by [Controlled shifts and rational scalings](controlled-shifts.md)."
       }
     ],
     "dft": [
@@ -1681,11 +2867,122 @@
         "quote": "A record is laid out on the tapes of the [Fixed finite-tape machine model](machine-model.md) as $2r$ consecutive fixed-width integers, so it is read and moved by ordinary tape scans."
       }
     ],
+    "frequency-order": [
+      {
+        "prerequisite": "synthetic-transform",
+        "predicate": "orders the outputs of",
+        "quote": "It orders the outputs of the [synthetic polynomial transform](synthetic-transform.md) $F_t^-$ over $\\mathcal R_r$, where $t$ is the transform length and $a=\\log_2t$ the number of rounds."
+      }
+    ],
+    "gaussian-resampling": [
+      {
+        "prerequisite": "dft",
+        "predicate": "expresses",
+        "quote": "Here $F_q$ is the normalised [Discrete Fourier transform](dft.md) of length $q$, and the resampling expresses $F_s$ through $F_t$."
+      },
+      {
+        "prerequisite": "multidim-transform",
+        "predicate": "reduces to",
+        "quote": "The resampling reduces $F_s$ to a power-of-two $F_t$, which is a [Multidimensional transforms](multidim-transform.md) over short axes."
+      }
+    ],
     "hvdh-multiplier": [
       {
         "prerequisite": "machine-model",
         "predicate": "runs in",
         "quote": "The multiplier runs in the [Fixed finite-tape machine model](machine-model.md): a Turing machine with a fixed alphabet and a fixed number of one-dimensional tapes."
+      }
+    ],
+    "main-result": [
+      {
+        "prerequisite": "conjecture",
+        "predicate": "refutes",
+        "quote": "Power-saving integer multiplication is the main result: for $n$, the number of bits in each input, and $\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$, a fixed Turing machine multiplies two $n$-bit integers exactly in time $O(n(\\lg n)^{1-\\kappa})$, which is $o(n\\log n)$, so it refutes the [Schönhage–Strassen optimality conjecture](conjecture.md) in this model."
+      },
+      {
+        "prerequisite": "multiplication-algorithm",
+        "predicate": "follows from",
+        "quote": "The exact $2n$-bit product follows from radix digits, the Chinese-remainder address map, two forward transforms, a pointwise product, the opposite transform, rescaling, rounding and carry propagation, with total error below $1/2$, as set out in [The multiplication algorithm](multiplication-algorithm.md)."
+      },
+      {
+        "prerequisite": "cost-accounting",
+        "predicate": "is bounded by",
+        "quote": "This slack also covers any fixed power of $\\log p$, so the total time is bounded by $O(n(\\lg n)^{1-\\kappa})$, as [Cost accounting and the exponent κ](cost-accounting.md) shows."
+      }
+    ],
+    "matrix-shear": [
+      {
+        "prerequisite": "controlled-shifts",
+        "predicate": "is carried out by",
+        "quote": "A lower triangular transformation of $H$ or of $D$ is carried out by [controlled shifts and rational scalings](controlled-shifts.md): update coordinates in descending physical order, each by a unit scaling and a fixed combination of earlier coordinates."
+      }
+    ],
+    "multidim-transform": [
+      {
+        "prerequisite": "dft",
+        "predicate": "is a tensor product of",
+        "quote": "Each factor is a one-dimensional [Discrete Fourier transform](dft.md), so $F_{\\boldsymbol q}$ is a tensor product of them:"
+      },
+      {
+        "prerequisite": "butterfly",
+        "predicate": "computes its line transforms by",
+        "quote": "Each line transform is computed by the [Butterflies and the fast transform](butterfly.md) in $O(q_i\\log q_i)$ operations."
+      }
+    ],
+    "multiplication-algorithm": [
+      {
+        "prerequisite": "radix-digit-reduction",
+        "predicate": "splits inputs into digits as in",
+        "quote": "Each input splits into $q=\\lceil n/b\\rceil$ radix-$2^b$ digits $a_j$, and the product is their convolution modulo $x^S-1$, as in [Multiplication as radix-digit convolution](radix-digit-reduction.md)."
+      },
+      {
+        "prerequisite": "crt-map",
+        "predicate": "addresses the convolution by",
+        "quote": "The convolution is addressed on the prime axes by the [Chinese-remainder address map](crt-map.md) $\\Phi$."
+      },
+      {
+        "prerequisite": "retained-permutations",
+        "predicate": "never executes a sort, by",
+        "quote": "By [Retained permutation cancellation](retained-permutations.md), $R$ is never executed as a sort and the counterpart after the three transforms is $(u*v)/S^2$."
+      },
+      {
+        "prerequisite": "phase-twist",
+        "predicate": "is computed through",
+        "quote": "Here $F_{\\boldsymbol t}$ is the transform on the axes $t_i$, and $\\mathcal M_{\\mathbb C}(f,g)=f*g/T$ is computed through the [Phase twist](phase-twist.md) and [Convolution from the retained transform layout](ring-convolution.md)."
+      },
+      {
+        "prerequisite": "ring-convolution",
+        "predicate": "is computed through",
+        "quote": "Here $F_{\\boldsymbol t}$ is the transform on the axes $t_i$, and $\\mathcal M_{\\mathbb C}(f,g)=f*g/T$ is computed through the [Phase twist](phase-twist.md) and [Convolution from the retained transform layout](ring-convolution.md)."
+      },
+      {
+        "prerequisite": "parameter-choice",
+        "predicate": "takes its sizes from",
+        "quote": "It takes its sizes from [Parameter and prime-length choice](parameter-choice.md)."
+      },
+      {
+        "prerequisite": "precision-recovery",
+        "predicate": "is justified by",
+        "quote": "Exactness is justified by [Error tracking and exact recovery](precision-recovery.md): the error on the recovered integer coefficients is below $1/2$."
+      }
+    ],
+    "phase-frames": [
+      {
+        "prerequisite": "subspace-labels",
+        "predicate": "attaches a basis to labels of",
+        "quote": "A binary phase frame attaches to each label of [Nested subspace labels and rank deficit](subspace-labels.md) a basis for arrays of binary addresses, so that the change of basis along an edge is a product of two-point kernels."
+      },
+      {
+        "prerequisite": "phase-kernel",
+        "predicate": "is built as a translate of",
+        "quote": "Each edge factor is built as a translate $aI+bX_v$ of [Two-point kernel C](phase-kernel.md), combining only $f(x)$ and $f(x+v)$, a butterfly-type operation."
+      }
+    ],
+    "phase-kernel": [
+      {
+        "prerequisite": "butterfly",
+        "predicate": "is obtained from",
+        "quote": "The kernel $C$ is obtained from the two-point step of [Butterflies and the fast transform](butterfly.md) by conjugating with $\\mathsf S$ and rescaling:"
       }
     ],
     "phase-twist": [
@@ -1700,11 +2997,64 @@
         "quote": "The twist reproduces [Cyclic convolution](convolution.md) on that axis, because untwisting restores the wrap."
       }
     ],
+    "precision-recovery": [
+      {
+        "prerequisite": "fixed-point",
+        "predicate": "runs on",
+        "quote": "The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md)."
+      },
+      {
+        "prerequisite": "radix-digit-reduction",
+        "predicate": "recovers the coefficients of",
+        "quote": "We recover the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), which satisfy $c_j\\le q(2^b-1)^2,$ with $q=\\lceil n/b\\rceil$ the digits in an $n$-bit input."
+      }
+    ],
     "radix-digit-reduction": [
       {
         "prerequisite": "convolution",
         "predicate": "reduces to",
         "quote": "Multiplication therefore reduces to a [Cyclic convolution](convolution.md) of length $S$ on short integer coefficients."
+      }
+    ],
+    "retained-permutations": [
+      {
+        "prerequisite": "gaussian-resampling",
+        "predicate": "computes prime-length transforms by",
+        "quote": "Each prime-length transform is computed through a power-of-two one by [Gaussian resampling](gaussian-resampling.md)."
+      },
+      {
+        "prerequisite": "chirp",
+        "predicate": "absorbs target permutation by",
+        "quote": "The target permutation $Q$ is absorbed by the [Bluestein chirp identity](chirp.md), which for even $t_i$ and $a_{\\boldsymbol j}=\\exp(-\\pi i\\sum_is_ij_i^2/t_i)$ gives $QF_{\\boldsymbol t}u=\\overline a\\cdot\\bigl(a*(\\overline a\\cdot u)\\bigr)/T$, with $*$ the [cyclic convolution](convolution.md) and a dot coordinatewise multiplication."
+      }
+    ],
+    "ring-convolution": [
+      {
+        "prerequisite": "transform-layout",
+        "predicate": "is laid out as in",
+        "quote": "The transforms are laid out as in [Tape layout for synthetic transforms](transform-layout.md)."
+      },
+      {
+        "prerequisite": "signed-packing",
+        "predicate": "forms record products by",
+        "quote": "Each record product is formed by [Signed packing](signed-packing.md) in $O(rp\\log(rp))$ time, truncated by $Q_p$ to $p$ bits of precision."
+      },
+      {
+        "prerequisite": "frequency-order",
+        "predicate": "keeps the retained order of",
+        "quote": "The procedure keeps the retained order of [Retained frequency order](frequency-order.md), forming the product there and passing it to the opposite transform."
+      }
+    ],
+    "signed-packing": [
+      {
+        "prerequisite": "hvdh-multiplier",
+        "predicate": "computes its integer products by",
+        "quote": "Signed packing computes its integer products by the [Established O(n log n) multiplier](hvdh-multiplier.md)."
+      },
+      {
+        "prerequisite": "ring-y",
+        "predicate": "multiplies polynomials in",
+        "quote": "Signed packing multiplies polynomials in the [Polynomial ring modulo y^r + 1](ring-y.md), $\\mathcal R_r$: take $f,g$ with coefficients $2^{-p}$ times Gaussian integers of modulus at most 1."
       }
     ],
     "stream-ops": [
@@ -1729,6 +3079,28 @@
         "prerequisite": "butterfly",
         "predicate": "is computed by",
         "quote": "As in the complex case, $F_t^-$ is computed by the layered scheme of [Butterflies and the fast transform](butterfly.md) in $\\log_2 t$ layers of two-point averaging and differencing steps."
+      }
+    ],
+    "transform-layout": [
+      {
+        "prerequisite": "synthetic-transform",
+        "predicate": "rearranges the address bits of",
+        "quote": "The tape layout rearranges the address bits of a [synthetic polynomial transform](synthetic-transform.md) and turns each round into one [simultaneous butterfly layer](simultaneous-layer.md)."
+      },
+      {
+        "prerequisite": "simultaneous-layer",
+        "predicate": "turns each round into one",
+        "quote": "The tape layout rearranges the address bits of a [synthetic polynomial transform](synthetic-transform.md) and turns each round into one [simultaneous butterfly layer](simultaneous-layer.md)."
+      },
+      {
+        "prerequisite": "address-interchange",
+        "predicate": "exchanges chunks by",
+        "quote": "Scanning target positions left to right, the layout exchanges chunks by the [fast address-chunk interchange](address-interchange.md), each costing $O(TpK^\\tau)$, to group equal-index chunks."
+      },
+      {
+        "prerequisite": "frequency-order",
+        "predicate": "adds one record permutation to",
+        "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
       }
     ]
   },

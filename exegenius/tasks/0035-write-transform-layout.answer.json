@@ -1,0 +1,158 @@
+{
+ "symbols": [
+  {
+   "symbol": "\\ell",
+   "name": "address bits per record",
+   "meaning": "The number of address bits within a record, log base 2 of r.",
+   "relation": "count",
+   "quote": "Let $\\ell=\\log_2 r$ be the number of address bits within a record."
+  },
+  {
+   "symbol": "D",
+   "name": "number of axes",
+   "meaning": "The number of axes, d-1.",
+   "relation": "count",
+   "quote": "The $D=d-1$ axes have lengths $t_i\\in\\{2^{\\ell-1},2^\\ell\\}$, where $d$ is a size parameter with $d\\ell=O(p)$."
+  },
+  {
+   "symbol": "d",
+   "name": "size parameter",
+   "meaning": "A size parameter one more than the number of axes, with d times ell of order p.",
+   "relation": "direct",
+   "quote": "The $D=d-1$ axes have lengths $t_i\\in\\{2^{\\ell-1},2^\\ell\\}$, where $d$ is a size parameter with $d\\ell=O(p)$."
+  },
+  {
+   "symbol": "t_i",
+   "name": "axis length",
+   "meaning": "The length of axis i, either 2^(ell-1) or 2^ell.",
+   "relation": "direct",
+   "quote": "The $D=d-1$ axes have lengths $t_i\\in\\{2^{\\ell-1},2^\\ell\\}$, where $d$ is a size parameter with $d\\ell=O(p)$."
+  },
+  {
+   "symbol": "M",
+   "name": "record count",
+   "meaning": "The number of polynomial records, the product of the axis lengths.",
+   "relation": "count",
+   "quote": "$M$, the product of the $t_i$, is the number of records and $T=rM$ the number of complex coefficients."
+  },
+  {
+   "symbol": "T",
+   "name": "coefficient count",
+   "meaning": "The number of complex coefficients, r times M.",
+   "relation": "count",
+   "quote": "$M$, the product of the $t_i$, is the number of records and $T=rM$ the number of complex coefficients."
+  },
+  {
+   "symbol": "p",
+   "name": "precision",
+   "meaning": "The precision in bits: coefficient parts are multiples of 2^-p.",
+   "relation": "direct",
+   "quote": "Coefficients are [fixed-point Gaussian dyadic records](fixed-point.md) with parts multiples of $2^{-p}$, where $p$ is the precision in bits."
+  },
+  {
+   "symbol": "K",
+   "name": "chunk width",
+   "meaning": "The width in bits of an address chunk.",
+   "relation": "direct",
+   "quote": "Chunks are $K$ bits wide, $1\\le K\\le\\ell-1$."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "The fixed exponent below 1 in the cost of chunk interchange.",
+   "relation": "direct",
+   "quote": "The fixed exponents $\\tau,\\lambda'<1$ are those of chunk interchange and the layer."
+  },
+  {
+   "symbol": "\\lambda'",
+   "name": "layer exponent",
+   "meaning": "The fixed exponent below 1 in the cost of the simultaneous layer.",
+   "relation": "direct",
+   "quote": "The fixed exponents $\\tau,\\lambda'<1$ are those of chunk interchange and the layer."
+  },
+  {
+   "symbol": "B",
+   "name": "bit reversal",
+   "meaning": "The bit-reversal order in which forward outputs are written.",
+   "relation": "direct",
+   "quote": "Outputs come in bit-reversal order $B$, which the pointwise product keeps."
+  },
+  {
+   "symbol": "L",
+   "name": "layout permutation",
+   "meaning": "The permutation of records built by the prefix moves and chunk exchanges.",
+   "relation": "direct",
+   "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
+  },
+  {
+   "symbol": "j",
+   "name": "frequency address",
+   "meaning": "A frequency address of an output entry.",
+   "relation": "direct",
+   "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
+  },
+  {
+   "symbol": "b",
+   "name": "low-bit remainder",
+   "meaning": "(ell-1) mod K, the number of low bits per axis beyond whole chunks.",
+   "relation": "direct",
+   "quote": "Call an axis long if it has $\\ell$ address bits and short if $\\ell-1$; put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$."
+  },
+  {
+   "symbol": "q",
+   "name": "chunks per axis",
+   "meaning": "The number of whole K-bit chunks in ell-1 bits.",
+   "relation": "count",
+   "quote": "Call an axis long if it has $\\ell$ address bits and short if $\\ell-1$; put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$."
+  },
+  {
+   "symbol": "\\mathcal H",
+   "name": "round contraction",
+   "meaning": "The contraction applied by one round.",
+   "relation": "direct",
+   "quote": "Each round applies a contraction $\\mathcal H$ and a signed coefficient permutation $J_E$, then truncates with $Q_p$ toward zero."
+  },
+  {
+   "symbol": "J_E",
+   "name": "signed permutation",
+   "meaning": "The signed coefficient permutation applied in a round.",
+   "relation": "direct",
+   "quote": "Each round applies a contraction $\\mathcal H$ and a signed coefficient permutation $J_E$, then truncates with $Q_p$ toward zero."
+  },
+  {
+   "symbol": "Q_p",
+   "name": "truncation",
+   "meaning": "Truncation toward zero of real and imaginary parts to the 2^-p grid.",
+   "relation": "direct",
+   "quote": "Each round applies a contraction $\\mathcal H$ and a signed coefficient permutation $J_E$, then truncates with $Q_p$ toward zero."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "synthetic-transform",
+   "predicate": "rearranges the address bits of",
+   "quote": "The tape layout rearranges the address bits of a [synthetic polynomial transform](synthetic-transform.md) and turns each round into one [simultaneous butterfly layer](simultaneous-layer.md)."
+  },
+  {
+   "prerequisite": "simultaneous-layer",
+   "predicate": "turns each round into one",
+   "quote": "The tape layout rearranges the address bits of a [synthetic polynomial transform](synthetic-transform.md) and turns each round into one [simultaneous butterfly layer](simultaneous-layer.md)."
+  },
+  {
+   "prerequisite": "address-interchange",
+   "predicate": "exchanges chunks by",
+   "quote": "Scanning target positions left to right, the layout exchanges chunks by the [fast address-chunk interchange](address-interchange.md), each costing $O(TpK^\\tau)$, to group equal-index chunks."
+  },
+  {
+   "prerequisite": "frequency-order",
+   "predicate": "adds one record permutation to",
+   "quote": "The layout permutation $L$, built below, adds one record permutation to the [retained frequency order](frequency-order.md): the forward entry with frequency address $j$ is stored at $L(Bj)$."
+  }
+ ],
+ "derivations": [
+  {
+   "step": "S2.2",
+   "quote": "Adding the costs, both procedures cost $O(Tp[dK+pK^{\\tau-1}+\\ell d^{\\lambda'}])$ with error below $\\sqrt2\\,\\ell\\,2^{-p}$."
+  }
+ ]
+}
