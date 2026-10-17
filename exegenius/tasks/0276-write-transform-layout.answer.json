@@ -5,106 +5,84 @@
    "name": "transformed axes",
    "meaning": "The number of transformed axes, d-1.",
    "relation": "count",
-   "quote": "Let $D=d-1$ be the number of transformed axes (a new meaning of $D$), and $\\boldsymbol t=(t_1,\\dots,t_D)$."
+   "quote": "Write $\\ell=\\log_2 r$, the address bits of a long axis (an address-bit count, not the depth of a value), and $D=d-1$, the number of transformed axes (not a source group or a chunk count)."
   },
   {
-   "symbol": "b",
-   "name": "leftover bits",
-   "meaning": "The number of bits of an axis left over after whole K-bit chunks.",
-   "relation": "count",
-   "quote": "Put $b=(\\ell-1)\\bmod K$, the bits of an axis left over after whole chunks (not a lowest bit), and $q=\\lfloor(\\ell-1)/K\\rfloor$, the number of whole chunks per axis (not a sequence length), so $\\ell-1=qK+b$."
-  },
-  {
-   "symbol": "q",
-   "name": "whole chunks",
-   "meaning": "The number of whole K-bit chunks per axis.",
-   "relation": "count",
-   "quote": "Put $b=(\\ell-1)\\bmod K$, the bits of an axis left over after whole chunks (not a lowest bit), and $q=\\lfloor(\\ell-1)/K\\rfloor$, the number of whole chunks per axis (not a sequence length), so $\\ell-1=qK+b$."
-  },
-  {
-   "symbol": "L",
-   "name": "layout permutation",
-   "meaning": "The record permutation defined by the prefix moves and chunk exchanges.",
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "The exponent below 1 in the cost O(V u^tau) of a chunk interchange.",
    "relation": "direct",
-   "quote": "The moves and exchanges define the record permutation $L$ (not a linear map or a dimension loss); undoing them in reverse order gives $L^{-1}$."
+   "quote": "$K$ is the chunk width in bits (not a tensor line or segment spacing); $\\tau,\\lambda'<1$ are the interchange and layer exponents."
+  },
+  {
+   "symbol": "\\lambda'",
+   "name": "layer exponent",
+   "meaning": "The exponent below 1 in the cost of a simultaneous butterfly layer.",
+   "relation": "direct",
+   "quote": "$K$ is the chunk width in bits (not a tensor line or segment spacing); $\\tau,\\lambda'<1$ are the interchange and layer exponents."
   },
   {
    "symbol": "B",
    "name": "bit reversal",
    "meaning": "The bit-reversal permutation applied along every axis.",
    "relation": "direct",
-   "quote": "Write $B$ for bit reversal along every axis (not a row length), so the exact transforms are $BF_{\\boldsymbol t}^-$ and $F_{\\boldsymbol t}^+B^{-1}$."
+   "quote": "Outputs keep the bit-reversed order of [retained frequency order](frequency-order.md), written $B$ along every axis (the bit-reversal permutation, not a row length, suffix count or complement)."
+  },
+  {
+   "symbol": "b",
+   "name": "leftover low bits",
+   "meaning": "The number of leftover low bits of an axis after whole chunks.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$, so $\\ell-1=qK+b$ (new meanings: $b$ counts leftover low bits of an axis, not the lowest bit of an index, and $q$ its whole chunks, not a sequence length)."
+  },
+  {
+   "symbol": "q",
+   "name": "whole chunks",
+   "meaning": "The number of whole K-bit chunks of an axis.",
+   "relation": "count",
+   "quote": "Put $b=(\\ell-1)\\bmod K$ and $q=\\lfloor(\\ell-1)/K\\rfloor$, so $\\ell-1=qK+b$ (new meanings: $b$ counts leftover low bits of an axis, not the lowest bit of an index, and $q$ its whole chunks, not a sequence length)."
+  },
+  {
+   "symbol": "L",
+   "name": "layout permutation",
+   "meaning": "The record permutation defined by the prefix moves and chunk exchanges.",
+   "relation": "direct",
+   "quote": "The prefix moves and exchanges define the record permutation $L$ (not a linear map, dimension loss or chunk size); reversing them gives $L^{-1}$."
   },
   {
    "symbol": "z",
    "name": "round input",
    "meaning": "The array entering a round.",
    "relation": "direct",
-   "quote": "For the array $z$ entering a round (not a suffix), the layer returns $Q_p(\\mathcal Hz)$ and the next operation is the signed coefficient permutation $J_E$."
+   "quote": "Truncation toward zero is odd and acts separately on each real and imaginary part, so for the array $z$ entering a round (not a suffix) $J_EQ_p(\\mathcal Hz)=Q_p(J_E\\mathcal Hz)$: one truncation follows the exact round."
   }
  ],
  "relations": [
   {
    "prerequisite": "synthetic-transform",
    "predicate": "arranges the address bits of",
-   "quote": "The tape layout arranges the address bits of a [synthetic polynomial transform](synthetic-transform.md) so that every round applies a single"
+   "quote": "The tape layout arranges the address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis."
   },
   {
    "prerequisite": "simultaneous-layer",
-   "predicate": "applies a single",
-   "quote": "so that every round applies a single [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis"
+   "predicate": "runs as one",
+   "quote": "The tape layout arranges the address bits so that each round of a [synthetic polynomial transform](synthetic-transform.md) runs as one [simultaneous butterfly layer](simultaneous-layer.md) instead of one pass per axis."
   },
   {
    "prerequisite": "address-interchange",
-   "predicate": "exchanges chunks by",
-   "quote": "The layout exchanges chunks by the [fast address-chunk interchange](address-interchange.md), at cost $O(TpK^\\tau)$ each, even for nonadjacent chunks"
+   "predicate": "each made by",
+   "quote": "This needs at most $Dq-1$ exchanges, each made by the [fast address-chunk interchange](address-interchange.md) at cost $O(TpK^\\tau)$, even for nonadjacent chunks"
   },
   {
    "prerequisite": "frequency-order",
-   "predicate": "keeps the bit-reversed output order of",
-   "quote": "The layout keeps the bit-reversed output order of [retained frequency order](frequency-order.md)."
+   "predicate": "keeps the bit-reversed order of",
+   "quote": "Outputs keep the bit-reversed order of [retained frequency order](frequency-order.md), written $B$ along every axis (the bit-reversal permutation, not a row length, suffix count or complement)."
   }
  ],
  "derivations": [
   {
-   "step": "S2.2.1",
-   "quote": "Call an axis long if it has $\\ell$ address bits and short if $\\ell-1$."
-  },
-  {
-   "step": "S2.2.2",
-   "quote": "Move to a prefix, one slot at a time, the top bit of each long axis and the $b$ lowest bits of every axis. At most $D(b+1)=O(dK)$ slots move so the moves cost $O(TpdK)$"
-  },
-  {
-   "step": "S2.2.3",
-   "quote": "Scan the target positions left to right, exchanging the chunk there with the required one if they differ: at most $Dq-1$ exchanges."
-  },
-  {
-   "step": "S2.2.4",
-   "quote": "Since $DqK\\le d\\ell=O(p)$, all exchanges cost $O(Tp\\,DqK^\\tau)=O(Tp\\,(DqK)K^{\\tau-1})=O(Tp\\,pK^{\\tau-1})$."
-  },
-  {
-   "step": "S2.2.5",
-   "quote": "In a chunk round the selected bit has the same offset in $D$ consecutive chunks, so one layer performs it, at cost $O(Tpd^{\\lambda'})$ per round and $O(Tp\\ell d^{\\lambda'})$ in total"
-  },
-  {
-   "step": "S2.2.6",
-   "quote": "A prefix round processes its at most $D$ bits individually, each at $O(Tp)$, so $O(Tpd)$. At most $b+1\\le K$ such rounds give $O(TpdK)$"
-  },
-  {
-   "step": "S2.2.7",
-   "quote": "Truncation toward zero is odd and acts separately on each real and imaginary part, so $J_EQ_p(\\mathcal Hz)=Q_p(J_E\\mathcal Hz)$: each round truncates once, after the exact contraction."
-  },
-  {
-   "step": "S2.2.8",
-   "quote": "The contraction does not increase the norm of the difference between computed and exact arrays, and truncation moves each entry by less than $\\sqrt2\\,2^{-p}$; the permutations in $L$ are isometries and add no error. From zero error the $\\ell$ rounds leave error below $\\sqrt2\\,\\ell\\,2^{-p}$"
-  },
-  {
-   "step": "S2.2.9",
-   "quote": "The forward procedure moves records by $L$ first, so its exact operator is $(LBF_{\\boldsymbol t}^-L^{-1})L=LBF_{\\boldsymbol t}^-$. The opposite procedure restores by $L^{-1}$ after its arithmetic, giving $L^{-1}(LF_{\\boldsymbol t}^+B^{-1}L^{-1})=F_{\\boldsymbol t}^+B^{-1}L^{-1}$."
-  },
-  {
    "step": "S2.2",
-   "quote": "The forward procedure moves records by $L$ first, so its exact operator is $(LBF_{\\boldsymbol t}^-L^{-1})L=LBF_{\\boldsymbol t}^-$. The opposite procedure restores by $L^{-1}$ after its arithmetic, giving $L^{-1}(LF_{\\boldsymbol t}^+B^{-1}L^{-1})=F_{\\boldsymbol t}^+B^{-1}L^{-1}$."
+   "quote": "The forward procedure moves records by $L$ and then runs $BF_{\\boldsymbol t}^-$, giving $(LBF_{\\boldsymbol t}^-L^{-1})L=LBF_{\\boldsymbol t}^-$. The opposite procedure runs its arithmetic and restores by $L^{-1}$, giving $L^{-1}(LF_{\\boldsymbol t}^+B^{-1}L^{-1})=F_{\\boldsymbol t}^+B^{-1}L^{-1}$. Both cost $O(Tp[dK+pK^{\\tau-1}+\\ell d^{\\lambda'}])$."
   }
  ]
 }
