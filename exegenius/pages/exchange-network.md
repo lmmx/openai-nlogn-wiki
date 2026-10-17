@@ -20,7 +20,7 @@ Stage 1 lets the first coordinate of $a$ vary, stage 2 the second, stage 3 the t
 
 The inverse schedule, the forward one with target updates negated, performs $X\gets X-Y$ when $Y$ is the source bank and $X$ the target. Run forward $X\to Y$ at stage 1, inverse $Y\to X$ at stage 2 and forward $X\to Y$ at stage 3. At every $a$,
 $$(x,y)\mapsto(x,y+x)\mapsto(-y,y+x)\mapsto(-y,x),$$
-that is $(X_a,Y_a)\mapsto(-Y_a,X_a)$, restoring all scratch wires <cite data-source="paper">Performing a forward invocation from $X$ to $Y$ at stage 1,</cite>.
+that is $(X_a,Y_a)\mapsto(-Y_a,X_a)$ <cite data-source="paper">$(x,y+x)$, then $(-y,y+x)$, then $(-y,x)$.</cite>, restoring all scratch wires <cite data-source="paper">Each invocation restores its own auxiliary wires.</cite>.
 
 ## Counting wires
 

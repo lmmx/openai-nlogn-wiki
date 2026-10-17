@@ -1,0 +1,142 @@
+{
+ "derivations": [
+  {
+   "step": "S5.3.1",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "step": "S5.3.2",
+   "quote": "Define $\\Phi:\\mathbb C[x]/(x^S-1)\\to\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$ by $x\\mapsto\\prod_i x_i^{\\mu_i}$, with one variable $x_i$ per axis. Since $s_i\\mid S$, each $x_i^{\\mu_iS}=1$, so $\\Phi$ respects $x^S=1$ and defines an algebra map."
+  },
+  {
+   "step": "S5.3.3",
+   "quote": "Then $\\Phi(x^k)=1$ exactly when $s_i\\mid\\mu_ik$ for every $i$; as $\\mu_i$ is a unit modulo $s_i$ this means $s_i\\mid k$ for every $i$, and as the $s_i$ are pairwise coprime, $S\\mid k$. So the image of $x$ has order $S$ and its $S$ powers are distinct. The target has exactly $S$ monomials, so the powers run through all of them exactly once. Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md)."
+  },
+  {
+   "step": "S5.3.4",
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix with digits $0\\le a_j<s_j$. The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i$."
+  },
+  {
+   "step": "S5.3.5",
+   "quote": "Terms with $j>i$ vanish modulo $s_i$, since $s_i$ divides $P_j$, and $\\mu_iP_i\\equiv1$ modulo $s_i$. Hence $b_i=a_i+\\mu_i\\sum_{j<i}a_jP_j\\pmod{s_i}$, which depends only on lower-index digits."
+  },
+  {
+   "step": "S5.3.6",
+   "quote": "Reversing the axis order to $(a_1,\\dots,a_d)$ puts controls first. Update targets for $i=d,d-1,\\dots,1$, so no lower-index control has yet changed when axis $i$ is updated. Each update is a prefix-controlled cyclic shift of the valid interval $[0,s_i)$ and the identity on $[s_i,t_i)$, so zero padding stays zero."
+  },
+  {
+   "step": "S5.3.7",
+   "quote": "Axes have $\\ell$ or $\\ell-1$ address bits; for unequal widths, move the longer axis's leading bit aside, swap the equal-width remainder, and restore the bit, adding fixed linear passes. Reversing $d$ axes takes $O(d^2)$ adjacent swaps, so reordering dominates the $O(dTp)$ shifts and $O(Tp)$ scans."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "s_i",
+   "name": "axis length",
+   "meaning": "The length of cyclic axis i of the source; the lengths are pairwise coprime.",
+   "relation": "direct",
+   "quote": "Let $d$ be the number of axes, $i$ index them, and the lengths $s_i$ be pairwise coprime (unrelated to $s_i$ on the chirp page)."
+  },
+  {
+   "symbol": "P_i",
+   "name": "prefix product",
+   "meaning": "The product of the lengths s_j with j<i.",
+   "relation": "direct",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "symbol": "\\mu_i",
+   "name": "axis exponent",
+   "meaning": "The inverse of P_i modulo s_i, used as the exponent of x_i.",
+   "relation": "direct",
+   "quote": "Let $P_i=\\prod_{j<i}s_j$ be the product of the lengths before axis $i$, and $\\mu_i=P_i^{-1}\\pmod{s_i}$."
+  },
+  {
+   "symbol": "\\Phi",
+   "name": "Chinese-remainder map",
+   "meaning": "The algebra isomorphism from the cyclic ring of length S to the product of cyclic axes.",
+   "relation": "direct",
+   "quote": "Define $\\Phi:\\mathbb C[x]/(x^S-1)\\to\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$ by $x\\mapsto\\prod_i x_i^{\\mu_i}$, with one variable $x_i$ per axis."
+  },
+  {
+   "symbol": "x_i",
+   "name": "axis variable",
+   "meaning": "The polynomial variable of axis i, with x_i^{s_i}=1.",
+   "relation": "direct",
+   "quote": "Define $\\Phi:\\mathbb C[x]/(x^S-1)\\to\\mathbb C[x_1,\\dots,x_d]/(x_i^{s_i}-1)$ by $x\\mapsto\\prod_i x_i^{\\mu_i}$, with one variable $x_i$ per axis."
+  },
+  {
+   "symbol": "k",
+   "name": "coefficient index",
+   "meaning": "A single coefficient index, an exponent of x, not an index tuple.",
+   "relation": "direct",
+   "quote": "In this page $k$ is a single coefficient index, an exponent of $x$, not an index tuple as on the multidimensional-transform page."
+  },
+  {
+   "symbol": "a_j",
+   "name": "mixed-radix digit",
+   "meaning": "The digit of k in position j of its mixed-radix expression, with 0 <= a_j < s_j.",
+   "relation": "direct",
+   "quote": "Write $k=\\sum_ja_jP_j$ in mixed radix with digits $0\\le a_j<s_j$."
+  },
+  {
+   "symbol": "b_i",
+   "name": "axis coordinate",
+   "meaning": "The coordinate in axis i of the image of x^k.",
+   "relation": "direct",
+   "quote": "The axis-$i$ coordinate $b_i$ of $\\Phi(x^k)$ is $\\mu_ik\\bmod s_i$."
+  },
+  {
+   "symbol": "\\ell",
+   "name": "address bits",
+   "meaning": "The number of address bits of an axis of length r, with r = 2^ell.",
+   "relation": "count",
+   "quote": "Pad axis $i$ with zero records to a length $t_i\\in\\{r/2,r\\}$, where $r=2^\\ell$ is the record length, so $\\ell$ is the number of address bits of an axis of length $r$."
+  },
+  {
+   "symbol": "T",
+   "name": "padded record count",
+   "meaning": "The number of padded records, the product of the axis lengths t_i.",
+   "relation": "count",
+   "quote": "Let $T=\\prod_it_i$ be the number of padded records, each of $O(p)$ bits (with $p$ as on the fixed-point page)."
+  },
+  {
+   "symbol": "\\tau",
+   "name": "interchange exponent",
+   "meaning": "A fixed exponent below 1 in the chunk-interchange time bound.",
+   "relation": "direct",
+   "quote": "Let $V=Tp$ be the stream volume and $\\tau<1$ a fixed exponent."
+  },
+  {
+   "symbol": "i",
+   "name": "axis index",
+   "meaning": "The index of an axis, from 1 to d.",
+   "relation": "direct",
+   "quote": "Let $d$ be the number of axes, $i$ index them, and the lengths $s_i$ be pairwise coprime (unrelated to $s_i$ on the chirp page)."
+  },
+  {
+   "symbol": "t_i",
+   "name": "padded axis length",
+   "meaning": "The length of axis i after zero padding, either r/2 or r.",
+   "relation": "direct",
+   "quote": "Pad axis $i$ with zero records to a length $t_i\\in\\{r/2,r\\}$, where $r=2^\\ell$ is the record length, so $\\ell$ is the number of address bits of an axis of length $r$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "convolution",
+   "predicate": "preserves",
+   "quote": "Hence $\\Phi$ is an isomorphism and preserves [Cyclic convolution](convolution.md)."
+  },
+  {
+   "prerequisite": "multidim-transform",
+   "predicate": "prepares",
+   "quote": "This prepares [Multidimensional transforms](multidim-transform.md)."
+  },
+  {
+   "prerequisite": "controlled-shifts",
+   "predicate": "is implemented by",
+   "quote": "The map is implemented by these shifts, each of linear cost by [Controlled shifts and rational scalings](controlled-shifts.md)."
+  }
+ ]
+}

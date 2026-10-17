@@ -1,6 +1,6 @@
 Elementary stream operations are linear-time scans of an array stored on tape in lexicographic order; they are the data-movement primitives from which the later procedures for interchanging address fields are assembled.
 
-Throughout, $V$ is the volume of an array, the number of radix-$q$ digits it stores, and $q\ge 2$ is the radix, the number of values one digit can take.
+Throughout, $V$ is the volume of an array, the number of radix-$q$ digits it stores, and $q\ge 2$ is the radix, the number of values one digit can take. Here $q$ is a radix, not a sequence length as on the discrete Fourier transform and cyclic convolution pages.
 
 ## Why passes must be linear
 
