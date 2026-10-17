@@ -1,0 +1,155 @@
+{
+ "derivations": [
+  {
+   "step": "S1.6.1",
+   "quote": "Since $ab=\\tfrac12$, $ib^2=\\tfrac12$ and $a^2+b^2=0$, multiplying out gives $H_0=b\\,\\mathsf SC\\mathsf S$, $C^2=2abX=X$ and so $C^4=I$"
+  },
+  {
+   "step": "S1.6.2",
+   "quote": "Apply $\\mathcal P_\\Gamma^{-1}$ to every column, then $(C^{\\pm1})^{\\otimes f}$ to the $f$ bits of slot $\\xi$ for each residual vector $\\xi$, then $\\mathcal P_\\Gamma$: one child on $f=e/m$ axes per residual vector, exactly $s$ in all."
+  },
+  {
+   "step": "S1.6.2b",
+   "quote": "The phases and $b^D=(-i/2)^{\\lfloor D/2\\rfloor}b^{D\\bmod2}$ are exact operations on [Fixed-point Gaussian dyadic records](fixed-point.md), so only $C^{\\otimes D}$ remains."
+  },
+  {
+   "step": "S1.6.3b",
+   "quote": "So the basis change and its inverse on $e$ axis chunks cost $O(V((eK)^\\tau+1))$"
+  },
+  {
+   "step": "S1.6.4",
+   "quote": "Summing gives $O(\\log(2d)[d^\\lambda+d^{\\sigma+\\beta(1-\\sigma)}+1])=O(d^{\\lambda'})$ for fixed $\\max\\{\\lambda,\\sigma+\\beta(1-\\sigma)\\}<\\lambda'<1$."
+  },
+  {
+   "step": "S1.6.5",
+   "quote": "A value after $k$ operations lies in $2^{-(p+k)}\\mathbb Z[i]$ with modulus at most $2^k$: addition at most doubles the modulus, halving adds a denominator bit, and signs and multiplication by $i$ change neither."
+  },
+  {
+   "step": "S1.6.5",
+   "quote": "As $d=\\Theta(p^\\epsilon)$ and $\\epsilon C_1<1$, $\\Delta=o(p)$, so the width is $O(p)$."
+  },
+  {
+   "step": "S1.6.6",
+   "quote": "Rows of $H_0$ have absolute sum $\\tfrac12+\\tfrac12=1$, and these multiply under tensor products, so every row of $\\mathcal H=H_0^{\\otimes D}$ has absolute row sum one"
+  },
+  {
+   "step": "S1.6.7",
+   "quote": "Truncation $Q_p$ toward zero cannot increase either component's absolute value, so the disk is kept, and it changes each component by less than $2^{-p}$."
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "phase-frames",
+   "predicate": "computes its groups by the network of",
+   "quote": "The network of [Binary phase frames](phase-frames.md), with $W$ wires and $s$ smaller calls, computes $C^{\\otimes e}$."
+  },
+  {
+   "prerequisite": "rank-recurrence",
+   "predicate": "follows the recursion of",
+   "quote": "the recursion of [Recursive power saving](rank-recurrence.md)."
+  },
+  {
+   "prerequisite": "packed-bit-addition",
+   "predicate": "does its row additions by",
+   "quote": "A row addition XORs selected bits of one slot into another, which [Packed selected-bit addition](packed-bit-addition.md) does by eight cyclic shifts of whole chunk ranges plus a repair of a bounded exceptional set of addresses."
+  },
+  {
+   "prerequisite": "fixed-point",
+   "predicate": "performs exact operations on",
+   "quote": "The phases and $b^D=(-i/2)^{\\lfloor D/2\\rfloor}b^{D\\bmod2}$ are exact operations on [Fixed-point Gaussian dyadic records](fixed-point.md), so only $C^{\\otimes D}$ remains."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "D",
+   "name": "selected chunk count",
+   "meaning": "The number of address chunks, at most d, on which the layer acts.",
+   "relation": "count",
+   "quote": "Here $D$ is a chunk count (not a source group), $e$ counts axes (not digits), and $z$ is an array (not a suffix)."
+  },
+  {
+   "symbol": "e",
+   "name": "selected axis count",
+   "meaning": "The number of selected axes in a group, e = mf.",
+   "relation": "count",
+   "quote": "Take $e=mf$ selected axes, as $m$ slots of $f$ axes: the selected bits of an address form $f$ columns of $m$ bits."
+  },
+  {
+   "symbol": "z",
+   "name": "array",
+   "meaning": "An array of records on which the operators act.",
+   "relation": "direct",
+   "quote": "Here $D$ is a chunk count (not a source group), $e$ counts axes (not digits), and $z$ is an array (not a suffix)."
+  },
+  {
+   "symbol": "\\Gamma",
+   "name": "basis-change matrix",
+   "meaning": "An invertible F_2 matrix whose first columns are the residual basis vectors.",
+   "relation": "direct",
+   "quote": "Let $\\Gamma$ be an invertible $\\mathbb F_2$-matrix with these $v$ as first columns, and $\\mathcal P_\\Gamma$ the address permutation moving the value at $x$ to $\\Gamma x$."
+  },
+  {
+   "symbol": "\\mathcal P_\\Gamma",
+   "name": "address permutation",
+   "meaning": "The address permutation moving the value at x to Gamma x.",
+   "relation": "direct",
+   "quote": "Let $\\Gamma$ be an invertible $\\mathbb F_2$-matrix with these $v$ as first columns, and $\\mathcal P_\\Gamma$ the address permutation moving the value at $x$ to $\\Gamma x$."
+  },
+  {
+   "symbol": "\\xi",
+   "name": "slot index",
+   "meaning": "The index of a slot, matching a residual vector.",
+   "relation": "direct",
+   "quote": "Apply $\\mathcal P_\\Gamma^{-1}$ to every column, then $(C^{\\pm1})^{\\otimes f}$ to the $f$ bits of slot $\\xi$ for each residual vector $\\xi$, then $\\mathcal P_\\Gamma$: one child on $f=e/m$ axes per residual vector, exactly $s$ in all."
+  },
+  {
+   "symbol": "q_0",
+   "name": "individual chunks",
+   "meaning": "The number of leading chunks to which C is applied individually, forming the row index.",
+   "relation": "count",
+   "quote": "So the first $q_0=\\lceil\\log_2W\\rceil\\lceil\\log_m(2d)\\rceil$ chunks get individual $C$ kernels, in $O(V\\log d)$, and their bits form a row index of range $2^{q_0K}\\ge W^{\\lceil\\log_md\\rceil}$."
+  },
+  {
+   "symbol": "\\chi",
+   "name": "chain operation bound",
+   "meaning": "A bound on the number of operations on any chain from an input coefficient to an intermediate value.",
+   "relation": "count",
+   "quote": "Let $\\chi(e)$ bound the operations on any chain from an input coefficient to an intermediate value."
+  },
+  {
+   "symbol": "\\psi",
+   "name": "invocation operations",
+   "meaning": "A bound on the number of arithmetic operations in one invocation of the network.",
+   "relation": "count",
+   "quote": "One invocation takes $24W^3+4s+4W+4<\\psi=64(W+m+1)^3$ operations, as $s<Wm$."
+  },
+  {
+   "symbol": "\\Psi",
+   "name": "level factor",
+   "meaning": "The sum s + psi, multiplying a chain bound at each level.",
+   "relation": "direct",
+   "quote": "With $\\Psi=s+\\psi$, $s\\varphi+\\psi\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1$, and there are at most $\\lceil\\log_md\\rceil$ internal levels, so $\\chi(e)\\le8d\\Psi^{\\lceil\\log_md\\rceil+1}\\le8\\Psi^2d^{\\vartheta+1}$, where $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$ is an exponent, not a digit count."
+  },
+  {
+   "symbol": "\\varphi",
+   "name": "chain bound",
+   "meaning": "Any lower bound of at least one on a chain length.",
+   "relation": "direct",
+   "quote": "With $\\Psi=s+\\psi$, $s\\varphi+\\psi\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1$, and there are at most $\\lceil\\log_md\\rceil$ internal levels, so $\\chi(e)\\le8d\\Psi^{\\lceil\\log_md\\rceil+1}\\le8\\Psi^2d^{\\vartheta+1}$, where $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$ is an exponent, not a digit count."
+  },
+  {
+   "symbol": "\\vartheta",
+   "name": "exponent of m",
+   "meaning": "The least j at least 1 with m^j at least Psi.",
+   "relation": "direct",
+   "quote": "With $\\Psi=s+\\psi$, $s\\varphi+\\psi\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1$, and there are at most $\\lceil\\log_md\\rceil$ internal levels, so $\\chi(e)\\le8d\\Psi^{\\lceil\\log_md\\rceil+1}\\le8\\Psi^2d^{\\vartheta+1}$, where $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$ is an exponent, not a digit count."
+  },
+  {
+   "symbol": "C_0",
+   "name": "guard constant",
+   "meaning": "The constant 128 m Psi^2 in the guard width Delta.",
+   "relation": "direct",
+   "quote": "The pieces and individual kernels keep every chain below $\\Delta=\\lceil C_0d^{C_1}\\rceil$, $C_0=128m\\Psi^2$, $C_1=\\max\\{20,\\vartheta+3\\}$."
+  }
+ ]
+}
