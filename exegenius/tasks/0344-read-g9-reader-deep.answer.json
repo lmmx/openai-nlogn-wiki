@@ -1,0 +1,118 @@
+{
+  "outcome": "answered",
+  "answer": "Each n-bit input is cut into q = ceil(n/b) radix-2^b digits, with b = ceil(log2 n), so the product is the wrapped product (the wiki's totipuv) of the two digit sequences. With a cyclic length S that is a product of distinct odd primes and satisfies T/2 < S < T, nothing wraps and every coefficient is below 2^{3b}. Stage 1: the index map Phi (page Lolazad) moves this cyclic product onto a multi-axis array with prime axis lengths s_i. Stage 2: the two source transforms (the wiki's tobifups) are computed through power-of-two transforms, using a resampling identity (Sikusup) and chirp phases (Divasov), with the coordinate permutations left implicit so that none is executed. Stage 3: the two transforms are multiplied pointwise and truncated to p = 6b fractional bits, the opposite transform is applied, and the result is scaled by 2^{2b+4} S, rounded to the nearest integer, mapped back by Phi inverse, and carry-propagated in radix 2^b to give the exact 2n-bit product. Why it is exact: the page bounds the total error on each scaled coefficient by 448b 2^{gamma-b}, which is below 1/2 once gamma <= b/4; since the true coefficients are integers, rounding to the nearest integer recovers each one exactly. Confidence is moderate: I followed the stage order and checked the no-wraparound inequality, the coefficient bound, the two-point transform example, the chirp identity, and the final scaling arithmetic, but I took the component error bounds and the gamma <= b/4 step on the wiki's word.",
+  "citations": [
+    {
+      "page": "siz",
+      "quote": "Each input splits into $q=\\lceil n/b\\rceil$ radix-$2^b$ digits $a_j$, and the product is their convolution modulo $x^S-1$, as in [Lekavon](vub)."
+    },
+    {
+      "page": "vub",
+      "quote": "so convolution modulo $x^S-1$ has no wraparound, and every coefficient $c_j\\le q(2^b-1)^2<2^{3b}$."
+    },
+    {
+      "page": "vub",
+      "quote": "$S$ is the length of the totipuv, a product of distinct odd primes with $T/2<S<T$."
+    },
+    {
+      "page": "guf",
+      "quote": "Hence $\\Phi$ is an isomorphism and preserves [Totipuv](fam)."
+    },
+    {
+      "page": "zom",
+      "quote": "The source permutation $R$ cancels: $(RF_{\\boldsymbol s}^+)[(RF_{\\boldsymbol s}u)\\cdot(RF_{\\boldsymbol s}v)]=u*v/S^2$."
+    },
+    {
+      "page": "pap",
+      "quote": "The permuted transform is thus reduced to one [Totipuv](fam) of length $T$ between two pointwise phase multiplications."
+    },
+    {
+      "page": "siz",
+      "quote": "Multiply by $2^{2b+4}S$, round to the nearest integers, and apply $\\Phi^{-1}$."
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+    },
+    {
+      "page": "siz",
+      "quote": "Exactness is shown by [Nutipib](mes): the error on these coefficients is below $1/2$, so rounding is exact."
+    },
+    {
+      "page": "mes",
+      "quote": "448b\\,2^{-b+\\gamma}\\le448b\\,2^{-3b/4}<\\tfrac12"
+    },
+    {
+      "page": "mes",
+      "quote": "The true coefficients are integers, so error strictly below $1/2$ makes the nearest integer the unique correct coefficient."
+    }
+  ],
+  "key_idea": {
+    "page": "kur",
+    "statement": "Transforming a wrapped product turns it into a pointwise product of the two transforms, so the product can be recovered from two forward transforms, a pointwise product and an opposite transform, followed by a known scale factor.",
+    "quote": "The transform diagonalizes [totipuv](fam): the transform of a convolution is a pointwise product of transforms."
+  },
+  "stuck": [
+    {
+      "page": "siz",
+      "quote": "The computed version uses an approximation $\\widetilde a$ of $a$ and truncation $Q_p$ to $p$ fractional bits.",
+      "note": "I could not tell what the approximation $\\widetilde a$ of the chirp is or how it is obtained; neither this page nor the chirp page says. I treated it as given.",
+      "level": "symbol"
+    },
+    {
+      "page": "vub",
+      "quote": "$S$ is the length of the totipuv, a product of distinct odd primes with $T/2<S<T$.",
+      "note": "The page shows that the cyclic length S must exceed 2n/b, but it never says why S should be a product of odd primes rather than the power-of-two T, which already avoids wraparound. I followed each reduction without seeing why it is needed.",
+      "level": "chain"
+    },
+    {
+      "page": "guf",
+      "quote": "This prepares [Tagaris](dib).",
+      "note": "I checked the order argument that the index map is an isomorphism, but I could not see why moving the product onto prime axes helps the later transforms. The page only says it prepares the next step.",
+      "level": "chain"
+    },
+    {
+      "page": "guf",
+      "quote": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because.",
+      "note": "The sentence stops before its reason, so I could not see why the offset cost is negligible. The cost analysis is not needed for the answer, but this step is unfinished on the page.",
+      "level": "step"
+    },
+    {
+      "page": "pap",
+      "quote": "Define the chirp $a_{\\boldsymbol j}=\\exp\\left(-\\pi i\\sum_{i=1}^d s_ij_i^2/t_i\\right)$, a phase quadratic in the index",
+      "note": "I verified the algebra (the squares cancel, and the d=1, t=2, s=1 example gives -1 as stated), but the page never motivates why this particular chirp phase is the right one to multiply in, so I followed the identity without seeing why it leads where it does.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "(\\mathsf Su)_k=\\frac1\\alpha\\sum_j e^{-\\pi\\alpha^{-2}(j-sk/t)^2}u_j",
+      "note": "The Gaussian-weighted resampling maps S and T are defined with no motivation, and I could not connect the Gaussian weights to anything I know. Their role in the identity is beyond me; I took the stated result instead.",
+      "level": "beyond"
+    },
+    {
+      "page": "roz",
+      "quote": "The cited estimate gives $\\|N-I\\|<2.01e^{-\\pi\\alpha^2\\theta/2}<2^{-\\alpha^2\\theta}$.",
+      "note": "This estimate is cited to an outside source and not derived here, so I cannot tell whether the resampling error bounds are established on this page or assumed.",
+      "level": "statement"
+    },
+    {
+      "page": "fef",
+      "quote": "By the prime-interval lemma of Harvey and van der Hoeven (used without proof)",
+      "note": "The existence of primes in the windows that set the axis lengths is used without proof. I could not tell whether that is a claim or a settled fact.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "where $b\\ge2^{24}$ gives $\\gamma\\le b/4$ and keeps $E_sh_p<10^{-3}$.",
+      "note": "The threshold b >= 2^24 and the bound gamma <= b/4 are stated without derivation on this page. The only support I found is the bound gamma < 28 b^{2/3} on the parameter page, which does not directly give b/4 with that threshold. I did not check the constants fully, so this step rests on the statement.",
+      "level": "statement"
+    },
+    {
+      "page": "mes",
+      "quote": "Each [synthetic transform](gip) has error below $L$.",
+      "note": "This component bound is cited to a page I did not open (page budget), so I could not tell whether it is proved or assumed. The exactness argument depends on it.",
+      "level": "statement"
+    }
+  ],
+  "reason": "Answered with moderate confidence. The stage order and the final rounding argument are supported by quotes from the pages I opened, and I checked several pieces by hand: the no-wraparound inequality (2q-2 < 2n/b <= T/2 < S), the coefficient bound 2^{3b}, the two-point transform example (gives (2.75, 2.5) = (11,10)/4), the chirp identity at d=1, t=2, s=1, and the final scaling 2^{2b+4} S * 28 * 2^gamma T^2 L * 2^{-6b} < 448b 2^{gamma-b} <= 448b 2^{-3b/4} < 1/2 given gamma <= b/4. I did not verify the component error bounds (the synthetic transform error L, the resampling lemma, the prime-interval lemma), nor the gamma <= b/4 step, and the wiki never explains why prime axis lengths are used at all, so the answer rests partly on the wiki's stated results. Opened pages (12 of 15): siz, vub, fam, kur, guf, roz, pap, mes, dib, fef, zom, bir."
+}
