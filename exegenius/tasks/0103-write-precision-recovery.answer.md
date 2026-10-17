@@ -8,29 +8,28 @@ so for disk operands input errors add.
 
 For a unit phase $e$, a disk-grid approximation $\widetilde e$ with $|\widetilde e-e|<2h_p$ and a disk operand $x$, truncation $Q_p$ adds under $\sqrt2h_p$, so $\|Q_p(\widetilde ex)-ex\|<(2\|x\|+\sqrt2)h_p<4h_p$; and $|\widetilde e|\le1$ gives $\|Q_p(\widetilde ex)\|\le\|x\|$.
 
-The ring convolution $\mathcal M_r$ of [Phase twist](phase-twist.md) returns $(f*g)/T$. Its transforms and truncation err by under $3L+2$ before a final exact multiplication by $M=T/r$, scaling the error:
-$$E_{\rm ring}:=M(3L+2)<5TL.$$
-If an operand has norm at most $.7$, contraction bounds the exact output by $.7$; adding error $5TLh_p<10^{-3}$ gives norm below $.701$. Two twists and an untwist add $4$ each, so the complex convolution errs by under
+The ring convolution $\mathcal M_r$ of [Phase twist](phase-twist.md) returns $(f*g)/T$. Its transforms and truncation err by under $3L+2$ before a final exact multiplication by $M=T/r$, giving $E_{\rm ring}:=M(3L+2)<5TL$.
+If an operand has norm at most $.7$, so does the exact output, by contraction; adding error $5TLh_p<10^{-3}$ gives norm below $.701$. Two twists and an untwist add $4$ each, so the complex convolution errs by under
 $$(E_{\rm ring}+4+4+4)h_p<6TLh_p.$$
 
 The chirp transform $\widetilde{\mathscr C}$ evaluates the [Bluestein chirp identity](chirp.md), with $\boldsymbol t$ the axis lengths, $F_{\boldsymbol t}$ the exact Fourier transform and $Q$ the target permutation:
 $$\|\widetilde{\mathscr C}(x)-QF_{\boldsymbol t}x\|<(6TL+2+4+4)h_p<8TLh_p.$$
 
-A source transform applies [Gaussian resampling](gaussian-resampling.md) maps and a chirp transform (error under $2dp^2+8TL$), then scales exactly by the source scale $2^\gamma$ ($b\ge2^{24}$ gives $\gamma\le b/4$ <cite data-source="paper">$b\ge2^{24}$ implies $\gamma\le b/4$</cite>). As $2dp^2<TL$ eventually, its error is under $E_sh_p$, $E_s=9\cdot2^\gamma TL$.
+A source transform applies [Gaussian resampling](gaussian-resampling.md) maps and a chirp transform (error under $2dp^2+8TL$), then scales exactly by the source scale $2^\gamma$ ($b\ge2^{24}$ gives $\gamma\le b/4$ <cite data-source="paper">$b\ge2^{24}$ implies $\gamma\le b/4$</cite>). As $2dp^2<TL$ eventually, error is under $E_sh_p$, $E_s=9\cdot2^\gamma TL$.
 
 Here $u,v$ denote the scaled digit arrays (letters redefined): a digit $a$ is stored as $a2^{-b-2}$, norm under $1/4$. Let $U,V_1$ be their exact source transforms and $\widetilde U,\widetilde V_1$ the computed ones, of norm under $.26$. Then $z=Q_p(\widetilde U\cdot\widetilde V_1)$ has norm under $.5$, and
 $$\widetilde U\cdot\widetilde V_1-U\cdot V_1=(\widetilde U-U)\cdot\widetilde V_1+U\cdot(\widetilde V_1-V_1)$$
 has two terms under $E_sh_p$; truncation adds under $2h_p$. So $\|z-U\cdot V_1\|<(2E_s+2)h_p$.
 
-Both source Fourier transforms, $F$ and $F^+$, carry $1/S$, so $F(u*v)=S\,Fu\cdot Fv$ and $F^+F=I/S$; the retained permutation cancels ([Retained permutation cancellation](retained-permutations.md)), so the exact opposite transform $G$ gives $G(U\cdot V_1)=(u*v)/S^2$ <cite data-source="paper">=\frac{u*v}{S^2}.</cite> The computed opposite transform is within $E_sh_p$ of $Gz$, and $G$ is a contraction, so the total is under $(3E_s+2)h_p$. Multiplying exactly by $S$, $\widetilde w$ approximates $w=(u*v)/S$ within $E_wh_p$:
+Both source Fourier transforms, $F$ and $F^+$, carry $1/S$, so $F(u*v)=S\,Fu\cdot Fv$ and $F^+F=I/S$; the retained permutation cancels ([Retained permutation cancellation](retained-permutations.md)), so the exact opposite transform $G$ gives $G(U\cdot V_1)=(u*v)/S^2$ <cite data-source="paper">=\frac{u*v}{S^2}.</cite> The computed one is within $E_sh_p$ of $Gz$, and $G$ is a contraction, so the total is under $(3E_s+2)h_p$. Multiplying exactly by $S$, $\widetilde w$ approximates $w=(u*v)/S$ within $E_wh_p$:
 $$E_w:=S(3E_s+2)<28\cdot2^\gamma T^2L.$$
 
-The integer coefficients are $2^{2b+4}Sw$, undoing the digit scales and the $1/S$. With $S\le T<2^b$ and $L<b$ the absolute error is under
+The integer coefficients are $2^{2b+4}Sw$, undoing digit scales and $1/S$. With $S\le T<2^b$ and $L<b$ the absolute error is under
 $$2^{2b+4}S\cdot28\cdot2^\gamma T^2L\cdot2^{-6b}<448b\,2^{-b+\gamma}\le448b\,2^{-3b/4}<\tfrac12.$$
 Here $p=6b$ leaves margin $2^{-b}$ against amplification up to $2^{5b+4}$. The coefficients are integers, so error below $1/2$ makes the nearest integer to the represented value correct.
 
-Carries rebuild the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), where $c_j\le q(2^b-1)^2$ and $q=\lceil n/b\rceil\le2^b$. With $Q_0=2^b$ and $k_0=0$, output digit $d_j$ and carry $k_j$ satisfy
+Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), where $c_j\le q(2^b-1)^2$ and $q=\lceil n/b\rceil\le2^b$. With $Q_0=2^b$ and $k_0=0$, output digit $d_j$ and carry $k_j$ satisfy
 $$d_j=(c_j+k_j)\bmod Q_0,\qquad k_{j+1}=\lfloor(c_j+k_j)/Q_0\rfloor.$$
-Then $0\le k_j\le q(Q_0-1)<Q_0^2$: if so at $j$, then $c_j+k_j\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1)$. As $c_j+k_j=d_j+Q_0k_{j+1}$, adding $c_jQ_0^j$ to both sides carries the invariant
+Then $0\le k_j\le q(Q_0-1)<Q_0^2$: if so at $j$, then $c_j+k_j\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1)$. As $c_j+k_j=d_j+Q_0k_{j+1}$, adding $c_jQ_0^j$ carries the invariant
 $$\sum_{h<j}c_hQ_0^h=\sum_{h<j}d_hQ_0^h+k_jQ_0^j$$
 from $j$ to $j+1$. Unprocessed terms are multiples of $Q_0^j$, so the first $j$ radix digits are fixed. The product is below $2^{2n}$, so bits above position $2n-1$ are zero and $2n$ bits are output.

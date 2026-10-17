@@ -1,29 +1,35 @@
-Error tracking and exact recovery shows the error is below $1/2,$ so rounding is exact.
+Error tracking and exact recovery shows the computed coefficients lie within $1/2$ of the integers, so rounding is exact.
 
-The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md). Let $b$ be the bits per radix digit, $p=6b$ the fractional bits, $T$ the padded array size, $S\le T$ the convolution length, $L=\log_2T,$ $\gamma$ the source scale exponent, $d$ the axis count.
+The computation runs on [Fixed-point Gaussian dyadic records](fixed-point.md) with $p=6b$ fractional bits; $b=\lceil\log_2n\rceil$ is the digit width. Let $h_p=2^{-p}$, $L=\log_2T$, $S\le T$; for large $n$, $T<8n/b$ gives $T<2^b$ and $L<b$. Error $a$ means sup-norm error under $ah_p$; arrays stay in the disk (norm $\le1$). Each [Synthetic polynomial transform](synthetic-transform.md) has error below $L$ <cite data-source="paper">$\sqrt2\ell\,2^{-p}<L2^{-p}$</cite>.
 
-Use $h_p=2^{-p}$ and the sup norm throughout; an error of $a$ means error less than $ah_p.$ Each synthetic transform has error less than $\sqrt2\ell\,2^{-p}<L2^{-p}$ with $L=\log_2T,$ where $\ell=\log_2r.$
+It adds errors through the [Contractions and bilinear contractions](contraction-maps.md) making up each transform and product. A bilinear $\mathcal M$ with $\|\mathcal M(f,g)\|\le\|f\|\|g\|$ satisfies
+$$\|\mathcal M(f',g')-\mathcal M(f,g)\|=\|\mathcal M(f'-f,g')+\mathcal M(f,g'-g)\|\le\|f'-f\|\|g'\|+\|f\|\|g'-g\|,$$
+so for disk operands input errors add.
 
-Replacing the operands of a bilinear contraction $\mathcal B$ by $f',g'$ changes the output by at most $\|f'-f\|\|g'\|+\|f\|\|g'-g\|,$ since $\mathcal B(f',g')-\mathcal B(f,g)=\mathcal B(f'-f,g')+\mathcal B(f,g'-g).$ Hence, for disk operands, the two input errors add.
+For a unit phase $e$, a disk-grid approximation $\widetilde e$ with $|\widetilde e-e|<2h_p$ and a disk operand $x$, truncation $Q_p$ adds under $\sqrt2h_p$, so $\|Q_p(\widetilde ex)-ex\|<(2\|x\|+\sqrt2)h_p<4h_p$; and $|\widetilde e|\le1$ gives $\|Q_p(\widetilde ex)\|\le\|x\|$.
 
-A computed phase product satisfies $\|Q_p(\widetilde ex)-ex\|<(2\|x\|+\sqrt2)h_p<4h_p$ and $\|Q_p(\widetilde ex)\|\le\|x\|,$ for unit phase $e,$ approximation $\widetilde e,$ disk operand $x.$
+The ring convolution $\mathcal M_r$ of [Phase twist](phase-twist.md) returns $(f*g)/T$. Its transforms and truncation err by under $3L+2$ before a final exact multiplication by $M=T/r$, giving $E_{\rm ring}:=M(3L+2)<5TL$.
+If an operand has norm at most $.7$, so does the exact output, by contraction; adding error $5TLh_p<10^{-3}$ gives norm below $.701$. Two twists and an untwist add $4$ each, so the complex convolution errs by under
+$$(E_{\rm ring}+4+4+4)h_p<6TLh_p.$$
 
-With $M=T/r$ the ring record count, the ring convolution error is $E_{\rm ring}:=M(3L+2)<5TL,$ and its output has norm below $.701$ when one operand has norm at most $.7.$ Here $3L+2$ is three transforms and a truncation.
+The chirp transform $\widetilde{\mathscr C}$ evaluates the [Bluestein chirp identity](chirp.md), with $\boldsymbol t$ the axis lengths, $F_{\boldsymbol t}$ the exact Fourier transform and $Q$ the target permutation:
+$$\|\widetilde{\mathscr C}(x)-QF_{\boldsymbol t}x\|<(6TL+2+4+4)h_p<8TLh_p.$$
 
-The computed complex convolution has error less than $(E_{\rm ring}+4+4+4)h_p<6TLh_p:$ two input twists, the ring approximation and the output untwist. The chirp transform has error $\|\widetilde{\mathscr C}(x)-QF_{\boldsymbol t}x\|<(6TL+2+4+4)h_p<8TLh_p.$
+A source transform applies [Gaussian resampling](gaussian-resampling.md) maps and a chirp transform (error under $2dp^2+8TL$), then scales exactly by the source scale $2^\gamma$ ($b\ge2^{24}$ gives $\gamma\le b/4$ <cite data-source="paper">$b\ge2^{24}$ implies $\gamma\le b/4$</cite>). As $2dp^2<TL$ eventually, error is under $E_sh_p$, $E_s=9\cdot2^\gamma TL$.
 
-The source transform (error $2dp^2+8TL$ before scaling, then multiplied by $2^\gamma$) has error less than $E_sh_p$ with $E_s=9\cdot2^\gamma TL,$ using $2dp^2<TL$ eventually.
+Here $u,v$ denote the scaled digit arrays (letters redefined): a digit $a$ is stored as $a2^{-b-2}$, norm under $1/4$. Let $U,V_1$ be their exact source transforms and $\widetilde U,\widetilde V_1$ the computed ones, of norm under $.26$. Then $z=Q_p(\widetilde U\cdot\widetilde V_1)$ has norm under $.5$, and
+$$\widetilde U\cdot\widetilde V_1-U\cdot V_1=(\widetilde U-U)\cdot\widetilde V_1+U\cdot(\widetilde V_1-V_1)$$
+has two terms under $E_sh_p$; truncation adds under $2h_p$. So $\|z-U\cdot V_1\|<(2E_s+2)h_p$.
 
-For scaled digit arrays $u,v$ with exact transforms $U,V_1$ and computed $\widetilde U,\widetilde V_1.$ The computed product $z=Q_p(\widetilde U\cdot\widetilde V_1)$ has $\|z-U\cdot V_1\|<(2E_s+2)h_p:$ two terms of norm below $E_sh_p$ each, plus truncation. Use $\widetilde U\cdot\widetilde V_1-U\cdot V_1=(\widetilde U-U)\cdot\widetilde V_1+U\cdot(\widetilde V_1-V_1).$ The opposite transform gives error less than $(3E_s+2)h_p$ relative to $G(U\cdot V_1)=(u*v)/S^2,$ with $G$ exact.
+Both source Fourier transforms, $F$ and $F^+$, carry $1/S$, so $F(u*v)=S\,Fu\cdot Fv$ and $F^+F=I/S$; the retained permutation cancels ([Retained permutation cancellation](retained-permutations.md)), so the exact opposite transform $G$ gives $G(U\cdot V_1)=(u*v)/S^2$ <cite data-source="paper">=\frac{u*v}{S^2}.</cite> The computed one is within $E_sh_p$ of $Gz$, and $G$ is a contraction, so the total is under $(3E_s+2)h_p$. Multiplying exactly by $S$, $\widetilde w$ approximates $w=(u*v)/S$ within $E_wh_p$:
+$$E_w:=S(3E_s+2)<28\cdot2^\gamma T^2L.$$
 
-After the first exact multiplication by $S:$ $\widetilde w$ approximates $w=(u*v)/S$ with error less than $E_wh_p,$ $E_w:=S(3E_s+2)<28\cdot2^\gamma T^2L.$ After the second scaling by $2^{2b+4}S,$ undoing $1/S$ and the input scales, the absolute error is $2^{2b+4}S\cdot28\cdot2^\gamma T^2L\cdot2^{-6b}.$ Using $S\le T<2^b,$ $L<b$ it is less than $448b\,2^{-b+\gamma}.$ Since $\gamma\le b/4$ for $b\ge2^{24}$ it is at most $448b\,2^{-3b/4}<1/2.$ <cite data-source="paper">$b\ge2^{24}$ implies $\gamma\le b/4$</cite> With $p=6b,$ $4b$ spare bits remain; scaling spends $3b+4.$
+The integer coefficients are $2^{2b+4}Sw$, undoing digit scales and $1/S$. With $S\le T<2^b$ and $L<b$ the absolute error is under
+$$2^{2b+4}S\cdot28\cdot2^\gamma T^2L\cdot2^{-6b}<448b\,2^{-b+\gamma}\le448b\,2^{-3b/4}<\tfrac12.$$
+Here $p=6b$ leaves margin $2^{-b}$ against amplification up to $2^{5b+4}$. The coefficients are integers, so error below $1/2$ makes the nearest integer to the represented value correct.
 
-The true coefficients are integers, so the strict error below $1/2$ makes the nearest integer to the represented value the unique correct coefficient.
-
-We recover the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), which satisfy $c_j\le q(2^b-1)^2,$ with $q=\lceil n/b\rceil$ the digits in an $n$-bit input. The carries obey $k_0=0,$ $d_j=(c_j+k_j)\bmod Q_0,$ $k_{j+1}=\lfloor(c_j+k_j)/Q_0\rfloor$ with $Q_0=2^b.$
-
-The carries satisfy $0\le k_j\le q(Q_0-1)<Q_0^2:$ if this holds at $j,$ then $c_j+k_j\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1).$ Dividing by $Q_0$ and $q\le n\le Q_0$ finish the step.
-
-The invariant $\sum_{h<j}c_hQ_0^h=\sum_{h<j}d_hQ_0^h+k_jQ_0^j$ shows the first $j$ radix digits are fixed. It holds at $j=0,$ and each step adds $c_jQ_0^j=(d_j+Q_0k_{j+1})Q_0^j;$ unprocessed terms are multiples of $Q_0^j.$
-
-The exact product is less than $2^{2n},$ so all bits above position $2n-1$ are zero and exactly $2n$ bits are output.
+Carry propagation rebuilds the binary product from the coefficients $c_j$ of the [Multiplication as radix-digit convolution](radix-digit-reduction.md), where $c_j\le q(2^b-1)^2$ and $q=\lceil n/b\rceil\le2^b$. With $Q_0=2^b$ and $k_0=0$, output digit $d_j$ and carry $k_j$ satisfy
+$$d_j=(c_j+k_j)\bmod Q_0,\qquad k_{j+1}=\lfloor(c_j+k_j)/Q_0\rfloor.$$
+Then $0\le k_j\le q(Q_0-1)<Q_0^2$: if so at $j$, then $c_j+k_j\le q(Q_0-1)^2+q(Q_0-1)=qQ_0(Q_0-1)$. As $c_j+k_j=d_j+Q_0k_{j+1}$, adding $c_jQ_0^j$ carries the invariant
+$$\sum_{h<j}c_hQ_0^h=\sum_{h<j}d_hQ_0^h+k_jQ_0^j$$
+from $j$ to $j+1$. Unprocessed terms are multiples of $Q_0^j$, so the first $j$ radix digits are fixed. The product is below $2^{2n}$, so bits above position $2n-1$ are zero and $2n$ bits are output.
