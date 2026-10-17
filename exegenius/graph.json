@@ -1250,9 +1250,6 @@
       "$C$ means setup exponent here, but two-point kernel on [Two-point kernel C](phase-kernel.md), which this page builds on: Use another letter, or say that C here is a setup exponent, not the other page's C.",
       "$C$ means setup exponent here, but coordinate selection on [Gaussian resampling](gaussian-resampling.md), which this page builds on: Use another letter, or say that C here is a setup exponent, not the other page's C."
     ],
-    "gaussian-resampling": [
-      "$k$ means output coordinate index here, but output index tuple on [Multidimensional transforms](multidim-transform.md), which this page builds on: Say that k here is a single coefficient or coordinate index, not an output index tuple, or use another letter."
-    ],
     "multiplication-algorithm": [
       "$b$ means digit width here, but field digit count on [Controlled shifts and rational scalings](controlled-shifts.md), which this page builds on: Use another letter for this quantity, or say on this page that b is not the lowest bit of the output index (butterfly page / meaning given in the binding).",
       "$b$ means digit width here, but lowest bit on [Butterflies and the fast transform](butterfly.md), which this page builds on: Use another letter for this quantity, or say on this page that b is not the lowest bit of the output index (butterfly page / meaning given in the binding).",
@@ -1344,9 +1341,6 @@
       "$B$ means level factor here, but complement of P on [Nested subspace labels and rank deficit](subspace-labels.md), which this page builds on: Use another letter, or say on this page that B means something else here than on the other page.",
       "$B$ means level factor here, but orthogonal complement on [Tensor products of subspaces](tensor-product-of-spaces.md), which this page builds on: Use another letter, or say on this page that B means something else here than on the other page.",
       "$\\nu$ means exponent of m here, but high digit count on [Fast address-chunk interchange](address-interchange.md), which this page builds on: Use another letter, or say that nu here is an exponent of m, not a digit count."
-    ],
-    "subspace-labels": [
-      "$T$ means a triple here, but number of coefficients on [Convolution from the retained transform layout](ring-convolution.md), which builds on this page: Say on the subspace-labels page that T is a triple (a three-element subset) and not the padded size used on other pages, or use another letter for a triple."
     ],
     "transform-layout": [
       "$D$ means transformed axes here, but source group on [Matrix shear by triangular factorization](matrix-shear.md), which this page builds on: Use another letter, or say that D here is not the other page's D.",
@@ -2198,58 +2192,93 @@
       {
         "symbol": "s",
         "name": "source length",
-        "meaning": "The length of the Fourier transform to be replaced.",
+        "meaning": "The length of the prime-length Fourier transform being re-expressed.",
         "relation": "direct",
         "quote": "Gaussian resampling expresses a Fourier transform of length $s$ through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
-      },
-      {
-        "symbol": "\\alpha",
-        "name": "Gaussian width parameter",
-        "meaning": "An integer, with 2 <= alpha < sqrt p, that is the width parameter of the Gaussian weights.",
-        "relation": "direct",
-        "quote": "and let $\\alpha$, the width parameter of the Gaussian weights below, be an integer with $2\\le\\alpha<\\sqrt p$."
       },
       {
         "symbol": "\\theta",
         "name": "relative gap",
-        "meaning": "The relative gap t/s - 1 between the two lengths.",
+        "meaning": "The relative excess t/s-1 of the padded length over the source length.",
         "relation": "direct",
         "quote": "Assume $\\theta:=t/s-1>p/\\alpha^4$."
       },
       {
+        "symbol": "\\mathsf S",
+        "name": "input resampling",
+        "meaning": "The Gaussian-weighted map from length-s to length-t complex vectors applied before the power-of-two transform.",
+        "relation": "direct",
+        "quote": "Harvey and van der Hoeven's maps $\\mathsf S,\\mathsf T$ from length-$s$ to length-$t$ complex vectors are, for $0\\le k<t$, with $u$ extended periodically and $j$ over all integers,"
+      },
+      {
+        "symbol": "\\mathsf T",
+        "name": "output resampling",
+        "meaning": "The Gaussian-weighted map from length-s to length-t complex vectors on the transform side of the identity.",
+        "relation": "direct",
+        "quote": "Harvey and van der Hoeven's maps $\\mathsf S,\\mathsf T$ from length-$s$ to length-$t$ complex vectors are, for $0\\le k<t$, with $u$ extended periodically and $j$ over all integers,"
+      },
+      {
+        "symbol": "q_j",
+        "name": "nearest coordinate",
+        "meaning": "The integer nearest tj/s, the coordinate of the length-t vector selected for index j.",
+        "relation": "direct",
+        "quote": "To undo $\\mathsf T$, let $q_j$ be the integer nearest $tj/s$ and $\\beta_j=tj/s-q_j$."
+      },
+      {
+        "symbol": "\\beta_j",
+        "name": "rounding offset",
+        "meaning": "The difference tj/s-q_j between tj/s and its nearest integer.",
+        "relation": "direct",
+        "quote": "To undo $\\mathsf T$, let $q_j$ be the integer nearest $tj/s$ and $\\beta_j=tj/s-q_j$."
+      },
+      {
         "symbol": "C",
-        "name": "coordinate selection",
-        "meaning": "The map from C^t to C^s that selects coordinate q_j into position j.",
+        "name": "selection map",
+        "meaning": "The map from length-t to length-s vectors that picks coordinate q_j for each j.",
         "relation": "direct",
         "quote": "Let $C$ select coordinates from length-$t$ to length-$s$ vectors, $(Cv)_j=v_{q_j}$, and $(\\mathsf Du)_j=e^{\\pi\\alpha^2\\beta_j^2}u_j$."
       },
       {
-        "symbol": "\\delta",
-        "name": "exponent slack",
-        "meaning": "A fixed constant 0 < delta < 1/8 that is the slack in the exponents of the time bounds.",
+        "symbol": "\\mathsf D",
+        "name": "Gaussian diagonal",
+        "meaning": "The diagonal map multiplying coordinate j by e^{pi alpha^2 beta_j^2}.",
         "relation": "direct",
-        "quote": "Fix $0<\\delta<1/8$, the time-exponent slack."
+        "quote": "Let $C$ select coordinates from length-$t$ to length-$s$ vectors, $(Cv)_j=v_{q_j}$, and $(\\mathsf Du)_j=e^{\\pi\\alpha^2\\beta_j^2}u_j$."
+      },
+      {
+        "symbol": "N",
+        "name": "approximate identity",
+        "meaning": "The map C T D on length-s vectors, close to the identity.",
+        "relation": "direct",
+        "quote": "Put $N=C\\mathsf T\\mathsf D$."
       },
       {
         "symbol": "k",
-        "name": "output coordinate index",
-        "meaning": "A coordinate index of a vector in C^t, taken modulo t.",
+        "name": "coordinate index",
+        "meaning": "A single coordinate index of a vector, not an index tuple.",
         "relation": "direct",
-        "quote": "Define the permutations $(P_su)_j=u_{tj}$ and $(P_tv)_k=v_{-sk}$ (coordinate indices $j$, $k$ taken modulo $s$, $t$), which stay in the identity, never executed as sorts."
+        "quote": "Several letters are reused here with new meanings: $j$ and $k$ are single coordinate indices, not index tuples as in multidimensional transforms."
+      },
+      {
+        "symbol": "j",
+        "name": "coordinate index",
+        "meaning": "A single coordinate index of a vector, not an index tuple.",
+        "relation": "direct",
+        "quote": "Several letters are reused here with new meanings: $j$ and $k$ are single coordinate indices, not index tuples as in multidimensional transforms."
+      },
+      {
+        "symbol": "\\alpha",
+        "name": "width parameter",
+        "meaning": "An integer with 2<=alpha<sqrt p setting the width of the Gaussian weights.",
+        "relation": "direct",
+        "quote": "Let $s<t<2^p$ be coprime integers, where $p>100$ counts the fractional bits of each real and imaginary component, and let $\\alpha$, the width parameter of the Gaussian weights below, be an integer with $2\\le\\alpha<\\sqrt p$."
       },
       {
         "symbol": "t",
-        "name": "target length",
-        "meaning": "The larger length, a power of two in the application, of the transform used instead of the length-s one.",
+        "name": "padded length",
+        "meaning": "The nearby larger transform length, a power of two, into which the length-s transform is resampled.",
         "relation": "direct",
         "quote": "Gaussian resampling expresses a Fourier transform of length $s$ through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
-      },
-      {
-        "symbol": "\\widetilde E",
-        "name": "approximate E",
-        "meaning": "The numerical approximation of E = N - I computed on D_p records.",
-        "relation": "direct",
-        "quote": "Let $\\widetilde E$ be the approximation of $E$ on $\\mathbb D_p$ from the cited Lemma 4.11: for every $z\\in\\mathbb D_p^s$"
       }
     ],
     "hvdh-multiplier": [
@@ -3774,18 +3803,11 @@
         "quote": "Bit labels live in $F=\\mathbb Q^h$, where $h=100$, with the form $\\langle x,y\\rangle=x\\cdot y-\\frac19(\\sum_ix_i)(\\sum_iy_i)$ for vectors $x,y\\in F$."
       },
       {
-        "symbol": "T",
-        "name": "a triple",
-        "meaning": "A three-element subset of $[h]$ (not the padded size used on other pages).",
-        "relation": "direct",
-        "quote": "For *triples* (three-element subsets of $[h]$) $S,T$, indicator vectors $t_S,t_T$ have integer dot product $|S\\cap T|$ and entry sum $3$, so $\\langle t_S,t_T\\rangle=|S\\cap T|-1$; over $\\mathbb F_2$, $t_S\\cdot t_T=|S\\cap T|\\bmod 2$."
-      },
-      {
-        "symbol": "t_T",
+        "symbol": "t_S",
         "name": "triple indicator",
-        "meaning": "The indicator vector in $F$ of the triple $T$.",
+        "meaning": "The indicator vector in $F$ of the triple $S$.",
         "relation": "direct",
-        "quote": "For *triples* (three-element subsets of $[h]$) $S,T$, indicator vectors $t_S,t_T$ have integer dot product $|S\\cap T|$ and entry sum $3$, so $\\langle t_S,t_T\\rangle=|S\\cap T|-1$; over $\\mathbb F_2$, $t_S\\cdot t_T=|S\\cap T|\\bmod 2$."
+        "quote": "For *triples* (three-element subsets of $[h]$) $S,S'$, indicator vectors $t_S,t_{S'}$ have integer dot product $|S\\cap S'|$ and entry sum $3$, so $\\langle t_S,t_{S'}\\rangle=|S\\cap S'|-1$; over $\\mathbb F_2$, $t_S\\cdot t_{S'}=|S\\cap S'|\\bmod 2$."
       },
       {
         "symbol": "\\mathcal F",
@@ -4238,8 +4260,8 @@
     "gaussian-resampling": [
       {
         "prerequisite": "dft",
-        "predicate": "expresses",
-        "quote": "Here $F_q$ is the normalised [Discrete Fourier transform](dft.md) of length $q$, and the resampling expresses $F_s$ through $F_t$."
+        "predicate": "re-expresses",
+        "quote": "Here $F_q$ is the normalised [Discrete Fourier transform](dft.md) of length $q$, and the resampling re-expresses $F_s$ through $F_t$."
       },
       {
         "prerequisite": "multidim-transform",
@@ -5111,10 +5133,6 @@
     ],
     "gaussian-resampling": [
       {
-        "sentence": "Some earlier letters are reused here.",
-        "depth": 1
-      },
-      {
         "sentence": "Let $s<t<2^p$ be coprime integers, where $p>100$ counts the fractional bits of each real and imaginary component, and let $\\alpha$, the width parameter of the Gaussian weights below, be an integer with $2\\le\\alpha<\\sqrt p$.",
         "depth": 1
       },
@@ -5151,23 +5169,7 @@
         "depth": 1
       },
       {
-        "sentence": "The other summands form $((N-I)u)_j$, and the cited estimate gives $\\|N-I\\|<2.",
-        "depth": 1
-      },
-      {
-        "sentence": "Set $\\mathsf S'=\\mathsf S/2$, $\\mathsf J'=N^{-1}/2$, $\\mathsf D'=2^{-(2\\alpha^2-2)}\\mathsf D$, and put $A=\\mathsf S'$ and $B_0=\\mathsf D'\\mathsf J'C$.",
-        "depth": 1
-      },
-      {
-        "sentence": "These are contractions, since $\\|C\\|=1$ and the three factors have norms below $3/4$, $7/8$, $1$ (cited).",
-        "depth": 1
-      },
-      {
         "sentence": "md).",
-        "depth": 1
-      },
-      {
-        "sentence": "An approximation $\\widetilde L$ of a contraction $L$ has error below a bound if $2^p\\|\\widetilde Lu-Lu\\|$ is less than it for all inputs $u\\in\\mathbb D_p$; composing approximations adds errors.",
         "depth": 1
       },
       {
@@ -6348,14 +6350,6 @@
       },
       {
         "sentence": "The deficit $W_{\\rm b}m-s_{\\rm b}=N-2L_{\\rm b}=\\frac{339}{539}N$ is positive because $L_{\\rm b}/N<1/2$, but tiny beside $W_{\\rm b}m$.",
-        "depth": 2
-      },
-      {
-        "sentence": "Each invocation also has $vz_{\\rm b}$ side wires, one per ordered neighbour pair, where $z_{\\rm b}=3\\binom{97}2=13968$ counts a triple's neighbours (one shared element, two of the other $97$).",
-        "depth": 2
-      },
-      {
-        "sentence": "Since $Iv=3N$ and $Ic_{\\rm b}=N/539$, $W_{\\rm b}=2N+I(vz_{\\rm b}+c_{\\rm b})=N(2+3z_{\\rm b}+\\frac1{539})=\\frac{22587335}{539}N$ (cited), so the relative deficit is $\\frac{339}{22587335\\,m}=\\frac{339}{22587335000000}\\approx1.",
         "depth": 2
       },
       {
