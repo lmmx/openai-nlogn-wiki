@@ -1223,17 +1223,6 @@
       "evidence": []
     }
   ],
-  "rewrite": {
-    "simultaneous-layer": [
-      "$D$ means selected chunk count here, but second chunk value on [Fast address-chunk interchange](address-interchange.md), which this page builds on: On this page $D$ means the number of selected address chunks, but the address-interchange page uses $D$ for the second chunk value. Use another letter here, or say that $D$ means the number of selected address chunks here, not the second chunk value as on the address-interchange page.",
-      "$D$ means selected chunk count here, but source group on [Matrix shear by triangular factorization](matrix-shear.md), which this page builds on: On this page $D$ means the number of selected address chunks, but the matrix-shear page uses $D$ for the source group of fields. Use another letter here, or say that $D$ means the number of selected address chunks here, not the source group of fields as on the matrix-shear page.",
-      "$e$ means selected axis count here, but chunk digit count on [Fast address-chunk interchange](address-interchange.md), which this page builds on: On this page $e$ means the number of selected axes, but the address-interchange page uses $e$ for the number of digits in a chunk. Use another letter here, or say that $e$ means the number of selected axes here, not the number of digits in a chunk as on the address-interchange page.",
-      "$z$ means array here, but suffix on [Fast address-chunk interchange](address-interchange.md), which this page builds on: On this page $z$ means an array acted on by the diagonal operator, but the address-interchange page uses $z$ for the suffix of an address. Use another letter here, or say that $z$ means an array acted on by the diagonal operator here, not the suffix of an address as on the address-interchange page.",
-      "$z$ means array here, but binary vector on [Binary phase frames](phase-frames.md), which this page builds on: On this page $z$ means an array acted on by the diagonal operator, but the binary phase frames page uses $z$ for a binary vector. Use another letter here, or say that $z$ means an array acted on by the diagonal operator here, not a binary vector as on the binary phase frames page.",
-      "$E$ means invocation operation bound here, but first space on [Tensor products of subspaces](tensor-product-of-spaces.md), which this page builds on: On this page $E$ means the bound on operations per invocation, but the tensor-product page uses $E$ for the first tensor factor. Use another letter here, or say that $E$ means the bound on operations per invocation here, not the first tensor factor as on the tensor-product page.",
-      "$E$ means invocation operation bound here, but edge residual on [Binary phase frames](phase-frames.md), which this page builds on: On this page $E$ means the bound on operations per invocation, but the binary phase frames page uses $E$ for the edge residual. Use another letter here, or say that $E$ means the bound on operations per invocation here, not the edge residual as on the binary phase frames page."
-    ]
-  },
   "bindings": {
     "address-interchange": [
       {
@@ -3296,30 +3285,30 @@
       {
         "symbol": "D",
         "name": "selected chunk count",
-        "meaning": "The number of selected address chunks, at most d.",
+        "meaning": "The number of selected address chunks.",
         "relation": "count",
-        "quote": "The simultaneous butterfly layer applies $H_0$ coefficientwise to one bit of each of $D\\le d$ selected address chunks of $K$ bits, at a common offset, in time $O(Vd^{\\lambda'}),$ $\\lambda'<1,$ instead of $D$ passes ($D$ counts chunks, not the source group of the shear page)."
+        "quote": "The simultaneous butterfly layer applies $H_0$ coefficientwise to one bit of each of $D\\le d$ selected address chunks of $K$ bits, at a common offset, in time $O(Vd^{\\lambda'}),$ $\\lambda'<1,$ instead of $D$ passes; here $D$ is the number of selected address chunks, not the second chunk value of [Fast address-chunk interchange](address-interchange.md), and $D$ is not the source group of [Matrix shear by triangular factorization](matrix-shear.md)."
       },
       {
         "symbol": "e",
         "name": "selected axis count",
-        "meaning": "The number of selected axes in a group, e = mf.",
+        "meaning": "The number of selected axes in a group.",
         "relation": "count",
-        "quote": "A group of $e=mf$ selected axes ($e$ counts axes, not digits of a chunk) has $m$ slots of $f$ axes; a column holds one bit per slot, in $\\mathbb F_2^m.$"
+        "quote": "A group of $e=mf$ selected axes ($e$ is the number of selected axes, not the number of digits in a chunk as on [Fast address-chunk interchange](address-interchange.md)) has $m$ slots of $f$ axes; a column holds one bit per slot, in $\\mathbb F_2^m.$"
       },
       {
         "symbol": "z",
         "name": "array",
-        "meaning": "An array on which the diagonal operator acts.",
+        "meaning": "An array acted on by the diagonal operator.",
         "relation": "direct",
-        "quote": "With $x_1,\\dots,x_D$ the selected bits of an address $x,$ this gives $H_0^{\\otimes D}=b^D\\mathcal S_DC^{\\otimes D}\\mathcal S_D,$ where the diagonal operator $\\mathcal S_D$ acts on an array $z$ (not a suffix) by $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x).$"
+        "quote": "where the diagonal operator $\\mathcal S_D$ acts on an array $z$ by $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x).$"
       },
       {
-        "symbol": "\\xi",
-        "name": "residual index",
-        "meaning": "The index of a residual basis vector and its slot.",
+        "symbol": "\\mathcal S_D",
+        "name": "diagonal phase operator",
+        "meaning": "The diagonal operator multiplying the value at address x by i to the sum of the selected bits.",
         "relation": "direct",
-        "quote": "Each edge changes the frame on every column by $\\prod_\\xi C_{v_\\xi}^{\\eta_\\xi},$ with residual basis vectors $v_\\xi$ indexed by $\\xi,$ $\\eta_\\xi=\\pm1,$ $C_v=aI+bX_v$ and $X_v$ shifting a column by $v.$"
+        "quote": "where the diagonal operator $\\mathcal S_D$ acts on an array $z$ by $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x).$"
       },
       {
         "symbol": "\\Gamma",
@@ -3331,65 +3320,79 @@
       {
         "symbol": "\\mathcal P_\\Gamma",
         "name": "address permutation",
-        "meaning": "The address permutation sending x to Gamma x.",
+        "meaning": "The address permutation moving the value at x to Gamma x.",
         "relation": "direct",
         "quote": "Let $\\Gamma$ be an invertible $\\mathbb F_2$-matrix with first columns $v_\\xi$ and $\\mathcal P_\\Gamma:x\\mapsto\\Gamma x$ an address permutation."
+      },
+      {
+        "symbol": "\\xi",
+        "name": "residual basis index",
+        "meaning": "The index of the residual basis vectors.",
+        "relation": "direct",
+        "quote": "with residual basis vectors $v_\\xi$ indexed by $\\xi,$ $\\eta_\\xi=\\pm1,$ $C_v=aI+bX_v$ and $X_v$ shifting a column by $v.$"
+      },
+      {
+        "symbol": "\\eta_\\xi",
+        "name": "edge sign",
+        "meaning": "The sign plus or minus one of the xi-th residual basis vector's exponent.",
+        "relation": "direct",
+        "quote": "with residual basis vectors $v_\\xi$ indexed by $\\xi,$ $\\eta_\\xi=\\pm1,$ $C_v=aI+bX_v$ and $X_v$ shifting a column by $v.$"
       },
       {
         "symbol": "\\mathbf 1_\\xi",
         "name": "standard basis vector",
         "meaning": "The xi-th standard basis vector.",
         "relation": "direct",
-        "quote": "so the edge change is $\\mathcal P_\\Gamma(\\prod_\\xi C_{\\mathbf 1_\\xi}^{\\eta_\\xi})\\mathcal P_\\Gamma^{-1},$ $\\mathbf 1_\\xi$ the $\\xi$-th standard basis vector."
+        "quote": "$\\mathbf 1_\\xi$ the $\\xi$-th standard basis vector"
       },
       {
         "symbol": "q_0",
-        "name": "individual chunks",
-        "meaning": "The number of leading chunks given individual C kernels, whose bits form the row index.",
+        "name": "individual chunk count",
+        "meaning": "The number of leading chunks given individual C kernels.",
         "relation": "count",
         "quote": "So the first $q_0=\\lceil\\log_2W\\rceil\\lceil\\log_m(2d)\\rceil$ chunks get individual $C$ kernels, in $O(V\\log d),$ and their bits form a row index of range at least $W^{\\lceil\\log_md\\rceil}.$"
       },
       {
         "symbol": "\\chi",
-        "name": "chain operation bound",
-        "meaning": "A bound on the operations on a chain from an input to an intermediate coefficient.",
+        "name": "operation-chain bound",
+        "meaning": "A bound on the arithmetic operations on a chain from an input to an intermediate coefficient.",
         "relation": "count",
-        "quote": "Let $\\chi(e)$ bound the operations on a chain from an input to an intermediate coefficient ($E$ below is an operation bound, not a tensor factor)."
+        "quote": "Let $\\chi(e)$ bound the operations on a chain from an input to an intermediate coefficient"
       },
       {
         "symbol": "E",
         "name": "invocation operation bound",
-        "meaning": "A bound on the operations in one invocation of the network.",
+        "meaning": "The bound on arithmetic operations in one invocation of the network.",
         "relation": "count",
-        "quote": "Let $\\chi(e)$ bound the operations on a chain from an input to an intermediate coefficient ($E$ below is an operation bound, not a tensor factor)."
+        "quote": "($E$ below is an operation bound, not the first tensor factor of [Tensor products of subspaces](tensor-product-of-spaces.md); $E$ is likewise not the edge residual of the phase frames page)"
       },
       {
         "symbol": "\\Psi",
-        "name": "level factor",
-        "meaning": "The sum s + psi, the factor by which the chain bound grows per level.",
+        "name": "level growth factor",
+        "meaning": "The sum s plus E, the factor by which each internal level multiplies the chain bound.",
         "relation": "direct",
-        "quote": "With $\\Psi=s+E,$ $s\\varphi+E\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1,$ so $\\chi(e)\\le8d\\Psi^{\\lceil\\log_md\\rceil+1}.$"
+        "quote": "With $\\Psi=s+E,$ $s\\varphi+E\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1,$"
       },
       {
         "symbol": "\\varphi",
-        "name": "chain bound value",
-        "meaning": "Any bound of at least one on a chain length.",
+        "name": "chain bound",
+        "meaning": "Any bound on a chain's operation count that is at least one.",
         "relation": "direct",
-        "quote": "With $\\Psi=s+E,$ $s\\varphi+E\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1,$ so $\\chi(e)\\le8d\\Psi^{\\lceil\\log_md\\rceil+1}.$"
+        "quote": "With $\\Psi=s+E,$ $s\\varphi+E\\le\\Psi\\varphi$ for any bound $\\varphi\\ge1,$"
       },
       {
         "symbol": "\\vartheta",
-        "name": "exponent of m",
-        "meaning": "The least j at least 1 with m^j at least Psi; an exponent, not a digit count.",
+        "name": "exponent",
+        "meaning": "The least positive exponent j with m to the j at least Psi.",
         "relation": "direct",
-        "quote": "With $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$ (an exponent of $m,$ not a digit count), $\\Psi^{\\lceil\\log_md\\rceil+1}\\le\\Psi^{\\log_md+2}=\\Psi^2d^{\\log_m\\Psi}\\le\\Psi^2d^\\vartheta,$ so $\\chi(e)\\le8\\Psi^2d^{\\vartheta+1}.$"
+        "quote": "With $\\vartheta=\\min\\{j\\ge1:m^j\\ge\\Psi\\}$ (an exponent of $m,$ not a digit count)"
       },
       {
         "symbol": "C_0",
         "name": "guard constant",
-        "meaning": "The constant 128 m Psi^2 in the guard width Delta.",
+        "meaning": "The constant 128 m Psi squared in the reserved extra bits Delta.",
         "relation": "direct",
-        "quote": "The total is at most $8m\\Psi^2d^{\\vartheta+2}+18d<128m\\Psi^2d^{\\vartheta+3}\\le\\Delta=\\lceil C_0d^{C_1}\\rceil,$ with $C_0=128m\\Psi^2,$ $C_1=\\max\\{20,\\vartheta+3\\}.$"
+        "quote": "with $C_0=128m\\Psi^2,$ $C_1=\\max\\{20,\\vartheta+3\\}.$"
       }
     ],
     "stream-ops": [
