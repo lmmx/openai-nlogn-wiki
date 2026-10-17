@@ -1,0 +1,242 @@
+{
+ "derivations": [
+  {
+   "step": "S1.6.3.1",
+   "quote": "so the time is $O(V(L^\\tau+1)+MA_{\\rm rect}^3+\\delta_{\\rm bad}MA_{\\rm rect}(R+A_{\\rm rect}))$"
+  },
+  {
+   "step": "S1.6.3.2",
+   "quote": "For $c=1$, substituting the four parity pairs shows lines 1 to 4 permute the parities of $(u,w)$ by $(00\\ 01\\ 10)$ and lines 5 to 8 by $(01\\ 10\\ 11)$, composing to $(00\\ 10)(01\\ 11)$."
+  },
+  {
+   "step": "S1.6.3.3",
+   "quote": "So $(u',w')=(u+c(1-2(u\\bmod2)),w)$: $u$ flips parity iff $c=1$, quotients by two persist, $w$ is restored."
+  },
+  {
+   "step": "S1.6.3.4",
+   "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$."
+  },
+  {
+   "step": "S1.6.3.5",
+   "quote": "a cyclic shift of the whole chunk $y$ by an offset independent of $y$, hence a bijection of addresses."
+  },
+  {
+   "step": "S1.6.3.6",
+   "quote": "Off $\\mathcal B$ each segment lies in $[20,2^K-21]$, so displacement eight stays in $[0,2^K-1]$: no carry or borrow between segments, so $S_0$ equals the ideal map $T_0$ doing the XORs at $j_0,\\dots,j_{f-2}$."
+  },
+  {
+   "step": "S1.6.3.7",
+   "quote": "Ten values are excluded at each end of the guard range, twenty per guard"
+  },
+  {
+   "step": "S1.6.3.8",
+   "quote": "At fixed spectator coordinates $y$ and $z$ range over all $2^L$ values, so each guard takes every value equally often and a fraction $20/2^{K-1}$ fail it. A union bound over the $2(f-1)$ guards gives"
+  },
+  {
+   "step": "S1.6.3.9",
+   "quote": "$|\\mathcal B|\\le\\delta_{\\rm bad}M$, $\\delta_{\\rm bad}=\\min\\{1,80(f-1)2^{-K}\\}$."
+  },
+  {
+   "step": "S1.6.3.10",
+   "quote": "$T_0$ preserves guards, hence $\\mathcal B$; bijections agreeing off $\\mathcal B$ give $S_0(\\mathcal B^c)=T_0(\\mathcal B^c)=\\mathcal B^c$ and $S_0(\\mathcal B)=\\mathcal B$."
+  },
+  {
+   "step": "S1.6.3.11",
+   "quote": "A rotation needs its target after its two control chunks, so swap it rightmost, rotate, and undo the swap: at most two swaps per rotation, so at most sixteen swaps and eight rotations"
+  },
+  {
+   "step": "S1.6.3.12",
+   "quote": "As $q'$ permutes $\\mathcal B$, keys are distinct and equal the holes' ranks, so one scan refilling holes in order applies $T_0$."
+  },
+  {
+   "step": "S1.6.3.13",
+   "quote": "Movement costs $O(V(L^\\tau+1))$, scans $O(MA_{\\rm rect}^3+V)$, and radix passes $O(|\\mathcal B|A_{\\rm rect}(R+A_{\\rm rect}))$"
+  },
+  {
+   "step": "S1.6.3.14",
+   "quote": "Per $V$ the extra terms are $A_{\\rm rect}^3/R$ and $80(f-1)2^{-K}A_{\\rm rect}(1+A_{\\rm rect}/R)$, both $o(1)$ when $A_{\\rm rect}=O(p)$, $R$ exceeds every polynomial in $p$, $f\\le d\\le p$, $K/\\log p\\to\\infty$; the cost is $O(V(L^\\tau+1))$."
+  }
+ ],
+ "symbols": [
+  {
+   "symbol": "c",
+   "name": "control bit",
+   "meaning": "The control bit of one pair of segments, 0 or 1.",
+   "relation": "direct",
+   "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+  },
+  {
+   "symbol": "u",
+   "name": "first integer",
+   "meaning": "The first of the two integers that the eight additions update.",
+   "relation": "direct",
+   "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+  },
+  {
+   "symbol": "w",
+   "name": "second integer",
+   "meaning": "The second integer, which is restored.",
+   "relation": "direct",
+   "quote": "For a control bit $c$ and integers $u,w$, $c[P]$ is $c$ if $P$ holds, else $0$."
+  },
+  {
+   "symbol": "R",
+   "name": "record bits",
+   "meaning": "The number of bits in the record at each address.",
+   "relation": "count",
+   "quote": "Each address holds an $R$-bit record (not the scalar ring)"
+  },
+  {
+   "symbol": "L",
+   "name": "chunk bits",
+   "meaning": "The number of bits in each of the chunks x, y, z, equal to fK.",
+   "relation": "count",
+   "quote": "three chunks $x,y,z$ of $L=fK$ bits"
+  },
+  {
+   "symbol": "K",
+   "name": "segment spacing",
+   "meaning": "The spacing between selected positions, at least 6, which is the length of each segment.",
+   "relation": "count",
+   "quote": "with $K\\ge6$ the segment spacing"
+  },
+  {
+   "symbol": "f",
+   "name": "selected bit count",
+   "meaning": "The number of selected bits per chunk.",
+   "relation": "count",
+   "quote": "$f$ the number of selected bits"
+  },
+  {
+   "symbol": "M",
+   "name": "address count",
+   "meaning": "The number of addresses.",
+   "relation": "count",
+   "quote": "Let $M$ count addresses"
+  },
+  {
+   "symbol": "A_{\\rm rect}",
+   "name": "counter length",
+   "meaning": "An upper bound on the number of bits of every counter, the ceiling of log2(2V).",
+   "relation": "direct",
+   "quote": "bound counter lengths"
+  },
+  {
+   "symbol": "\\rho",
+   "name": "selected-bit offset",
+   "meaning": "The offset of the lowest selected position within a segment, 0 <= rho < K.",
+   "relation": "direct",
+   "quote": "Selected positions are $j_i=\\rho+iK$, $0\\le i<f$, $0\\le\\rho<K$"
+  },
+  {
+   "symbol": "j_i",
+   "name": "selected position",
+   "meaning": "The i-th selected bit position in a chunk.",
+   "relation": "direct",
+   "quote": "Selected positions are $j_i=\\rho+iK$, $0\\le i<f$, $0\\le\\rho<K$"
+  },
+  {
+   "symbol": "g",
+   "name": "guard value",
+   "meaning": "The guard value of a segment, any g_i or h_i: its high K-1 bits.",
+   "relation": "direct",
+   "quote": "Let $\\mathcal B$, the exceptional addresses, be those where some guard $g$ (any $g_i$, $h_i$) fails"
+  },
+  {
+   "symbol": "g_i",
+   "name": "guard of y",
+   "meaning": "The guard value of the i-th segment of y, with u_i = 2 g_i + a_i.",
+   "relation": "direct",
+   "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+  },
+  {
+   "symbol": "h_i",
+   "name": "guard of z",
+   "meaning": "The guard value of the i-th segment of z, with w_i = 2 h_i + b_i.",
+   "relation": "direct",
+   "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+  },
+  {
+   "symbol": "a_i",
+   "name": "low bit of y segment",
+   "meaning": "The lowest bit of the i-th segment of y.",
+   "relation": "direct",
+   "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+  },
+  {
+   "symbol": "b_i",
+   "name": "low bit of z segment",
+   "meaning": "The lowest bit of the i-th segment of z.",
+   "relation": "direct",
+   "quote": "with bits $a_i,b_i$ and guard values $g_i,h_i\\in\\{0,\\dots,2^{K-1}-1\\}$"
+  },
+  {
+   "symbol": "u_i",
+   "name": "y segment",
+   "meaning": "The value of the i-th K-bit segment of y.",
+   "relation": "direct",
+   "quote": "For $0\\le i<f-1$ the $K$ bits of $y$ from $j_i$ form a disjoint segment of value $u_i=2g_i+a_i$"
+  },
+  {
+   "symbol": "w_i",
+   "name": "z segment",
+   "meaning": "The value of the i-th K-bit segment of z.",
+   "relation": "direct",
+   "quote": "and those of $z$ one of value $w_i=2h_i+b_i$"
+  },
+  {
+   "symbol": "c_i",
+   "name": "segment control",
+   "meaning": "The selected bit x at j_i that controls the i-th pair of segments.",
+   "relation": "direct",
+   "quote": "The control is $c_i=x_{j_i}$."
+  },
+  {
+   "symbol": "S_0",
+   "name": "packed map",
+   "meaning": "The composition of the eight packed cyclic shifts.",
+   "relation": "direct",
+   "quote": "Let $S_0$ compose the eight."
+  },
+  {
+   "symbol": "T_0",
+   "name": "ideal map",
+   "meaning": "The permutation of addresses that performs the required XORs at j_0..j_{f-2}.",
+   "relation": "direct",
+   "quote": "so $S_0$ equals the ideal map $T_0$ doing the XORs at $j_0,\\dots,j_{f-2}$"
+  },
+  {
+   "symbol": "\\mathcal B",
+   "name": "exceptional addresses",
+   "meaning": "The set of addresses where some guard of y or z lies outside [10, 2^{K-1}-11].",
+   "relation": "direct",
+   "quote": "Let $\\mathcal B$, the exceptional addresses, be those where some guard $g$ (any $g_i$, $h_i$) fails"
+  },
+  {
+   "symbol": "\\delta_{\\rm bad}",
+   "name": "bad fraction",
+   "meaning": "The bound min{1, 80(f-1)2^{-K}} on the fraction of exceptional addresses.",
+   "relation": "direct",
+   "quote": "A union bound over the $2(f-1)$ guards gives $|\\mathcal B|\\le\\delta_{\\rm bad}M$, $\\delta_{\\rm bad}=\\min\\{1,80(f-1)2^{-K}\\}$."
+  },
+  {
+   "symbol": "q",
+   "name": "address",
+   "meaning": "An address of a record after S_0, and q' is its destination T_0 S_0^{-1}(q).",
+   "relation": "direct",
+   "quote": "After $S_0$, the record at $q$ came from $S_0^{-1}(q)$ and belongs at $q'=T_0S_0^{-1}(q)$"
+  }
+ ],
+ "relations": [
+  {
+   "prerequisite": "controlled-shifts",
+   "predicate": "rotates chunks by",
+   "quote": "It rotates chunks by [Controlled shifts and rational scalings](controlled-shifts.md) in $O(V)$ time and swaps them by [Fast address-chunk interchange](address-interchange.md) in $O(VL^\\tau)$, fixed $\\tau<1$."
+  },
+  {
+   "prerequisite": "address-interchange",
+   "predicate": "swaps them by",
+   "quote": "It rotates chunks by [Controlled shifts and rational scalings](controlled-shifts.md) in $O(V)$ time and swaps them by [Fast address-chunk interchange](address-interchange.md) in $O(VL^\\tau)$, fixed $\\tau<1$."
+  }
+ ]
+}
