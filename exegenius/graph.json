@@ -3171,6 +3171,85 @@
         "quote": "Let $H_j$ be the resulting Gaussian integer coefficient of $y^j$."
       }
     ],
+    "simultaneous-layer": [
+      {
+        "symbol": "V",
+        "name": "stream volume",
+        "meaning": "The number of bits of the stream.",
+        "relation": "count",
+        "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+      },
+      {
+        "symbol": "K",
+        "name": "chunk width",
+        "meaning": "The number of bits in an address chunk.",
+        "relation": "count",
+        "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+      },
+      {
+        "symbol": "p",
+        "name": "fractional bits",
+        "meaning": "The number of fractional bits of each coefficient.",
+        "relation": "count",
+        "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+      },
+      {
+        "symbol": "D",
+        "name": "selected chunks",
+        "meaning": "The number of address chunks whose selected bit is butterflied.",
+        "relation": "count",
+        "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+      },
+      {
+        "symbol": "d",
+        "name": "chunk bound",
+        "meaning": "The maximum number of chunks, D at most d.",
+        "relation": "direct",
+        "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+      },
+      {
+        "symbol": "e",
+        "name": "axis count",
+        "meaning": "The number of axes in a group handled by the network.",
+        "relation": "count",
+        "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+      },
+      {
+        "symbol": "m",
+        "name": "slot count",
+        "meaning": "The number of slots into which the e axes are arranged.",
+        "relation": "count",
+        "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+      },
+      {
+        "symbol": "f",
+        "name": "slot width",
+        "meaning": "The number of bits in each slot.",
+        "relation": "count",
+        "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+      },
+      {
+        "symbol": "s",
+        "name": "child count",
+        "meaning": "The number of children, the total of residual dimensions over the network.",
+        "relation": "count",
+        "quote": "Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
+      },
+      {
+        "symbol": "W",
+        "name": "wire count",
+        "meaning": "The number of wires of the network.",
+        "relation": "count",
+        "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume."
+      },
+      {
+        "symbol": "F(e)",
+        "name": "normalized time",
+        "meaning": "The time divided by the stream volume.",
+        "relation": "direct",
+        "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume."
+      }
+    ],
     "stream-ops": [
       {
         "symbol": "V",
@@ -3669,6 +3748,28 @@
         "prerequisite": "ring-y",
         "predicate": "multiplies polynomials in",
         "quote": "Signed packing multiplies polynomials in the [Polynomial ring modulo y^r + 1](ring-y.md), $\\mathcal R_r$: take $f,g$ with coefficients $2^{-p}$ times Gaussian integers of modulus at most 1."
+      }
+    ],
+    "simultaneous-layer": [
+      {
+        "prerequisite": "phase-frames",
+        "predicate": "is applied by the network of",
+        "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+      },
+      {
+        "prerequisite": "packed-bit-addition",
+        "predicate": "has its row additions done by",
+        "quote": "Gaussian elimination writes $M$ as at most $m(m-1)+3m$ row additions, each XORing selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md)."
+      },
+      {
+        "prerequisite": "rank-recurrence",
+        "predicate": "has its recurrence solved as in",
+        "quote": "The recurrence, solved as in [Recursive power saving](rank-recurrence.md), is $F(e)\\le\\tfrac sWF(e/m)+O((eK)^\\tau+1)\\ (e\\ge d^\\beta),\\ F(e)=O(e)\\ (e<d^\\beta),\\ \\beta=\\frac12.$"
+      },
+      {
+        "prerequisite": "fixed-point",
+        "predicate": "represents coefficients exactly as in",
+        "quote": "So with $\\Delta=\\lceil C_0d^{C_1}\\rceil,$ reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly."
       }
     ],
     "stream-ops": [

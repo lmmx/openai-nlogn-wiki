@@ -30,23 +30,23 @@ for sym,name,mean in [("j","stage number","The stage, 1, 2 or 3, whose invocatio
     ("A","earlier factor space","The tensor product $F^{\\otimes(j-1)}$ of the factors already exposed at stage $j$."),
     ("P","earlier tensor line","The line spanned by $t_{a_1}\\otimes\\cdots\\otimes t_{a_{j-1}}$ inside $A$."),
     ("B","complement of P","The orthogonal complement of $P$ inside $A$."),
-    ("Q","later tensor line","The line spanned by $t_{a_{j+1}}\\otimes\\cdots\\otimes t_{a_3}$.")]:
+    ("K","later tensor line","The line spanned by $t_{a_{j+1}}\\otimes\\cdots\\otimes t_{a_3}$.")]:
     symbols.append(dict(symbol=sym,name=name,meaning=mean,relation="count" if sym=="j" and False else "direct",quote=stage))
 symbols.append(dict(symbol="I",name="invocation count",meaning="The number of invocations over the three stages.",relation="count",
-      quote="With $I$ invocations of $c$ central wires each, $L=Ich$."))
-symbols.append(dict(symbol="c",name="central wires per invocation",meaning="The number of central wires in each invocation, 100 (bit) or 101 (complex).",relation="count",
-      quote="With $I$ invocations of $c$ central wires each, $L=Ich$."))
+      quote="With $I$ invocations of $\\gamma$ central wires each, $L=I\\gamma h$."))
+symbols.append(dict(symbol="\\gamma",name="central wires per invocation",meaning="The number of central wires in each invocation, 100 (bit) or 101 (complex).",relation="count",
+      quote="With $I$ invocations of $\\gamma$ central wires each, $L=I\\gamma h$."))
 symbols.append(dict(symbol="\\Pi_U",name="projection onto a label",meaning="The projection onto the label $U$ along $U^\\perp$, the matrix assigned to a gate or sink labelled $U$.",relation="direct",
       quote=find("In the bit network each vertex gets","at other sources.")))
-relations=[dict(prerequisite="array-frames",predicate="chooses the frames of",quote=find("They choose the frames","number of wires."))]
+relations=[dict(prerequisite="array-frames",predicate="choose the frames of",quote=find("They choose the frames","number of wires."))]
 derivations=[
  dict(step="S1.3.1",quote=find("As $t_S^{\\mathsf T}t_T","have orthogonal indicators.")),
  dict(step="S1.3.2",quote=find("Source dimensions sum to $N$","=Wm-N$.")),
  dict(step="S1.3.3",quote=find("Each gate's wires carry","$Wm-2N$ in total.")),
  dict(step="S1.3.4",quote=find("With $A'=A\\otimes F$","$\\mathcal F$, $U_a^\\perp$.")),
  dict(step="S1.3.5",quote=find("Splitting $A=B\\perp P$","needs $t_X\\perp t_Y$.")),
- dict(step="S1.3.6",quote=find("Splitting $A=B\\perp P$","$L=Ich$.")+" "),
- dict(step="S1.3.9",quote=find("As $I=3\\binom h3^2$","$c=101$ (complex).")),
+ dict(step="S1.3.6",quote=find("Splitting $A=B\\perp P$","$L=I\\gamma h$.")+" "),
+ dict(step="S1.3.9",quote=find("As $I=3\\binom h3^2$","$\\gamma=101$ (complex).")),
  dict(step="S1.3.7",quote=find("For $U\\subset V$, $\\Pi_V-\\Pi_U$","with no dimension change.")),
 ]
 derivations[5]["quote"]=derivations[5]["quote"].strip()

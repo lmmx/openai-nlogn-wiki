@@ -2,80 +2,122 @@
  "derivations": [
   {
    "step": "S1.6.1",
-   "quote": "Direct multiplication, using $\\mathsf SI\\mathsf S=\\operatorname{diag}(1,-1)$, $\\mathsf SX\\mathsf S=iX$, $ab=ib^2=\\frac12$, gives $H_0=b\\,\\mathsf SC\\mathsf S$, $C^2=X$, $C^4=I$"
+   "quote": "Direct multiplication, using $\\mathsf SI\\mathsf S=\\operatorname{diag}(1,-1),\\ \\mathsf SX\\mathsf S=iX,\\ ab=ib^2=\\frac12,$ gives $H_0=b\\,\\mathsf SC\\mathsf S,\\ C^2=X,\\ C^4=I$"
   },
   {
    "step": "S1.6.2",
-   "quote": "Gaussian elimination writes $M$ as at most $m(m-1)+3m$ row additions. So apply $\\mathcal P_M^{-1}$ to each column, $(C^{\\eta_h})^{\\otimes f}$ to the $f$ bits of slot $h$, then $\\mathcal P_M$: one child per residual vector. Negative kernels need no inverse child, as $(C^{-1})^{\\otimes f}=(-i)^fZ^{\\otimes f}C^{\\otimes f}Z^{\\otimes f}$, $Z=\\operatorname{diag}(1,-1)$. Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
+   "quote": "So apply $\\mathcal P_M^{-1}$ per column, $(C^{\\eta_h})^{\\otimes f}$ to the $f$ bits of slot $h,$ then $\\mathcal P_M$: one child per residual vector. Since $(C^{-1})^{\\otimes f}=(-i)^fZ^{\\otimes f}C^{\\otimes f}Z^{\\otimes f},\\ Z=\\operatorname{diag}(1,-1),$ negative kernels need no inverse child. Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
   },
   {
    "step": "S1.6.2b",
-   "quote": "For selected bits $x_1,\\dots,x_D$ of an address $x$, $H_0^{\\otimes D}=b^D\\mathcal S_DC^{\\otimes D}\\mathcal S_D$ and $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x)$, with phases and $b^D=(-i/2)^{\\lfloor D/2\\rfloor}b^{D\\bmod2}$ exact Gaussian dyadic operations."
+   "quote": "For selected address bits $x_1,\\dots,x_D,$ $H_0^{\\otimes D}=b^D\\mathcal S_DC^{\\otimes D}\\mathcal S_D$ and $(\\mathcal S_Dz)(x)=i^{x_1+\\dots+x_D}z(x),$ where phases and $b^D=(-i/2)^{\\lfloor D/2\\rfloor}b^{D\\bmod2}$ are exact Gaussian dyadic operations."
   },
   {
    "step": "S1.6.3b",
-   "quote": "Each row addition XORs selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md). So the basis change and its inverse cost $O(V((eK)^\\tau+1))$"
+   "quote": "Gaussian elimination writes $M$ as at most $m(m-1)+3m$ row additions, each XORing selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md). So the basis change and its inverse cost $O(V((eK)^\\tau+1))$"
   },
   {
    "step": "S1.6.4",
-   "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume. Applying $C$ individually to the first $q_0=\\lceil\\log_2W\\rceil\\lceil\\log_m(2d)\\rceil$ chunks makes their bits a row index; row $Wg+w$ goes to wire $w$, so each child has volume $V/W$. The recurrence, solved as in [Recursive power saving](rank-recurrence.md), is $F(e)\\le\\tfrac sWF(e/m)+O((eK)^\\tau+1)\\ (e\\ge d^\\beta),\\qquad F(e)=O(e)\\ (e<d^\\beta)$, with $\\beta=\\frac12$. For fixed $\\max\\{\\tau,\\sigma\\}<\\lambda<1$ the overhead is $O(e^\\lambda)$, as $K\\le d^c\\le e^{c/\\beta}$. With $\\gamma=s/W\\le m^\\sigma<m^\\lambda$, internal levels sum to $Ge^\\lambda\\sum_{j\\ge0}(\\gamma/m^\\lambda)^j=O(e^\\lambda)$, and leaves add $O(\\gamma^ju)\\le O(e^\\sigma u^{1-\\sigma})\\le O(e^\\sigma d^{\\beta(1-\\sigma)})$. Base-$m$ pieces of the remaining chunks give $O(\\log(2d)[d^\\lambda+d^{\\sigma+\\beta(1-\\sigma)}+1])=O(d^{\\lambda'})$"
+   "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume. Applying $C$ individually to the first $q_0=\\lceil\\log_2W\\rceil\\lceil\\log_m(2d)\\rceil$ chunks makes their bits a row index; row $Wg+w$ goes to wire $w,$ so each child has volume $V/W.$ The recurrence, solved as in [Recursive power saving](rank-recurrence.md), is $F(e)\\le\\tfrac sWF(e/m)+O((eK)^\\tau+1)\\ (e\\ge d^\\beta),\\ F(e)=O(e)\\ (e<d^\\beta),\\ \\beta=\\frac12.$ As $K\\le d^c\\le e^{c/\\beta},$ the overhead is $O(e^\\lambda)$ for fixed $\\max\\{\\tau,\\sigma\\}<\\lambda<1.$ With $\\gamma=s/W\\le m^\\sigma<m^\\lambda,$ internal levels sum to $Ge^\\lambda\\sum_{j\\ge0}(\\gamma/m^\\lambda)^j=O(e^\\lambda)$ and leaves add $O(\\gamma^ju)\\le O(e^\\sigma u^{1-\\sigma})\\le O(e^\\sigma d^{\\beta(1-\\sigma)}).$ Base-$m$ pieces give $O(\\log(2d)[d^\\lambda+d^{\\sigma+\\beta(1-\\sigma)}+1])=O(d^{\\lambda'})$"
   },
   {
    "step": "S1.6.5",
-   "quote": "Arithmetic operations along a chain number at most $A(e)$, with $A(e)\\le sA(e/m)+E$, $E=64(W+m+1)^3$, and $A(e)\\le8e$ at leaves; since $sx+E\\le Bx$ for $B=s+E$, $A(e)\\le8B^2d^{\\nu+1}$, $\\nu=\\min\\{j\\ge1:m^j\\ge B\\}$. A value after $\\ell$ operations lies in $2^{-(p+\\ell)}\\mathbb Z[i]$ with modulus at most $2^\\ell$: addition doubles modulus, halving adds a denominator bit. So with $\\Delta=\\lceil C_0d^{C_1}\\rceil$, reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly. For $d=\\Theta(p^\\epsilon)$, $\\epsilon C_1<1$ gives $\\Delta=o(p)$, so the width is $O(p)$."
+   "quote": "Chains satisfy $A(e)\\le sA(e/m)+E,\\ E=64(W+m+1)^3,$ and $A(e)\\le8e$ at leaves; since $sx+E\\le Bx$ for $B=s+E,$ $A(e)\\le8B^2d^{\\nu+1},\\ \\nu=\\min\\{j\\ge1:m^j\\ge B\\}.$ After $\\ell$ operations a value lies in $2^{-(p+\\ell)}\\mathbb Z[i]$ with modulus at most $2^\\ell$: addition doubles modulus, halving adds a denominator bit. So with $\\Delta=\\lceil C_0d^{C_1}\\rceil,$ reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly. For $d=\\Theta(p^\\epsilon),\\ \\epsilon C_1<1$ gives $\\Delta=o(p),$ so the width is $O(p).$"
   },
   {
    "step": "S1.6.6",
-   "quote": "In $\\mathcal H=H_0^{\\otimes D}$ every row has absolute row sum one, since rows of $H_0$ have entries $\\pm\\frac12$ and sums multiply under tensor products; hence $\\mathcal H$ maps disk arrays (coefficients of modulus at most $1$) to disk arrays"
+   "quote": "Rows of $H_0$ have entries $\\pm\\frac12$ and row sums multiply under tensor products, so every row of $\\mathcal H=H_0^{\\otimes D}$ has absolute row sum one and $\\mathcal H$ maps disk arrays (coefficients in the unit disk) to disk arrays"
   },
   {
    "step": "S1.6.7",
-   "quote": "$Q_p$ truncates each real component toward zero, keeping the disk and changing each component by less than $2^{-p}$, so $\\|Q_p(\\mathcal Hz)-\\mathcal Hz\\|_\\infty<\\sqrt2\\,2^{-p}$"
+   "quote": "$Q_p$ truncates each real component toward zero, keeping the disk and changing each component by less than $2^{-p},$ so $\\|Q_p(\\mathcal Hz)-\\mathcal Hz\\|_\\infty<\\sqrt2\\,2^{-p}$"
   }
  ],
  "relations": [
   {
    "prerequisite": "phase-frames",
    "predicate": "is applied by the network of",
-   "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md); its edges are products of kernels $C^{\\epsilon_h}$ along residual vectors $v_h\\in\\mathbb F_2^m$."
+   "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
   },
   {
    "prerequisite": "packed-bit-addition",
    "predicate": "has its row additions done by",
-   "quote": "Each row addition XORs selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md)."
+   "quote": "Gaussian elimination writes $M$ as at most $m(m-1)+3m$ row additions, each XORing selected bits of two slots, done by [Packed selected-bit addition](packed-bit-addition.md)."
   },
   {
    "prerequisite": "rank-recurrence",
    "predicate": "has its recurrence solved as in",
-   "quote": "The recurrence, solved as in [Recursive power saving](rank-recurrence.md), is"
+   "quote": "The recurrence, solved as in [Recursive power saving](rank-recurrence.md), is $F(e)\\le\\tfrac sWF(e/m)+O((eK)^\\tau+1)\\ (e\\ge d^\\beta),\\ F(e)=O(e)\\ (e<d^\\beta),\\ \\beta=\\frac12.$"
   },
   {
    "prerequisite": "fixed-point",
    "predicate": "represents coefficients exactly as in",
-   "quote": "So with $\\Delta=\\lceil C_0d^{C_1}\\rceil$, reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly."
+   "quote": "So with $\\Delta=\\lceil C_0d^{C_1}\\rceil,$ reserving $p+\\Delta$ fractional bits and $\\Delta+3$ integer and sign bits per real component, as in [Fixed-point Gaussian dyadic records](fixed-point.md), represents every intermediate coefficient exactly."
   }
  ],
  "symbols": [
   {
    "symbol": "V",
    "name": "stream volume",
-   "meaning": "The volume of the stream in bits.",
-   "relation": "direct",
-   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'})$, $\\lambda'<1$, instead of $D$ whole-array passes."
+   "meaning": "The number of bits of the stream.",
+   "relation": "count",
+   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
   },
   {
    "symbol": "K",
    "name": "chunk width",
    "meaning": "The number of bits in an address chunk.",
    "relation": "count",
-   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'})$, $\\lambda'<1$, instead of $D$ whole-array passes."
+   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
   },
   {
    "symbol": "p",
    "name": "fractional bits",
    "meaning": "The number of fractional bits of each coefficient.",
    "relation": "count",
-   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0=\\frac12\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'})$, $\\lambda'<1$, instead of $D$ whole-array passes."
+   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+  },
+  {
+   "symbol": "D",
+   "name": "selected chunks",
+   "meaning": "The number of address chunks whose selected bit is butterflied.",
+   "relation": "count",
+   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+  },
+  {
+   "symbol": "d",
+   "name": "chunk bound",
+   "meaning": "The maximum number of chunks, D at most d.",
+   "relation": "direct",
+   "quote": "On a stream of $V$ bits, with address chunks of $K$ bits and coefficients of $p$ fractional bits, the simultaneous butterfly layer applies $H_0(u,v)=\\bigl(\\tfrac{u+v}2,\\tfrac{u-v}2\\bigr)$ to one bit in each of $D\\le d$ chunks in time $O(Vd^{\\lambda'}),\\ \\lambda'<1,$ instead of $D$ whole-array passes."
+  },
+  {
+   "symbol": "e",
+   "name": "axis count",
+   "meaning": "The number of axes in a group handled by the network.",
+   "relation": "count",
+   "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+  },
+  {
+   "symbol": "m",
+   "name": "slot count",
+   "meaning": "The number of slots into which the e axes are arranged.",
+   "relation": "count",
+   "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+  },
+  {
+   "symbol": "f",
+   "name": "slot width",
+   "meaning": "The number of bits in each slot.",
+   "relation": "count",
+   "quote": "On $e=mf$ axes in $m$ slots of $f$ bits, $C^{\\otimes e}$ is applied by the network of [Binary phase frames](phase-frames.md), whose edges are products of kernels $C^{\\eta_h}$ along residual vectors $v_h\\in\\mathbb F_2^m,\\ \\eta_h=\\pm1.$"
+  },
+  {
+   "symbol": "s",
+   "name": "child count",
+   "meaning": "The number of children, the total of residual dimensions over the network.",
+   "relation": "count",
+   "quote": "Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
   },
   {
    "symbol": "W",
@@ -90,13 +132,6 @@
    "meaning": "The time divided by the stream volume.",
    "relation": "direct",
    "quote": "Let $W$ be the network's wire count and $F(e)$ the time divided by volume."
-  },
-  {
-   "symbol": "s",
-   "name": "child count",
-   "meaning": "The number of children, the total of residual dimensions over the network.",
-   "relation": "count",
-   "quote": "Summing residual dimensions gives exactly $s$ children, each on $f=e/m$ axes."
   }
  ]
 }
