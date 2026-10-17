@@ -8,7 +8,7 @@ $$F(mf)\le\frac{s}{W}F(f)+O(1),\qquad F(1)=O(1).$$
 
 Unrolling through $\log_m f$ levels ($f$ a power of $m$) gives $F(f)=O\big(\sum_{j=0}^{\log_m f}(s/W)^j\big)$. If $s/W<m^\tau$ with fixed $\tau<1$, this is $O(f^\tau)$: if $s/W\le1$ there are $1+\log_m f$ terms of at most $1$; otherwise the last term, below $m^{\tau\log_m f}=f^\tau$, dominates the geometric sum. So an interchange costs $O(Vf^\tau)$ <cite data-source="paper">The chunks can be interchanged in $O(Ve^\tau)$ time</cite>.
 
-For the layer, node overhead grows: frame changes are row additions on slots of $(f/m)K$ address bits ($K$ bits per address chunk), each costing $O(V((fK)^\tau+1))$ through chunk interchanges ([Packed selected-bit addition](packed-bit-addition.md)). Recursion stops below $d^\beta$ axes, $\beta=1/2$, applying the $f$ two-point kernels singly:
+For the layer (complex network), node overhead grows: frame changes are row additions on slots of $(f/m)K$ address bits ($K$ bits per address chunk), each costing $O(V((fK)^\tau+1))$ through chunk interchanges ([Packed selected-bit addition](packed-bit-addition.md)). Recursion stops below $d^\beta$ axes, $\beta=1/2$, applying the $f$ two-point kernels singly:
 
 $$F(f)\le\frac{s}{W}F(f/m)+O((fK)^\tau+1),\qquad F(f)=O(f)\quad(f<d^\beta).$$
 
