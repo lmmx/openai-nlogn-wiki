@@ -1,0 +1,46 @@
+{
+  "overview": "The target is a deterministic Turing machine, with a fixed alphabet and a fixed number of tapes, that multiplies two $n$-bit integers exactly in $O(n(\\lg n)^{1-\\kappa})$ time with $\\kappa = 2^{-182}$. This disproves the [Schönhage–Strassen optimality conjecture](conjecture.md) that $n\\log n$ is the best possible in the [fixed-tape model](machine-model.md). The result is stated in [Power-saving integer multiplication](main-result.md).\n\nThe wiki starts with the model and the conjecture, then builds the Fourier tools. [Cyclic convolution](convolution.md) is turned into pointwise multiplication by the [discrete Fourier transform](dft.md), which [butterflies](butterfly.md) compute in $\\log t$ layers. The [synthetic transform](synthetic-transform.md) works over the ring modulo $y^r+1$ ([ring-y](ring-y.md)), where twiddle factors are signed shifts.\n\nThe saving comes from the tape. After the [stream operations](stream-ops.md) and [controlled shifts](controlled-shifts.md), the wiki builds [frames on wire arrays](array-frames.md) and [nested subspace labels](subspace-labels.md). The [recursive power saving](rank-recurrence.md) then makes [address-chunk interchange](address-interchange.md) and the [simultaneous butterfly layer](simultaneous-layer.md) cost the volume times a power below one of their width. These give the [tape layout for synthetic transforms](transform-layout.md) and [ring convolution](ring-convolution.md).\n\nPrime-length transforms are reduced to power-of-two ones by [Gaussian resampling](gaussian-resampling.md) and the [Bluestein chirp](chirp.md), and the [Chinese-remainder address map](crt-map.md) places the convolution on prime axes. The [multiplication algorithm](multiplication-algorithm.md) chains these steps, [error tracking](precision-recovery.md) shows that rounding recovers exact integers, and [cost accounting](cost-accounting.md) gives the exponent $\\kappa$.",
+  "parts": [
+    {
+      "title": "Model and Conjecture",
+      "intro": "This part fixes the computation model of the main theorem, a Turing machine with a fixed alphabet and a fixed number of tapes whose heads move one cell per step. It then states the [Schönhage–Strassen optimality conjecture](conjecture.md) that the result disproves. Every cost bound later in the wiki is a statement about this model.",
+      "pages": ["machine-model", "conjecture"]
+    },
+    {
+      "title": "Convolution and Fourier Tools",
+      "intro": "Multiplying integers reduces to [cyclic convolution](convolution.md), and the [discrete Fourier transform](dft.md) turns convolution into a pointwise product. This part covers [butterflies](butterfly.md), [multidimensional transforms](multidim-transform.md), the [ring modulo $y^r+1$](ring-y.md) with its [synthetic transform](synthetic-transform.md), [contractions](contraction-maps.md) for bounding error, and [fixed-point records](fixed-point.md) for storing complex values. The later tape and error arguments assume all of these.",
+      "pages": ["convolution", "dft", "butterfly", "ring-y", "synthetic-transform", "multidim-transform", "contraction-maps", "fixed-point"]
+    },
+    {
+      "title": "Linear Operations on Tape",
+      "intro": "This part shows what a machine with a few tapes can do in time linear in the array volume. [Stream operations](stream-ops.md) give scans, splits and merges, [controlled shifts](controlled-shifts.md) update an address field by a computed offset, and the [matrix shear](matrix-shear.md) uses a triangular factorization to do a shear with few field interchanges. The tape procedures in the next parts are assembled from these.",
+      "pages": ["stream-ops", "controlled-shifts", "matrix-shear"]
+    },
+    {
+      "title": "Frames and Rank Deficit",
+      "intro": "This part develops the abstract source of the power saving. A [linear exchange network](exchange-network.md) with restored scratch wires, [frames on wire arrays](array-frames.md), [tensor products of subspaces](tensor-product-of-spaces.md) and [nested subspace labels](subspace-labels.md) show that a call at parameter $mf$ needs only $s<Wm$ smaller calls. The [recursive power saving](rank-recurrence.md) turns that count into a cost bound.",
+      "pages": ["exchange-network", "array-frames", "tensor-product-of-spaces", "subspace-labels", "rank-recurrence"]
+    },
+    {
+      "title": "Fast Tape Primitives",
+      "intro": "This part applies the recursion to the two tape procedures the algorithm needs. The [address-chunk interchange](address-interchange.md) and [packed selected-bit addition](packed-bit-addition.md) move and combine address fields. The [two-point kernel](phase-kernel.md) and [binary phase frames](phase-frames.md) give the [simultaneous butterfly layer](simultaneous-layer.md) that does several transform layers at once.",
+      "pages": ["address-interchange", "packed-bit-addition", "phase-kernel", "phase-frames", "simultaneous-layer"]
+    },
+    {
+      "title": "Synthetic Transforms on Tape",
+      "intro": "This part puts the fast primitives to work on ring convolution. The [retained frequency order](frequency-order.md) avoids reordering, and the [tape layout](transform-layout.md) makes each transform round one simultaneous layer. The [established $O(n\\log n)$ multiplier](hvdh-multiplier.md) and [signed packing](signed-packing.md) handle the pointwise polynomial products, which gives [ring convolution](ring-convolution.md).",
+      "pages": ["frequency-order", "transform-layout", "hvdh-multiplier", "signed-packing", "ring-convolution"]
+    },
+    {
+      "title": "Prime Lengths and Address Maps",
+      "intro": "The integer product needs Fourier transforms of pairwise coprime prime lengths, but the fast transform handles powers of two. This part covers the [Bluestein chirp](chirp.md), [Gaussian resampling](gaussian-resampling.md) and [retained permutation cancellation](retained-permutations.md), which together avoid executing any sort. It also covers the [Chinese-remainder address map](crt-map.md) that places a long convolution on prime axes.",
+      "pages": ["chirp", "gaussian-resampling", "retained-permutations", "crt-map"]
+    },
+    {
+      "title": "Multiplication and Cost",
+      "intro": "This part assembles the algorithm. [Radix digits](radix-digit-reduction.md), the [phase twist](phase-twist.md), the [parameter choice](parameter-choice.md) and [error tracking](precision-recovery.md) feed the [multiplication algorithm](multiplication-algorithm.md). [Cost accounting](cost-accounting.md) then gives the exponent $\\kappa$, which yields the [main result](main-result.md).",
+      "pages": ["radix-digit-reduction", "phase-twist", "parameter-choice", "precision-recovery", "multiplication-algorithm", "cost-accounting", "main-result"]
+    }
+  ],
+  "glossary": []
+}
