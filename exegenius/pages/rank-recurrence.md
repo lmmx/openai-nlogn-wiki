@@ -1,0 +1,13 @@
+Recursive power saving is the recurrence that makes both tape procedures, [Fast address-chunk interchange](address-interchange.md) and the [Simultaneous butterfly layer](simultaneous-layer.md), cost the data volume times a power below one of their parameter.
+
+A call has a parameter $f$, the number of digits per interchanged chunk or of axes in the layer, and a volume $V$, the number of data symbols. A call at parameter $mf$, with $m=10^6$ the number of size-$f$ blocks in its parameter, splits its data into $W$ streams of volume $V/W$, one per wire of a fixed network with $W$ wires (bit-valued for interchange, complex for the layer). Each stream is stored in a frame varying along its wire; only the endpoint frames survive, giving the required operation ([Frames on wire arrays](array-frames.md)). Changing frame across an edge (a wire segment between consecutive gates) takes one call at parameter $f$ on that stream per unit of rank of the change on the $m$ blocks. So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank over all edges, plus $O(V)$ other work.
+
+With $F(f)$ the time per unit volume of a call at parameter $f$, the children cost $s\,(V/W)\,F(f)$, so
+
+$$F(mf)\le\frac{s}{W}\,F(f)+O(1).$$
+
+Each factor $m$ in the parameter multiplies cost per unit volume by only $s/W$, less than $m$ when $s<Wm$ <cite data-source="paper">This strict inequality is the source of the power saving.</cite> Unrolling $k$ levels, with $k$ the number of factors $m$ in a parameter $m^k$, gives $F(m^k)=O\big(\sum_{j=0}^{k}(s/W)^j\big)$. If $s/W<m^\tau$ for a fixed exponent $\tau<1$, the sum is $O(m^{k\tau})$: at most $k+1$ when $s/W\le1$, and $O((s/W)^k)$ otherwise. A call thus costs $O(Vf^\tau)$; with $s=Wm$ it would cost $O(Vf)$. The complex variant's overhead is sublinear.
+
+The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](subspace-labels.md): edges cost the dimension changes of nested subspace labels; a wire climbing from zero to all $m$ dimensions costs $m$, some data wires stop short, and the few shrinking edges give back less.
+
+Write $s/W=m(1-\eta)$, where $\eta=(Wm-s)/(Wm)$ is the relative deficit, equal to $339/22587335000000$ for the bit network and $73/19906842167500$ for the complex one <cite data-source="paper">=\frac{339}{22587335000000}</cite>. Both, near $1.5\cdot10^{-11}$ and $3.7\cdot10^{-12}$, exceed $20\cdot2^{-50}\approx1.8\cdot10^{-14}$. Since $m<2^{20}$, $\ln m<20\ln 2<20$, and $\exp(-x)>1-x$ for real $x>0$ gives $m^{1-2^{-50}}=m\exp(-2^{-50}\ln m)>m(1-20\cdot2^{-50})>m(1-\eta)=s/W$. So $\tau=1-2^{-50}$ works for both networks <cite data-source="paper">For both recurrences we may use the fixed rational exponent</cite>, barely below $1$.
