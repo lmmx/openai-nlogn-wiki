@@ -1,0 +1,88 @@
+{
+  "outcome": "answered",
+  "answer": "Accounting: the model is a Turing machine whose head moves one cell per step, so one pass over the stored bits costs time proportional to their number. The data has V = Theta(n) stored bits, so one pass costs Theta(n). The transform has Theta(log n) butterfly layers, and each layer scans the whole array, so a standard transform costs Theta(n) times Theta(log n) = Theta(n log n). To beat the log factor, each layer's rearrangement and butterfly work must cost less than one full pass. Two tape procedures do this with a power of their width below one: an interchange of two address chunks of u digits costs O(V u^tau) with tau < 1, and the sifigeg does the butterfly rounds of D axes in O(V d^lambda') with lambda' < 1 instead of D passes. The tape layout makes each transform round a single sifigeg. The widths are small powers of p, and p = 6b with b = ceil(log2 n), so the per-layer savings multiply out to a saving of a power of log n. Why other tweaks do not help: constant factors are free in this model, and the pages I opened do not argue that a different radix or a reordering trick changes the number of layers or the per-layer scan. That step is my inference. The 'only' in the front page is therefore not argued in the pages I read; the accounting and the mechanism are supported.",
+  "citations": [
+    {
+      "page": "zaz",
+      "quote": "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ divogam therefore already costs $\\Theta(n)\\cdot\\Theta(\\log n)=\\Theta(n\\log n)$, the bound to be beaten."
+    },
+    {
+      "page": "zaz",
+      "quote": "So each rearrangement must cost one pass, not one pass per level."
+    },
+    {
+      "page": "bog",
+      "quote": "After $\\log_2 t$ layers every transform has length one, the identity, for $O(t\\log t)$ operations in all."
+    },
+    {
+      "page": "tuf",
+      "quote": "Constant factors are free, structure is not."
+    },
+    {
+      "page": "tuf",
+      "quote": "A linear pass over an array is cheap, but an arbitrary rearrangement of an array is not."
+    },
+    {
+      "page": "tuf",
+      "quote": "$b=\\lceil\\log_2n\\rceil$, $p=6b$"
+    },
+    {
+      "page": "pid",
+      "quote": "in $O(Vu^\\tau)$ time on fixed tapes"
+    },
+    {
+      "page": "rut",
+      "quote": "So an interchange costs $O(Vf^\\tau)$."
+    },
+    {
+      "page": "rut",
+      "quote": "cost the volume times a power below one of their width"
+    },
+    {
+      "page": "tiz",
+      "quote": "rather than $D$ whole-array passes"
+    },
+    {
+      "page": "mov",
+      "quote": "instead of one pass per axis."
+    }
+  ],
+  "key_idea": {
+    "page": "zaz",
+    "statement": "A standard transform on this tape model pays one full scan of the Theta(n) stored bits for each of its Theta(log n) butterfly layers, so the log factor can only shrink if the per-layer address movement and butterfly work cost less than a full pass.",
+    "quote": "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ divogam therefore already costs $\\Theta(n)\\cdot\\Theta(\\log n)=\\Theta(n\\log n)$, the bound to be beaten. So each rearrangement must cost one pass, not one pass per level."
+  },
+  "stuck": [
+    {
+      "page": "home",
+      "quote": "so the logarithmic factor can only be beaten by cheaper address movement and cheaper butterfly arithmetic.",
+      "note": "The 'only' is asserted, not argued. No page I opened shows why changing the radix, the constants, or the reordering cannot change the number of layers or the per-layer scan. I could only infer it from 'Constant factors are free' on the model page.",
+      "level": "chain"
+    },
+    {
+      "page": "rut",
+      "quote": "The recursion gets its strict inequality $s<Wm$ from [Pukezad](dol)",
+      "note": "I could not connect the rank count s < Wm to anything I know. I did not open the Pukezad page (page budget), so I accepted s < Wm as given.",
+      "level": "beyond"
+    },
+    {
+      "page": "tiz",
+      "quote": "rather than $D$ whole-array passes",
+      "note": "I could follow that a sifigeg replaces D passes with a cost of d^lambda', but not why the frame changes on a fixed exchange network make one layer cost d^lambda' instead of V per bit. The network and frame pages were not opened.",
+      "level": "chain"
+    },
+    {
+      "page": "mov",
+      "quote": "A simultaneous layer needs a round's selected bits at a common offset in consecutive $K$-bit chunks.",
+      "note": "I took on trust that grouping the selected bits at a common offset makes one round a single sifigeg. The page states it but I could not see the step that makes the grouping possible.",
+      "level": "chain"
+    },
+    {
+      "page": "pid",
+      "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+      "note": "I did not see why a ratio s/W that is a constant just below m gives a saving that is a power of e. I got past it by guessing from the earlier geometric sum.",
+      "level": "step"
+    }
+  ],
+  "reason": "Answered with moderate confidence. The accounting (one Theta(n) scan per Theta(log n) layers gives Theta(n log n)) and the mechanism (interchange and sifigeg costing a power below one of their width) are directly supported by the quoted pages. The claim that only address movement and butterfly arithmetic can help, rather than other tweaks, is my inference from 'Constant factors are free' and is not argued in the pages I opened. I opened 10 of the 15 allowed pages."
+}

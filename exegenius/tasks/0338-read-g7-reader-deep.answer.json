@@ -1,0 +1,88 @@
+{
+  "outcome": "answered",
+  "answer": "Why the classical route suggests n log n: the classical FFT-style multiplication runs Theta(log n) butterfly levels, and each level has to scan all Theta(n) stored bits. On a tape machine a scan of the stored data costs time linear in the volume (the wiki's tape procedures pay O(V) per push, pop or copy), so Theta(log n) levels of Theta(n) each give Theta(n log n) in total. Where the new algorithm looks for savings: it attacks the two costs named on the Bitebid page, address movement and butterfly arithmetic. (1) Address movement: swapping two disjoint address chunks of u bits on a fixed number of tapes costs O(V u^tau) with tau = 1 - 2^-50 < 1 (Fizokid page), so the movement is cheaper than a full linear pass by a power of the chunk width. (2) Butterfly arithmetic: one round that applies the two-point step on D axes at once is done as one sifigeg pass costing O(V d^lambda') with lambda' < 1, instead of D passes (Sifigeg page; Makevif page). Each saving is only a power below linear, and the margins add up on the Bitebid page to a total time O(n (lg n)^(1-kappa)) with kappa = 2^-182, so a power of log n is saved and n log n is beaten in this model.",
+  "citations": [
+    {
+      "page": "nut",
+      "quote": "Scanning $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$"
+    },
+    {
+      "page": "nut",
+      "quote": "already costs $\\Theta(n\\log n)$"
+    },
+    {
+      "page": "rut",
+      "quote": "Each push, pop or copy scans $O(V)$ cells"
+    },
+    {
+      "page": "nut",
+      "quote": "Beating that needs cheaper address movement and cheaper butterfly arithmetic"
+    },
+    {
+      "page": "pid",
+      "quote": "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes in $O(Vu^\\tau)$ time, $\\tau=1-2^{-50}$"
+    },
+    {
+      "page": "tiz",
+      "quote": "in time $O(Vd^{\\lambda'}),$ $\\lambda'<1,$ instead of $D$ passes"
+    },
+    {
+      "page": "mov",
+      "quote": "A chunk round's selected bits share an offset in $D$ consecutive chunks, so one layer does it at cost $O(Tpd^{\\lambda'})$"
+    },
+    {
+      "page": "nut",
+      "quote": "So every dominant term is at most $p^{1-2\\kappa}$."
+    }
+  ],
+  "key_idea": {
+    "page": "pid",
+    "statement": "Swapping two disjoint address chunks of u bits on a fixed set of tapes costs O(V u^tau) with tau = 1 - 2^-50, a power just below linear in the chunk width, so address movement gets a saving that is a power of the chunk width.",
+    "quote": "in $O(Vu^\\tau)$ time on fixed tapes, where $\\tau=1-2^{-50}$ is the saving exponent"
+  },
+  "stuck": [
+    {
+      "page": "nut",
+      "quote": "Beating that needs cheaper address movement and cheaper butterfly arithmetic",
+      "note": "The page says that scanning Theta(n) bits per level costs Theta(n log n), but it does not say why a tape must pay a full scan per level, nor what the classical address movement costs. I inferred that the classical method pays a linear pass per move. I could follow the claim, but not see why the tape scan is forced.",
+      "level": "chain"
+    },
+    {
+      "page": "nut",
+      "quote": "Two tape primitives, the interchange of address chunks and the",
+      "note": "sifigeg is an invented word here, and this page does not say what it is. I learned its role only from the Sifigeg page (tiz), which I opened for that reason.",
+      "level": "symbol"
+    },
+    {
+      "page": "tiz",
+      "quote": "$H_0=b\\,\\mathsf SC\\mathsf S,$",
+      "note": "The factorization of the butterfly into phase, kernel and phase is asserted, with the kernel C = aI + bX defined on the Pifinin page, which I did not open. I could not verify the identity, so the reduction of D butterflies to one kernel rests on a step I took on trust.",
+      "level": "step"
+    },
+    {
+      "page": "tiz",
+      "quote": "with $W$ wires and $s$ smaller calls",
+      "note": "I could not see how a fixed network of wires computes the tensor power C^(tensor e) with one smaller call per unit of rank. The Letenat page that defines the network was not opened.",
+      "level": "chain"
+    },
+    {
+      "page": "rut",
+      "quote": "The recursion gets its strict inequality $s<Wm$ from",
+      "note": "The inequality s < Wm is what the whole saving depends on, and I could not tell whether it is a proved lemma or an assumption. The source page (Pukezad) was not opened.",
+      "level": "statement"
+    },
+    {
+      "page": "pid",
+      "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+      "note": "I followed the geometric-sum argument, but I could not tell why s/W being near m should make the exponent tau near 1, rather than the exponent being a separate choice. The value tau = 1 - 2^-50 is simply given.",
+      "level": "chain"
+    },
+    {
+      "page": "nut",
+      "quote": "The seven dominant normalized costs are powers of $p$",
+      "note": "I accepted the seven exponents of the total without checking them, because the Dedapov page that derives them was not opened. I could not tell whether the list is derived or asserted.",
+      "level": "statement"
+    }
+  ],
+  "reason": "Answered with moderate confidence. The high-level story is supported by the quotes: a linear scan per butterfly level gives n log n on a tape, and chunk interchange at O(V u^tau) with tau < 1, together with grouped butterfly rounds at O(V d^lambda') with lambda' < 1, gives a power-of-log saving. I did not verify the exponents, the rank bound s < Wm, or the factorization of the sifigeg step. I opened 7 of the 15 allowed pages (nut, bog, kaf, rut, tiz, mov, pid). The claim that the classical method pays a linear pass per address move is my inference, not stated on the wiki."
+}

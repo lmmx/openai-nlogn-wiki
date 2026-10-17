@@ -1,0 +1,98 @@
+{
+  "outcome": "answered",
+  "answer": "kappa = 2^-182 is half of the smallest margin in the cost accounting; it is not a free choice. After dividing every cost by V = Theta(n), each of the seven dominant costs is a power p^(1-g_i), where the margin g_i is one minus the exponent. The smallest margin is g_2 = eps*c*(1-tau), which belongs to the chunk exchanges (the p K^(tau-1) term): 2^-75 * 2^-56 * 2^-50 = 2^-181 = 2*kappa. So every dominant term is at most p^(1-2*kappa). Any fixed power of log p is at most p^kappa eventually, so the normalized total is O(p^(1-kappa)) and the time is O(n (lg n)^(1-kappa)). The margin is 2*kappa because one kappa of it is spent absorbing the log factors and the remaining kappa is the saving. The pages do not argue why exactly half is taken; the constants eps, c, tau and lambda' are called conservative without justification.",
+  "citations": [
+    {
+      "page": "nut",
+      "quote": "$g_2=\\epsilon c(1-\\tau)=2^{-75}\\cdot2^{-56}\\cdot2^{-50}=2^{-181}=2\\kappa$"
+    },
+    {
+      "page": "vor",
+      "quote": "so the smallest margin is $2^{-181}=2\\kappa$"
+    },
+    {
+      "page": "nut",
+      "quote": "So every dominant term is at most $p^{1-2\\kappa}$."
+    },
+    {
+      "page": "vor",
+      "quote": "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
+    },
+    {
+      "page": "nut",
+      "quote": "so the normalized total is $O(p^{1-\\kappa})$ and the time is $O(Vp^{1-\\kappa})=O(n(\\lg n)^{1-\\kappa})$."
+    },
+    {
+      "page": "vor",
+      "quote": "The exponent is only $2^{-182}$ below one because $g_2$ multiplies three small numbers: $\\epsilon$ (few axes), $c$ (narrow chunks) and $1-\\tau$ (an exchange saves only $K^{-(1-\\tau)}$)."
+    },
+    {
+      "page": "nut",
+      "quote": "The margin $g_i$ of the $i$-th term is one minus its exponent."
+    },
+    {
+      "page": "pid",
+      "quote": "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes in $O(Vu^\\tau)$ time, $\\tau=1-2^{-50}$"
+    },
+    {
+      "page": "fef",
+      "quote": "Take $C_1=20$, $\\epsilon=2^{-75}$ and $\\kappa=2^{-182}$. These are conservative."
+    }
+  ],
+  "key_idea": {
+    "page": "vor",
+    "statement": "kappa is half of the smallest margin g_2 = 2^-181: the seven dominant costs stay below p^(1-2*kappa), and the leftover kappa absorbs any power of log p, so the total is p^(1-kappa).",
+    "quote": "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
+  },
+  "stuck": [
+    {
+      "page": "nut",
+      "quote": "$\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$",
+      "note": "The value of kappa is given with no reason for it. Its origin (half of the smallest margin) is only found on the Dedapov page.",
+      "level": "statement"
+    },
+    {
+      "page": "nut",
+      "quote": "the interchange of address chunks and the [sifigeg](tiz)",
+      "note": "The name sifigeg is a term I could not decode. I did not open its page. It is the layer primitive with margin g_3 = 2^-129, which is not the minimum, so it does not change the answer.",
+      "level": "symbol"
+    },
+    {
+      "page": "vor",
+      "quote": "The layout needs $O(p/K)$ chunk exchanges, as $d\\ell=O(p)$, each costing $O(VK^\\tau)$ by [Fizokid](pid).",
+      "note": "I could not see why there are p/K exchanges. The Lolazad page counts O(d^2) adjacent axis moves, each of cost O(V l^tau), and gives no p/K count. I guessed that the d*l = O(p) address bits are cut into width-K chunks. This is the step that gives the exponent 1-eps*c*(1-tau).",
+      "level": "step"
+    },
+    {
+      "page": "fef",
+      "quote": "These are conservative.",
+      "note": "The page calls the exponents conservative but gives no argument for them, so I cannot tell whether 2^-182 is forced or chosen. I could not tell what conservative buys.",
+      "level": "statement"
+    },
+    {
+      "page": "vor",
+      "quote": "which the margin $2\\kappa$ leaves room for.",
+      "note": "The pages do not say why the margin is 2*kappa and not some other multiple. By my own asymptotic reasoning, p^(1-g_2) times a power of log p is at most p^(1-kappa) for any kappa below g_2, so the factor of two looks like a convention. I got past this by reasoning, not from the pages.",
+      "level": "chain"
+    },
+    {
+      "page": "pid",
+      "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+      "note": "I could not see from this page why the near-m ratio gives exactly tau = 1-2^-50. I went to the Pipozop page, which checks the inequality s/W < m^tau, but the choice of 2^-50 itself is not derived there.",
+      "level": "chain"
+    },
+    {
+      "page": "rut",
+      "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$",
+      "note": "The threshold 20*2^-50 is not derived. I followed the check m^(1-2^-50) > m(1-20*2^-50) > s/W, which holds, but the 20 and the 2^-50 are bounds picked by the author.",
+      "level": "statement"
+    },
+    {
+      "page": "guf",
+      "quote": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because.",
+      "note": "The sentence ends after 'because' and gives no reason, so the claim that offset computation is negligible is unsupported on this page.",
+      "level": "step"
+    }
+  ],
+  "reason": "Answered, with reasonable confidence. The arithmetic checks: g_2 = 2^-75 * 2^-56 * 2^-50 = 2^-181 = 2*kappa, and the pages state the bookkeeping (dominant terms at most p^(1-2*kappa), log factors absorbed by p^kappa, total p^(1-kappa)). Less sure of: why exactly half is taken (the pages do not argue it); why the constants are conservative; and the source of the O(p/K) chunk-exchange count for the layout, which the Lolazad page does not show. Pages opened: 8 of 15."
+}

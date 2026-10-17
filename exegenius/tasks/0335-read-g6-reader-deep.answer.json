@@ -1,0 +1,88 @@
+{
+  "outcome": "answered",
+  "answer": "The algorithm computes a prime-length transform F_s from power-of-two transforms F_t, and the identity that does this (Sikusup, page roz) has the coordinate reindexings P_s and P_t inside it. The wiki says these reindexings are never run as sorts, and the pages I read do not spell out why a sort would be costly on the tape machine; they only say the usual implementation sorts twice on each coordinate, and that the cost accounting charges chunk exchanges. The target permutation Q disappears because the Divasov identity writes QF_t u as two pointwise chirp phases around one convolution of length T, and a convolution is computed by transforms and pointwise products, so Q is just part of a convolution and is never executed. The source permutation R disappears because each t_i is a unit modulo s_i, so R acts as a unit-multiplier reindexing R_beta on each axis, and F^+ R_beta = R_beta^{-1} F^+ (Nizizag, page zom). In (R F_s^+)[(R F_s u)(R F_s v)] the permutation R commutes with the pointwise product, so the expression becomes F_s^+ (F_s u . F_s v) with the two R factors gone, and the inverse-transform identity gives u*v/S^2. No sort is needed because the reindexing is absorbed algebraically (into a convolution for Q, and by commuting with the opposite transform for R), not executed. Confidence is moderate: I followed the algebra of the identities on pages zom, pap and roz, but I could not verify the cost reasons for avoiding sorts, and the key chirp and resampling identities are imported from cited literature.",
+  "citations": [
+    {
+      "page": "zom",
+      "quote": "the permutations of Sikusup stay inside the transform identity, where one is absorbed by a convolution and the other cancels"
+    },
+    {
+      "page": "zom",
+      "quote": "Each $t_i$ is a unit modulo $s_i$, and $R$ applies $R_{t_i}$ on axis $i$, so tensoring gives"
+    },
+    {
+      "page": "zom",
+      "quote": "So $Q$ is part of a convolution of length $T$ and never executed."
+    },
+    {
+      "page": "pap",
+      "quote": "so the target permutation $Q$ is absorbed into a totipuv of length $T$ and never executed."
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it."
+    },
+    {
+      "page": "kur",
+      "quote": "the transform of a convolution is a pointwise product of transforms"
+    },
+    {
+      "page": "siz",
+      "quote": "Permutations commute with pointwise products"
+    },
+    {
+      "page": "roz",
+      "quote": "which stay in the identity, never executed as sorts"
+    }
+  ],
+  "key_idea": {
+    "page": "zom",
+    "statement": "The source and target coordinate permutations are never carried out: the target one becomes part of a chirp convolution, and the source one commutes through the transforms and cancels against itself, so the identity is kept as a formula rather than a sort.",
+    "quote": "the permutations of Sikusup stay inside the transform identity, where one is absorbed by a convolution and the other cancels"
+  },
+  "stuck": [
+    {
+      "page": "zom",
+      "quote": "Its usual implementation sorts twice on each coordinate.",
+      "note": "The page says the usual implementation sorts and that the new method does not, but nowhere I opened says what a sort costs on the tape machine, so I could not see why leaving the permutations inside the identity is worth doing. I accepted the avoidance of sorting on trust.",
+      "level": "beyond"
+    },
+    {
+      "page": "zom",
+      "quote": "The target permutation $Q$ is absorbed by the",
+      "note": "The word absorbed is used without a definition on this page. I took it to mean that the permutation is folded into a convolution, which the Divasov page confirms, but the word itself was new.",
+      "level": "symbol"
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it.",
+      "note": "I checked the coefficient algebra line by line, but I could not see why reading frequency (-s_i j_i) from the transform is the right choice, other than that the signs happen to match. I got past this by checking the arithmetic, not by understanding the motivation.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "Harvey and van der Hoeven's maps",
+      "note": "The maps S and T come from a literature I do not know. I could not tell whether the identity T P_s F_s = P_t F_t S is a proved claim on this page or an imported fact, so its status is unclear to me.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "The cited estimate gives",
+      "note": "The bound on the norm of N minus I is only cited, and the Neumann-series step that depends on it is then taken as given. I could not tell whether this bound is assumed or established here.",
+      "level": "statement"
+    },
+    {
+      "page": "vor",
+      "quote": "The layout needs $O(p/K)$ chunk exchanges",
+      "note": "The cost accounting lists chunk exchanges and prefix moves as the dominant costs, but does not say which of them come from the source or target permutations, so I could not connect the cost argument to the question of why the permutations are not executed.",
+      "level": "beyond"
+    },
+    {
+      "page": "pid",
+      "quote": "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes",
+      "note": "This page builds the interchange from a linear network with XOR steps, frames and rank bounds that I could not follow. I used only its cost claim and could not connect the tape-level interchange to the coordinate permutations of the transform.",
+      "level": "beyond"
+    }
+  ],
+  "reason": "I answered from the pages zom, pap, roz, kur, fam, siz, kov, vor and pid, opening 9 of the 15 allowed pages and using search once. The algebra for why R cancels and why Q becomes a convolution is checked against the pages. The part of the question about why a sort is avoided rests on the wiki's own claim, and the cost reasoning behind it is not given on any page I opened, so that part is the weak link."
+}

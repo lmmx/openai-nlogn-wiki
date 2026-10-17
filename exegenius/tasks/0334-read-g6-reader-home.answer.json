@@ -1,0 +1,78 @@
+{
+  "outcome": "answered",
+  "answer": "Executing either permutation would be a sort, and the wiki treats sorting as the cost to avoid. The target permutation Q is not executed because, for even t_i and the chirp a, QF_t u = conj(a) . (a * (conj(a) . u)) / T, so Q is part of a convolution of length T that the algorithm computes anyway. The source permutation R is not executed because it cancels: F^+ R = R^{-1} F^+ gives R F^+ R = F^+. The R in the opposite transform and the R carried by the two forward transforms (through their pointwise product) cancel, and the convolution rule then returns u*v/S^2. So neither permutation needs a reordering step: the target one only changes which frequency is read inside a chirp convolution, and the source one cancels by the identity. The pages assert that the usual implementation sorts, but they do not explain what a sort costs on the tape machine, so the reason avoidance matters rests on that unexplained cost.",
+  "citations": [
+    {
+      "page": "zom",
+      "quote": "the permutations of Sikusup stay inside the transform identity, where one is absorbed by a convolution and the other cancels."
+    },
+    {
+      "page": "zom",
+      "quote": "So $Q$ is part of a convolution of length $T$ and never executed."
+    },
+    {
+      "page": "zom",
+      "quote": "Hence $F_q^+R_\\beta=R_\\beta^{-1}F_q^+$."
+    },
+    {
+      "page": "zom",
+      "quote": "so tensoring gives $RF_{\\boldsymbol s}^+R=F_{\\boldsymbol s}^+$"
+    },
+    {
+      "page": "roz",
+      "quote": "which stay in the identity, never executed as sorts."
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read"
+    },
+    {
+      "page": "kur",
+      "quote": "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+    }
+  ],
+  "key_idea": {
+    "page": "zom",
+    "statement": "Neither permutation is executed as a sort: the target permutation is absorbed into a chirp convolution, and the source permutation cancels because the opposite transform undoes its reordering.",
+    "quote": "the permutations of Sikusup stay inside the transform identity, where one is absorbed by a convolution and the other cancels."
+  },
+  "stuck": [
+    {
+      "page": "zom",
+      "quote": "Its usual implementation sorts twice on each coordinate.",
+      "note": "The page says the usual implementation sorts but never says what a sort costs on a Turing machine tape or why it is expensive enough to avoid. I could not connect a permutation of array positions to any cost I know, so the motivation for the whole question rests on this unexplained claim.",
+      "level": "beyond"
+    },
+    {
+      "page": "zom",
+      "quote": "$B_0$ is not the packing base",
+      "note": "I could not decode 'packing base', and the page gives no definition. I did not need it for the permutation argument, but it is an undefined term in the sentence that introduces B_0.",
+      "level": "symbol"
+    },
+    {
+      "page": "zom",
+      "quote": "$(RF_{\\boldsymbol s}^+)[(RF_{\\boldsymbol s}u)\\cdot(RF_{\\boldsymbol s}v)]=u*v/S^2$",
+      "note": "I followed the algebra: F^+ R_beta = R_beta^{-1} F^+ and R commutes with pointwise products give the cancellation. But the page never says why the opposite transform is written with R in front (RF^+) in the first place. I got past this by accepting the formula as stated, without seeing why the output of the convolution should be read in the permuted order.",
+      "level": "chain"
+    },
+    {
+      "page": "roz",
+      "quote": "They satisfy $\\mathsf TP_sF_s=P_tF_t\\mathsf S$.",
+      "note": "The identity T P_s F_s = P_t F_t S is cited to Harvey and van der Hoeven and not proved on this page. I took it as a given fact, and the Sikusup identity P_sF_s = 2^{2alpha^2} B_0 P_tF_t A depends on it.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "The cited estimate gives",
+      "note": "The bound on ||N-I|| is cited, not shown. I could check the later algebra (D N^{-1} C is a left inverse of T, so applying it to T P_s F_s gives P_s F_s), but I could not tell whether the norm bound holds, so I could not verify that N is invertible by the Neumann series.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "To undo $\\mathsf T$, let $q_j$ be the integer nearest $tj/s$",
+      "note": "I followed each step of the construction (C selects, D cancels the Gaussian factor at the selected coordinate, N = CTD), but I could not see why this particular choice of Gaussian weights and rounding to the nearest index is the right way to invert T. I accepted it as a construction.",
+      "level": "chain"
+    }
+  ],
+  "reason": "I am fairly confident in the core answer. The target permutation Q is absorbed into the chirp convolution by the identity QF_t u = conj(a).(a*(conj(a).u))/T, which I checked by hand on the exponents and on the d=1, t=2, s=1 example given. The source permutation R cancels by F^+R = R^{-1}F^+, which I checked by substitution, and then the stated convolution rule finishes the argument. The weaker part is the motivation: the pages assert that sorting is what is being avoided, but do not justify its cost on a tape machine. I did not open the proofs of the cited Sikusup identity, so the Sikusup identity itself is taken on the page's authority."
+}

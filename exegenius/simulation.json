@@ -284,6 +284,1153 @@
     }
   ],
   "round": 1,
-  "runs": [],
-  "baselines": []
+  "runs": [
+    {
+      "task": "0334-read-g6-reader-home",
+      "round": 1,
+      "goal": 5,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "gaussian-resampling",
+        "retained-permutations",
+        "chirp",
+        "convolution",
+        "dft"
+      ],
+      "searches": [],
+      "answer": "Executing either permutation would be a sort, and the wiki treats sorting as the cost to avoid. The target permutation Q is not executed because, for even t_i and the chirp a, QF_t u = conj(a) . (a * (conj(a) . u)) / T, so Q is part of a convolution of length T that the algorithm computes anyway. The source permutation R is not executed because it cancels: F^+ R = R^{-1} F^+ gives R F^+ R = F^+. The R in the opposite transform and the R carried by the two forward transforms (through their pointwise product) cancel, and the convolution rule then returns u*v/S^2. So neither permutation needs a reordering step: the target one only changes which frequency is read inside a chirp convolution, and the source one cancels by the identity. The pages assert that the usual implementation sorts, but they do not explain what a sort costs on the tape machine, so the reason avoidance matters rests on that unexplained cost.",
+      "citations": [
+        [
+          "retained-permutations",
+          "the permutations of Gaussian resampling stay inside the transform identity, where one is absorbed by a convolution and the other cancels."
+        ],
+        [
+          "retained-permutations",
+          "So $Q$ is part of a convolution of length $T$ and never executed."
+        ],
+        [
+          "retained-permutations",
+          "Hence $F_q^+R_\\beta=R_\\beta^{-1}F_q^+$."
+        ],
+        [
+          "retained-permutations",
+          "so tensoring gives $RF_{\\boldsymbol s}^+R=F_{\\boldsymbol s}^+$"
+        ],
+        [
+          "gaussian-resampling",
+          "which stay in the identity, never executed as sorts."
+        ],
+        [
+          "chirp",
+          "The permutation needs no separate step: it only changes which frequency is read"
+        ],
+        [
+          "dft",
+          "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "retained-permutations",
+          "quote": "Its usual implementation sorts twice on each coordinate.",
+          "note": "The page says the usual implementation sorts but never says what a sort costs on a Turing machine tape or why it is expensive enough to avoid. I could not connect a permutation of array positions to any cost I know, so the motivation for the whole question rests on this unexplained claim.",
+          "level": "beyond"
+        },
+        {
+          "page": "retained-permutations",
+          "quote": "$B_0$ is not the packing base",
+          "note": "I could not decode 'packing base', and the page gives no definition. I did not need it for the permutation argument, but it is an undefined term in the sentence that introduces B_0.",
+          "level": "symbol"
+        },
+        {
+          "page": "retained-permutations",
+          "quote": "$(RF_{\\boldsymbol s}^+)[(RF_{\\boldsymbol s}u)\\cdot(RF_{\\boldsymbol s}v)]=u*v/S^2$",
+          "note": "I followed the algebra: F^+ R_beta = R_beta^{-1} F^+ and R commutes with pointwise products give the cancellation. But the page never says why the opposite transform is written with R in front (RF^+) in the first place. I got past this by accepting the formula as stated, without seeing why the output of the convolution should be read in the permuted order.",
+          "level": "chain"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "They satisfy $\\mathsf TP_sF_s=P_tF_t\\mathsf S$.",
+          "note": "The identity T P_s F_s = P_t F_t S is cited to Harvey and van der Hoeven and not proved on this page. I took it as a given fact, and the Gaussian resampling identity P_sF_s = 2^{2alpha^2} B_0 P_tF_t A depends on it.",
+          "level": "statement"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "The cited estimate gives",
+          "note": "The bound on ||N-I|| is cited, not shown. I could check the later algebra (D N^{-1} C is a left inverse of T, so applying it to T P_s F_s gives P_s F_s), but I could not tell whether the norm bound holds, so I could not verify that N is invertible by the Neumann series.",
+          "level": "statement"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "To undo $\\mathsf T$, let $q_j$ be the integer nearest $tj/s$",
+          "note": "I followed each step of the construction (C selects, D cancels the Gaussian factor at the selected coordinate, N = CTD), but I could not see why this particular choice of Gaussian weights and rounding to the nearest index is the right way to invert T. I accepted it as a construction.",
+          "level": "chain"
+        }
+      ],
+      "reason": "I am fairly confident in the core answer. The target permutation Q is absorbed into the chirp convolution by the identity QF_t u = conj(a).(a*(conj(a).u))/T, which I checked by hand on the exponents and on the d=1, t=2, s=1 example given. The source permutation R cancels by F^+R = R^{-1}F^+, which I checked by substitution, and then the stated convolution rule finishes the argument. The weaker part is the motivation: the pages assert that sorting is what is being avoided, but do not justify its cost on a tape machine. I did not open the proofs of the cited Gaussian resampling identity, so the Gaussian resampling identity itself is taken on the page's authority.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "retained-permutations",
+        "statement": "Neither permutation is executed as a sort: the target permutation is absorbed into a chirp convolution, and the source permutation cancels because the opposite transform undoes its reordering.",
+        "quote": "the permutations of Gaussian resampling stay inside the transform identity, where one is absorbed by a convolution and the other cancels."
+      }
+    },
+    {
+      "task": "0331-read-g5-reader-home",
+      "round": 1,
+      "goal": 4,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "cost-accounting",
+        "parameter-choice",
+        "address-interchange",
+        "conjecture",
+        "main-result",
+        "multiplication-algorithm",
+        "transform-layout"
+      ],
+      "searches": [
+        {
+          "query": "margin",
+          "found": [
+            "cost-accounting",
+            "main-result"
+          ]
+        }
+      ],
+      "answer": "kappa is set by the smallest of the seven dominant margins in the cost accounting. Every dominant cost, divided by V = Tp = Theta(n), is a power p^(1-g_i) of p with margin g_i. The smallest margin is g_2 for chunk exchanges, whose cost per unit volume is p K^(tau-1) with K = Theta(p^(epsilon c)), so g_2 = epsilon c (1 - tau) = 2^-75 * 2^-56 * 2^-50 = 2^-181. Because K^(tau-1) = p^(-epsilon c (1-tau)), the margin is fixed by the axis-count exponent epsilon, the chunk-width exponent c and the interchange saving 1 - tau. The margin is taken to be twice kappa because every dominant term is at most p^(1-2 kappa), and the leftover fixed powers of log p are at most p^kappa for large p, so the total is p^(1-kappa), i.e. O(n (lg n)^(1-kappa)). With margin kappa alone the bound would be p^1 and there would be no saving. Since g_2 = 2^-181 = 2 kappa, kappa = 2^-182 is the largest power-of-two value the margin allows. The wiki states kappa = 2^-182 as a fixed choice; it does not derive that value.",
+      "citations": [
+        [
+          "cost-accounting",
+          "The total is $O(p/K)K^\\tau=O(pK^{\\tau-1})$"
+        ],
+        [
+          "cost-accounting",
+          "Chunk exchanges | $pK^{\\tau-1}$ | $1-\\epsilon c(1-\\tau)$ | $g_2=\\epsilon c(1-\\tau)$"
+        ],
+        [
+          "cost-accounting",
+          "so the smallest margin is $2^{-181}=2\\kappa$"
+        ],
+        [
+          "cost-accounting",
+          "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
+        ],
+        [
+          "parameter-choice",
+          "Take $C_1=20$, $\\epsilon=2^{-75}$ and $\\kappa=2^{-182}$. These are conservative."
+        ],
+        [
+          "address-interchange",
+          "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes in $O(Vu^\\tau)$ time"
+        ],
+        [
+          "cost-accounting",
+          "The exponent is only $2^{-182}$ below one because $g_2$ multiplies three small numbers"
+        ],
+        [
+          "main-result",
+          "The margin $g_i$ of the $i$-th term is one minus its exponent."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "cost-accounting",
+          "quote": "any fixed power of $\\log p$ is at most $p^\\kappa$ eventually",
+          "note": "I could not tell which factors in the cost are the fixed powers of log p. The seven dominant terms are all written as powers of p (the log(rp) product term is converted to p^(1-epsilon)), and no page I opened lists the leftover log factors. The step from the powers to the factor p^kappa, which is what forces the margin to be 2 kappa and not kappa, therefore rests on an unidentified factor.",
+          "level": "step"
+        },
+        {
+          "page": "main-result",
+          "quote": "Remaining factors are fixed powers of $\\log p$, which are below $p^{\\kappa}$ for large $p$, so the normalized total is $O(p^{1-\\kappa})$",
+          "note": "Same gap as on the cost page: the page says 'the rest is absorbed' and then asserts that the remaining factors are fixed powers of log p, without saying where they come from. I followed the arithmetic (p^(1-2 kappa) times p^kappa is p^(1-kappa)) but could not check that the factors are of this form.",
+          "level": "step"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "Schoolbook multiplication below a fixed cutoff is absorbed One machine thus runs in",
+          "note": "This sentence is garbled: it has no full stop, and it joins the small-n case to the claim for every n >= 1 without a clear step. I could not tell whether it is a claim or a remark, and so could not tell whether the bound is established for all n or only for large n.",
+          "level": "statement"
+        },
+        {
+          "page": "address-interchange",
+          "quote": "so $\\tau\\approx1$",
+          "note": "The page only says that some tau with s/W < m^tau is chosen, and that tau is close to 1. The page does not say why tau = 1 - 2^-50 specifically. That value appears only on the parameter page, where it is a fixed choice, so I could not tell whether it is a derived value or a chosen one.",
+          "level": "statement"
+        },
+        {
+          "page": "parameter-choice",
+          "quote": "These are conservative.",
+          "note": "The page fixes kappa = 2^-182 and calls it conservative, but does not say what conservative means or why the value is half the chunk-exchange margin and not some other value. I worked out for myself that 2 kappa must be at most 2^-181, so kappa <= 2^-182, and that 2^-182 is the largest power of two that fits. The wiki itself does not state this reasoning.",
+          "level": "statement"
+        }
+      ],
+      "reason": "I am fairly sure of the arithmetic: the chunk-exchange margin g_2 = epsilon c (1 - tau) = 2^-181 is the smallest of the seven margins, and kappa = 2^-182 is half of it. I am less sure of the factor 2, because the wiki's step from the powers to p^kappa depends on fixed powers of log p that I could not locate on any page I opened. I used 8 pages (the front page, cost accounting, parameters, address-chunk interchange, the conjecture, the main result, the multiplication algorithm, and the tape layout) plus one search for 'margin'.",
+      "leaks": [
+        "multiplication-algorithm"
+      ],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "cost-accounting",
+        "statement": "kappa is set by the chunk-exchange margin, the smallest of the seven margins; the cost must keep a 2 kappa margin so that the leftover fixed powers of log p, at most p^kappa, still leave a total of p^(1-kappa).",
+        "quote": "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
+      }
+    },
+    {
+      "task": "0325-read-g3-reader-home",
+      "round": 1,
+      "goal": 2,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "rank-recurrence",
+        "subspace-labels",
+        "array-frames",
+        "exchange-network",
+        "tensor-product-of-spaces",
+        "phase-frames",
+        "address-interchange"
+      ],
+      "searches": [
+        {
+          "query": "smaller calls",
+          "found": [
+            "subspace-labels",
+            "phase-frames",
+            "simultaneous-layer",
+            "address-interchange",
+            "hvdh-multiplier"
+          ]
+        }
+      ],
+      "answer": "A call at parameter mf (m = 10^6, the label-space dimension) splits each chunk into m slots of parameter f, deals its rows into W streams of volume V/W, and runs a fixed linear exchange network whose gates act pointwise. Each edge of that network costs one smaller call per unit of rank of its frame change, so the call makes s smaller calls at parameter f, each on volume V/W. Writing C(f) for the time per unit volume at parameter f, this gives C(mf) <= (s/W) C(f) + O(1). Unrolling over the recursion levels gives C(f) = O(sum_j (s/W)^j). If s/W < m^tau for a fixed tau < 1, this sum is O(f^tau), so one call costs O(V f^tau). The saving is a genuine power because the per-volume cost is multiplied by s/W, which is below m, for each factor m in the parameter. The hinge is the count of smaller calls: on the nested-label construction s = Wm - N + 2L for the bit network, where N is the bank size and L the dimension lost on shrinking edges. So s < Wm is equivalent to 2L < N, and the wiki computes L/N = 100/539 < 1/2. Then s/W = m(1 - eta) with eta > 0, and the wiki's margin argument gives s/W < m^tau with tau = 1 - 2^-50. My own inference, not stated on the pages: if s were equal to Wm, each level would multiply the cost by m and the recursion would give no power saving, which is why the inequality has to be strict.",
+      "citations": [
+        [
+          "rank-recurrence",
+          "A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$."
+        ],
+        [
+          "rank-recurrence",
+          "It deals its rows into $W$ streams of volume $V/W$"
+        ],
+        [
+          "rank-recurrence",
+          "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes."
+        ],
+        [
+          "rank-recurrence",
+          "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+        ],
+        [
+          "rank-recurrence",
+          "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+        ],
+        [
+          "subspace-labels",
+          "The labelling chooses the frames of [Frames on wire arrays](ber) so that $W$ wires cost $s<Wm$ smaller calls, the saving the recursion needs."
+        ],
+        [
+          "subspace-labels",
+          "As $N=v^3$, $L_{\\rm b}/N=3c_{\\rm b}h/v=30000/161700=100/539$"
+        ],
+        [
+          "subspace-labels",
+          "So $s_{\\rm b}=(W_{\\rm b}m-2N+2L_{\\rm b})+N=W_{\\rm b}m-(N-2L_{\\rm b})<W_{\\rm b}m$."
+        ],
+        [
+          "rank-recurrence",
+          "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$"
+        ],
+        [
+          "array-frames",
+          "The intermediate frames are therefore free, and can be chosen so that each edge change is cheap"
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "rank-recurrence",
+          "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$",
+          "note": "I accepted the numeric margin that yields tau = 1 - 2^-50 on the page's word. I did not check the rational values 339/22587335000000 and 73/19906842167500 or the ln m chain. The strictness argument itself does not depend on this figure.",
+          "level": "step"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "the bit network spends $N$ on extra source ranks, and shrinking edges, losing $L$ dimensions in all, cost back $2L<N$.",
+          "note": "I could follow the sentence but not see from this page why the 2N saving and the 2L cost are the right counts. I had to go to the nested-labels page for the counting, and I took the bookkeeping there on trust.",
+          "level": "chain"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "So $s_{\\rm b}=(W_{\\rm b}m-2N+2L_{\\rm b})+N=W_{\\rm b}m-(N-2L_{\\rm b})<W_{\\rm b}m$.",
+          "note": "The extra +N comes from the claim that only X_a's first edge differs, with rank one where the dimension change is zero. I could read the sentence but could not check why that gate gives rank one, so I accepted the count without verifying it.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "has rank $\\dim V-\\dim U$, as does its negative.",
+          "note": "The step from the rank of a projection difference to the dimension change of the label is asserted, not shown. I accepted it as a fact about the construction.",
+          "level": "step"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$",
+          "note": "I followed each step of the geometric sum, but the pages never say what happens at equality s = Wm, so I could not see from them why the strict inequality, rather than a bounded ratio, decides the saving. The equality case is my own inference, not in the wiki.",
+          "level": "chain"
+        }
+      ],
+      "reason": "Answered. The mechanism (smaller calls per edge, the per-volume recurrence, and the geometric sum with ratio s/W below m^tau) and the role of s < Wm are stated on the Recursive power saving and nested-labels pages, and I could follow the chain between them. Confidence is high on the mechanism and on s < Wm being equivalent to 2L < N. Confidence is lower on the specific exponent 1 - 2^-50, which I took on the page's word, and on the claim that equality would give no saving, which I inferred myself and flagged. Opened 8 of 15 pages: front page, Recursive power saving, nested-labels, Frames on wire arrays, Linear exchange network with restored scratch wires, Tensor products of subspaces, Binary phase frames, and Fast address-chunk interchange.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "rank-recurrence",
+        "statement": "Each call at parameter mf makes s smaller calls at parameter f on volume V/W, so its cost per unit volume is multiplied by s/W, which is below m; when s/W is below m^tau, the recursion gives cost O(f^tau) instead of anything of order f.",
+        "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+      }
+    },
+    {
+      "task": "0319-read-g1-reader-home",
+      "round": 1,
+      "goal": 0,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "conjecture",
+        "machine-model",
+        "main-result",
+        "convolution",
+        "dft",
+        "butterfly",
+        "rank-recurrence",
+        "multiplication-algorithm",
+        "subspace-labels"
+      ],
+      "searches": [],
+      "answer": "The main theorem says that one deterministic Turing machine, with a fixed finite alphabet and a fixed finite number of one-dimensional tapes, multiplies two n-bit integers exactly in O(n (lg n)^(1-kappa)) worst-case time, with kappa = 2^-182. The wiki calls this model a Fixed finite-tape machine model. The result refutes the Schönhage–Strassen optimality conjecture, the claim that n log n is the best possible order of growth for multiplying two integers on that model. The proof plan is: (1) build two power-saving tape procedures, an address-chunk interchange and a Simultaneous butterfly layer, from fixed linear networks; (2) use them to speed up the synthetic transforms and the ring convolution; (3) use Gaussian resampling and Bluestein chirps to turn prime-length transforms into power-of-two ones, leaving permutations inside the transform identities rather than executing them; (4) assemble the exact 2n-bit product from radix digits, with total error below 1/2 so rounding recovers the exact integers; (5) total the cost after dividing by the volume, and show that a power of log n is saved.",
+      "citations": [
+        [
+          "home",
+          "The target is a deterministic Turing machine, with a fixed alphabet and a fixed number of tapes"
+        ],
+        [
+          "machine-model",
+          "A machine has a single finite alphabet and a finite number of one-dimensional tapes, both fixed independently of the input."
+        ],
+        [
+          "conjecture",
+          "best possible order of growth for the time to multiply two integers"
+        ],
+        [
+          "main-result",
+          "so it refutes the [Schönhage–Strassen optimality conjecture](kaf) in this model."
+        ],
+        [
+          "home",
+          "Build two power-saving tape procedures (chunk interchange and Simultaneous butterfly layer) from fixed finite linear networks"
+        ],
+        [
+          "home",
+          "use Gaussian resampling with retained permutations and chirps to reduce the prime-length Cyclic convolution of the radix-digit coefficients to those power-of-two transforms"
+        ],
+        [
+          "home",
+          "assemble the exact product with a proof that the error is below $1/2$"
+        ],
+        [
+          "multiplication-algorithm",
+          "The multiplication algorithm chains the reductions of the earlier pages to turn two $n$-bit integers into their exact $2n$-bit product."
+        ],
+        [
+          "rank-recurrence",
+          "so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "main-result",
+          "quote": "Beating that needs cheaper address movement and cheaper butterfly arithmetic",
+          "note": "The page says the log factor can only be beaten by cheaper address movement and cheaper butterfly arithmetic. I could see that n log n comes from scanning n bits at each of log n layers, but not why these two are the only levers, or why cheaper address movement removes the log factor. I accepted the claim without seeing the link.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](dol)",
+          "note": "I went to the Nested subspace labels and rank deficit page for the strict inequality and followed the rank count as written. I could not see how s<Wm turns the unrolled recurrence into the bound O(V f^tau). I followed the steps without seeing why the ratio s/W below m makes the geometric sum behave like a power of f below one.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "A call at parameter $mf$, with $m=10^6$ the label-space dimension",
+          "note": "Here m is the fixed number 10^6, but the page later uses only m < 2^20 and an exponent margin. I could not tell whether the bound is claimed for this particular m or for every m, and I took it as the former.",
+          "level": "statement"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "exponents barely below $1$.",
+          "note": "The exponent 1 - 2^-50 is asserted, and the margin is checked with an exp and tangent argument and the rationals 339/22587335000000 and 73/19906842167500, which I did not recompute. I accepted that s/W is below m^tau from the stated bounds.",
+          "level": "step"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "Labels are built as [Tensor products of subspaces](vez) inside",
+          "note": "The label spaces are built inside a tensor power F^{tensor 3}, and tensor products are outside my background. I could not decode the label construction, so I followed the rank arithmetic by its stated numbers only.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "The computed source transform",
+          "note": "The page uses tilde and script variants of the transform (the computed and exact counterparts, with output map and scaling). I could not tell how the computed object relates to the exact one until I read the following sentence, and I could not tell the status of the exactness equality it asserts.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "Permutations commute with pointwise products",
+          "note": "I accepted that the source permutation drops out because an identity holds, which the sentence attributes to the zom page. I did not open that page, so this step rests on the sentence alone, and I was guessing that the identity is proved there.",
+          "level": "statement"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "Exactness is shown by [Error tracking and exact recovery](mes)",
+          "note": "I accepted that the error on the coefficients is below 1/2, so that rounding is exact, without opening the mes page. The claim that rounding gives exact integers is a statement I did not check.",
+          "level": "statement"
+        }
+      ],
+      "reason": "I am confident of the model, the conjecture and the statement of the main result, which the front page, the Fixed finite-tape machine model page, the Schönhage–Strassen optimality conjecture page and the main result page state directly. I am moderately confident of the plan: I followed the outline on the front page and read the Recursive power saving, The multiplication algorithm, Discrete Fourier transform, Cyclic convolution, Butterflies and the fast transform and Nested subspace labels and rank deficit pages, which give the reasons in outline. I did not verify the cost exponent (Cost accounting and the exponent κ page), the error bound (Error tracking and exact recovery page) or the permutation identity (Retained permutation cancellation page). I used 10 of the 15 allowed page openings. The weakest points are the chains that explain why the saving takes the form s/W < m, and why the fast address movement removes the log factor.",
+      "leaks": [
+        "tensor-product-of-spaces"
+      ],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "rank-recurrence",
+        "statement": "Each recursive call works on streams of 1/W of the volume and makes fewer than W times m smaller calls, so the cost per unit volume grows by less than a factor m when the parameter grows by a factor m; that leaves a power of the parameter below one as the total cost.",
+        "quote": "so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+      }
+    },
+    {
+      "task": "0338-read-g7-reader-deep",
+      "round": 1,
+      "goal": 6,
+      "persona": "reader",
+      "start": "main-result",
+      "outcome": "answered",
+      "path": [
+        "main-result",
+        "butterfly",
+        "conjecture",
+        "rank-recurrence",
+        "simultaneous-layer",
+        "transform-layout",
+        "address-interchange"
+      ],
+      "searches": [],
+      "answer": "Why the classical route suggests n log n: the classical FFT-style multiplication runs Theta(log n) butterfly levels, and each level has to scan all Theta(n) stored bits. On a tape machine a scan of the stored data costs time linear in the volume (the wiki's tape procedures pay O(V) per push, pop or copy), so Theta(log n) levels of Theta(n) each give Theta(n log n) in total. Where the new algorithm looks for savings: it attacks the two costs named on the Power-saving integer multiplication page, address movement and butterfly arithmetic. (1) Address movement: swapping two disjoint address chunks of u bits on a fixed number of tapes costs O(V u^tau) with tau = 1 - 2^-50 < 1 (Fast address-chunk interchange page), so the movement is cheaper than a full linear pass by a power of the chunk width. (2) Butterfly arithmetic: one round that applies the two-point step on D axes at once is done as one Simultaneous butterfly layer pass costing O(V d^lambda') with lambda' < 1, instead of D passes (Simultaneous butterfly layer page; Tape layout for synthetic transforms page). Each saving is only a power below linear, and the margins add up on the Power-saving integer multiplication page to a total time O(n (lg n)^(1-kappa)) with kappa = 2^-182, so a power of log n is saved and n log n is beaten in this model.",
+      "citations": [
+        [
+          "main-result",
+          "Scanning $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$"
+        ],
+        [
+          "main-result",
+          "already costs $\\Theta(n\\log n)$"
+        ],
+        [
+          "rank-recurrence",
+          "Each push, pop or copy scans $O(V)$ cells"
+        ],
+        [
+          "main-result",
+          "Beating that needs cheaper address movement and cheaper butterfly arithmetic"
+        ],
+        [
+          "address-interchange",
+          "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes in $O(Vu^\\tau)$ time, $\\tau=1-2^{-50}$"
+        ],
+        [
+          "simultaneous-layer",
+          "in time $O(Vd^{\\lambda'}),$ $\\lambda'<1,$ instead of $D$ passes"
+        ],
+        [
+          "transform-layout",
+          "A chunk round's selected bits share an offset in $D$ consecutive chunks, so one layer does it at cost $O(Tpd^{\\lambda'})$"
+        ],
+        [
+          "main-result",
+          "So every dominant term is at most $p^{1-2\\kappa}$."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "main-result",
+          "quote": "Beating that needs cheaper address movement and cheaper butterfly arithmetic",
+          "note": "The page says that scanning Theta(n) bits per level costs Theta(n log n), but it does not say why a tape must pay a full scan per level, nor what the classical address movement costs. I inferred that the classical method pays a linear pass per move. I could follow the claim, but not see why the tape scan is forced.",
+          "level": "chain"
+        },
+        {
+          "page": "main-result",
+          "quote": "Two tape primitives, the interchange of address chunks and the",
+          "note": "Simultaneous butterfly layer is an invented word here, and this page does not say what it is. I learned its role only from the Simultaneous butterfly layer page (tiz), which I opened for that reason.",
+          "level": "symbol"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "$H_0=b\\,\\mathsf SC\\mathsf S,$",
+          "note": "The factorization of the butterfly into phase, kernel and phase is asserted, with the kernel C = aI + bX defined on the Two-point kernel C page, which I did not open. I could not verify the identity, so the reduction of D butterflies to one kernel rests on a step I took on trust.",
+          "level": "step"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "with $W$ wires and $s$ smaller calls",
+          "note": "I could not see how a fixed network of wires computes the tensor power C^(tensor e) with one smaller call per unit of rank. The Binary phase frames page that defines the network was not opened.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The recursion gets its strict inequality $s<Wm$ from",
+          "note": "The inequality s < Wm is what the whole saving depends on, and I could not tell whether it is a proved lemma or an assumption. The source page (Nested subspace labels and rank deficit) was not opened.",
+          "level": "statement"
+        },
+        {
+          "page": "address-interchange",
+          "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+          "note": "I followed the geometric-sum argument, but I could not tell why s/W being near m should make the exponent tau near 1, rather than the exponent being a separate choice. The value tau = 1 - 2^-50 is simply given.",
+          "level": "chain"
+        },
+        {
+          "page": "main-result",
+          "quote": "The seven dominant normalized costs are powers of $p$",
+          "note": "I accepted the seven exponents of the total without checking them, because the Cost accounting and the exponent κ page that derives them was not opened. I could not tell whether the list is derived or asserted.",
+          "level": "statement"
+        }
+      ],
+      "reason": "Answered with moderate confidence. The high-level story is supported by the quotes: a linear scan per butterfly level gives n log n on a tape, and chunk interchange at O(V u^tau) with tau < 1, together with grouped butterfly rounds at O(V d^lambda') with lambda' < 1, gives a power-of-log saving. I did not verify the exponents, the rank bound s < Wm, or the factorization of the Simultaneous butterfly layer step. I opened 7 of the 15 allowed pages (nut, bog, kaf, rut, tiz, mov, pid). The claim that the classical method pays a linear pass per address move is my inference, not stated on the wiki.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "address-interchange",
+        "statement": "Swapping two disjoint address chunks of u bits on a fixed set of tapes costs O(V u^tau) with tau = 1 - 2^-50, a power just below linear in the chunk width, so address movement gets a saving that is a power of the chunk width.",
+        "quote": "in $O(Vu^\\tau)$ time on fixed tapes, where $\\tau=1-2^{-50}$ is the saving exponent"
+      }
+    },
+    {
+      "task": "0322-read-g2-reader-home",
+      "round": 1,
+      "goal": 1,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "butterfly",
+        "machine-model",
+        "conjecture",
+        "rank-recurrence",
+        "stream-ops",
+        "simultaneous-layer",
+        "cost-accounting",
+        "address-interchange",
+        "transform-layout"
+      ],
+      "searches": [
+        {
+          "query": "scanning layers",
+          "found": []
+        },
+        {
+          "query": "divogam",
+          "found": [
+            "butterfly",
+            "synthetic-transform",
+            "stream-ops",
+            "dft",
+            "multidim-transform"
+          ]
+        }
+      ],
+      "answer": "Accounting: the model is a Turing machine whose head moves one cell per step, so one pass over the stored bits costs time proportional to their number. The data has V = Theta(n) stored bits, so one pass costs Theta(n). The transform has Theta(log n) butterfly layers, and each layer scans the whole array, so a standard transform costs Theta(n) times Theta(log n) = Theta(n log n). To beat the log factor, each layer's rearrangement and butterfly work must cost less than one full pass. Two tape procedures do this with a power of their width below one: an interchange of two address chunks of u digits costs O(V u^tau) with tau < 1, and the Simultaneous butterfly layer does the butterfly rounds of D axes in O(V d^lambda') with lambda' < 1 instead of D passes. The tape layout makes each transform round a single Simultaneous butterfly layer. The widths are small powers of p, and p = 6b with b = ceil(log2 n), so the per-layer savings multiply out to a saving of a power of log n. Why other tweaks do not help: constant factors are free in this model, and the pages I opened do not argue that a different radix or a reordering trick changes the number of layers or the per-layer scan. That step is my inference. The 'only' in the front page is therefore not argued in the pages I read; the accounting and the mechanism are supported.",
+      "citations": [
+        [
+          "stream-ops",
+          "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ Butterflies and the fast transform therefore already costs $\\Theta(n)\\cdot\\Theta(\\log n)=\\Theta(n\\log n)$, the bound to be beaten."
+        ],
+        [
+          "stream-ops",
+          "So each rearrangement must cost one pass, not one pass per level."
+        ],
+        [
+          "butterfly",
+          "After $\\log_2 t$ layers every transform has length one, the identity, for $O(t\\log t)$ operations in all."
+        ],
+        [
+          "machine-model",
+          "Constant factors are free, structure is not."
+        ],
+        [
+          "machine-model",
+          "A linear pass over an array is cheap, but an arbitrary rearrangement of an array is not."
+        ],
+        [
+          "machine-model",
+          "$b=\\lceil\\log_2n\\rceil$, $p=6b$"
+        ],
+        [
+          "address-interchange",
+          "in $O(Vu^\\tau)$ time on fixed tapes"
+        ],
+        [
+          "rank-recurrence",
+          "So an interchange costs $O(Vf^\\tau)$."
+        ],
+        [
+          "rank-recurrence",
+          "cost the volume times a power below one of their width"
+        ],
+        [
+          "simultaneous-layer",
+          "rather than $D$ whole-array passes"
+        ],
+        [
+          "transform-layout",
+          "instead of one pass per axis."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "home",
+          "quote": "so the logarithmic factor can only be beaten by cheaper address movement and cheaper butterfly arithmetic.",
+          "note": "The 'only' is asserted, not argued. No page I opened shows why changing the radix, the constants, or the reordering cannot change the number of layers or the per-layer scan. I could only infer it from 'Constant factors are free' on the model page.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](dol)",
+          "note": "I could not connect the rank count s < Wm to anything I know. I did not open the Nested subspace labels and rank deficit page (page budget), so I accepted s < Wm as given.",
+          "level": "beyond"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "rather than $D$ whole-array passes",
+          "note": "I could follow that a Simultaneous butterfly layer replaces D passes with a cost of d^lambda', but not why the frame changes on a fixed exchange network make one layer cost d^lambda' instead of V per bit. The network and frame pages were not opened.",
+          "level": "chain"
+        },
+        {
+          "page": "transform-layout",
+          "quote": "A simultaneous layer needs a round's selected bits at a common offset in consecutive $K$-bit chunks.",
+          "note": "I took on trust that grouping the selected bits at a common offset makes one round a single Simultaneous butterfly layer. The page states it but I could not see the step that makes the grouping possible.",
+          "level": "chain"
+        },
+        {
+          "page": "address-interchange",
+          "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+          "note": "I did not see why a ratio s/W that is a constant just below m gives a saving that is a power of e. I got past it by guessing from the earlier geometric sum.",
+          "level": "step"
+        }
+      ],
+      "reason": "Answered with moderate confidence. The accounting (one Theta(n) scan per Theta(log n) layers gives Theta(n log n)) and the mechanism (interchange and Simultaneous butterfly layer costing a power below one of their width) are directly supported by the quoted pages. The claim that only address movement and butterfly arithmetic can help, rather than other tweaks, is my inference from 'Constant factors are free' and is not argued in the pages I opened. I opened 10 of the 15 allowed pages.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "stream-ops",
+        "statement": "A standard transform on this tape model pays one full scan of the Theta(n) stored bits for each of its Theta(log n) butterfly layers, so the log factor can only shrink if the per-layer address movement and butterfly work cost less than a full pass.",
+        "quote": "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ Butterflies and the fast transform therefore already costs $\\Theta(n)\\cdot\\Theta(\\log n)=\\Theta(n\\log n)$, the bound to be beaten. So each rearrangement must cost one pass, not one pass per level."
+      }
+    },
+    {
+      "task": "0335-read-g6-reader-deep",
+      "round": 1,
+      "goal": 5,
+      "persona": "reader",
+      "start": "retained-permutations",
+      "outcome": "answered",
+      "path": [
+        "retained-permutations",
+        "gaussian-resampling",
+        "chirp",
+        "convolution",
+        "dft",
+        "address-interchange",
+        "multiplication-algorithm",
+        "frequency-order",
+        "cost-accounting"
+      ],
+      "searches": [
+        {
+          "query": "sort",
+          "found": [
+            "retained-permutations",
+            "chirp",
+            "gaussian-resampling",
+            "fixed-point",
+            "convolution"
+          ]
+        },
+        {
+          "query": "permutation cost tape",
+          "found": [
+            "rank-recurrence",
+            "cost-accounting",
+            "transform-layout",
+            "address-interchange",
+            "matrix-shear"
+          ]
+        }
+      ],
+      "answer": "The algorithm computes a prime-length transform F_s from power-of-two transforms F_t, and the identity that does this (Gaussian resampling, page roz) has the coordinate reindexings P_s and P_t inside it. The wiki says these reindexings are never run as sorts, and the pages I read do not spell out why a sort would be costly on the tape machine; they only say the usual implementation sorts twice on each coordinate, and that the cost accounting charges chunk exchanges. The target permutation Q disappears because the Bluestein chirp identity identity writes QF_t u as two pointwise chirp phases around one convolution of length T, and a convolution is computed by transforms and pointwise products, so Q is just part of a convolution and is never executed. The source permutation R disappears because each t_i is a unit modulo s_i, so R acts as a unit-multiplier reindexing R_beta on each axis, and F^+ R_beta = R_beta^{-1} F^+ (Retained permutation cancellation, page zom). In (R F_s^+)[(R F_s u)(R F_s v)] the permutation R commutes with the pointwise product, so the expression becomes F_s^+ (F_s u . F_s v) with the two R factors gone, and the inverse-transform identity gives u*v/S^2. No sort is needed because the reindexing is absorbed algebraically (into a convolution for Q, and by commuting with the opposite transform for R), not executed. Confidence is moderate: I followed the algebra of the identities on pages zom, pap and roz, but I could not verify the cost reasons for avoiding sorts, and the key chirp and resampling identities are imported from cited literature.",
+      "citations": [
+        [
+          "retained-permutations",
+          "the permutations of Gaussian resampling stay inside the transform identity, where one is absorbed by a convolution and the other cancels"
+        ],
+        [
+          "retained-permutations",
+          "Each $t_i$ is a unit modulo $s_i$, and $R$ applies $R_{t_i}$ on axis $i$, so tensoring gives"
+        ],
+        [
+          "retained-permutations",
+          "So $Q$ is part of a convolution of length $T$ and never executed."
+        ],
+        [
+          "chirp",
+          "so the target permutation $Q$ is absorbed into a Cyclic convolution of length $T$ and never executed."
+        ],
+        [
+          "chirp",
+          "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it."
+        ],
+        [
+          "dft",
+          "the transform of a convolution is a pointwise product of transforms"
+        ],
+        [
+          "multiplication-algorithm",
+          "Permutations commute with pointwise products"
+        ],
+        [
+          "gaussian-resampling",
+          "which stay in the identity, never executed as sorts"
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "retained-permutations",
+          "quote": "Its usual implementation sorts twice on each coordinate.",
+          "note": "The page says the usual implementation sorts and that the new method does not, but nowhere I opened says what a sort costs on the tape machine, so I could not see why leaving the permutations inside the identity is worth doing. I accepted the avoidance of sorting on trust.",
+          "level": "beyond"
+        },
+        {
+          "page": "retained-permutations",
+          "quote": "The target permutation $Q$ is absorbed by the",
+          "note": "The word absorbed is used without a definition on this page. I took it to mean that the permutation is folded into a convolution, which the Bluestein chirp identity page confirms, but the word itself was new.",
+          "level": "symbol"
+        },
+        {
+          "page": "chirp",
+          "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it.",
+          "note": "I checked the coefficient algebra line by line, but I could not see why reading frequency (-s_i j_i) from the transform is the right choice, other than that the signs happen to match. I got past this by checking the arithmetic, not by understanding the motivation.",
+          "level": "chain"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "Harvey and van der Hoeven's maps",
+          "note": "The maps S and T come from a literature I do not know. I could not tell whether the identity T P_s F_s = P_t F_t S is a proved claim on this page or an imported fact, so its status is unclear to me.",
+          "level": "statement"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "The cited estimate gives",
+          "note": "The bound on the norm of N minus I is only cited, and the Neumann-series step that depends on it is then taken as given. I could not tell whether this bound is assumed or established here.",
+          "level": "statement"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "The layout needs $O(p/K)$ chunk exchanges",
+          "note": "The cost accounting lists chunk exchanges and prefix moves as the dominant costs, but does not say which of them come from the source or target permutations, so I could not connect the cost argument to the question of why the permutations are not executed.",
+          "level": "beyond"
+        },
+        {
+          "page": "address-interchange",
+          "quote": "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes",
+          "note": "This page builds the interchange from a linear network with XOR steps, frames and rank bounds that I could not follow. I used only its cost claim and could not connect the tape-level interchange to the coordinate permutations of the transform.",
+          "level": "beyond"
+        }
+      ],
+      "reason": "I answered from the pages zom, pap, roz, kur, fam, siz, kov, vor and pid, opening 9 of the 15 allowed pages and using search once. The algebra for why R cancels and why Q becomes a convolution is checked against the pages. The part of the question about why a sort is avoided rests on the wiki's own claim, and the cost reasoning behind it is not given on any page I opened, so that part is the weak link.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "retained-permutations",
+        "statement": "The source and target coordinate permutations are never carried out: the target one becomes part of a chirp convolution, and the source one commutes through the transforms and cancels against itself, so the identity is kept as a formula rather than a sort.",
+        "quote": "the permutations of Gaussian resampling stay inside the transform identity, where one is absorbed by a convolution and the other cancels"
+      }
+    },
+    {
+      "task": "0323-read-g2-reader-deep",
+      "round": 1,
+      "goal": 1,
+      "persona": "reader",
+      "start": "main-result",
+      "outcome": "answered",
+      "path": [
+        "main-result",
+        "butterfly",
+        "machine-model",
+        "conjecture",
+        "stream-ops",
+        "cost-accounting",
+        "address-interchange",
+        "rank-recurrence",
+        "transform-layout",
+        "simultaneous-layer",
+        "frequency-order"
+      ],
+      "searches": [
+        {
+          "query": "tape head",
+          "found": [
+            "machine-model",
+            "stream-ops",
+            "rank-recurrence",
+            "address-interchange",
+            "parameter-choice"
+          ]
+        },
+        {
+          "query": "levels scan",
+          "found": [
+            "stream-ops",
+            "address-interchange",
+            "rank-recurrence"
+          ]
+        },
+        {
+          "query": "radix levels",
+          "found": [
+            "stream-ops",
+            "address-interchange",
+            "simultaneous-layer",
+            "frequency-order",
+            "rank-recurrence"
+          ]
+        }
+      ],
+      "answer": "Accounting: on this machine each head moves one cell per step, so one linear pass over an array costs time proportional to its stored bits. The main result's input has V = Theta(n) stored bits, so one pass costs Theta(n). The layered transform (Butterflies and the fast transform) has Theta(log n) layers. If each layer is one full pass over the data, the total is Theta(n) times Theta(log n), which is Theta(n log n), the bound to be beaten. To beat it, the work per layer must fall below one full pass. The wiki's route does this for both parts of a layer. Moving address bits so that paired entries sit together is a chunk interchange, which costs O(V u^tau) with tau < 1 (Fast address-chunk interchange). The butterfly arithmetic of several axes at once costs O(V d^lambda') with lambda' < 1, and runs as one Simultaneous butterfly layer instead of one pass per axis (Simultaneous butterfly layer, Tape layout for synthetic transforms). The Cost accounting and the exponent κ page then sums these cost terms, each a power of the width below one, and gets O(n (lg n)^(1-kappa)).\n\nWhy only these two: the Power-saving integer multiplication page states that beating the bound needs cheaper address movement and cheaper butterfly arithmetic. None of the pages I opened argues that other changes, such as fewer layers or a different radix, cannot also reduce the cost per layer. I accept the 'only' clause on the wiki's word, so that part of the answer is not established by the pages.",
+      "citations": [
+        [
+          "stream-ops",
+          "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ Butterflies and the fast transform therefore already costs $\\Theta(n)\\cdot\\Theta(\\log n)=\\Theta(n\\log n)$, the bound to be beaten."
+        ],
+        [
+          "stream-ops",
+          "The data of the $n$-bit inputs occupy $V=\\Theta(n)$ stored bits, so one pass costs $\\Theta(n)$."
+        ],
+        [
+          "butterfly",
+          "Repeated over the address bits of an array, with twiddle multiplications between layers, it computes the [Discrete Fourier transform](kur) of an array in $\\log_2 t$ layers instead of $t^2$ operations."
+        ],
+        [
+          "main-result",
+          "Beating that needs cheaper address movement and cheaper butterfly arithmetic"
+        ],
+        [
+          "address-interchange",
+          "in $O(Vu^\\tau)$ time on fixed tapes, where $\\tau=1-2^{-50}$ is the saving exponent"
+        ],
+        [
+          "simultaneous-layer",
+          "instead of $D$ passes"
+        ],
+        [
+          "transform-layout",
+          "The tape layout arranges the address bits so that each round of a [Synthetic polynomial transform](gip) runs as one [Simultaneous butterfly layer](tiz) instead of one pass per axis."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "main-result",
+          "quote": "Beating that needs cheaper address movement and cheaper butterfly arithmetic",
+          "note": "The page asserts that only cheaper address movement and cheaper butterfly arithmetic can beat the bound. No page I opened argues that other changes, such as fewer layers or another radix, cannot also cut the cost per layer. I could not tell whether this is a claim or a consequence.",
+          "level": "statement"
+        },
+        {
+          "page": "stream-ops",
+          "quote": "So each rearrangement must cost one pass, not one pass per level.",
+          "note": "I followed that each layer costs a full pass, but not why the way below n log n is to make the per-layer cost sublinear, rather than to reduce the number of layers.",
+          "level": "chain"
+        },
+        {
+          "page": "simultaneous-layer",
+          "quote": "and $\\log d$ pieces give $O(d^{\\lambda'}).$",
+          "note": "The page gives the recursion F(e) <= (s/W) F(e/m) + O((eK)^tau + 1) and says the leaves and log d pieces give O(d^lambda'). I could not rebuild from this how a round over d axes comes to d^lambda' rather than d passes.",
+          "level": "step"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](dol)",
+          "note": "The inequality s < Wm that makes the geometric sum shrink is taken from the Nested subspace labels and rank deficit page, which I did not open within my page budget. I accepted it on the page's word.",
+          "level": "statement"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "The exponent is only $2^{-182}$ below one because $g_2$ multiplies three small numbers",
+          "note": "I could follow the product 2^-75 times 2^-56 times 2^-50, but not why the chunk-exchange term, rather than the others, is the one that sets the saving. That link is what the question needs between address movement and the result.",
+          "level": "chain"
+        },
+        {
+          "page": "transform-layout",
+          "quote": "A simultaneous layer needs a round's selected bits at a common offset in consecutive $K$-bit chunks.",
+          "note": "The page requires the selected bits of each round to be regrouped at a common offset in consecutive chunks, and then does the regrouping. I followed the regrouping steps, but not why this grouping is what lets one round cost one pass.",
+          "level": "chain"
+        },
+        {
+          "page": "butterfly",
+          "quote": "Butterflies and the fast transform *computes* [Discrete Fourier transform](kur).",
+          "note": "I could not decode the term Discrete Fourier transform. From this page I know only that the layers compute it. I did not open its page, so I do not know what it is.",
+          "level": "symbol"
+        }
+      ],
+      "reason": "I am confident in the accounting: a full pass costs Theta(n) (Elementary stream operations) and there are Theta(log n) layers, giving Theta(n log n). I am also confident in how the two parts are made sublinear (Fast address-chunk interchange for chunk interchange, Simultaneous butterfly layer and Tape layout for synthetic transforms for simultaneous rounds). I am not confident in the 'only' clause of the question. The Power-saving integer multiplication page asserts it without argument, and I found no argument excluding other tweaks. Several steps rest on pages I did not open (Nested subspace labels and rank deficit, and the page for Discrete Fourier transform), taken on the wiki's word. I opened 11 of the 15 allowed pages.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "stream-ops",
+        "statement": "On a fixed-tape machine a linear pass over the array costs time proportional to its stored bits, so a layered transform that scans once per layer costs n log n, and any saving must make the work per layer cheaper than a full pass.",
+        "quote": "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ Butterflies and the fast transform therefore already costs $\\Theta(n)\\cdot\\Theta(\\log n)=\\Theta(n\\log n)$, the bound to be beaten. So each rearrangement must cost one pass, not one pass per level."
+      }
+    },
+    {
+      "task": "0337-read-g7-reader-home",
+      "round": 1,
+      "goal": 6,
+      "persona": "reader",
+      "start": "home",
+      "outcome": "answered",
+      "path": [
+        "home",
+        "rank-recurrence",
+        "butterfly",
+        "machine-model",
+        "subspace-labels",
+        "transform-layout",
+        "conjecture",
+        "address-interchange",
+        "simultaneous-layer",
+        "cost-accounting",
+        "array-frames"
+      ],
+      "searches": [],
+      "answer": "Why n log n alone: the Discrete Fourier transform is computed by log t layers of butterflies (called Butterflies and the fast transform on the wiki), and each layer touches all Theta(n) stored bits. Scanning n bits once per layer over Theta(log n) layers costs Theta(n log n) on a tape. The layer's partner pairs differ in a high address bit, so on a tape they are far apart and each layer is a rearrangement, not a linear pass (my inference from home, bog and tuf). Where the new algorithm saves: (1) cheaper address movement. The interchange of two address chunks of u bits costs O(V u^tau) with tau = 1 - 2^-50 (Fast address-chunk interchange), and the Simultaneous butterfly layer applies the butterfly step to D address chunks at once in O(V d^lambda') with lambda' < 1, instead of D passes (Simultaneous butterfly layer). The Recursive power saving recurrence gives both a power below one, because a call at parameter mf makes s < Wm calls at parameter f on volume V/W, so the cost per unit volume grows by s/W < m per level. (2) cheaper butterfly arithmetic. The synthetic transform over the ring modulo y^r+1 uses signed shifts as twiddle factors, and the tape layout (Tape layout for synthetic transforms) makes each round a single Simultaneous butterfly layer. Dividing the total cost by V = Theta(n), seven dominant terms are each a power of p below one, with minimum margin 2^-181 = 2 kappa, so the total is O(n (lg n)^(1-kappa)) with kappa = 2^-182 (Cost accounting and the exponent κ).",
+      "citations": [
+        [
+          "home",
+          "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ Butterflies and the fast transform already costs $\\Theta(n\\log n)$, so the logarithmic factor can only be beaten by cheaper address movement and cheaper butterfly arithmetic."
+        ],
+        [
+          "butterfly",
+          "Repeated over the address bits of an array, with twiddle multiplications between layers, it computes the [Discrete Fourier transform](kur) of an array in $\\log_2 t$ layers instead of $t^2$ operations."
+        ],
+        [
+          "machine-model",
+          "A linear pass over an array is cheap, but an arbitrary rearrangement of an array is not."
+        ],
+        [
+          "rank-recurrence",
+          "Recursive power saving is the recurrence that makes both tape procedures, the interchange of two address chunks and the Simultaneous butterfly layer, cost the volume times a power below one of their parameter."
+        ],
+        [
+          "address-interchange",
+          "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$."
+        ],
+        [
+          "simultaneous-layer",
+          "The Simultaneous butterfly layer applies $H_0$ coefficientwise to one bit of each of $D\\le d$ selected address chunks of $K$ bits, at a common offset"
+        ],
+        [
+          "transform-layout",
+          "The tape layout arranges the address bits so that each round of a [Synthetic polynomial transform](gip) runs as one [Simultaneous butterfly layer](tiz) instead of one pass per axis."
+        ],
+        [
+          "cost-accounting",
+          "The total is $O(Tp\\,p^{1-\\kappa})=O(n(\\log n)^{1-\\kappa})$"
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "home",
+          "quote": "Scanning an array of $\\Theta(n)$ stored bits at each of $\\Theta(\\log n)$ Butterflies and the fast transform already costs $\\Theta(n\\log n)$",
+          "note": "The page asserts that each butterfly layer costs Theta(n) on a tape but does not say why. I got the link only by joining tuf's remark that an arbitrary rearrangement is not cheap with bog's remark that partners differ in the highest address bit, which I then read as far apart on the tape. That join is my own inference.",
+          "level": "chain"
+        },
+        {
+          "page": "butterfly",
+          "quote": "it computes the [Discrete Fourier transform](kur) of an array in $\\log_2 t$ layers instead of $t^2$ operations.",
+          "note": "The invented names Butterflies and the fast transform and Discrete Fourier transform are not defined in plain words on the pages I opened. I took Butterflies and the fast transform to be the layered butterfly computation and Discrete Fourier transform to be the transform, only from the bog page's own description and the home page's use. I did not open the Discrete Fourier transform page (kur) to confirm.",
+          "level": "symbol"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "Each vertex carries a [frame](ber), and an edge's frame change costs one call at parameter $f$ on its stream per unit of rank",
+          "note": "I did not know what a frame was. I opened the Frames on wire arrays page (ber), which defines a frame as an invertible operator per vertex such that the stored array at a vertex equals the frame applied to the logical array. I got past it by reading that page, not by guessing.",
+          "level": "symbol"
+        },
+        {
+          "page": "subspace-labels",
+          "quote": "Labels are built as [Tensor products of subspaces](vez) inside $\\mathcal F=F^{\\otimes3}$, of dimension $m=h^3=10^6$",
+          "note": "Tensor powers of a space and the Tensor products of subspaces construction are outside my background, and I did not open the Tensor products of subspaces page. I could check the rank count arithmetic on this page, but not why the labels have this form, so I accepted the count s < Wm on trust.",
+          "level": "beyond"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "The recursion gets its strict inequality $s<Wm$ from [Nested subspace labels and rank deficit](dol)",
+          "note": "I followed the arithmetic that gives s = Wm - (N - 2L) with L/N < 1/2 on the dol page. I could not see why an edge's cost is the dimension change of its nested labels, so this step rests on the dol page's construction, which I could not check.",
+          "level": "step"
+        },
+        {
+          "page": "address-interchange",
+          "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+          "note": "The page says s/W is near m, so tau is near 1. Whether tau = 1 - 2^-50 is a real bound or an arbitrary choice I could not tell from this page. The dol page's deficit fraction (about 1.5e-11) is what makes it barely below 1, and I accepted that. The saving is correspondingly tiny.",
+          "level": "statement"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually",
+          "note": "The page asserts this inequality without proof and uses it to close the total bound. I accepted it as a standard fact. I checked only the margin arithmetic for g_2 (75 + 56 + 50 = 181), not the other six rows.",
+          "level": "step"
+        }
+      ],
+      "reason": "Fairly confident in the overall shape: home gives the n log n bottleneck, and the savings are powers below one in address movement (interchange and Simultaneous butterfly layer, Recursive power saving recurrence) and in butterfly arithmetic (synthetic transform with signed shifts and tape layout). The chain from the per-level recurrence to the final O(n (lg n)^(1-kappa)) bound is supported by the Cost accounting and the exponent κ accounting, but I took several constants and the one-line claim about powers of log p on trust, and the saving is tiny (kappa = 2^-182). Pages opened: 11 of 15.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "rank-recurrence",
+        "statement": "Both tape procedures cost a power below linear in their parameter, because each recursive level multiplies the cost per unit volume by s/W, which is less than m, so the total is a power of the parameter below one rather than linear.",
+        "quote": "Recursive power saving is the recurrence that makes both tape procedures, the interchange of two address chunks and the Simultaneous butterfly layer, cost the volume times a power below one of their parameter."
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "task": "0336-baseline-g6-reader",
+      "goal": 5,
+      "answer": "The background does not cover this. The question depends on the terms Gaussian resampling and Discrete Fourier transforms, which are not defined anywhere in my background, so I cannot tell what they stand for. It also depends on coordinate permutations inside transform identities and on power-of-two transforms, which need the discrete Fourier transform or FFT. My background says I have not been taught the DFT or FFT as such, and I have not studied tensor products or the literature on fast integer multiplication, which the permutation and transform-identity reasoning would rely on. I can say only that polynomials, complex numbers, and divide and conquer are familiar to me, but that is not enough to explain why the permutations stay inside the identities or why the source and target permutations vanish without sorting.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0333-baseline-g5-reader",
+      "goal": 4,
+      "answer": "The background does not cover this question, so I cannot say why kappa equals 2^-182, which part of the cost accounting fixes it, or why the margin is taken to be twice kappa. The question depends on a specific construction and its cost accounting, and I have no information about what kappa stands for or how it is defined. My background covers big-O notation, polynomials, complex numbers, basic Turing machines with tapes, divide and conquer, schoolbook and Karatsuba multiplication, linear algebra, elementary number theory, and binary representation. It does not include the discrete Fourier transform or FFT, tensor products, numerical error analysis, or the literature on fast integer multiplication, which is what I would need to reason about where a constant like 2^-182 and a margin of 2*kappa come from. Any explanation I gave would be a guess, so I am not giving one.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0321-baseline-g1-reader",
+      "goal": 0,
+      "answer": "The background does not cover this question, so the reader cannot answer it. The reader knows schoolbook multiplication (O(n^2)) and Karatsuba's divide-and-conquer multiplication, and understands big-O notation, Turing machines with tapes at an introductory level, and binary representation. The reader has not been taught the discrete Fourier transform or FFT, nor the literature on fast integer multiplication, so they cannot state the main theorem, the machine model it holds in, the earlier conjecture it refutes, or the proof plan. Any specific claim about those would be a guess.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0327-baseline-g3-reader",
+      "goal": 2,
+      "answer": "The background does not cover this question. It does not define the two tape primitives, the recursive construction, or the quantities s, W and m, and it does not give the strict inequality between s and W times m that the question says the saving hinges on. The reader has only introductory Turing machine and tape knowledge and has not been taught the specific literature on fast integer multiplication, so the reader cannot explain why the construction gives a power saving with an exponent just below 1. The only related material the reader knows is the general divide-and-conquer pattern from the algorithms course: a recursion that makes s calls on subproblems each shrunk by a factor m, with linear work per level, has the recurrence T(n) = s*T(n/m) + O(n), which solves to about n^(log_m s) when s is greater than m, and Karatsuba multiplication (three half-size calls, giving n^(log_2 3)) is the standard example. Because W and m are not defined in the question or the background, the reader cannot tell how this pattern maps onto the question's inequality, so this is not offered as an answer to the question.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0330-baseline-g4-reader",
+      "goal": 3,
+      "answer": "The background does not cover this question in full, so I can only explain the parts that rest on material the reader has seen. The background covers polynomials, complex numbers, big-O notation, Karatsuba multiplication, modular arithmetic, binary representation, and Turing machines with tapes. It does not cover the discrete Fourier transform or FFT, chirps or chirp-type resampling, quotient rings beyond basic definitions, tensor products, or the literature on fast integer multiplication. I cannot say what the stages named in the question (the address map, the chirp resampling, the twist to the polynomial ring, and the synthetic-transform convolution) do, or why each is needed for the next, because the background gives no definition or method for any of them.\n\nWhat the reader can follow: writing an integer in a radix (for example base 2 or base 10) splits it into digits, and an integer product can be seen as a polynomial product in which the radix plays the role of the variable's value, with the digits as coefficients. Multiplying two polynomials is a convolution of their coefficient lists. Karatsuba shows that splitting such products into smaller pieces can lower the asymptotic cost below schoolbook multiplication, which is the sense in which fast methods are compared by big-O. Complex numbers and the polynomial background give the reader the vocabulary to describe evaluating a polynomial at several points, but the background does not say how a transform of power-of-two length is defined, why it turns convolution into pointwise products, or how the stages connect. A full explanation of the chain in the question therefore needs material outside this background.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0324-baseline-g2-reader",
+      "goal": 1,
+      "answer": "The background only partly covers this. The reader knows big-O, polynomials, complex numbers and basic Turing machines with tapes, but has not been taught the DFT or FFT, the butterfly structure of a transform, or the tape-machine cost accounting the question relies on. So the claim that only address movement and butterfly arithmetic can be made cheaper cannot be verified from the background, and the reader cannot say what the other possible tweaks are.\n\nWhat the background does support: a divide-and-conquer recurrence of the form T(n) = 2T(n/2) + O(n), of the kind solved in an algorithms course, gives O(n log n). The log n factor is the number of recursion levels, and the n factor is the linear work done on each level. Applied to a transform, this reading would put the log n factor on the number of stages, with about n work per stage. On a tape machine, the work per stage includes moving the head to the addresses whose entries are combined, so movement cost is charged on every stage as well. This is consistent with the idea that cheaper movement and cheaper per-stage arithmetic are the places where the n log n total can be reduced.\n\nWhat the background does not establish: why changing constants, or the base case of the recursion, cannot remove the log n factor (these change the constant in front of n log n, but whether any other restructuring could drop a level depends on the transform's structure, which the reader has not learned), and what the specific accounting of a standard transform on a tape machine is. Those points are not covered by the background.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0339-baseline-g7-reader",
+      "goal": 6,
+      "answer": "Only part of this is answerable from the background. The first part can be reasoned from big-O and the introductory treatment of tapes, but with an unverified premise, since the reader has not been taught the discrete Fourier transform, FFT, or butterfly operations. The second part is not covered.\n\nWhy this suggests n log n on a tape machine: taking the question's description at face value, there are Theta(log n) levels, and each level does work over all Theta(n) stored bits. On a tape machine, a level that visits every bit means the head has to move along the whole tape, so one level costs on the order of n steps. Doing this for each of the Theta(log n) levels gives Theta(n) times Theta(log n), that is Theta(n log n) steps in total. The background does not explain why each level must be a full pass over the tape, and the reader cannot check what the butterfly work consists of.\n\nWhere the new algorithm looks for savings: the background does not say. The reader has no description of the new algorithm and has not studied the literature on fast integer multiplication, so the reader cannot identify where its savings come from without guessing. The only multiplication speedup the reader knows is Karatsuba's divide and conquer, which replaces four half-size products with three. That is not the algorithm the question asks about, and the background does not connect the two, so no answer is given for this part.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0345-baseline-g9-reader",
+      "goal": 8,
+      "answer": "The background does not cover this question. The reader knows Karatsuba multiplication and polynomials, and can see that an integer written in a base is a polynomial in that base, so multiplying two integers resembles multiplying two polynomials. But the reader has not been taught the discrete Fourier transform or FFT, the specific literature on fast integer multiplication, or numerical error analysis. The algorithm the question asks about, its stages, and the reason its output is exact rather than approximate all depend on those topics, so the reader cannot name the stages in order or justify exactness from this background without guessing.",
+      "covered": null,
+      "wrong": []
+    },
+    {
+      "task": "0342-baseline-g8-reader",
+      "goal": 7,
+      "answer": "The background does not cover the source's exact normalization of the scheme, so this is a derivation from divide-and-conquer recurrences (the reader's algorithms background), with the assumptions stated. Let P be the parameter, D the amount of data, and u(P) the cost per unit of data, taken to be linear in data. A call at parameter m*f on data D makes s calls at parameter f, each on D/W of the data, so with per-level splitting and combining overhead negligible, cost(m*f, D) = s * cost(f, D/W), which gives u(m*f) = (s/W) * u(f). Unrolling this over k = log_m(P) levels: the parameter falls from P to a constant base case, there are s^k leaf calls, and the data is multiplied by (s/W)^k. Since (s/W)^k = P^(log_m(s/W)), the cost per unit of data is a power of P with exponent beta = log_m(s/W) = log(s/W) / log(m). This is the same shape as the master theorem for T(n) = a*T(n/b) with a = s and b = m, with an extra factor 1/W per level. For data proportional to P, the total cost is P^(1 + beta) = P^(log_m(m*s/W)).\n\nWhat must hold for the saving: (1) beta < 1, which is exactly s/W < m, i.e. s < m*W. If s >= m*W, the per-unit cost is no better than the first power (or worse), so there is no saving. (2) The split must be exact: the s subcalls together handle exactly s/W of the data, and the data and parameter must be divisible by W and m at every level. (3) The per-level splitting, combining, and base-case costs must be of lower order, so that they do not change the exponent. (4) The cost must be linear in the data, so that cost per unit of data is well defined.\n\nHow large is the saving: compared with the schoolbook cost of the first power per unit of data (P^1), the saving factor per unit of data is P^(1 - beta) = P^(log_m(m*W/s)). It grows polynomially in P with that exponent. Check against Karatsuba multiplication (m = 2, s = 3, W = 2, and s < m*W since 3 < 4): beta = log_2(3/2), about 0.585; the saving per unit of data is P^(log_2(4/3)), about P^0.415; and the total cost is P^(log_2 3), about P^1.585, which is Karatsuba's known exponent. If the source measures the parameter in a different way (for example, as a logarithm of the size), the exponents above must be read in that measure.",
+      "covered": null,
+      "wrong": []
+    }
+  ],
+  "words": {
+    "1": {
+      "address-interchange": 795,
+      "array-frames": 413,
+      "butterfly": 384,
+      "chirp": 405,
+      "conjecture": 349,
+      "contraction-maps": 365,
+      "controlled-shifts": 626,
+      "convolution": 503,
+      "cost-accounting": 671,
+      "crt-map": 600,
+      "dft": 321,
+      "exchange-network": 636,
+      "fixed-point": 430,
+      "frequency-order": 598,
+      "gaussian-resampling": 550,
+      "hvdh-multiplier": 323,
+      "machine-model": 321,
+      "main-result": 470,
+      "matrix-shear": 630,
+      "multidim-transform": 494,
+      "multiplication-algorithm": 646,
+      "packed-bit-addition": 740,
+      "parameter-choice": 631,
+      "phase-frames": 697,
+      "phase-kernel": 361,
+      "phase-twist": 497,
+      "precision-recovery": 739,
+      "radix-digit-reduction": 432,
+      "rank-recurrence": 613,
+      "retained-permutations": 560,
+      "ring-convolution": 631,
+      "ring-y": 431,
+      "signed-packing": 603,
+      "simultaneous-layer": 774,
+      "stream-ops": 472,
+      "subspace-labels": 729,
+      "synthetic-transform": 391,
+      "tensor-product-of-spaces": 420,
+      "transform-layout": 608
+    }
+  }
 }

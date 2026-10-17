@@ -1,0 +1,84 @@
+{
+  "outcome": "answered",
+  "answer": "A call at parameter mf (m = 10^6, the label-space dimension) splits each chunk into m slots of parameter f, deals its rows into W streams of volume V/W, and runs a fixed linear exchange network whose gates act pointwise. Each edge of that network costs one smaller call per unit of rank of its frame change, so the call makes s smaller calls at parameter f, each on volume V/W. Writing C(f) for the time per unit volume at parameter f, this gives C(mf) <= (s/W) C(f) + O(1). Unrolling over the recursion levels gives C(f) = O(sum_j (s/W)^j). If s/W < m^tau for a fixed tau < 1, this sum is O(f^tau), so one call costs O(V f^tau). The saving is a genuine power because the per-volume cost is multiplied by s/W, which is below m, for each factor m in the parameter. The hinge is the count of smaller calls: on the nested-label construction s = Wm - N + 2L for the bit network, where N is the bank size and L the dimension lost on shrinking edges. So s < Wm is equivalent to 2L < N, and the wiki computes L/N = 100/539 < 1/2. Then s/W = m(1 - eta) with eta > 0, and the wiki's margin argument gives s/W < m^tau with tau = 1 - 2^-50. My own inference, not stated on the pages: if s were equal to Wm, each level would multiply the cost by m and the recursion would give no power saving, which is why the inequality has to be strict.",
+  "citations": [
+    {
+      "page": "rut",
+      "quote": "A call at parameter $mf$, with $m=10^6$ the label-space dimension, splits each chunk into $m$ slots of parameter $f$."
+    },
+    {
+      "page": "rut",
+      "quote": "It deals its rows into $W$ streams of volume $V/W$"
+    },
+    {
+      "page": "rut",
+      "quote": "So the call makes $s$ calls at parameter $f$, each on volume $V/W$, where $s$ is the total rank of the edge changes."
+    },
+    {
+      "page": "rut",
+      "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$"
+    },
+    {
+      "page": "rut",
+      "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+    },
+    {
+      "page": "dol",
+      "quote": "The labelling chooses the frames of [Gepupog](ber) so that $W$ wires cost $s<Wm$ smaller calls, the saving the recursion needs."
+    },
+    {
+      "page": "dol",
+      "quote": "As $N=v^3$, $L_{\\rm b}/N=3c_{\\rm b}h/v=30000/161700=100/539$"
+    },
+    {
+      "page": "dol",
+      "quote": "So $s_{\\rm b}=(W_{\\rm b}m-2N+2L_{\\rm b})+N=W_{\\rm b}m-(N-2L_{\\rm b})<W_{\\rm b}m$."
+    },
+    {
+      "page": "rut",
+      "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$"
+    },
+    {
+      "page": "ber",
+      "quote": "The intermediate frames are therefore free, and can be chosen so that each edge change is cheap"
+    }
+  ],
+  "key_idea": {
+    "page": "rut",
+    "statement": "Each call at parameter mf makes s smaller calls at parameter f on volume V/W, so its cost per unit volume is multiplied by s/W, which is below m; when s/W is below m^tau, the recursion gives cost O(f^tau) instead of anything of order f.",
+    "quote": "If $s/W<m^\\tau$ with fixed $\\tau<1$, this is $O(f^\\tau)$"
+  },
+  "stuck": [
+    {
+      "page": "rut",
+      "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$",
+      "note": "I accepted the numeric margin that yields tau = 1 - 2^-50 on the page's word. I did not check the rational values 339/22587335000000 and 73/19906842167500 or the ln m chain. The strictness argument itself does not depend on this figure.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "the bit network spends $N$ on extra source ranks, and shrinking edges, losing $L$ dimensions in all, cost back $2L<N$.",
+      "note": "I could follow the sentence but not see from this page why the 2N saving and the 2L cost are the right counts. I had to go to the nested-labels page for the counting, and I took the bookkeeping there on trust.",
+      "level": "chain"
+    },
+    {
+      "page": "dol",
+      "quote": "So $s_{\\rm b}=(W_{\\rm b}m-2N+2L_{\\rm b})+N=W_{\\rm b}m-(N-2L_{\\rm b})<W_{\\rm b}m$.",
+      "note": "The extra +N comes from the claim that only X_a's first edge differs, with rank one where the dimension change is zero. I could read the sentence but could not check why that gate gives rank one, so I accepted the count without verifying it.",
+      "level": "step"
+    },
+    {
+      "page": "dol",
+      "quote": "has rank $\\dim V-\\dim U$, as does its negative.",
+      "note": "The step from the rank of a projection difference to the dimension change of the label is asserted, not shown. I accepted it as a fact about the construction.",
+      "level": "step"
+    },
+    {
+      "page": "rut",
+      "quote": "The children cost $s(V/W)\\mathcal C(f)$, so multiplying the parameter by $m$ multiplies the recursive cost per unit volume by $s/W$, less than $m$",
+      "note": "I followed each step of the geometric sum, but the pages never say what happens at equality s = Wm, so I could not see from them why the strict inequality, rather than a bounded ratio, decides the saving. The equality case is my own inference, not in the wiki.",
+      "level": "chain"
+    }
+  ],
+  "reason": "Answered. The mechanism (smaller calls per edge, the per-volume recurrence, and the geometric sum with ratio s/W below m^tau) and the role of s < Wm are stated on the Pipozop and nested-labels pages, and I could follow the chain between them. Confidence is high on the mechanism and on s < Wm being equivalent to 2L < N. Confidence is lower on the specific exponent 1 - 2^-50, which I took on the page's word, and on the claim that equality would give no saving, which I inferred myself and flagged. Opened 8 of 15 pages: front page, Pipozop, nested-labels, Gepupog, Buneret, Mugumez, Letenat, and Fizokid."
+}
