@@ -1323,6 +1323,317 @@
         "statement": "Both tape procedures cost a power below linear in their parameter, because each recursive level multiplies the cost per unit volume by s/W, which is less than m, so the total is a power of the parameter below one rather than linear.",
         "quote": "Recursive power saving is the recurrence that makes both tape procedures, the interchange of two address chunks and the Simultaneous butterfly layer, cost the volume times a power below one of their parameter."
       }
+    },
+    {
+      "task": "0329-read-g4-reader-deep",
+      "round": 1,
+      "goal": 3,
+      "persona": "reader",
+      "start": "multiplication-algorithm",
+      "outcome": "answered",
+      "path": [
+        "multiplication-algorithm",
+        "radix-digit-reduction",
+        "crt-map",
+        "multidim-transform",
+        "chirp",
+        "gaussian-resampling",
+        "convolution",
+        "phase-twist",
+        "ring-convolution",
+        "dft"
+      ],
+      "searches": [],
+      "answer": "The chain turns two n-bit integers into their exact 2n-bit product in five stages, each feeding the next. (1) Radix digits (page vub): each input is written in radix 2^b with b = ceil(log2 n) and q digits, so the product becomes a convolution of short coefficient sequences, and the page shows that the convolution length S is large enough that nothing wraps around, and every coefficient is below 2^{3b}. (2) Address map (page guf): the map Phi sends a convolution of length S = s_1...s_d, with pairwise coprime axis lengths s_i, to a convolution on d axes by moving the data only with controlled shifts and axis reorderings. The page says this 'prepares' the next stage but does not say why the axes must be split, so I take it that the next stage works on each prime axis separately. (3) Resampling with chirps (pages roz, pap, dib): each prime-length transform is re-expressed through a power-of-two length t, with the source and target permutations left in place, so that only power-of-two transforms need a fast algorithm. For even t_i the chirp identity on page pap removes the target permutation: the transform becomes a chirp phase, a convolution of length T, and another chirp phase, so the permutation is absorbed into the convolution and never executed as a sort. (4) Twist to the polynomial ring (page taf): multiplying coefficient k of the last cyclic axis of length r by zeta^k, with zeta = e^{pi i/r}, turns that axis into the coordinate of the ring with y^r = -1; a wrap-around then carries a sign that exactly cancels the twist, so convolution along that axis becomes ring convolution, and the twist is undone afterwards. (5) Synthetic-transform convolution (pages tab and kur): the ring convolution over the remaining axes is computed from two forward transforms, M pointwise ring products, and the opposite transform, then scaled by M. Back on page siz, the scalings by S undo the 1/S normalizations, the result is multiplied by 2^{2b+4} S, rounded to the nearest integers, mapped back by Phi inverse, and carries are propagated to give the 2n-bit product, with total error below 1/2 so rounding is exact. The step from stage 3 to 4 and the claim that the twist is what makes the synthetic transform applicable are the weakest links; I followed the algebra but could not verify the cited error bounds.",
+      "citations": [
+        [
+          "radix-digit-reduction",
+          "Splitting each input into digits in a large power-of-two radix turns the integer product into a convolution of short integer sequences"
+        ],
+        [
+          "radix-digit-reduction",
+          "Every exponent $j$ is at most $2q-2<S$, so nothing folds."
+        ],
+        [
+          "radix-digit-reduction",
+          "Any approximation of $c_j$ with error below $1/2$ rounds to $c_j$,"
+        ],
+        [
+          "crt-map",
+          "moving the data on tape by controlled shifts and axis reorderings only"
+        ],
+        [
+          "crt-map",
+          "so the powers run through all of them exactly once"
+        ],
+        [
+          "gaussian-resampling",
+          "Gaussian resampling expresses a Discrete Fourier transform of length $s$, the source length, through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
+        ],
+        [
+          "multidim-transform",
+          "the identity below supplies power-of-two transforms instead."
+        ],
+        [
+          "chirp",
+          "so the target permutation of resampling is absorbed into the convolution and never executed as a sort."
+        ],
+        [
+          "chirp",
+          "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it."
+        ],
+        [
+          "phase-twist",
+          "so that Cyclic convolution can be computed by ring convolution, and that is undone afterwards."
+        ],
+        [
+          "phase-twist",
+          "The coefficient of $y^j$ is thus $\\zeta^j$ times the cyclic coefficient; untwisting by $\\zeta^{-j}$ restores it with the correct sign."
+        ],
+        [
+          "ring-convolution",
+          "Multiply the $M$ record pairs pointwise there, apply the opposite procedure to that order, and multiply by $M$."
+        ],
+        [
+          "dft",
+          "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+        ],
+        [
+          "multiplication-algorithm",
+          "The two scalings by $S$ undo different normalizations."
+        ],
+        [
+          "multiplication-algorithm",
+          "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+        ],
+        [
+          "multiplication-algorithm",
+          "the error on these coefficients is below $1/2$, so rounding is exact."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "multiplication-algorithm",
+          "quote": "The normalized complex Cyclic convolution of two arrays.",
+          "note": "The term Cyclic convolution is an invented name, and the symbol list only says it is a normalized complex Cyclic convolution. I got past it by following to page fam, where the Cyclic convolution is the wrap-around product of two sequences, and page taf, where M_C(f,g) = f*g/T.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "The Tensor products of subspaces of the one-dimensional input maps A_i.",
+          "note": "Tensor products of subspaces is not decodable on this page. I could only get it from page dib, where it is the tensor product of one-dimensional operators, each applied to every line along its axis. This was a guess that the same word means the same thing on both pages.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "not the initial central values of the exchange network.",
+          "note": "The clause defining gamma is garbled and does not say what gamma is. I got the usable meaning (gamma = 2 d alpha^2) only from page dib.",
+          "level": "symbol"
+        },
+        {
+          "page": "multiplication-algorithm",
+          "quote": "The two scalings by $S$ undo different normalizations.",
+          "note": "I could follow the algebra only by checking it against the identity on page kur for length q, F^+[(F u)(F v)] = u*v/q^2. The page itself does not say why step 4 needs the extra scale by S.",
+          "level": "step"
+        },
+        {
+          "page": "crt-map",
+          "quote": "moving the data on tape by controlled shifts and axis reorderings only",
+          "note": "The page says what the address map does and that it prepares a later stage, but not why the next stage needs the prime axes split. I had to infer that the next stage transforms each prime axis separately.",
+          "level": "chain"
+        },
+        {
+          "page": "crt-map",
+          "quote": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because.",
+          "note": "The sentence is cut off, so the claim that the offsets are negligible is not supported on the page.",
+          "level": "step"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "The cited estimate gives",
+          "note": "The bound on the norm of N minus I is taken from a cited estimate that the page does not show. I could not check it, and the exact construction depends on it.",
+          "level": "statement"
+        },
+        {
+          "page": "gaussian-resampling",
+          "quote": "from the cited Lemma 4.11",
+          "note": "The approximation of E and its error bound are taken from a cited lemma, and the 'Computing it' section says cited algorithms give bounds. I could not tell whether these are proved on the page or assumed.",
+          "level": "statement"
+        },
+        {
+          "page": "ring-convolution",
+          "quote": "Expansion of the finite sums gives",
+          "note": "The identity F^-(f*g) = M (F^-f)(F^-g) is asserted without the expansion. I could only check it by analogy with the length-q identity on page kur.",
+          "level": "step"
+        },
+        {
+          "page": "dft",
+          "quote": "is computed by decimation in frequency with outputs written in bit-reversed order",
+          "note": "synthetic transform and decimation in frequency are terms I do not know. The page gives the roots of unity as y^(2r/t) over the ring, but does not say what makes this transform synthetic, so I took it as the ordinary transform over the ring.",
+          "level": "symbol"
+        },
+        {
+          "page": "phase-twist",
+          "quote": "so that Cyclic convolution can be computed by ring convolution, and that is undone afterwards.",
+          "note": "The page shows the twist maps cyclic wrap to negacyclic wrap, but does not say why convolution in the negacyclic ring is what the next stage needs. The link to the synthetic transform only appears on page kur. I followed the steps without seeing why the twist is needed.",
+          "level": "chain"
+        },
+        {
+          "page": "multidim-transform",
+          "quote": "The argument replaces the long Discrete Fourier transforms of the integer product by Multidimensional transforms whose axis lengths are powers of two.",
+          "note": "Multidimensional transforms is used as a name for a multidimensional transform, and the sentence does not parse cleanly. I took the purpose from the next sentence about power-of-two transforms.",
+          "level": "symbol"
+        },
+        {
+          "page": "chirp",
+          "quote": "The permutation needs no separate step: it only changes which frequency is read",
+          "note": "The derivation checks out line by line, but the page does not say why absorbing the permutation into a convolution is what the next stage requires. I connected this to the padded length T myself.",
+          "level": "chain"
+        }
+      ],
+      "reason": "Answered with moderate confidence. The order of the five stages and the role each one plays are stated on the pages I opened (vub, guf, roz, pap, dib, taf, tab, kur, fam, siz; 10 of 15 page opens used). The weakest links are the reason the prime-length axes are needed, the reason the twist makes ring convolution applicable, and the cited error bounds in roz and tab, which I could not check on the pages.",
+      "leaks": [
+        "ring-y",
+        "tensor-product-of-spaces"
+      ],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "multiplication-algorithm",
+        "statement": "Two integers are multiplied by splitting them into digits, placing the digit convolution on prime-length cyclic axes, computing it through power-of-two transforms by a chain of exact rewrites, and then rounding and carrying, with the accumulated error kept below 1/2.",
+        "quote": "The exact $2n$-bit product of the two inputs is obtained from the radix-digit convolution by the chain: radix digits, Chinese-remainder address map to a product of prime cyclic axes, two forward source transforms (resampling and chirps), pointwise product, opposite transform, rescaling, rounding, and carry propagation, with total error below $1/2$."
+      }
+    },
+    {
+      "task": "0332-read-g5-reader-deep",
+      "round": 1,
+      "goal": 4,
+      "persona": "reader",
+      "start": "main-result",
+      "outcome": "answered",
+      "path": [
+        "main-result",
+        "conjecture",
+        "cost-accounting",
+        "parameter-choice",
+        "address-interchange",
+        "rank-recurrence",
+        "subspace-labels",
+        "crt-map"
+      ],
+      "searches": [
+        {
+          "query": "margin",
+          "found": [
+            "cost-accounting",
+            "main-result"
+          ]
+        },
+        {
+          "query": "conservative",
+          "found": [
+            "parameter-choice"
+          ]
+        }
+      ],
+      "answer": "kappa = 2^-182 is half of the smallest margin in the cost accounting; it is not a free choice. After dividing every cost by V = Theta(n), each of the seven dominant costs is a power p^(1-g_i), where the margin g_i is one minus the exponent. The smallest margin is g_2 = eps*c*(1-tau), which belongs to the chunk exchanges (the p K^(tau-1) term): 2^-75 * 2^-56 * 2^-50 = 2^-181 = 2*kappa. So every dominant term is at most p^(1-2*kappa). Any fixed power of log p is at most p^kappa eventually, so the normalized total is O(p^(1-kappa)) and the time is O(n (lg n)^(1-kappa)). The margin is 2*kappa because one kappa of it is spent absorbing the log factors and the remaining kappa is the saving. The pages do not argue why exactly half is taken; the constants eps, c, tau and lambda' are called conservative without justification.",
+      "citations": [
+        [
+          "main-result",
+          "g_2=\\epsilon c(1-\\tau)=2^{-75}\\cdot2^{-56}\\cdot2^{-50}=2^{-181}=2\\kappa"
+        ],
+        [
+          "cost-accounting",
+          "so the smallest margin is $2^{-181}=2\\kappa$"
+        ],
+        [
+          "main-result",
+          "So every dominant term is at most $p^{1-2\\kappa}$."
+        ],
+        [
+          "cost-accounting",
+          "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
+        ],
+        [
+          "main-result",
+          "so the normalized total is $O(p^{1-\\kappa})$ and the time is $O(Vp^{1-\\kappa})=O(n(\\lg n)^{1-\\kappa})$."
+        ],
+        [
+          "cost-accounting",
+          "The exponent is only $2^{-182}$ below one because $g_2$ multiplies three small numbers: $\\epsilon$ (few axes), $c$ (narrow chunks) and $1-\\tau$ (an exchange saves only $K^{-(1-\\tau)}$)."
+        ],
+        [
+          "main-result",
+          "The margin $g_i$ of the $i$-th term is one minus its exponent."
+        ],
+        [
+          "address-interchange",
+          "two disjoint address chunks of $u$ bits can be interchanged on a fixed number of tapes in $O(Vu^\\tau)$ time, $\\tau=1-2^{-50}$"
+        ],
+        [
+          "parameter-choice",
+          "Take $C_1=20$, $\\epsilon=2^{-75}$ and $\\kappa=2^{-182}$. These are conservative."
+        ]
+      ],
+      "stuck": [
+        {
+          "page": "main-result",
+          "quote": "$\\kappa=2^{-182}$, the exponent saved from the power of $\\lg n$",
+          "note": "The value of kappa is given with no reason for it. Its origin (half of the smallest margin) is only found on the Cost accounting and the exponent κ page.",
+          "level": "statement"
+        },
+        {
+          "page": "main-result",
+          "quote": "the interchange of address chunks and the [Simultaneous butterfly layer](tiz)",
+          "note": "The name Simultaneous butterfly layer is a term I could not decode. I did not open its page. It is the layer primitive with margin g_3 = 2^-129, which is not the minimum, so it does not change the answer.",
+          "level": "symbol"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "The layout needs $O(p/K)$ chunk exchanges, as $d\\ell=O(p)$, each costing $O(VK^\\tau)$ by [Fast address-chunk interchange](pid).",
+          "note": "I could not see why there are p/K exchanges. The Chinese-remainder address map page counts O(d^2) adjacent axis moves, each of cost O(V l^tau), and gives no p/K count. I guessed that the d*l = O(p) address bits are cut into width-K chunks. This is the step that gives the exponent 1-eps*c*(1-tau).",
+          "level": "step"
+        },
+        {
+          "page": "parameter-choice",
+          "quote": "These are conservative.",
+          "note": "The page calls the exponents conservative but gives no argument for them, so I cannot tell whether 2^-182 is forced or chosen. I could not tell what conservative buys.",
+          "level": "statement"
+        },
+        {
+          "page": "cost-accounting",
+          "quote": "which the margin $2\\kappa$ leaves room for.",
+          "note": "The pages do not say why the margin is 2*kappa and not some other multiple. By my own asymptotic reasoning, p^(1-g_2) times a power of log p is at most p^(1-kappa) for any kappa below g_2, so the factor of two looks like a convention. I got past this by reasoning, not from the pages.",
+          "level": "chain"
+        },
+        {
+          "page": "address-interchange",
+          "quote": "The saving is a power of $e$ since $s/W$ is a fixed constant below $m$ but near it, so $\\tau\\approx1$.",
+          "note": "I could not see from this page why the near-m ratio gives exactly tau = 1-2^-50. I went to the Recursive power saving page, which checks the inequality s/W < m^tau, but the choice of 2^-50 itself is not derived there.",
+          "level": "chain"
+        },
+        {
+          "page": "rank-recurrence",
+          "quote": "Both exceed $20\\cdot2^{-50}\\approx1.8\\cdot10^{-14}$",
+          "note": "The threshold 20*2^-50 is not derived. I followed the check m^(1-2^-50) > m(1-20*2^-50) > s/W, which holds, but the 20 and the 2^-50 are bounds picked by the author.",
+          "level": "statement"
+        },
+        {
+          "page": "crt-map",
+          "quote": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because.",
+          "note": "The sentence ends after 'because' and gives no reason, so the claim that offset computation is negligible is unsupported on this page.",
+          "level": "step"
+        }
+      ],
+      "reason": "Answered, with reasonable confidence. The arithmetic checks: g_2 = 2^-75 * 2^-56 * 2^-50 = 2^-181 = 2*kappa, and the pages state the bookkeeping (dominant terms at most p^(1-2*kappa), log factors absorbed by p^kappa, total p^(1-kappa)). Less sure of: why exactly half is taken (the pages do not argue it); why the constants are conservative; and the source of the O(p/K) chunk-exchange count for the layout, which the Chinese-remainder address map page does not show. Pages opened: 8 of 15.",
+      "leaks": [],
+      "covered": null,
+      "wrong": [],
+      "key_idea": {
+        "page": "cost-accounting",
+        "statement": "kappa is half of the smallest margin g_2 = 2^-181: the seven dominant costs stay below p^(1-2*kappa), and the leftover kappa absorbs any power of log p, so the total is p^(1-kappa).",
+        "quote": "Each of the seven powers is at most $1-2\\kappa$, and any fixed power of $\\log p$ is at most $p^\\kappa$ eventually, which the margin $2\\kappa$ leaves room for."
+      }
     }
   ],
   "baselines": [

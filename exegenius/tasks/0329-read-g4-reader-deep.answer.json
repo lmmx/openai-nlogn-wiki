@@ -1,0 +1,156 @@
+{
+  "outcome": "answered",
+  "answer": "The chain turns two n-bit integers into their exact 2n-bit product in five stages, each feeding the next. (1) Radix digits (page vub): each input is written in radix 2^b with b = ceil(log2 n) and q digits, so the product becomes a convolution of short coefficient sequences, and the page shows that the convolution length S is large enough that nothing wraps around, and every coefficient is below 2^{3b}. (2) Address map (page guf): the map Phi sends a convolution of length S = s_1...s_d, with pairwise coprime axis lengths s_i, to a convolution on d axes by moving the data only with controlled shifts and axis reorderings. The page says this 'prepares' the next stage but does not say why the axes must be split, so I take it that the next stage works on each prime axis separately. (3) Resampling with chirps (pages roz, pap, dib): each prime-length transform is re-expressed through a power-of-two length t, with the source and target permutations left in place, so that only power-of-two transforms need a fast algorithm. For even t_i the chirp identity on page pap removes the target permutation: the transform becomes a chirp phase, a convolution of length T, and another chirp phase, so the permutation is absorbed into the convolution and never executed as a sort. (4) Twist to the polynomial ring (page taf): multiplying coefficient k of the last cyclic axis of length r by zeta^k, with zeta = e^{pi i/r}, turns that axis into the coordinate of the ring with y^r = -1; a wrap-around then carries a sign that exactly cancels the twist, so convolution along that axis becomes ring convolution, and the twist is undone afterwards. (5) Synthetic-transform convolution (pages tab and kur): the ring convolution over the remaining axes is computed from two forward transforms, M pointwise ring products, and the opposite transform, then scaled by M. Back on page siz, the scalings by S undo the 1/S normalizations, the result is multiplied by 2^{2b+4} S, rounded to the nearest integers, mapped back by Phi inverse, and carries are propagated to give the 2n-bit product, with total error below 1/2 so rounding is exact. The step from stage 3 to 4 and the claim that the twist is what makes the synthetic transform applicable are the weakest links; I followed the algebra but could not verify the cited error bounds.",
+  "citations": [
+    {
+      "page": "vub",
+      "quote": "Splitting each input into digits in a large power-of-two radix turns the integer product into a convolution of short integer sequences"
+    },
+    {
+      "page": "vub",
+      "quote": "Every exponent $j$ is at most $2q-2<S$, so nothing folds."
+    },
+    {
+      "page": "vub",
+      "quote": "Any approximation of $c_j$ with error below $1/2$ rounds to $c_j$,"
+    },
+    {
+      "page": "guf",
+      "quote": "moving the data on tape by controlled shifts and axis reorderings only"
+    },
+    {
+      "page": "guf",
+      "quote": "so the powers run through all of them exactly once"
+    },
+    {
+      "page": "roz",
+      "quote": "Sikusup expresses a Tobifup of length $s$, the source length, through one of a nearby larger length $t$ (a power of two there), so that only power-of-two transforms need a fast algorithm."
+    },
+    {
+      "page": "dib",
+      "quote": "the identity below supplies power-of-two transforms instead."
+    },
+    {
+      "page": "pap",
+      "quote": "so the target permutation of resampling is absorbed into the convolution and never executed as a sort."
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read, and the sign of the cross term $2j_ik_i$ already matches it."
+    },
+    {
+      "page": "taf",
+      "quote": "so that totipuv can be computed by ring convolution, and that is undone afterwards."
+    },
+    {
+      "page": "taf",
+      "quote": "The coefficient of $y^j$ is thus $\\zeta^j$ times the cyclic coefficient; untwisting by $\\zeta^{-j}$ restores it with the correct sign."
+    },
+    {
+      "page": "tab",
+      "quote": "Multiply the $M$ record pairs pointwise there, apply the opposite procedure to that order, and multiply by $M$."
+    },
+    {
+      "page": "kur",
+      "quote": "A convolution is thus computed by two forward transforms, a pointwise product, one opposite transform, and a known rescaling."
+    },
+    {
+      "page": "siz",
+      "quote": "The two scalings by $S$ undo different normalizations."
+    },
+    {
+      "page": "siz",
+      "quote": "Propagate radix-$2^b$ carries in increasing coefficient order and output exactly $2n$ bits."
+    },
+    {
+      "page": "siz",
+      "quote": "the error on these coefficients is below $1/2$, so rounding is exact."
+    }
+  ],
+  "key_idea": {
+    "page": "siz",
+    "statement": "Two integers are multiplied by splitting them into digits, placing the digit convolution on prime-length cyclic axes, computing it through power-of-two transforms by a chain of exact rewrites, and then rounding and carrying, with the accumulated error kept below 1/2.",
+    "quote": "The exact $2n$-bit product of the two inputs is obtained from the radix-digit convolution by the chain: radix digits, Lolazad to a product of prime cyclic axes, two forward source transforms (resampling and chirps), pointwise product, opposite transform, rescaling, rounding, and carry propagation, with total error below $1/2$."
+  },
+  "stuck": [
+    {
+      "page": "siz",
+      "quote": "The normalized complex totipuv of two arrays.",
+      "note": "The term totipuv is an invented name, and the symbol list only says it is a normalized complex totipuv. I got past it by following to page fam, where the totipuv is the wrap-around product of two sequences, and page taf, where M_C(f,g) = f*g/T.",
+      "level": "symbol"
+    },
+    {
+      "page": "siz",
+      "quote": "The mugumez of the one-dimensional input maps A_i.",
+      "note": "mugumez is not decodable on this page. I could only get it from page dib, where it is the tensor product of one-dimensional operators, each applied to every line along its axis. This was a guess that the same word means the same thing on both pages.",
+      "level": "symbol"
+    },
+    {
+      "page": "siz",
+      "quote": "not the initial central values of the exchange network.",
+      "note": "The clause defining gamma is garbled and does not say what gamma is. I got the usable meaning (gamma = 2 d alpha^2) only from page dib.",
+      "level": "symbol"
+    },
+    {
+      "page": "siz",
+      "quote": "The two scalings by $S$ undo different normalizations.",
+      "note": "I could follow the algebra only by checking it against the identity on page kur for length q, F^+[(F u)(F v)] = u*v/q^2. The page itself does not say why step 4 needs the extra scale by S.",
+      "level": "step"
+    },
+    {
+      "page": "guf",
+      "quote": "moving the data on tape by controlled shifts and axis reorderings only",
+      "note": "The page says what the address map does and that it prepares a later stage, but not why the next stage needs the prime axes split. I had to infer that the next stage transforms each prime axis separately.",
+      "level": "chain"
+    },
+    {
+      "page": "guf",
+      "quote": "Computing the offsets, for at most $T/t_i$ prefixes, is negligible next to $Tp$ because.",
+      "note": "The sentence is cut off, so the claim that the offsets are negligible is not supported on the page.",
+      "level": "step"
+    },
+    {
+      "page": "roz",
+      "quote": "The cited estimate gives",
+      "note": "The bound on the norm of N minus I is taken from a cited estimate that the page does not show. I could not check it, and the exact construction depends on it.",
+      "level": "statement"
+    },
+    {
+      "page": "roz",
+      "quote": "from the cited Lemma 4.11",
+      "note": "The approximation of E and its error bound are taken from a cited lemma, and the 'Computing it' section says cited algorithms give bounds. I could not tell whether these are proved on the page or assumed.",
+      "level": "statement"
+    },
+    {
+      "page": "tab",
+      "quote": "Expansion of the finite sums gives",
+      "note": "The identity F^-(f*g) = M (F^-f)(F^-g) is asserted without the expansion. I could only check it by analogy with the length-q identity on page kur.",
+      "level": "step"
+    },
+    {
+      "page": "kur",
+      "quote": "is computed by decimation in frequency with outputs written in bit-reversed order",
+      "note": "synthetic transform and decimation in frequency are terms I do not know. The page gives the roots of unity as y^(2r/t) over the ring, but does not say what makes this transform synthetic, so I took it as the ordinary transform over the ring.",
+      "level": "symbol"
+    },
+    {
+      "page": "taf",
+      "quote": "so that totipuv can be computed by ring convolution, and that is undone afterwards.",
+      "note": "The page shows the twist maps cyclic wrap to negacyclic wrap, but does not say why convolution in the negacyclic ring is what the next stage needs. The link to the synthetic transform only appears on page kur. I followed the steps without seeing why the twist is needed.",
+      "level": "chain"
+    },
+    {
+      "page": "dib",
+      "quote": "The argument replaces the long Tobifups of the integer product by tagaris whose axis lengths are powers of two.",
+      "note": "tagaris is used as a name for a multidimensional transform, and the sentence does not parse cleanly. I took the purpose from the next sentence about power-of-two transforms.",
+      "level": "symbol"
+    },
+    {
+      "page": "pap",
+      "quote": "The permutation needs no separate step: it only changes which frequency is read",
+      "note": "The derivation checks out line by line, but the page does not say why absorbing the permutation into a convolution is what the next stage requires. I connected this to the padded length T myself.",
+      "level": "chain"
+    }
+  ],
+  "reason": "Answered with moderate confidence. The order of the five stages and the role each one plays are stated on the pages I opened (vub, guf, roz, pap, dib, taf, tab, kur, fam, siz; 10 of 15 page opens used). The weakest links are the reason the prime-length axes are needed, the reason the twist makes ring convolution applicable, and the cited error bounds in roz and tab, which I could not check on the pages."
+}
