@@ -1226,10 +1226,6 @@
     "address-interchange": [
       "Say what $a_j$ denotes where it is first used: the page uses it before saying so in \"Split each remaining chunk into $a_j$ pieces of width $m^j$\""
     ],
-    "cost-accounting": [
-      "The reader cannot follow this step: \"The recursions have constant branching and depth $O(\\log p)$\" (The page never says which recursions are meant (the paper, around line 4920, means the butterfly-layer and address-layout recursions), what a visit is, or what setup is performed per visit. The reader cannot check that the number of visits is at most p^A with setup p^C, nor that the per-record and per-line setup (the paper's O(T p^{A+C}/r) and O(d T p^C / r) terms, lines 4927-4937) is also o(Tp).). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
-      "The reader cannot follow this step: \"repaired by sorting a compact stream\" (The page states the repair cost O(V p^{O(1)} 2^{-K}) but not why: the paper (lines 4951-4973) shows the compact exceptional stream has length O(V_call d 2^{-K}), is sorted with O(p) scans, and is summed over at most p^A visits. The reader is not told these facts, so cannot check the p^{O(1)} factor.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it."
-    ],
     "packed-bit-addition": [
       "The reader cannot follow this step: \"Guards are equidistributed at every spectator choice\" (The page never says what a spectator choice is (the remaining address coordinates) nor why each guard is equidistributed: this holds because the y and z chunks range over all their values at every fixed choice of the other coordinates. The count of exceptional addresses rests on this and the reader cannot check it from the page.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step. It is inside reasoning added for an earlier step. If it is part of how this page's own step of the argument works (see \"This page in the argument\"), develop it here; if it concerns a result that step uses, say what the result states and cite it.",
       "The reader cannot follow this step: \"$S_0$ has at most eight rotations and sixteen swaps (cited).\" (The page never says why a rotation needs swaps. In the paper (line 2117) the target chunk is moved to the rightmost of the three chunk positions by a swap and the swap is undone after the rotation, giving two swaps per rotation and so sixteen. The page states only the count, with no role or reason, and the count stands in for how the construction works.). Give the reasoning on this page. If the step rests on a result from prior work, say what the result states and why it applies here, and cite the source for its proof: a citation alone does not explain a step.",
@@ -1824,30 +1820,37 @@
       {
         "symbol": "V",
         "name": "volume",
-        "meaning": "The volume, the total number of bits of the T coefficients of p bits each, Tp = Theta(n).",
+        "meaning": "The number of stored bits of the T coefficients of p bits, V=Tp.",
         "relation": "count",
-        "quote": "Let $V=Tp=\\Theta(n)$ be the volume of $T$ coefficients of $p$ bits."
+        "quote": "Let $V=Tp=\\Theta(n)$ be the volume, the number of stored bits of $T$ coefficients of $p$ bits."
       },
       {
         "symbol": "g_i",
         "name": "margin",
-        "meaning": "The margin below one of the i-th dominant normalized cost, a positive number with that cost equal to p^{1-g_i}.",
+        "meaning": "The margin below one of the i-th dominant power of p, so the power is p^{1-g_i}.",
         "relation": "direct",
-        "quote": "Each is a power $p^{1-g_i}$, where $g_i>0$ is its margin below one."
+        "quote": "Dividing by $V$, seven operations dominate, each a power $p^{1-g_i}$ with margin $g_i>0$ below one."
       },
       {
         "symbol": "A",
         "name": "visit exponent",
-        "meaning": "A fixed exponent such that there are at most p^A setup visits in the recursions.",
+        "meaning": "A fixed exponent such that the recursions make at most p^A visits in total.",
         "relation": "direct",
-        "quote": "The recursions have constant branching and depth $O(\\log p)$, so fix exponents $A$ and $C$ with at most $p^A$ visits, each with setup of at most $p^C$ steps."
+        "quote": "Fix an exponent $A$ with at most $p^A$ visits in total, and an exponent $C$ with descriptor setup of at most $p^C$ steps per visit."
       },
       {
         "symbol": "C",
         "name": "setup exponent",
-        "meaning": "A fixed exponent such that the setup of one visit takes at most p^C steps.",
+        "meaning": "A fixed exponent such that descriptor setup per visit is at most p^C steps.",
         "relation": "direct",
-        "quote": "The recursions have constant branching and depth $O(\\log p)$, so fix exponents $A$ and $C$ with at most $p^A$ visits, each with setup of at most $p^C$ steps."
+        "quote": "Fix an exponent $A$ with at most $p^A$ visits in total, and an exponent $C$ with descriptor setup of at most $p^C$ steps per visit."
+      },
+      {
+        "symbol": "V_{\\rm call}",
+        "name": "call volume",
+        "meaning": "The volume of one packed change of basis.",
+        "relation": "direct",
+        "quote": "Let $V_{\\rm call}$ be the volume of one packed change of basis."
       }
     ],
     "crt-map": [
@@ -4421,8 +4424,8 @@
       },
       {
         "prerequisite": "packed-bit-addition",
-        "predicate": "repairs the exceptional addresses of",
-        "quote": "Exceptional addresses, where the packed shifts of [Packed selected-bit addition](packed-bit-addition.md) fail, are a fraction $O(d2^{-K})$ of addresses, repaired by sorting a compact stream, cost $O(Vp^{O(1)}2^{-K})=o(V)$, since $K=\\Theta(p^{\\epsilon c})$ beats any power of $p$."
+        "predicate": "bounds exceptional addresses of",
+        "quote": "Exceptional addresses, where the packed shifts of [Packed selected-bit addition](packed-bit-addition.md) fail, are bounded to a fraction $O(d2^{-K})$ of addresses."
       }
     ],
     "crt-map": [
@@ -5116,14 +5119,6 @@
     ],
     "cost-accounting": [
       {
-        "sentence": "Dividing by $V$, seven operations dominate.",
-        "depth": 1
-      },
-      {
-        "sentence": "- Prefix moves and single butterfly rounds are $O(dK)$ linear scans, each costing $O(V)$, in [Tape layout for synthetic transforms](transform-layout.",
-        "depth": 1
-      },
-      {
         "sentence": "The total is $O(p/K)K^\\tau=O(pK^{\\tau-1})$.",
         "depth": 1
       },
@@ -5133,10 +5128,6 @@
       },
       {
         "sentence": "md) needs $O(d^2)$ adjacent axis moves.",
-        "depth": 1
-      },
-      {
-        "sentence": "Each move peels one excess bit, exchanges the equal-width parts at cost $O(V\\ell^\\tau)$ and restores it, so it costs $O(V(1+\\ell^\\tau))$ (cited).",
         "depth": 1
       },
       {
@@ -5160,23 +5151,7 @@
         "depth": 1
       },
       {
-        "sentence": "md), at cost $O(N\\log 2N)$ on $N$ bits, computes their squares and products in $O(dp^{1+\\delta})$ per entry, so $dp^\\delta$ per bit.",
-        "depth": 1
-      },
-      {
         "sentence": "- The $T/r$ ring-product records each need four products on $O(rp)$ bits after [Signed packing](signed-packing.",
-        "depth": 1
-      },
-      {
-        "sentence": "md), by the established multiplier at length $o(n)$.",
-        "depth": 1
-      },
-      {
-        "sentence": "The total is $O(Tp\\log(rp))$ and $\\log(rp)=O(p^{1-\\epsilon})$.",
-        "depth": 1
-      },
-      {
-        "sentence": "The recursions have constant branching and depth $O(\\log p)$, so fix exponents $A$ and $C$ with at most $p^A$ visits, each with setup of at most $p^C$ steps.",
         "depth": 1
       },
       {
@@ -5184,8 +5159,56 @@
         "depth": 1
       },
       {
-        "sentence": "md) fail, are a fraction $O(d2^{-K})$ of addresses, repaired by sorting a compact stream, cost $O(Vp^{O(1)}2^{-K})=o(V)$, since $K=\\Theta(p^{\\epsilon c})$ beats any power of $p$.",
-        "depth": 1
+        "sentence": "Dividing by $V$, seven operations dominate, each a power $p^{1-g_i}$ with margin $g_i>0$ below one.",
+        "depth": 2
+      },
+      {
+        "sentence": "The total is $O(Tp\\log(rp))$, and $\\log(rp)=O(p^{1-\\epsilon})$ since $r\\le 2^{O(p/d)}$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Setup must also be negligible.",
+        "depth": 2
+      },
+      {
+        "sentence": "A visit is a node of the butterfly-layer or address-layout recursions, or one round or group invocation inside them.",
+        "depth": 2
+      },
+      {
+        "sentence": "They have constant branching, depth $O(\\log p)$ and polynomially many rounds and groups.",
+        "depth": 2
+      },
+      {
+        "sentence": "Fix an exponent $A$ with at most $p^A$ visits in total, and an exponent $C$ with descriptor setup of at most $p^C$ steps per visit.",
+        "depth": 2
+      },
+      {
+        "sentence": "The setup costs at most $p^{A+C}=o(Tp)$ Per-record and per-line setup is also small.",
+        "depth": 2
+      },
+      {
+        "sentence": "A visit touches $O(T/r)$ records, so $O(p^C)$ address work per record sums to $O(Tp^{A+C}/r)$; at most $2dT/r$ Gaussian lines per tensor map cost $O(dTp^C/r)$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Let $V_{\\rm call}$ be the volume of one packed change of basis.",
+        "depth": 2
+      },
+      {
+        "sentence": "A record has $\\Theta(rp)$ payload bits and an exceptional one adds an $O(p)$-bit key, so the compact stream of exceptional records has length $O\\left(\\frac{V_{\\rm call}}{rp}d2^{-K}(rp+p)\\right)=O(V_{\\rm call}d2^{-K})$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Stable bit sorting makes $O(p)$ scans of it, costing $O(V_{\\rm call}dp2^{-K})$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Over at most $p^A$ visits of volume $O(V)$, and with $d=O(p^\\epsilon)$, the repair costs $O(Vp^{O(1)}2^{-K})=o(V)$, because $K=\\Theta(p^{\\epsilon c})$ beats every power of $p$.",
+        "depth": 2
+      },
+      {
+        "sentence": "Global setup and the prime search for the axis lengths also cost $o(V)$.",
+        "depth": 2
       }
     ],
     "crt-map": [
@@ -6922,7 +6945,6 @@
     ]
   },
   "note_depth": {
-    "cost-accounting": 1,
     "packed-bit-addition": 1,
     "parameter-choice": 0,
     "precision-recovery": 1,
